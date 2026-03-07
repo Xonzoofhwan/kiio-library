@@ -1,0 +1,147 @@
+{
+  "_comment": "Copy this file to specs/{component-name}.json and fill in your component's values. Remove all _comment fields before finalizing.",
+
+  "component": "ComponentName",
+  "description": "Brief description of what this component does and its role in the design system.",
+  "figmaNode": "XXXX:XXXXX",
+  "_comment_figmaNode": "Figma node ID of the component set root. From URL node-id param, replace - with :. File key: z6xEkVn88mi5Ai3IHgMrBZ",
+
+  "props": {
+    "_comment": "Define all component props. Match Figma property names exactly (camelCase). State props (disabled, loading) are boolean, not variants.",
+    "variant": {
+      "type": "'primary' | 'secondary'",
+      "_comment": "Replace with actual variant values from Figma.",
+      "default": "primary"
+    },
+    "size": {
+      "type": "'xLarge' | 'large' | 'medium' | 'small'",
+      "default": "medium"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hug (false) or Fill (true)"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows spinner, hides content, disables interaction."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "_comment": "Leading icon slot. Component handles sizing internally via size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element with component styles."
+    }
+  },
+
+  "variants": {
+    "_comment": "Styling per variant value. Use sys tokens only (not ref tokens, not hex values). See CLAUDE.md Token Mapping Reference.",
+    "size": {
+      "_comment": "Height, padding, typography, gap, icon size, border-radius per size. Values must match Figma exactly.",
+      "xLarge": {
+        "height": "h-14 (56px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-4 (16px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-20-semibold",
+        "gap": "gap-2 (8px)"
+      },
+      "large": {
+        "height": "h-12 (48px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-3 (12px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-18-semibold",
+        "gap": "gap-1.5 (6px)"
+      },
+      "medium": {
+        "height": "h-10 (40px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-2.5 (10px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-16-semibold",
+        "gap": "gap-1.5 (6px)"
+      },
+      "small": {
+        "height": "h-8 (32px)",
+        "radius": "rounded-2 (8px)",
+        "paddingX": "px-2 (8px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-14-semibold",
+        "gap": "gap-1 (4px)"
+      }
+    },
+    "variant": {
+      "_comment": "Visual style per variant. background, text, border using sys tokens.",
+      "primary": {
+        "background": "bg-sys-neutral-solid-950",
+        "text": "text-sys-neutral-solid-0",
+        "border": "none"
+      },
+      "secondary": {
+        "background": "bg-sys-neutral-black-alpha-70",
+        "text": "text-sys-neutral-solid-950",
+        "border": "none"
+      }
+    }
+  },
+
+  "states": {
+    "_comment": "Interactive states. Use sys tokens. State overlays: sys-state-on-dim-* (dark bg) or sys-state-on-bright-* (light bg).",
+    "hover": {
+      "_comment": "State overlay token per variant.",
+      "primary": "state overlay: sys-state-on-dim-50",
+      "secondary": "state overlay: sys-state-on-bright-50"
+    },
+    "pressed": {
+      "primary": "state overlay: sys-state-on-dim-100",
+      "secondary": "state overlay: sys-state-on-bright-70"
+    },
+    "focused": {
+      "all": "border-2 border-sys-primary-300 on state overlay (focus-visible only)"
+    },
+    "disabled": {
+      "_comment": "Color changes per variant when disabled.",
+      "primary": {
+        "background": "bg-sys-neutral-solid-300",
+        "text": "text-sys-neutral-white-alpha-400"
+      },
+      "secondary": {
+        "background": "bg-sys-neutral-black-alpha-70",
+        "text": "text-sys-neutral-black-alpha-200"
+      }
+    },
+    "loading": {
+      "description": "Content becomes invisible, spinner centered. Component size preserved. Interaction disabled (pointer-events-none + aria-disabled)."
+    }
+  },
+
+  "implementation": {
+    "_comment": "Implementation notes.",
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "_comment_pattern": "Options: 'CVA + cn', 'CVA + cn + @radix-ui/react-slot', 'Compound + Context (see ADVANCED_PATTERNS.md)'",
+    "stateOverlay": "Absolute <span> inside component with group-hover/group-active classes. Root needs 'group relative'.",
+    "loadingStrategy": "Content marked invisible, Spinner absolute centered.",
+    "files": [
+      "src/components/ComponentName/ComponentName.tsx",
+      "src/components/ComponentName/index.ts"
+    ],
+    "dependencies": [
+      "src/components/icons/Spinner.tsx"
+    ]
+  }
+}

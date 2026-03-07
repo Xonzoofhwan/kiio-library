@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs>
+    <filter id="g" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.4" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="b2"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <style>
+    rect { fill: #fff;  }
+    .c { opacity: 0.05; }
+
+    /* Sequence: 0→1→2→5→8→7→6→3 (clockwise border traversal) */
+    /* 8 steps × 12.5% each = 1.2s cycle, linear for smooth interpolation */
+
+    .s0 { animation: a0 1.2s infinite linear; }
+    .s1 { animation: a1 1.2s infinite linear; }
+    .s2 { animation: a2 1.2s infinite linear; }
+    .s5 { animation: a3 1.2s infinite linear; }
+    .s8 { animation: a4 1.2s infinite linear; }
+    .s7 { animation: a5 1.2s infinite linear; }
+    .s6 { animation: a6 1.2s infinite linear; }
+    .s3 { animation: a7 1.2s infinite linear; }
+
+    /* Step 0: pos0 active */
+    @keyframes a0 {
+      0%,100% { opacity: 1.0;  filter: url(#g); }
+      6%      { opacity: 1.0;  filter: url(#g); }
+      12.5%   { opacity: 0.60; filter: none; }
+      25%     { opacity: 0.30; filter: none; }
+      37.5%   { opacity: 0.15; filter: none; }
+      50%     { opacity: 0.10; filter: none; }
+      87.5%   { opacity: 0.10; filter: none; }
+      94%     { opacity: 0.10; filter: none; }
+    }
+    /* Step 1: pos1 active */
+    @keyframes a1 {
+      0%      { opacity: 0.10; filter: none; }
+      6%      { opacity: 0.10; filter: none; }
+      12.5%   { opacity: 1.0;  filter: url(#g); }
+      18.5%   { opacity: 1.0;  filter: url(#g); }
+      25%     { opacity: 0.60; filter: none; }
+      37.5%   { opacity: 0.30; filter: none; }
+      50%     { opacity: 0.15; filter: none; }
+      62.5%   { opacity: 0.10; filter: none; }
+      100%    { opacity: 0.10; filter: none; }
+    }
+    /* Step 2: pos2 active */
+    @keyframes a2 {
+      0%      { opacity: 0.10; filter: none; }
+      12.5%   { opacity: 0.10; filter: none; }
+      25%     { opacity: 1.0;  filter: url(#g); }
+      31%     { opacity: 1.0;  filter: url(#g); }
+      37.5%   { opacity: 0.60; filter: none; }
+      50%     { opacity: 0.30; filter: none; }
+      62.5%   { opacity: 0.15; filter: none; }
+      75%     { opacity: 0.10; filter: none; }
+      100%    { opacity: 0.10; filter: none; }
+    }
+    /* Step 3: pos5 active */
+    @keyframes a3 {
+      0%      { opacity: 0.10; filter: none; }
+      25%     { opacity: 0.10; filter: none; }
+      37.5%   { opacity: 1.0;  filter: url(#g); }
+      43.5%   { opacity: 1.0;  filter: url(#g); }
+      50%     { opacity: 0.60; filter: none; }
+      62.5%   { opacity: 0.30; filter: none; }
+      75%     { opacity: 0.15; filter: none; }
+      87.5%   { opacity: 0.10; filter: none; }
+      100%    { opacity: 0.10; filter: none; }
+    }
+    /* Step 4: pos8 active */
+    @keyframes a4 {
+      0%      { opacity: 0.10; filter: none; }
+      37.5%   { opacity: 0.10; filter: none; }
+      50%     { opacity: 1.0;  filter: url(#g); }
+      56%     { opacity: 1.0;  filter: url(#g); }
+      62.5%   { opacity: 0.60; filter: none; }
+      75%     { opacity: 0.30; filter: none; }
+      87.5%   { opacity: 0.15; filter: none; }
+      100%    { opacity: 0.10; filter: none; }
+    }
+    /* Step 5: pos7 active */
+    @keyframes a5 {
+      0%      { opacity: 0.15; filter: none; }
+      12.5%   { opacity: 0.10; filter: none; }
+      50%     { opacity: 0.10; filter: none; }
+      62.5%   { opacity: 1.0;  filter: url(#g); }
+      68.5%   { opacity: 1.0;  filter: url(#g); }
+      75%     { opacity: 0.60; filter: none; }
+      87.5%   { opacity: 0.30; filter: none; }
+      100%    { opacity: 0.15; filter: none; }
+    }
+    /* Step 6: pos6 active */
+    @keyframes a6 {
+      0%      { opacity: 0.30; filter: none; }
+      12.5%   { opacity: 0.15; filter: none; }
+      25%     { opacity: 0.10; filter: none; }
+      62.5%   { opacity: 0.10; filter: none; }
+      75%     { opacity: 1.0;  filter: url(#g); }
+      81%     { opacity: 1.0;  filter: url(#g); }
+      87.5%   { opacity: 0.60; filter: none; }
+      100%    { opacity: 0.30; filter: none; }
+    }
+    /* Step 7: pos3 active */
+    @keyframes a7 {
+      0%      { opacity: 0.60; filter: none; }
+      12.5%   { opacity: 0.30; filter: none; }
+      25%     { opacity: 0.15; filter: none; }
+      37.5%   { opacity: 0.10; filter: none; }
+      75%     { opacity: 0.10; filter: none; }
+      87.5%   { opacity: 1.0;  filter: url(#g); }
+      93.5%   { opacity: 1.0;  filter: url(#g); }
+      100%    { opacity: 0.60; filter: none; }
+    }
+  </style>
+
+  <!-- 3×3 squares: 4×4px at (2,10,18), 2px padding, 4px gap -->
+  <rect class="s0" x="2"  y="2"  width="6" height="6"/>
+  <rect class="s1" x="9"  y="2"  width="6" height="6"/>
+  <rect class="s2" x="16" y="2"  width="6" height="6"/>
+  <rect class="s3" x="2"  y="9"  width="6" height="6"/>
+  <rect class="c"  x="9"  y="9"  width="6" height="6"/>
+  <rect class="s5" x="16" y="9"  width="6" height="6"/>
+  <rect class="s6" x="2"  y="16" width="6" height="6"/>
+  <rect class="s7" x="9"  y="16" width="6" height="6"/>
+  <rect class="s8" x="16" y="16" width="6" height="6"/>
+</svg>

@@ -1,0 +1,887 @@
+/* ============================================================
+   tokens.css — Design System Tokens
+   Source: tokens.json (Figma export)
+
+   Structure:
+   - :root        → Ref (primitive) tokens as raw values
+   - [data-theme] → Sys (semantic) tokens as var(--primitive-...) references
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   REF TOKENS — Primitive color palette
+   ---------------------------------------------------------- */
+
+:root {
+  /* Gray */
+  --primitive-gray-0:    #fdfefe;
+  --primitive-gray-50:   #f5f6f6;
+  --primitive-gray-70:   #eceded;
+  --primitive-gray-100:  #e4e4e5;
+  --primitive-gray-200:  #d4d4d5;
+  --primitive-gray-300:  #b8b9b9;
+  --primitive-gray-400:  #9b9e9e;
+  --primitive-gray-500:  #7d8284;
+  --primitive-gray-600:  #616569;
+  --primitive-gray-700:  #53565c;
+  --primitive-gray-800:  #383a3f;
+  --primitive-gray-900:  #2a2b31;
+  --primitive-gray-950:  #1d1e22;
+  --primitive-gray-1000: #101013;
+
+  /* BlackAlpha */
+  --primitive-black-alpha-0:    rgba(16, 16, 19, 0);
+  --primitive-black-alpha-50:   rgba(16, 16, 19, 0.04);
+  --primitive-black-alpha-70:   rgba(16, 16, 19, 0.08);
+  --primitive-black-alpha-100:  rgba(16, 16, 19, 0.12);
+  --primitive-black-alpha-200:  rgba(16, 16, 19, 0.18);
+  --primitive-black-alpha-300:  rgba(16, 19, 16, 0.3);
+  --primitive-black-alpha-400:  rgba(16, 19, 16, 0.42);
+  --primitive-black-alpha-500:  rgba(16, 19, 16, 0.54);
+  --primitive-black-alpha-600:  rgba(16, 19, 17, 0.64);
+  --primitive-black-alpha-700:  rgba(16, 19, 18, 0.72);
+  --primitive-black-alpha-800:  rgba(16, 19, 19, 0.82);
+  --primitive-black-alpha-900:  rgba(16, 18, 19, 0.88);
+  --primitive-black-alpha-950:  rgba(17, 17, 17, 0.94);
+  --primitive-black-alpha-1000: rgba(16, 16, 19, 0.99);
+
+  /* WhiteAlpha */
+  --primitive-white-alpha-0:    rgba(253, 254, 254, 0);
+  --primitive-white-alpha-50:   rgba(253, 254, 254, 0.04);
+  --primitive-white-alpha-70:   rgba(253, 254, 254, 0.08);
+  --primitive-white-alpha-100:  rgba(253, 254, 254, 0.14);
+  --primitive-white-alpha-200:  rgba(253, 254, 254, 0.2);
+  --primitive-white-alpha-300:  rgba(253, 254, 254, 0.28);
+  --primitive-white-alpha-400:  rgba(253, 254, 254, 0.38);
+  --primitive-white-alpha-500:  rgba(253, 254, 254, 0.46);
+  --primitive-white-alpha-600:  rgba(253, 254, 254, 0.58);
+  --primitive-white-alpha-700:  rgba(253, 254, 254, 0.68);
+  --primitive-white-alpha-800:  rgba(253, 254, 254, 0.78);
+  --primitive-white-alpha-900:  rgba(253, 254, 254, 0.86);
+  --primitive-white-alpha-950:  rgba(253, 254, 254, 0.94);
+  --primitive-white-alpha-1000: rgba(253, 254, 254, 0.99);
+
+  /* Indigo */
+  --primitive-indigo-0:    #f7f8ff;
+  --primitive-indigo-50:   #f2f3ff;
+  --primitive-indigo-70:   #e8e9ff;
+  --primitive-indigo-100:  #d7d8fd;
+  --primitive-indigo-200:  #c0c2fb;
+  --primitive-indigo-300:  #a8abf8;
+  --primitive-indigo-400:  #9195f6;
+  --primitive-indigo-500:  #7277f3;
+  --primitive-indigo-600:  #5153e0;
+  --primitive-indigo-700:  #2c2ccb;
+  --primitive-indigo-800:  #0906b7;
+  --primitive-indigo-900:  #060283;
+  --primitive-indigo-950:  #04004d;
+  --primitive-indigo-1000: #0a0a29;
+
+  /* Purple */
+  --primitive-purple-0:    #faf7ff;
+  --primitive-purple-50:   #f5efff;
+  --primitive-purple-70:   #ede4fe;
+  --primitive-purple-100:  #e5d8fc;
+  --primitive-purple-200:  #d8c6fb;
+  --primitive-purple-300:  #c9b1f8;
+  --primitive-purple-400:  #b898f6;
+  --primitive-purple-500:  #a37af3;
+  --primitive-purple-600:  #8657dc;
+  --primitive-purple-700:  #6933c5;
+  --primitive-purple-800:  #4c11af;
+  --primitive-purple-900:  #370c7b;
+  --primitive-purple-950:  #200746;
+  --primitive-purple-1000: #160b27;
+
+  /* Violet */
+  --primitive-violet-0:    #fff8fd;
+  --primitive-violet-50:   #fff1fa;
+  --primitive-violet-70:   #ffe7f6;
+  --primitive-violet-100:  #fadef8;
+  --primitive-violet-200:  #f3c7f6;
+  --primitive-violet-300:  #ecb3f4;
+  --primitive-violet-400:  #e599f3;
+  --primitive-violet-500:  #dd7ff0;
+  --primitive-violet-600:  #c25ed8;
+  --primitive-violet-700:  #a53bbd;
+  --primitive-violet-800:  #8a1aa5;
+  --primitive-violet-900:  #5e1472;
+  --primitive-violet-950:  #340c3f;
+  --primitive-violet-1000: #21052a;
+
+  /* Pink */
+  --primitive-pink-0:    #fff7f9;
+  --primitive-pink-50:   #fff3f5;
+  --primitive-pink-70:   #ffebee;
+  --primitive-pink-100:  #ffe0e2;
+  --primitive-pink-200:  #ffc9d0;
+  --primitive-pink-300:  #ffb1c1;
+  --primitive-pink-400:  #ff9ab5;
+  --primitive-pink-500:  #ff82ac;
+  --primitive-pink-600:  #ea6393;
+  --primitive-pink-700:  #cf3d74;
+  --primitive-pink-800:  #b31452;
+  --primitive-pink-900:  #77133b;
+  --primitive-pink-950:  #4c0a26;
+  --primitive-pink-1000: #230410;
+
+  /* Rose */
+  --primitive-rose-0:    #fff6f6;
+  --primitive-rose-50:   #fff1f1;
+  --primitive-rose-70:   #ffebe9;
+  --primitive-rose-100:  #ffddda;
+  --primitive-rose-200:  #ffc0be;
+  --primitive-rose-300:  #ffa1a3;
+  --primitive-rose-400:  #ff858d;
+  --primitive-rose-500:  #ff6879;
+  --primitive-rose-600:  #e94f61;
+  --primitive-rose-700:  #c8283c;
+  --primitive-rose-800:  #a80218;
+  --primitive-rose-900:  #6a0210;
+  --primitive-rose-950:  #3d030b;
+  --primitive-rose-1000: #1f0407;
+
+  /* RedBright */
+  --primitive-red-bright-0:    #fffaf9;
+  --primitive-red-bright-50:   #ffefed;
+  --primitive-red-bright-70:   #ffe7e3;
+  --primitive-red-bright-100:  #fed3cf;
+  --primitive-red-bright-200:  #fdb9b4;
+  --primitive-red-bright-300:  #fa958d;
+  --primitive-red-bright-400:  #f9756c;
+  --primitive-red-bright-500:  #f6493e;
+  --primitive-red-bright-600:  #df3b31;
+  --primitive-red-bright-700:  #bd261e;
+  --primitive-red-bright-800:  #960f08;
+  --primitive-red-bright-900:  #5d0905;
+  --primitive-red-bright-950:  #360503;
+  --primitive-red-bright-1000: #1e0602;
+
+  /* RedDark */
+  --primitive-red-dark-0:    #fff8f7;
+  --primitive-red-dark-50:   #fff1ef;
+  --primitive-red-dark-70:   #ffe6e4;
+  --primitive-red-dark-100:  #fececb;
+  --primitive-red-dark-200:  #f7aeab;
+  --primitive-red-dark-300:  #f48684;
+  --primitive-red-dark-400:  #ed605e;
+  --primitive-red-dark-500:  #de2d2c;
+  --primitive-red-dark-600:  #b72321;
+  --primitive-red-dark-700:  #921817;
+  --primitive-red-dark-800:  #6e1615;
+  --primitive-red-dark-900:  #4b1010;
+  --primitive-red-dark-950:  #2a0505;
+  --primitive-red-dark-1000: #1b0303;
+
+  /* RedOrange */
+  --primitive-red-orange-0:    #fffaf8;
+  --primitive-red-orange-50:   #ffefea;
+  --primitive-red-orange-70:   #ffe4da;
+  --primitive-red-orange-100:  #ffd0c2;
+  --primitive-red-orange-200:  #ffb7a4;
+  --primitive-red-orange-300:  #ff9d85;
+  --primitive-red-orange-400:  #ff8467;
+  --primitive-red-orange-500:  #fe542e;
+  --primitive-red-orange-600:  #d23c19;
+  --primitive-red-orange-700:  #ad3014;
+  --primitive-red-orange-800:  #872710;
+  --primitive-red-orange-900:  #581d0f;
+  --primitive-red-orange-950:  #330d05;
+  --primitive-red-orange-1000: #260a04;
+
+  /* Orange */
+  --primitive-orange-0:    #fff9f7;
+  --primitive-orange-50:   #fff5f1;
+  --primitive-orange-70:   #ffeae2;
+  --primitive-orange-100:  #ffded4;
+  --primitive-orange-200:  #ffc4b3;
+  --primitive-orange-300:  #ffab91;
+  --primitive-orange-400:  #ff9170;
+  --primitive-orange-500:  #ff784e;
+  --primitive-orange-600:  #d75b39;
+  --primitive-orange-700:  #b24125;
+  --primitive-orange-800:  #932e19;
+  --primitive-orange-900:  #631e11;
+  --primitive-orange-950:  #3c0e08;
+  --primitive-orange-1000: #260f04;
+
+  /* Amber */
+  --primitive-amber-0:    #fffbf8;
+  --primitive-amber-50:   #fff5f0;
+  --primitive-amber-70:   #ffebe1;
+  --primitive-amber-100:  #ffe4ce;
+  --primitive-amber-200:  #ffd2a6;
+  --primitive-amber-300:  #ffc07f;
+  --primitive-amber-400:  #ffb05a;
+  --primitive-amber-500:  #ff9f33;
+  --primitive-amber-600:  #e0831f;
+  --primitive-amber-700:  #b86916;
+  --primitive-amber-800:  #934d08;
+  --primitive-amber-900:  #623308;
+  --primitive-amber-950:  #3a1d04;
+  --primitive-amber-1000: #201302;
+
+  /* Yellow */
+  --primitive-yellow-0:    #fffcf8;
+  --primitive-yellow-50:   #fff6e9;
+  --primitive-yellow-70:   #fff1de;
+  --primitive-yellow-100:  #fdebc0;
+  --primitive-yellow-200:  #fae29a;
+  --primitive-yellow-300:  #f7d86b;
+  --primitive-yellow-400:  #f3cd37;
+  --primitive-yellow-500:  #f0c100;
+  --primitive-yellow-600:  #cfa500;
+  --primitive-yellow-700:  #a48001;
+  --primitive-yellow-800:  #7a5c00;
+  --primitive-yellow-900:  #523d00;
+  --primitive-yellow-950:  #322502;
+  --primitive-yellow-1000: #1b1403;
+
+  /* Lime */
+  --primitive-lime-0:    #fefff5;
+  --primitive-lime-50:   #feffee;
+  --primitive-lime-70:   #f9fbd9;
+  --primitive-lime-100:  #f8fcc0;
+  --primitive-lime-200:  #eef59a;
+  --primitive-lime-300:  #e0e978;
+  --primitive-lime-400:  #ceda5a;
+  --primitive-lime-500:  #b8c640;
+  --primitive-lime-600:  #a0ad31;
+  --primitive-lime-700:  #849026;
+  --primitive-lime-800:  #68721c;
+  --primitive-lime-900:  #4b5313;
+  --primitive-lime-950:  #2e330b;
+  --primitive-lime-1000: #181c02;
+
+  /* Edamame */
+  --primitive-edamame-0:    #fbfff6;
+  --primitive-edamame-50:   #f5ffe8;
+  --primitive-edamame-70:   #e9ffca;
+  --primitive-edamame-100:  #e1f8c1;
+  --primitive-edamame-200:  #c7ed94;
+  --primitive-edamame-300:  #b0e26c;
+  --primitive-edamame-400:  #99d943;
+  --primitive-edamame-500:  #7ecd13;
+  --primitive-edamame-600:  #66ad0f;
+  --primitive-edamame-700:  #4f8c0b;
+  --primitive-edamame-800:  #3a6b07;
+  --primitive-edamame-900:  #264904;
+  --primitive-edamame-950:  #193403;
+  --primitive-edamame-1000: #0f1b02;
+
+  /* Green */
+  --primitive-green-0:    #fafff8;
+  --primitive-green-50:   #f1ffea;
+  --primitive-green-70:   #e1ffd1;
+  --primitive-green-100:  #c8f5bd;
+  --primitive-green-200:  #a8ed9e;
+  --primitive-green-300:  #85e57e;
+  --primitive-green-400:  #66dd60;
+  --primitive-green-500:  #2cd028;
+  --primitive-green-600:  #22a21e;
+  --primitive-green-700:  #1b8117;
+  --primitive-green-800:  #156611;
+  --primitive-green-900:  #0d4309;
+  --primitive-green-950:  #093005;
+  --primitive-green-1000: #052102;
+
+  /* Forest */
+  --primitive-forest-0:    #f7fff7;
+  --primitive-forest-50:   #ecffec;
+  --primitive-forest-70:   #dcffdc;
+  --primitive-forest-100:  #c7f6d4;
+  --primitive-forest-200:  #9de9bf;
+  --primitive-forest-300:  #67d7a4;
+  --primitive-forest-400:  #37c88c;
+  --primitive-forest-500:  #01b671;
+  --primitive-forest-600:  #069253;
+  --primitive-forest-700:  #08703b;
+  --primitive-forest-800:  #095027;
+  --primitive-forest-900:  #073116;
+  --primitive-forest-950:  #041509;
+  --primitive-forest-1000: #101013;
+
+  /* Emerald */
+  --primitive-emerald-0:    #f7fffa;
+  --primitive-emerald-50:   #edfff4;
+  --primitive-emerald-70:   #dcffe9;
+  --primitive-emerald-100:  #cefbe7;
+  --primitive-emerald-200:  #aaf3d9;
+  --primitive-emerald-300:  #77e8c7;
+  --primitive-emerald-400:  #3edcb3;
+  --primitive-emerald-500:  #08d1a0;
+  --primitive-emerald-600:  #06b082;
+  --primitive-emerald-700:  #058e66;
+  --primitive-emerald-800:  #036c4b;
+  --primitive-emerald-900:  #024a32;
+  --primitive-emerald-950:  #01281a;
+  --primitive-emerald-1000: #101013;
+
+  /* Teal */
+  --primitive-teal-0:    #f3fffb;
+  --primitive-teal-50:   #eafff8;
+  --primitive-teal-70:   #dafff3;
+  --primitive-teal-100:  #cbfdec;
+  --primitive-teal-200:  #a8fae5;
+  --primitive-teal-300:  #88f9df;
+  --primitive-teal-400:  #63f6d6;
+  --primitive-teal-500:  #1ef1c7;
+  --primitive-teal-600:  #0fd2ac;
+  --primitive-teal-700:  #0aad8f;
+  --primitive-teal-800:  #09836f;
+  --primitive-teal-900:  #065e51;
+  --primitive-teal-950:  #064440;
+  --primitive-teal-1000: #032927;
+
+  /* Cyan */
+  --primitive-cyan-0:    #f6fdff;
+  --primitive-cyan-50:   #edfbff;
+  --primitive-cyan-70:   #ddf7ff;
+  --primitive-cyan-100:  #d4f4fc;
+  --primitive-cyan-200:  #bceef8;
+  --primitive-cyan-300:  #97e4f3;
+  --primitive-cyan-400:  #75daee;
+  --primitive-cyan-500:  #4fd0e9;
+  --primitive-cyan-600:  #29c4e0;
+  --primitive-cyan-700:  #1fa5bb;
+  --primitive-cyan-800:  #1b808f;
+  --primitive-cyan-900:  #155c65;
+  --primitive-cyan-950:  #0e383d;
+  --primitive-cyan-1000: #031a25;
+
+  /* Sky */
+  --primitive-sky-0:    #f7faff;
+  --primitive-sky-50:   #f1f6ff;
+  --primitive-sky-70:   #e2eeff;
+  --primitive-sky-100:  #d8ebfe;
+  --primitive-sky-200:  #badffc;
+  --primitive-sky-300:  #94d0f9;
+  --primitive-sky-400:  #6bbef6;
+  --primitive-sky-500:  #4ab1f4;
+  --primitive-sky-600:  #1d9ced;
+  --primitive-sky-700:  #137fc3;
+  --primitive-sky-800:  #116192;
+  --primitive-sky-900:  #0d4262;
+  --primitive-sky-950:  #082333;
+  --primitive-sky-1000: #020f22;
+
+  /* Blue */
+  --primitive-blue-0:    #f8fbff;
+  --primitive-blue-50:   #eff6ff;
+  --primitive-blue-70:   #deedff;
+  --primitive-blue-100:  #cde4ff;
+  --primitive-blue-200:  #a4ceff;
+  --primitive-blue-300:  #73b2fe;
+  --primitive-blue-400:  #4096fd;
+  --primitive-blue-500:  #1880fc;
+  --primitive-blue-600:  #0265e3;
+  --primitive-blue-700:  #014db5;
+  --primitive-blue-800:  #013788;
+  --primitive-blue-900:  #002359;
+  --primitive-blue-950:  #00102b;
+  --primitive-blue-1000: #010119;
+
+  /* ----------------------------------------------------------
+     SPACING TOKENS
+     Source: token_numbers.json → Numbers → Spacing
+     ---------------------------------------------------------- */
+  --spacing-px:   1px;
+  --spacing-0:    0px;
+  --spacing-0\.5: 2px;
+  --spacing-1:    4px;
+  --spacing-1\.5: 6px;
+  --spacing-2:    8px;
+  --spacing-2\.5: 10px;
+  --spacing-3:    12px;
+  --spacing-3\.5: 14px;
+  --spacing-4:    16px;
+  --spacing-5:    20px;
+  --spacing-6:    24px;
+  --spacing-7:    28px;
+  --spacing-8:    32px;
+  --spacing-9:    36px;
+  --spacing-10:   40px;
+  --spacing-11:   44px;
+  --spacing-12:   48px;
+  --spacing-14:   56px;
+  --spacing-16:   64px;
+  --spacing-18:   72px;
+  --spacing-20:   80px;
+  --spacing-24:   96px;
+  --spacing-28:   112px;
+  --spacing-32:   128px;
+  --spacing-36:   144px;
+  --spacing-40:   160px;
+  --spacing-44:   176px;
+  --spacing-48:   192px;
+  --spacing-52:   208px;
+  --spacing-56:   224px;
+  --spacing-60:   240px;
+  --spacing-64:   256px;
+  --spacing-72:   288px;
+  --spacing-80:   320px;
+  --spacing-96:   384px;
+
+  /* ----------------------------------------------------------
+     RADIUS TOKENS
+     Source: token_numbers.json → Numbers → Radius
+     ---------------------------------------------------------- */
+  --radius-px:   1px;
+  --radius-0:    0px;
+  --radius-0\.5: 2px;
+  --radius-1:    4px;
+  --radius-1\.5: 6px;
+  --radius-2:    8px;
+  --radius-2\.5: 10px;
+  --radius-3:    12px;
+  --radius-3\.5: 14px;
+  --radius-4:    16px;
+  --radius-5:    20px;
+  --radius-6:    24px;
+  --radius-7:    28px;
+  --radius-8:    32px;
+  --radius-9:    36px;
+  --radius-10:   40px;
+  --radius-11:   44px;
+  --radius-12:   48px;
+  --radius-14:   56px;
+  --radius-16:   64px;
+  --radius-18:   72px;
+  --radius-20:   80px;
+  --radius-24:   96px;
+}
+
+/* ----------------------------------------------------------
+   SYS TOKENS — Semantic tokens
+   Scoped to [data-theme] — always reference var(--primitive-...)
+   Both themes define the same token names; the attribute
+   context determines which values are active at runtime.
+   ---------------------------------------------------------- */
+
+[data-theme="brand1"] {
+  /* Primary — Purple */
+  --semantic-primary-50:  var(--primitive-purple-50);
+  --semantic-primary-100: var(--primitive-purple-100);
+  --semantic-primary-200: var(--primitive-purple-200);
+  --semantic-primary-300: var(--primitive-purple-300);
+  --semantic-primary-400: var(--primitive-purple-400);
+  --semantic-primary-500: var(--primitive-purple-500);
+  --semantic-primary-600: var(--primitive-purple-600);
+  --semantic-primary-700: var(--primitive-purple-700);
+  --semantic-primary-800: var(--primitive-purple-800);
+  --semantic-primary-900: var(--primitive-purple-900);
+
+  /* Success — Forest */
+  --semantic-success-50:  var(--primitive-forest-50);
+  --semantic-success-100: var(--primitive-forest-100);
+  --semantic-success-200: var(--primitive-forest-200);
+  --semantic-success-300: var(--primitive-forest-300);
+  --semantic-success-400: var(--primitive-forest-400);
+  --semantic-success-500: var(--primitive-forest-500);
+  --semantic-success-600: var(--primitive-forest-600);
+  --semantic-success-700: var(--primitive-forest-700);
+  --semantic-success-800: var(--primitive-forest-800);
+  --semantic-success-900: var(--primitive-forest-900);
+
+  /* Warning — Amber (with shade offset at 600+) */
+  --semantic-warning-50:  var(--primitive-amber-50);
+  --semantic-warning-100: var(--primitive-amber-100);
+  --semantic-warning-200: var(--primitive-amber-200);
+  --semantic-warning-300: var(--primitive-amber-300);
+  --semantic-warning-400: var(--primitive-amber-400);
+  --semantic-warning-500: var(--primitive-amber-500);
+  --semantic-warning-600: var(--primitive-amber-700);
+  --semantic-warning-700: var(--primitive-amber-800);
+  --semantic-warning-800: var(--primitive-amber-900);
+  --semantic-warning-900: var(--primitive-amber-950);
+
+  /* Error — RedBright */
+  --semantic-error-50:  var(--primitive-red-bright-50);
+  --semantic-error-100: var(--primitive-red-bright-100);
+  --semantic-error-200: var(--primitive-red-bright-200);
+  --semantic-error-300: var(--primitive-red-bright-300);
+  --semantic-error-400: var(--primitive-red-bright-400);
+  --semantic-error-500: var(--primitive-red-bright-500);
+  --semantic-error-600: var(--primitive-red-bright-600);
+  --semantic-error-700: var(--primitive-red-bright-700);
+  --semantic-error-800: var(--primitive-red-bright-800);
+  --semantic-error-900: var(--primitive-red-bright-950);
+
+  /* Neutral.Solid — Gray */
+  --semantic-neutral-solid-0:   var(--primitive-gray-0);
+  --semantic-neutral-solid-50:  var(--primitive-gray-50);
+  --semantic-neutral-solid-70:  var(--primitive-gray-70);
+  --semantic-neutral-solid-100: var(--primitive-gray-100);
+  --semantic-neutral-solid-200: var(--primitive-gray-200);
+  --semantic-neutral-solid-300: var(--primitive-gray-300);
+  --semantic-neutral-solid-400: var(--primitive-gray-400);
+  --semantic-neutral-solid-600: var(--primitive-gray-600);
+  --semantic-neutral-solid-800: var(--primitive-gray-800);
+  --semantic-neutral-solid-950: var(--primitive-gray-950);
+
+  /* Neutral.BlackAlpha */
+  --semantic-neutral-black-alpha-0:   var(--primitive-black-alpha-0);
+  --semantic-neutral-black-alpha-50:  var(--primitive-black-alpha-50);
+  --semantic-neutral-black-alpha-70:  var(--primitive-black-alpha-70);
+  --semantic-neutral-black-alpha-100: var(--primitive-black-alpha-100);
+  --semantic-neutral-black-alpha-200: var(--primitive-black-alpha-200);
+  --semantic-neutral-black-alpha-300: var(--primitive-black-alpha-300);
+  --semantic-neutral-black-alpha-400: var(--primitive-black-alpha-400);
+  --semantic-neutral-black-alpha-600: var(--primitive-black-alpha-600);
+  --semantic-neutral-black-alpha-800: var(--primitive-black-alpha-800);
+  --semantic-neutral-black-alpha-950: var(--primitive-black-alpha-950);
+
+  /* Neutral.WhiteAlpha */
+  --semantic-neutral-white-alpha-0:   var(--primitive-white-alpha-0);
+  --semantic-neutral-white-alpha-50:  var(--primitive-white-alpha-50);
+  --semantic-neutral-white-alpha-70:  var(--primitive-white-alpha-70);
+  --semantic-neutral-white-alpha-100: var(--primitive-white-alpha-100);
+  --semantic-neutral-white-alpha-200: var(--primitive-white-alpha-200);
+  --semantic-neutral-white-alpha-300: var(--primitive-white-alpha-300);
+  --semantic-neutral-white-alpha-400: var(--primitive-white-alpha-400);
+  --semantic-neutral-white-alpha-600: var(--primitive-white-alpha-600);
+  --semantic-neutral-white-alpha-800: var(--primitive-white-alpha-800);
+  --semantic-neutral-white-alpha-950: var(--primitive-white-alpha-950);
+
+  /* Background — Gray */
+  --semantic-background-0:  var(--primitive-gray-0);
+  --semantic-background-50: var(--primitive-gray-50);
+  --semantic-background-70: var(--primitive-gray-70);
+
+  /* Divider.Solid — Gray */
+  --semantic-divider-solid-50:  var(--primitive-gray-50);
+  --semantic-divider-solid-70:  var(--primitive-gray-70);
+  --semantic-divider-solid-100: var(--primitive-gray-100);
+  --semantic-divider-solid-200: var(--primitive-gray-200);
+  --semantic-divider-solid-300: var(--primitive-gray-300);
+
+  /* Divider.Alpha — BlackAlpha */
+  --semantic-divider-alpha-50:  var(--primitive-black-alpha-50);
+  --semantic-divider-alpha-70:  var(--primitive-black-alpha-70);
+  --semantic-divider-alpha-100: var(--primitive-black-alpha-100);
+  --semantic-divider-alpha-200: var(--primitive-black-alpha-200);
+  --semantic-divider-alpha-300: var(--primitive-black-alpha-300);
+
+  /* Text.OnBright — BlackAlpha */
+  --semantic-text-on-bright-400: var(--primitive-black-alpha-400);
+  --semantic-text-on-bright-600: var(--primitive-black-alpha-600);
+  --semantic-text-on-bright-800: var(--primitive-black-alpha-800);
+  --semantic-text-on-bright-900: var(--primitive-black-alpha-900);
+  --semantic-text-on-bright-950: var(--primitive-black-alpha-950);
+
+  /* Text.OnDim — WhiteAlpha (with shade offset) */
+  --semantic-text-on-dim-400: var(--primitive-white-alpha-500);
+  --semantic-text-on-dim-600: var(--primitive-white-alpha-700);
+  --semantic-text-on-dim-800: var(--primitive-white-alpha-900);
+  --semantic-text-on-dim-900: var(--primitive-white-alpha-950);
+  --semantic-text-on-dim-950: var(--primitive-white-alpha-1000);
+
+  /* State.OnBright — BlackAlpha */
+  --semantic-state-on-bright-50:  var(--primitive-black-alpha-50);
+  --semantic-state-on-bright-70:  var(--primitive-black-alpha-70);
+  --semantic-state-on-bright-100: var(--primitive-black-alpha-100);
+
+  /* State.OnDim — WhiteAlpha (with shade offset) */
+  --semantic-state-on-dim-50:  var(--primitive-white-alpha-70);
+  --semantic-state-on-dim-70:  var(--primitive-white-alpha-100);
+  --semantic-state-on-dim-100: var(--primitive-white-alpha-200);
+}
+
+[data-theme="brand2"] {
+  /* Primary — RedOrange */
+  --semantic-primary-50:  var(--primitive-red-orange-50);
+  --semantic-primary-100: var(--primitive-red-orange-100);
+  --semantic-primary-200: var(--primitive-red-orange-200);
+  --semantic-primary-300: var(--primitive-red-orange-300);
+  --semantic-primary-400: var(--primitive-red-orange-400);
+  --semantic-primary-500: var(--primitive-red-orange-500);
+  --semantic-primary-600: var(--primitive-red-orange-600);
+  --semantic-primary-700: var(--primitive-red-orange-700);
+  --semantic-primary-800: var(--primitive-red-orange-800);
+  --semantic-primary-900: var(--primitive-red-orange-900);
+
+  /* Success — Green */
+  --semantic-success-50:  var(--primitive-green-50);
+  --semantic-success-100: var(--primitive-green-100);
+  --semantic-success-200: var(--primitive-green-200);
+  --semantic-success-300: var(--primitive-green-300);
+  --semantic-success-400: var(--primitive-green-400);
+  --semantic-success-500: var(--primitive-green-500);
+  --semantic-success-600: var(--primitive-green-600);
+  --semantic-success-700: var(--primitive-green-700);
+  --semantic-success-800: var(--primitive-green-800);
+  --semantic-success-900: var(--primitive-green-950);
+
+  /* Warning — Yellow (with shade offset at 600+) */
+  --semantic-warning-50:  var(--primitive-yellow-50);
+  --semantic-warning-100: var(--primitive-yellow-100);
+  --semantic-warning-200: var(--primitive-yellow-200);
+  --semantic-warning-300: var(--primitive-yellow-300);
+  --semantic-warning-400: var(--primitive-yellow-400);
+  --semantic-warning-500: var(--primitive-yellow-500);
+  --semantic-warning-600: var(--primitive-yellow-700);
+  --semantic-warning-700: var(--primitive-yellow-800);
+  --semantic-warning-800: var(--primitive-yellow-900);
+  --semantic-warning-900: var(--primitive-yellow-950);
+
+  /* Error — RedDark */
+  --semantic-error-50:  var(--primitive-red-dark-50);
+  --semantic-error-100: var(--primitive-red-dark-100);
+  --semantic-error-200: var(--primitive-red-dark-200);
+  --semantic-error-300: var(--primitive-red-dark-300);
+  --semantic-error-400: var(--primitive-red-dark-400);
+  --semantic-error-500: var(--primitive-red-dark-500);
+  --semantic-error-600: var(--primitive-red-dark-600);
+  --semantic-error-700: var(--primitive-red-dark-700);
+  --semantic-error-800: var(--primitive-red-dark-800);
+  --semantic-error-900: var(--primitive-red-dark-950);
+
+  /* Neutral.Solid — Gray (same as brand1) */
+  --semantic-neutral-solid-0:   var(--primitive-gray-0);
+  --semantic-neutral-solid-50:  var(--primitive-gray-50);
+  --semantic-neutral-solid-70:  var(--primitive-gray-70);
+  --semantic-neutral-solid-100: var(--primitive-gray-100);
+  --semantic-neutral-solid-200: var(--primitive-gray-200);
+  --semantic-neutral-solid-300: var(--primitive-gray-300);
+  --semantic-neutral-solid-400: var(--primitive-gray-400);
+  --semantic-neutral-solid-600: var(--primitive-gray-600);
+  --semantic-neutral-solid-800: var(--primitive-gray-800);
+  --semantic-neutral-solid-950: var(--primitive-gray-950);
+
+  /* Neutral.BlackAlpha (same as brand1) */
+  --semantic-neutral-black-alpha-0:   var(--primitive-black-alpha-0);
+  --semantic-neutral-black-alpha-50:  var(--primitive-black-alpha-50);
+  --semantic-neutral-black-alpha-70:  var(--primitive-black-alpha-70);
+  --semantic-neutral-black-alpha-100: var(--primitive-black-alpha-100);
+  --semantic-neutral-black-alpha-200: var(--primitive-black-alpha-200);
+  --semantic-neutral-black-alpha-300: var(--primitive-black-alpha-300);
+  --semantic-neutral-black-alpha-400: var(--primitive-black-alpha-400);
+  --semantic-neutral-black-alpha-600: var(--primitive-black-alpha-600);
+  --semantic-neutral-black-alpha-800: var(--primitive-black-alpha-800);
+  --semantic-neutral-black-alpha-950: var(--primitive-black-alpha-950);
+
+  /* Neutral.WhiteAlpha (same as brand1) */
+  --semantic-neutral-white-alpha-0:   var(--primitive-white-alpha-0);
+  --semantic-neutral-white-alpha-50:  var(--primitive-white-alpha-50);
+  --semantic-neutral-white-alpha-70:  var(--primitive-white-alpha-70);
+  --semantic-neutral-white-alpha-100: var(--primitive-white-alpha-100);
+  --semantic-neutral-white-alpha-200: var(--primitive-white-alpha-200);
+  --semantic-neutral-white-alpha-300: var(--primitive-white-alpha-300);
+  --semantic-neutral-white-alpha-400: var(--primitive-white-alpha-400);
+  --semantic-neutral-white-alpha-600: var(--primitive-white-alpha-600);
+  --semantic-neutral-white-alpha-800: var(--primitive-white-alpha-800);
+  --semantic-neutral-white-alpha-950: var(--primitive-white-alpha-950);
+
+  /* Background — Gray (same as brand1) */
+  --semantic-background-0:  var(--primitive-gray-0);
+  --semantic-background-50: var(--primitive-gray-50);
+  --semantic-background-70: var(--primitive-gray-70);
+
+  /* Divider.Solid — Gray (same as brand1) */
+  --semantic-divider-solid-50:  var(--primitive-gray-50);
+  --semantic-divider-solid-70:  var(--primitive-gray-70);
+  --semantic-divider-solid-100: var(--primitive-gray-100);
+  --semantic-divider-solid-200: var(--primitive-gray-200);
+  --semantic-divider-solid-300: var(--primitive-gray-300);
+
+  /* Divider.Alpha — BlackAlpha (same as brand1) */
+  --semantic-divider-alpha-50:  var(--primitive-black-alpha-50);
+  --semantic-divider-alpha-70:  var(--primitive-black-alpha-70);
+  --semantic-divider-alpha-100: var(--primitive-black-alpha-100);
+  --semantic-divider-alpha-200: var(--primitive-black-alpha-200);
+  --semantic-divider-alpha-300: var(--primitive-black-alpha-300);
+
+  /* Text.OnBright — BlackAlpha (same as brand1) */
+  --semantic-text-on-bright-400: var(--primitive-black-alpha-400);
+  --semantic-text-on-bright-600: var(--primitive-black-alpha-600);
+  --semantic-text-on-bright-800: var(--primitive-black-alpha-800);
+  --semantic-text-on-bright-900: var(--primitive-black-alpha-900);
+  --semantic-text-on-bright-950: var(--primitive-black-alpha-950);
+
+  /* Text.OnDim — WhiteAlpha with offset (same as brand1) */
+  --semantic-text-on-dim-400: var(--primitive-white-alpha-500);
+  --semantic-text-on-dim-600: var(--primitive-white-alpha-700);
+  --semantic-text-on-dim-800: var(--primitive-white-alpha-900);
+  --semantic-text-on-dim-900: var(--primitive-white-alpha-950);
+  --semantic-text-on-dim-950: var(--primitive-white-alpha-1000);
+
+  /* State.OnBright — BlackAlpha (same as brand1) */
+  --semantic-state-on-bright-50:  var(--primitive-black-alpha-50);
+  --semantic-state-on-bright-70:  var(--primitive-black-alpha-70);
+  --semantic-state-on-bright-100: var(--primitive-black-alpha-100);
+
+  /* State.OnDim — WhiteAlpha with offset (same as brand1) */
+  --semantic-state-on-dim-50:  var(--primitive-white-alpha-70);
+  --semantic-state-on-dim-70:  var(--primitive-white-alpha-100);
+  --semantic-state-on-dim-100: var(--primitive-white-alpha-200);
+}
+
+/* ============================================================
+   TYPOGRAPHY TOKENS
+   Source: Figma Design-System-v3 → Typography (node 6089-461)
+   Font: Pretendard Variable
+   Naming:
+     --font-pretendard          font-family stack
+     --text-size-{n}            font-size in rem
+     --text-lh-{n}              line-height in px
+     --text-ls-{n}              letter-spacing in em
+   Usage: compose with Tailwind text-{size}-{weight} utilities
+   ============================================================ */
+:root {
+  /* font-family */
+  --font-pretendard: 'Pretendard Variable', Pretendard, sans-serif;
+
+  /* font-size (rem, base 16px) */
+  --text-size-40: 2.5rem;
+  --text-size-32: 2rem;
+  --text-size-28: 1.75rem;
+  --text-size-24: 1.5rem;
+  --text-size-22: 1.375rem;
+  --text-size-20: 1.25rem;
+  --text-size-18: 1.125rem;
+  --text-size-17: 1.0625rem;
+  --text-size-16: 1rem;
+  --text-size-15: 0.9375rem;
+  --text-size-14: 0.875rem;
+  --text-size-13: 0.8125rem;
+  --text-size-12: 0.75rem;
+
+  /* line-height (px) */
+  --text-lh-40: 48px;
+  --text-lh-32: 38px;
+  --text-lh-28: 34px;
+  --text-lh-24: 30px;
+  --text-lh-22: 28px;
+  --text-lh-20: 28px;
+  --text-lh-18: 26px;
+  --text-lh-17: 24px;
+  --text-lh-16: 24px;
+  --text-lh-15: 22px;
+  --text-lh-14: 20px;
+  --text-lh-13: 18px;
+  --text-lh-12: 16px;
+
+  /* letter-spacing (em) */
+  --text-ls-40: -0.012em;
+  --text-ls-32: -0.012em;
+  --text-ls-28: -0.010em;
+  --text-ls-24: -0.008em;
+  --text-ls-22: -0.016em;
+  --text-ls-20: -0.024em;
+  --text-ls-18: -0.024em;
+  --text-ls-17: -0.020em;
+  --text-ls-16: -0.018em;
+  --text-ls-15: -0.008em;
+  --text-ls-14: 0em;
+  --text-ls-13: 0em;
+  --text-ls-12: 0em;
+
+  /* ----------------------------------------------------------
+     MOTION TOKENS — Duration & Easing
+     Source: CLAUDE.md Motion Tokens section
+     ---------------------------------------------------------- */
+
+  /* Ref: Duration (primitive — do not use directly in components) */
+  --primitive-duration-0:   0ms;
+  --primitive-duration-100: 100ms;
+  --primitive-duration-200: 200ms;
+  --primitive-duration-300: 300ms;
+  --primitive-duration-500: 500ms;
+
+  /* Sys: Duration (semantic — use these in components) */
+  --semantic-duration-instant: var(--primitive-duration-0);
+  --semantic-duration-fast:    var(--primitive-duration-100);
+  --semantic-duration-normal:  var(--primitive-duration-200);
+  --semantic-duration-slow:    var(--primitive-duration-300);
+  --semantic-duration-slower:  var(--primitive-duration-500);
+
+  /* Ref: Easing (primitive — do not use directly in components) */
+  --primitive-easing-ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+  --primitive-easing-ease-in:     cubic-bezier(0.4, 0.0, 1, 1);
+  --primitive-easing-ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --primitive-easing-linear:      linear;
+
+  /* Sys: Easing (semantic — use these in components) */
+  --semantic-easing-enter:  var(--primitive-easing-ease-out);
+  --semantic-easing-exit:   var(--primitive-easing-ease-in);
+  --semantic-easing-move:   var(--primitive-easing-ease-in-out);
+  --semantic-easing-linear: var(--primitive-easing-linear);
+}
+
+/* ============================================================
+   COMPONENT TOKENS — Button
+   Maps semantic/primitive tokens to component-specific roles.
+   ============================================================ */
+
+:root {
+  /* --- Background — per hierarchy --- */
+  --comp-button-bg-primary: var(--semantic-neutral-solid-950);
+  --comp-button-bg-secondary: var(--semantic-neutral-black-alpha-70);
+  --comp-button-bg-outlined: transparent;
+  --comp-button-bg-ghost: transparent;
+
+  /* --- Content (text + icon) — per hierarchy --- */
+  --comp-button-content-primary: var(--semantic-neutral-solid-0);
+  --comp-button-content-secondary: var(--semantic-neutral-solid-950);
+  --comp-button-content-outlined: var(--semantic-neutral-black-alpha-600);
+  --comp-button-content-ghost: var(--semantic-neutral-black-alpha-600);
+
+  /* --- Border — per hierarchy --- */
+  --comp-button-border-primary: transparent;
+  --comp-button-border-secondary: transparent;
+  --comp-button-border-outlined: var(--semantic-neutral-black-alpha-200);
+  --comp-button-border-ghost: transparent;
+
+  /* --- Disabled: background — per hierarchy --- */
+  --comp-button-bg-primary-disabled: var(--semantic-neutral-solid-300);
+  --comp-button-bg-secondary-disabled: var(--semantic-neutral-black-alpha-70);
+  --comp-button-bg-outlined-disabled: var(--semantic-neutral-black-alpha-50);
+  --comp-button-bg-ghost-disabled: transparent;
+
+  /* --- Disabled: content — per hierarchy --- */
+  --comp-button-content-primary-disabled: var(--semantic-neutral-white-alpha-400);
+  --comp-button-content-secondary-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-button-content-outlined-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-button-content-ghost-disabled: var(--semantic-neutral-black-alpha-200);
+
+  /* --- Disabled: border — outlined only --- */
+  --comp-button-border-outlined-disabled: var(--semantic-neutral-black-alpha-100);
+
+  /* --- State overlay — hover/active per surface type --- */
+  --comp-button-hover-on-dim: var(--semantic-state-on-dim-50);
+  --comp-button-active-on-dim: var(--semantic-state-on-dim-100);
+  --comp-button-hover-on-bright: var(--semantic-state-on-bright-50);
+  --comp-button-active-on-bright: var(--semantic-state-on-bright-70);
+
+  /* --- Focus --- */
+  --comp-button-focus-border: var(--semantic-primary-300);
+
+  /* --- Height — per size --- */
+  --comp-button-height-xl: var(--spacing-14);
+  --comp-button-height-lg: var(--spacing-12);
+  --comp-button-height-md: var(--spacing-10);
+  --comp-button-height-sm: var(--spacing-8);
+
+  /* --- Padding-x — per size --- */
+  --comp-button-px-xl: var(--spacing-4);
+  --comp-button-px-lg: var(--spacing-3);
+  --comp-button-px-md: var(--spacing-2\.5);
+  --comp-button-px-sm: var(--spacing-2);
+
+  /* --- Gap — per size --- */
+  --comp-button-gap-xl: var(--spacing-2);
+  --comp-button-gap-lg: var(--spacing-1\.5);
+  --comp-button-gap-md: var(--spacing-1\.5);
+  --comp-button-gap-sm: var(--spacing-1);
+
+  /* --- Radius — per size --- */
+  --comp-button-radius-xl: var(--radius-3);
+  --comp-button-radius-lg: var(--radius-3);
+  --comp-button-radius-md: var(--radius-3);
+  --comp-button-radius-sm: var(--radius-2);
+
+  /* --- Icon size — per size --- */
+  --comp-button-icon-xl: var(--spacing-6);
+  --comp-button-icon-lg: var(--spacing-6);
+  --comp-button-icon-md: var(--spacing-5);
+  --comp-button-icon-sm: var(--spacing-5);
+}
