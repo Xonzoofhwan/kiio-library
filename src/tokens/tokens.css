@@ -974,6 +974,32 @@
   /* --- Counter tokens --- */
   --comp-input-counter-color: var(--semantic-text-on-bright-400);
   --comp-input-counter-error: var(--semantic-error-600);
+
+  /* ============================================================
+     COMPONENT TOKENS — Textarea
+     Reuses Input color tokens (bg, content, border, icon, helper,
+     label, counter). Only size/layout tokens differ.
+     ============================================================ */
+
+  /* --- Padding-x — per size --- */
+  --comp-textarea-px-xl: var(--spacing-4);
+  --comp-textarea-px-lg: var(--spacing-3);
+
+  /* --- Padding-y — per size --- */
+  --comp-textarea-py-xl: 14px;
+  --comp-textarea-py-lg: var(--spacing-3);
+
+  /* --- Gap — per size --- */
+  --comp-textarea-gap-xl: var(--spacing-2);
+  --comp-textarea-gap-lg: var(--spacing-1\.5);
+
+  /* --- Radius — per size --- */
+  --comp-textarea-radius-xl: var(--radius-3);
+  --comp-textarea-radius-lg: var(--radius-3);
+
+  /* --- Icon size — per size --- */
+  --comp-textarea-icon-xl: var(--spacing-6);
+  --comp-textarea-icon-lg: var(--spacing-6);
 }
 
 /* ============================================================
@@ -1001,4 +1027,8 @@
   --comp-input-radius-lg: 0px;
   --comp-input-radius-md: 0px;
   --comp-input-radius-sm: 0px;
+
+  /* Textarea — sharp edges */
+  --comp-textarea-radius-xl: 0px;
+  --comp-textarea-radius-lg: 0px;
 }
