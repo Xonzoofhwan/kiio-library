@@ -29,6 +29,27 @@ npm run typecheck     # Run TypeScript compiler check (if configured)
 2. `npm run dev` - Start development server
 3. Open http://localhost:5173
 4. Edit files - changes hot-reload automatically
+
+### Git (Public Repo) Safety Rules
+이 저장소는 **public**이다. 커밋/푸시 전 반드시 확인:
+
+**커밋 전 체크리스트**:
+- [ ] `npm run build` 성공 확인
+- [ ] `.env`, API 키, 시크릿, 개인정보가 스테이징에 포함되지 않았는지 `git diff --cached` 로 확인
+- [ ] 대용량 바이너리 파일 (이미지, 폰트, 영상 등)이 포함되지 않았는지 확인
+- [ ] `git add -A` 대신 **변경된 파일만 명시적으로** `git add <파일>` 사용 권장
+
+**커밋 메시지 컨벤션**:
+- 1줄 요약 (what) + 빈 줄 + 본문 (why, 선택)
+- 타입: `feat:`, `fix:`, `refactor:`, `docs:`, `chore:`
+- 예: `feat: add Input component with 4 size variants`
+
+**절대 금지**:
+- `.env*`, `credentials.*`, `*secret*` 파일 커밋
+- `node_modules/`, `dist/` 커밋 (`.gitignore`에 이미 포함)
+- `--force` push (작업 손실 위험)
+- `--no-verify` (훅 우회 금지)
+
 ---
 ## Architecture
 ### Project Structure
@@ -78,6 +99,11 @@ kiio-library/
 | [UI_PATTERNS.md](./docs/UI_PATTERNS.md) | `docs/` | UI 패턴, 네비게이션 구조, 오버레이, 데이터 표시, 폼, 페이지 구성 |
 | [FIGMA_TO_CODE.md](./docs/FIGMA_TO_CODE.md) | `docs/` | Figma→Code 실전 워크플로, MCP 도구, 토큰 매핑, 레이아웃 변환 |
 | [TOKEN_LAYER_RULES.md](./docs/TOKEN_LAYER_RULES.md) | `docs/` | 토큰 레이어 배치 판단 규칙, 테마 분기 위치 결정 |
+| [COMPONENT_PATTERNS.md](./docs/COMPONENT_PATTERNS.md) | `docs/` | CVA+cn, Icon, Loading, asChild 코드 패턴 |
+| [COMPONENT_CHECKLIST.md](./docs/COMPONENT_CHECKLIST.md) | `docs/` | 컴포넌트 개발 체크리스트 (Design, A11y, TS, Quality) |
+| [TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) | `docs/` | 컴포넌트 개발 트러블슈팅 가이드 |
+| [ralph-loop.md](./docs/ralph-loop.md) | `docs/` | 컴포넌트 루프 참조 문서 (PROMPT.md 배경 설명) |
+| [PROMPT.md](./PROMPT.md) | 루트 | ralph-wiggum 자동 인식 컴포넌트 구현 프롬프트 |
 
 **문서 관리 원칙**:
 - CLAUDE.md에는 **핵심 규칙과 빠른 참조**만 둔다. 상세 가이드는 `docs/`에 별도 문서로 분리한다.
@@ -164,247 +190,26 @@ size: {
 - **Do NOT use ref motion tokens directly in components** — use semantic tokens instead.
 - **Do NOT use Tailwind default `duration-100`, `ease-out` etc** — use semantic tokens like `duration-fast`, `ease-enter`.
 
-**Duration** (Primitive → Semantic → Tailwind):
+| Tailwind | Value | Usage |
+|---------|:-----:|-------|
+| `duration-instant` | 0ms | Instant changes (color swap) |
+| `duration-fast` | 100ms | Hover, focus micro-states |
+| `duration-normal` | 200ms | Element enter/exit, dropdown open |
+| `duration-slow` | 300ms | Modal, overlay enter/exit |
+| `duration-slower` | 500ms | Page transitions, complex layout |
+| `ease-enter` | ease-out | Enter: element appearing |
+| `ease-exit` | ease-in | Exit: element disappearing |
+| `ease-move` | ease-in-out | Move: position/size change |
+| `ease-linear` | linear | Loop: spinner, progress bar |
 
-| Primitive (direct use forbidden) | Semantic | Value | Tailwind | Usage |
-|:--------------------------------:|----------|:-----:|---------|-------|
-| `primitive-duration-0` | `semantic-duration-instant` | 0ms | `duration-instant` | Instant changes (color swap) |
-| `primitive-duration-100` | `semantic-duration-fast` | 100ms | `duration-fast` | Hover, focus micro-states |
-| `primitive-duration-200` | `semantic-duration-normal` | 200ms | `duration-normal` | Element enter/exit, dropdown open |
-| `primitive-duration-300` | `semantic-duration-slow` | 300ms | `duration-slow` | Modal, overlay enter/exit |
-| `primitive-duration-500` | `semantic-duration-slower` | 500ms | `duration-slower` | Page transitions, complex layout |
-
-**Easing** (Primitive → Semantic → Tailwind):
-
-| Primitive (direct use forbidden) | Semantic | CSS Value | Tailwind | Usage |
-|:--------------------------------:|----------|-----------|---------|-------|
-| `primitive-easing-ease-out` | `semantic-easing-enter` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | `ease-enter` | Enter: element appearing |
-| `primitive-easing-ease-in` | `semantic-easing-exit` | `cubic-bezier(0.4, 0.0, 1, 1)` | `ease-exit` | Exit: element disappearing |
-| `primitive-easing-ease-in-out` | `semantic-easing-move` | `cubic-bezier(0.4, 0.0, 0.2, 1)` | `ease-move` | Move: position/size change |
-| `primitive-easing-linear` | `semantic-easing-linear` | `linear` | `ease-linear` | Loop: spinner, progress bar |
-
-**CSS Variables** (`src/tokens/tokens.css`):
-```css
-:root {
-  /* Primitive: Duration */
-  --primitive-duration-0: 0ms;
-  --primitive-duration-100: 100ms;
-  --primitive-duration-200: 200ms;
-  --primitive-duration-300: 300ms;
-  --primitive-duration-500: 500ms;
-  /* Semantic: Duration */
-  --semantic-duration-instant: var(--primitive-duration-0);
-  --semantic-duration-fast: var(--primitive-duration-100);
-  --semantic-duration-normal: var(--primitive-duration-200);
-  --semantic-duration-slow: var(--primitive-duration-300);
-  --semantic-duration-slower: var(--primitive-duration-500);
-  /* Primitive: Easing */
-  --primitive-easing-ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --primitive-easing-ease-in: cubic-bezier(0.4, 0.0, 1, 1);
-  --primitive-easing-ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --primitive-easing-linear: linear;
-  /* Semantic: Easing */
-  --semantic-easing-enter: var(--primitive-easing-ease-out);
-  --semantic-easing-exit: var(--primitive-easing-ease-in);
-  --semantic-easing-move: var(--primitive-easing-ease-in-out);
-  --semantic-easing-linear: var(--primitive-easing-linear);
-}
-```
-
-**Tailwind config** (`tailwind.config.js` extends):
-```js
-transitionDuration: {
-  instant: 'var(--semantic-duration-instant)',
-  fast:    'var(--semantic-duration-fast)',
-  normal:  'var(--semantic-duration-normal)',
-  slow:    'var(--semantic-duration-slow)',
-  slower:  'var(--semantic-duration-slower)',
-},
-transitionTimingFunction: {
-  enter:  'var(--semantic-easing-enter)',
-  exit:   'var(--semantic-easing-exit)',
-  move:   'var(--semantic-easing-move)',
-  linear: 'var(--semantic-easing-linear)',
-},
-animationDuration: {
-  instant: 'var(--semantic-duration-instant)',
-  fast:    'var(--semantic-duration-fast)',
-  normal:  'var(--semantic-duration-normal)',
-  slow:    'var(--semantic-duration-slow)',
-  slower:  'var(--semantic-duration-slower)',
-},
-animationTimingFunction: {
-  enter:  'var(--semantic-easing-enter)',
-  exit:   'var(--semantic-easing-exit)',
-  move:   'var(--semantic-easing-move)',
-  linear: 'var(--semantic-easing-linear)',
-},
-```
-
-**Reduced motion** (`src/index.css`):
-```css
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  /* Essential animations (spinners, progress) — reduce, don't remove */
-  .motion-essential {
-    animation-duration: var(--semantic-duration-fast) !important;
-    transition-duration: var(--semantic-duration-fast) !important;
-  }
-}
-```
-
-> For motion design principles (when to use which duration/easing, enter/exit patterns, state transition model), see [INTERACTION_DESIGN.md §A](./docs/INTERACTION_DESIGN.md#a-motion--timing-원칙).
+> 전체 모션 토큰 값, CSS 변수, Tailwind config, Reduced motion 설정은 [token-reference.md](./docs/token-reference.md#semantic-motion) 참고.
+> 모션 설계 원칙(duration/easing 선택, enter/exit 패턴, 상태 전이 모델)은 [INTERACTION_DESIGN.md §A](./docs/INTERACTION_DESIGN.md#a-motion--timing-원칙) 참고.
 ---
 ## Figma to Code Workflow
-We use **structured JSON specifications** to translate Figma designs into components. This approach provides:
-- Machine-readable format
-- Complete design documentation
-- Token mapping included
-- Reusable across projects
-### Step 1: Review Figma Design (10-15 min)
-Open the component in Figma and document:
-**Visual Variants**:
-- All hierarchy options (primary, secondary, outlined, ghost, etc.)
-- All size options (small, medium, large, xlarge)
-- Special variations (icon-only, full-width, etc.)
-**For Each Variant, Note**:
-- Background color (as semantic token)
-- Text color (as semantic token)
-- Border (if any)
-- Hover state changes
-- Active/pressed state changes
-**For Each Size, Note**:
-- Horizontal padding (in px)
-- Vertical padding (in px)
-- Typography (font-size and weight)
-- Icon size (if applicable)
-- Gap between elements (if applicable)
-**Interactive States**:
-- Focus ring style
-- Disabled appearance
-- Loading state (if applicable)
-**Other Properties**:
-- Border radius
-- Shadows
-- Transitions
-- Any special behaviors
-### Step 2: Create JSON Spec (10-15 min)
-Create `specs/{component-name}.json` following this structure:
-**Basic Schema**:
-```json
-{
-  "component": "ComponentName",
-  "description": "What this component does",
-  "props": { /* prop definitions */ },
-  "variants": { /* variant styling */ },
-  "states": { /* interactive states */ },
-  "implementation": { /* special notes */ }
-}
-```
-### Step 3: Use JSON Spec Template
-Use the JSON spec template (`specs/_TEMPLATE.json`) as a starting point. The template includes:
-- Complete schema with all fields
-- Inline comments explaining each field
-- Example values for reference
-Copy the template to `specs/{component-name}.json` and fill in your component's specific values.
-**Schema Overview**:
-- `component`: Component name (PascalCase)
-- `description`: Brief description
-- `figmaLink`: Link to Figma design (optional)
-- `props`: Object defining all component props with types and defaults
-- `variants`: Object defining all variant options with their Tailwind classes
-- `states`: Object defining interactive states (hover, focus, etc.)
-- `implementation`: Object with implementation notes and patterns
-See `specs/_TEMPLATE.json` for the complete schema with detailed comments.
-### Step 4: Token Mapping Reference
-When writing JSON specs, use this reference to map Figma values to tokens:
-**Colors**:
-| Figma Value | Sys Token | Usage |
-|-------------|-----------|-------|
-| Brand purple | `semantic-primary-500` | Primary actions |
-| Brand red-orange | `semantic-primary-500` | Primary actions (Edutap theme) |
-| Success green | `semantic-success-500` | Success states |
-| Warning yellow | `semantic-warning-500` | Warning states |
-| Error red | `semantic-error-500` | Error states |
-| Dark text on light | `semantic-text-on-bright-900` | Body text |
-| Light text on dark | `semantic-text-on-dim-50` | Reversed text |
-| Light gray bg | `semantic-surface-50` | Surface background |
-**Spacing** (Figma → Tailwind):
-| Figma px | Tailwind | Actual |
-|----------|----------|--------|
-| 2px | `0.5` | 2px |
-| 4px | `1` | 4px |
-| 6px | `1.5` | 6px |
-| 8px | `2` | 8px |
-| 12px | `3` | 12px |
-| 16px | `4` | 16px |
-| 20px | `5` | 20px |
-| 24px | `6` | 24px |
-| 32px | `8` | 32px |
-| 40px | `10` | 40px |
-**Typography**:
-Map Figma font size + weight to composite token:
-- 14px Regular → `typography-14-regular`
-- 16px Medium → `typography-16-medium`
-- 18px Semibold → `typography-18-semibold`
-- 20px Bold → `typography-20-bold`
-**Border Radius**:
-| Figma px | Tailwind | Actual |
-|----------|----------|--------|
-| 0px | `rounded-none` | 0 |
-| 4px | `rounded-1` | 4px |
-| 8px | `rounded-2` | 8px |
-| 12px | `rounded-3` | 12px |
-| 16px | `rounded-4` | 16px |
-**Motion Duration** (Figma → Tailwind):
-| Figma/Design Intent | Sys Token | Tailwind | Value |
-|---------------------|-----------|---------|:-----:|
-| Instant (color swap) | `semantic-duration-instant` | `duration-instant` | 0ms |
-| Hover / focus | `semantic-duration-fast` | `duration-fast` | 100ms |
-| Dropdown open / element enter | `semantic-duration-normal` | `duration-normal` | 200ms |
-| Modal / overlay enter | `semantic-duration-slow` | `duration-slow` | 300ms |
-| Page transition | `semantic-duration-slower` | `duration-slower` | 500ms |
-**Motion Easing** (Figma → Tailwind):
-| Figma/Design Intent | Sys Token | Tailwind |
-|---------------------|-----------|---------|
-| Element entering screen | `semantic-easing-enter` | `ease-enter` |
-| Element leaving screen | `semantic-easing-exit` | `ease-exit` |
-| Position/size change | `semantic-easing-move` | `ease-move` |
-| Spinner / progress loop | `semantic-easing-linear` | `ease-linear` |
-### Step 5: Pass Spec to Claude Code
-Send the JSON spec to Claude Code with this prompt:
-```
-Create a [ComponentName] component based on this JSON specification.
-[Paste JSON spec]
-Follow these requirements:
-1. Use CVA (class-variance-authority) for variant management
-2. Use cn from @/lib/utils for class merging
-3. Extend the appropriate React HTML element props
-4. Export both the component and its props interface
-5. Create an index.ts file for clean imports
-6. Follow all patterns from CLAUDE.md
-Generate:
-1. src/components/[ComponentName]/[ComponentName].tsx
-2. src/components/[ComponentName]/index.ts
-3. Show usage examples
-```
-### Step 6: Validation Checklist
-After implementation, verify:
-- [ ] All variants from JSON spec are implemented
-- [ ] All sizes match Figma padding/typography exactly
-- [ ] States (focus, hover, active, disabled) work correctly
-- [ ] Both themes (Align & Edutap) render correctly
-- [ ] Icons scale properly with size variants
-- [ ] TypeScript types are complete and exported
-- [ ] No hardcoded values (colors, spacing, fonts, duration, easing)
-- [ ] Motion uses semantic tokens only (`duration-fast`, `ease-enter` — not `duration-100`, `ease-out`)
-- [ ] `transition-all` not used (specify `transition-colors`, `transition-opacity` etc.)
-- [ ] Component follows CVA + cn pattern
+We use **structured JSON specifications** (`specs/{component-name}.json`) to translate Figma designs into components. JSON spec template: `specs/_TEMPLATE.json`. Completed example: `specs/button.json`.
+
+> 전체 Figma→Code 워크플로(MCP 도구 사용법, 테마 매핑, 토큰 역추적, Auto-layout 변환, Spec 작성, 검증)는 [FIGMA_TO_CODE.md](./docs/FIGMA_TO_CODE.md) 참고.
+> 토큰 매핑 전체 테이블(색상, 스페이싱, 타이포그래피, 모션)은 [token-reference.md](./docs/token-reference.md) 참고.
 ---
 ## Component Conventions
 ### File Structure
@@ -545,174 +350,50 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 ```
 ### Theme Support
-Components automatically adapt to themes. Semantic token CSS variables change based on the `data-theme` attribute on an ancestor element.
-**No theme logic needed in components:**
+
+Two independent theme axes via data attributes on an ancestor element:
+
+| Axis | Attribute | Values | Controls |
+|------|-----------|--------|----------|
+| Color | `data-theme` | `brand1`, `brand2` | Primary/success/warning/error color palette |
+| Shape | `data-shape` | `basic` (default), `geo` | Border-radius (basic = standard, geo = 0 or pill only) |
+
+**No theme logic in components** — components NEVER reference theme names (basic/geo/brand1/brand2):
 ```tsx
-// This automatically works with both themes
-<button className="bg-semantic-primary-500">
-  Click me
-</button>
-// Don't add theme logic
-const bgColor = theme === 'brand1' ? 'bg-purple-500' : 'bg-orange-500'
+// Correct: token-only
+className="bg-semantic-primary-500 rounded-[var(--comp-button-radius-md)]"
+
+// Wrong: theme branching in component
+const radius = theme === 'geo' ? 'rounded-none' : 'rounded-md'
 ```
+
+**Sub-type tokens for conditional radius** (e.g., icon-only button = pill in geo):
+```
+--comp-{name}-radius-{size}        // default sub-type
+--comp-{name}-radius-icon-{size}   // icon-only sub-type
+```
+Both resolve to the same value in basic. In geo, default → `0px`, icon-only → `9999px`.
+
 **Usage:**
 ```tsx
-<div data-theme="brand1">
-  <Button>Purple button</Button>
+<div data-theme="brand1" data-shape="basic">
+  <Button>Rounded purple button</Button>
 </div>
-<div data-theme="brand2">
-  <Button>Red-orange button</Button>
+<div data-theme="brand2" data-shape="geo">
+  <Button>Sharp red-orange button</Button>
 </div>
 ```
 ---
 ## Common Component Patterns
-### Pattern 1: CVA + cn Structure
-```tsx
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-const componentVariants = cva(
-  // Base styles - always applied
-  'inline-flex items-center justify-center transition-colors duration-fast ease-enter',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-semantic-primary-500 hover:bg-semantic-primary-600 text-white',
-        secondary: 'bg-semantic-neutral-solid-100 hover:bg-semantic-neutral-solid-200',
-      },
-      size: {
-        small: 'p-2 gap-2 typography-14-medium',
-        medium: 'p-4 gap-2 typography-16-medium',
-      },
-    },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'medium',
-    },
-  }
-)
-interface ComponentProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof componentVariants> {
-  // Additional props
-}
-export function Component({
-  variant,
-  size,
-  className,
-  ...props
-}: ComponentProps) {
-  return (
-    <div
-      className={cn(componentVariants({ variant, size }), className)}
-      {...props}
-    />
-  )
-}
-```
-### Pattern 2: Icon Handling
 
-**Naming**: `iconLeading` / `iconTrailing` 사용 (`iconLeft` / `iconRight` 아님). RTL 레이아웃에서도 올바른 방향을 보장한다.
+| Pattern | Description |
+|---------|-------------|
+| **CVA + cn Structure** | 모든 multi-variant 컴포넌트의 기본 구조. `cva`로 variant 선언, `cn`으로 className 충돌 해결 |
+| **Icon Handling** | `iconLeading`/`iconTrailing` naming (RTL-safe). size별 icon size map, `flex-shrink-0` |
+| **Loading State** | Content `invisible` + absolute centered Spinner. `pointer-events-none` + `aria-disabled`/`aria-busy` |
+| **Polymorphic (asChild)** | `@radix-ui/react-slot`으로 소비자가 다른 요소를 렌더링하면서 스타일 유지 |
 
-```tsx
-interface ButtonProps {
-  iconLeading?: React.ReactNode
-  iconTrailing?: React.ReactNode
-  children: React.ReactNode
-  size?: 'small' | 'medium' | 'large'
-}
-// Icon size mapping from JSON spec
-const iconSizes = {
-  small: 'w-4 h-4',
-  medium: 'w-5 h-5',
-  large: 'w-6 h-6',
-}
-export function Button({
-  iconLeading,
-  iconTrailing,
-  children,
-  size = 'medium'
-}: ButtonProps) {
-  // Check if icon-only (no children)
-  const isIconOnly = !children && (iconLeading || iconTrailing)
-
-  return (
-    <button className={cn(
-      'inline-flex items-center',
-      isIconOnly ? iconOnlyPadding[size] : regularPadding[size]
-    )}>
-      {iconLeading && (
-        <span className={cn('flex-shrink-0', iconSizes[size])}>
-          {iconLeading}
-        </span>
-      )}
-      {children && <span>{children}</span>}
-      {iconTrailing && (
-        <span className={cn('flex-shrink-0', iconSizes[size])}>
-          {iconTrailing}
-        </span>
-      )}
-    </button>
-  )
-}
-```
-### Pattern 3: Loading State
-```tsx
-import { cn } from '@/lib/utils'
-import { Spinner } from '@/components/Spinner' // project spinner component
-
-interface ButtonProps {
-  loading?: boolean
-  iconLeading?: React.ReactNode
-  children: React.ReactNode
-  size?: 'small' | 'medium' | 'large'
-}
-const iconSizes = {
-  small: 'w-4 h-4',
-  medium: 'w-5 h-5',
-  large: 'w-6 h-6',
-}
-export function Button({
-  loading,
-  iconLeading,
-  children,
-  size = 'medium',
-  ...props
-}: ButtonProps) {
-  const spinner = (
-    <Spinner className={cn('animate-spin', iconSizes[size])} />
-  )
-
-  return (
-    <button
-      disabled={loading}
-      {...props}
-    >
-      {loading ? spinner : iconLeading}
-      {children}
-    </button>
-  )
-}
-```
-### Pattern 4: Polymorphic Component (asChild)
-```tsx
-import { Slot } from '@radix-ui/react-slot'
-import { cn } from '@/lib/utils'
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  asChild?: boolean
-}
-
-export function Button({ asChild, className, ...props }: ButtonProps) {
-  const Comp = asChild ? Slot : 'button'
-  return <Comp className={cn('...base-classes', className)} {...props} />
-}
-
-// Usage:
-<Button>Normal button</Button>
-<Button asChild><a href="/home">Link styled as button</a></Button>
-```
-The `asChild` pattern uses `@radix-ui/react-slot` to let consumers render a different element while keeping the component's styling. When `asChild` is true, the component's props and className are merged onto the child element instead of rendering a default HTML element.
-
+> 코드 예시는 [COMPONENT_PATTERNS.md](./docs/COMPONENT_PATTERNS.md) 참고.
 > 복합 컴포넌트(Compound Component), Context 분리, 커스텀 훅 추출, 테스트/Storybook 구조 등 고급 패턴은 [ADVANCED_PATTERNS.md](./docs/ADVANCED_PATTERNS.md) 참고.
 
 ---
@@ -735,71 +416,9 @@ Based on component size variants from JSON specs:
 - Use `flex-shrink-0` on icon containers to prevent squishing
 ---
 ## Component Development Checklist
-Use this checklist for every component to ensure consistency and quality:
-### Design Fidelity
-- [ ] JSON spec created in `specs/` folder
-- [ ] All Figma variants documented in spec
-- [ ] All sizes match exact Figma padding/typography
-- [ ] Token mapping complete (colors, spacing, typography)
-- [ ] Border radius and shadows documented
-### Implementation
-- [ ] Component created in `src/components/{Name}/`
-- [ ] CVA used for variant management
-- [ ] cn (from @/lib/utils) used for class merging
-- [ ] Extends appropriate React HTML element props
-- [ ] All variants from JSON spec implemented
-- [ ] All states implemented (hover, focus, active, disabled)
-- [ ] Icon handling (if applicable) follows patterns
-- [ ] Loading state (if applicable) implemented correctly
-### Theme Support
-- [ ] Uses only semantic tokens for colors (no primitive tokens)
-- [ ] Uses only semantic tokens for motion (`duration-fast`, `ease-enter` — no `duration-100`, `ease-out`)
-- [ ] Tested with `data-theme="brand1"`
-- [ ] Tested with `data-theme="brand2"`
-- [ ] No theme-specific logic in component code
-### Accessibility
-- [ ] **시맨틱 HTML**: 올바른 요소 사용 (`<button>`, `<input>`, `<dialog>` — `<div>` 아님)
-- [ ] **Role 부여 판단**: 네이티브 HTML 요소로 해결 가능하면 `role` 추가 금지
-- [ ] **Focus 관리**:
-  - `focus-visible` 사용 (`focus` 아님) — 키보드 전용 포커스 링
-  - 포커스 링 스타일 통일 (전 컴포넌트 동일)
-  - 탭 순서 논리적
-- [ ] **키보드 내비게이션**:
-  - Enter/Space: 버튼·링크 활성화
-  - Arrow keys: 그룹 내 이동 (탭, 라디오, 메뉴)
-  - Escape: 오버레이 닫기
-- [ ] **ARIA 속성**:
-  - `aria-disabled`: 로딩 상태 (`disabled` attribute는 탭 순서에서 제거하므로 주의)
-  - `aria-busy`: 로딩 상태
-  - `aria-invalid` + `aria-describedby`: 폼 에러
-  - `aria-expanded`: 펼침/접힘 패턴
-  - `aria-label` / `aria-labelledby`: 시각적 레이블 없을 때
-- [ ] **색상 대비**: WCAG AA 충족 (일반 텍스트 4.5:1, 큰 텍스트 3:1)
-- [ ] **모션**: `prefers-reduced-motion` 대응 (필수 애니메이션은 `.motion-essential` 클래스 사용)
-### TypeScript
-- [ ] Props interface defined and exported
-- [ ] JSDoc comments on all props
-- [ ] Proper types (no `any`)
-- [ ] Component function exported
-### File Organization
-- [ ] Component file: `{Name}.tsx`
-- [ ] Barrel export: `index.ts`
-- [ ] Both interface and component exported from index
-### Testing
-- [ ] All size combinations tested
-- [ ] All variant combinations tested
-- [ ] All states tested (hover, focus, disabled, etc.)
-- [ ] Icons scale correctly with size (if applicable)
-- [ ] Loading state works (if applicable)
-- [ ] Works with and without optional props
-- [ ] No console errors or warnings
-### Code Quality
-- [ ] No hardcoded values (colors, spacing, fonts, duration, easing)
-- [ ] No inline styles
-- [ ] No magic numbers
-- [ ] No `transition-all` (use specific transition properties)
-- [ ] Follows patterns from CLAUDE.md
-- [ ] Consistent with existing components
+Use this checklist for every component to ensure consistency and quality. Categories: Design Fidelity, Implementation, Theme Support, Accessibility, TypeScript, File Organization, Testing, Code Quality.
+
+> 전체 체크리스트는 [COMPONENT_CHECKLIST.md](./docs/COMPONENT_CHECKLIST.md) 참고.
 ---
 ## Project Status
 ### Completed
@@ -858,55 +477,9 @@ Use this checklist for every component to ensure consistency and quality:
 - [ ] GitHub repository setup
 ---
 ## Troubleshooting
-### Theme Not Switching
-**Problem**: Components don't change color when switching themes.
-**Solutions**:
-- Ensure `data-theme="brand1"` or `data-theme="brand2"` is on an ancestor element
-- Verify you're using `semantic-*` tokens, not `primitive-*` tokens
-- Check that `src/tokens/tokens.css` is imported in `src/index.css`
-- Inspect element in browser DevTools to see if CSS variables are applied
-### Typography Not Applying
-**Problem**: Text size or weight doesn't match Figma design.
-**Solutions**:
-- Use composite typography tokens: `typography-16-medium` not `text-base font-medium`
-- Check `tailwind.config.js` has typography tokens in extends
-- Verify the token exists in `src/tokens/typography.ts`
-- Clear Tailwind cache: delete `node_modules/.vite` and restart dev server
-### Colors Look Wrong
-**Problem**: Colors don't match Figma or look different between themes.
-**Solutions**:
-- Verify you're using correct semantic token category (e.g., `text-semantic-text-on-bright-900` for dark text on light backgrounds)
-- Check if you're in the correct theme context (`data-theme` attribute)
-- Inspect computed CSS in DevTools to see actual color values
-- Verify token mapping in JSON spec matches Figma design intent
-### Icons Too Large/Small
-**Problem**: Icon doesn't fit button or component size.
-**Solutions**:
-- Let component handle icon sizing internally (don't add w-/h- classes when passing icons)
-- Check JSON spec for correct icon sizes per component size
-- Verify icon container has size classes from spec (e.g., `w-5 h-5` for medium)
-- Use `flex-shrink-0` on icon containers to prevent squishing
-### Component Not Type-Safe
-**Problem**: TypeScript errors or missing autocomplete.
-**Solutions**:
-- Ensure props interface extends appropriate React HTML props
-- Export both interface and component from index.ts
-- Use `VariantProps<typeof componentVariants>` for CVA types
-- Run `npm run typecheck` to see all type errors
-### Spacing Doesn't Match Figma
-**Problem**: Padding, margin, or gaps are off.
-**Solutions**:
-- Double-check Figma values in px
-- Use spacing token reference (16px = 4, 24px = 6, etc.)
-- Remember Tailwind uses rem: 1 unit = 0.25rem = 4px
-- Check if you're using correct spacing scale (p-4 vs px-4 py-4)
-### Build Errors
-**Problem**: `npm run build` fails.
-**Solutions**:
-- Run `npm run lint` to catch ESLint errors
-- Check for unused imports
-- Verify all files are properly exported
-- Clear cache: `rm -rf node_modules/.vite && npm run build`
+
+> 컴포넌트 개발 트러블슈팅(테마, 타이포그래피, 색상, 아이콘, 타입, 스페이싱, 빌드)은 [TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) 참고.
+> Figma MCP 관련 트러블슈팅은 [FIGMA_TO_CODE.md §J](./docs/FIGMA_TO_CODE.md#j-트러블슈팅) 참고.
 ---
 ## Reference
 ### Figma Design Values

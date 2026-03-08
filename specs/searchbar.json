@@ -1,0 +1,147 @@
+{
+  "component": "SearchBar",
+  "description": "Search input with leading icon, optional clear/search buttons, and two shape variants (rectangle/circular). 4 sizes matching the Input component height system.",
+  "figmaNode": "7329:25303",
+
+  "props": {
+    "size": {
+      "type": "'xLarge' | 'large' | 'medium' | 'small'",
+      "default": "medium"
+    },
+    "shape": {
+      "type": "'rectangle' | 'circular'",
+      "default": "rectangle",
+      "description": "Rectangle uses standard radius, Circular uses pill radius."
+    },
+    "placeholder": {
+      "type": "string",
+      "default": "Search..."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": "SearchIcon (built-in)",
+      "description": "Leading icon. Defaults to search icon."
+    },
+    "clearButton": {
+      "type": "boolean",
+      "default": true,
+      "description": "Shows clear (X) button when input has value."
+    },
+    "searchButton": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows search button on the trailing side."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hug (false) or Fill (true)"
+    },
+    "value": {
+      "type": "string",
+      "default": null,
+      "description": "Controlled value. When provided, component is controlled."
+    },
+    "onValueChange": {
+      "type": "(value: string) => void",
+      "default": null,
+      "description": "Callback when value changes."
+    },
+    "onSearch": {
+      "type": "(value: string) => void",
+      "default": null,
+      "description": "Callback when search is triggered (Enter key or search button click)."
+    },
+    "onClear": {
+      "type": "() => void",
+      "default": null,
+      "description": "Callback when clear button is clicked."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "h-14 (56px)",
+        "radius": "rounded-3 (12px)",
+        "radiusCircular": "rounded-full (9999px)",
+        "paddingX": "px-4 (16px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-18-regular",
+        "gap": "gap-2 (8px)"
+      },
+      "large": {
+        "height": "h-12 (48px)",
+        "radius": "rounded-3 (12px)",
+        "radiusCircular": "rounded-full (9999px)",
+        "paddingX": "px-3 (12px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-16-regular",
+        "gap": "gap-1.5 (6px)"
+      },
+      "medium": {
+        "height": "h-10 (40px)",
+        "radius": "rounded-3 (12px)",
+        "radiusCircular": "rounded-full (9999px)",
+        "paddingX": "px-2.5 (10px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-16-regular",
+        "gap": "gap-1.5 (6px)"
+      },
+      "small": {
+        "height": "h-8 (32px)",
+        "radius": "rounded-2 (8px)",
+        "radiusCircular": "rounded-full (9999px)",
+        "paddingX": "px-2 (8px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-14-regular",
+        "gap": "gap-1 (4px)"
+      }
+    }
+  },
+
+  "states": {
+    "default": {
+      "background": "bg-sys-neutral-black-alpha-70",
+      "text": "text-sys-neutral-black-alpha-400 (placeholder) / text-sys-neutral-black-alpha-800 (typed)",
+      "icon": "text-sys-neutral-black-alpha-800",
+      "border": "none"
+    },
+    "hover": {
+      "overlay": "state overlay: sys-state-on-bright-50"
+    },
+    "pressed": {
+      "overlay": "state overlay: sys-state-on-bright-70"
+    },
+    "focused": {
+      "background": "bg-sys-neutral-solid-0",
+      "text": "text-sys-neutral-black-alpha-950",
+      "border": "border-sys-neutral-black-alpha-800"
+    },
+    "disabled": {
+      "background": "bg-sys-neutral-black-alpha-50",
+      "text": "text-sys-neutral-black-alpha-200",
+      "icon": "text-sys-neutral-black-alpha-200"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Radix needed — native <input type='search'>)",
+    "stateOverlay": "Absolute <span> inside container with group-hover/group-active classes.",
+    "focusedLayer": "Absolute <span> border overlay on focus.",
+    "radiusStrategy": "Two radius sub-types: default (rectangle) and circular (pill). Geo overrides rectangle→0px, circular stays pill.",
+    "structure": "Container (focused layer + state layer + icon leading + native input + clear button + search button)",
+    "files": [
+      "src/components/SearchBar/SearchBar.tsx",
+      "src/components/SearchBar/index.ts"
+    ],
+    "dependencies": [
+      "src/components/icons/IconSearch.tsx",
+      "src/components/icons/IconCancel.tsx"
+    ]
+  }
+}

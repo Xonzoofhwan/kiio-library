@@ -1,0 +1,217 @@
+{
+  "component": "Select",
+  "description": "Accessible dropdown select with keyboard navigation, portal rendering, and scroll support. Built on @radix-ui/react-select. Uses the same height/color system as Input. Includes integrated label and helper text.",
+  "figmaNode": null,
+
+  "props": {
+    "SelectRoot": {
+      "value": {
+        "type": "string",
+        "default": null,
+        "description": "Controlled selected value."
+      },
+      "defaultValue": {
+        "type": "string",
+        "default": null
+      },
+      "onValueChange": {
+        "type": "(value: string) => void",
+        "default": null
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": null
+      }
+    },
+    "SelectTrigger": {
+      "size": {
+        "type": "'xLarge' | 'large' | 'medium' | 'small'",
+        "default": "medium"
+      },
+      "placeholder": {
+        "type": "string",
+        "default": "Select..."
+      },
+      "validation": {
+        "type": "'default' | 'error'",
+        "default": "default"
+      },
+      "label": {
+        "type": "string",
+        "default": null
+      },
+      "labelType": {
+        "type": "'none' | 'optional' | 'asterisk'",
+        "default": "none"
+      },
+      "helperText": {
+        "type": "string",
+        "default": null
+      },
+      "fullWidth": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "SelectItem": {
+      "value": {
+        "type": "string",
+        "required": true
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "h-14 (56px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-4 (16px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-18-regular",
+        "gap": "gap-2 (8px)"
+      },
+      "large": {
+        "height": "h-12 (48px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-3 (12px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-16-regular",
+        "gap": "gap-1.5 (6px)"
+      },
+      "medium": {
+        "height": "h-10 (40px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-2.5 (10px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-16-regular",
+        "gap": "gap-1.5 (6px)"
+      },
+      "small": {
+        "height": "h-8 (32px)",
+        "radius": "rounded-2 (8px)",
+        "paddingX": "px-2 (8px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-14-regular",
+        "gap": "gap-1 (4px)"
+      }
+    },
+    "content": {
+      "radius": "rounded-3 (12px)",
+      "padding": "p-1.5 (6px)",
+      "background": "bg-sys-neutral-solid-0",
+      "border": "border border-sys-divider-solid-100",
+      "shadow": "shadow-lg",
+      "maxHeight": "max-h-80 (320px)"
+    },
+    "item": {
+      "height": "h-10 (40px)",
+      "paddingX": "px-3 (12px)",
+      "radius": "rounded-2 (8px)",
+      "typography": "typography-14-regular"
+    }
+  },
+
+  "states": {
+    "trigger": {
+      "default": {
+        "background": "bg-sys-neutral-black-alpha-70",
+        "text": "text-sys-neutral-black-alpha-400 (placeholder) / text-sys-neutral-black-alpha-800 (selected)",
+        "icon": "text-sys-neutral-black-alpha-600 (chevron)",
+        "border": "none"
+      },
+      "hover": {
+        "overlay": "state overlay: sys-state-on-bright-50"
+      },
+      "focused": {
+        "background": "bg-sys-neutral-solid-0",
+        "border": "border-sys-neutral-black-alpha-800"
+      },
+      "open": {
+        "background": "bg-sys-neutral-solid-0",
+        "border": "border-sys-neutral-black-alpha-800"
+      },
+      "error": {
+        "background": "bg-sys-neutral-solid-0",
+        "border": "border-sys-error-500"
+      },
+      "disabled": {
+        "background": "bg-sys-neutral-black-alpha-50",
+        "text": "text-sys-neutral-black-alpha-200",
+        "icon": "text-sys-neutral-black-alpha-200"
+      }
+    },
+    "item": {
+      "default": {
+        "background": "transparent",
+        "text": "text-sys-neutral-black-alpha-800"
+      },
+      "highlighted": {
+        "background": "bg-sys-state-on-bright-50",
+        "description": "Keyboard highlighted or hovered item."
+      },
+      "selected": {
+        "background": "bg-sys-neutral-black-alpha-70",
+        "text": "text-sys-neutral-black-alpha-950",
+        "icon": "check icon trailing"
+      },
+      "disabled": {
+        "text": "text-sys-neutral-black-alpha-200"
+      }
+    }
+  },
+
+  "subComponents": {
+    "label": {
+      "typography": "typography-14-semibold",
+      "color": "text-sys-text-on-bright-800",
+      "paddingBottom": "pb-2 (8px)",
+      "variants": {
+        "none": "Label text only",
+        "optional": "Label + ' (Optional)' in typography-14-regular text-sys-text-on-bright-400",
+        "asterisk": "Label + ' *' in typography-14-semibold text-sys-error-500"
+      }
+    },
+    "helperText": {
+      "typography": "typography-13-regular",
+      "icon": "size-4 (16px)",
+      "gap": "gap-0.5 (2px)",
+      "variants": {
+        "default": {
+          "color": "text-sys-text-on-bright-400",
+          "icon": "text-sys-text-on-bright-400"
+        },
+        "error": {
+          "color": "text-sys-error-600",
+          "icon": "text-sys-error-500"
+        }
+      }
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-select (Compound Component)",
+    "structure": "Select.Root → Wrapper(label + trigger + helptext) → Select.Trigger(styled) + Select.Portal → Select.Content(dropdown) → Select.Viewport → Select.Item(s)",
+    "triggerIcon": "Chevron down icon, rotates on open with transition.",
+    "contentAnimation": "Enter: fade + slide-down (duration-normal, ease-enter). Exit: fade + slide-up (duration-fast, ease-exit).",
+    "files": [
+      "src/components/Select/Select.tsx",
+      "src/components/Select/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-select"
+    ]
+  }
+}

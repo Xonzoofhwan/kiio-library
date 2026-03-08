@@ -1,0 +1,128 @@
+{
+  "component": "Radio",
+  "description": "Accessible radio group with roving tab index and arrow key navigation. Built on @radix-ui/react-radio-group. Always circular (pill) regardless of shape theme.",
+
+  "props": {
+    "RadioGroup": {
+      "value": {
+        "type": "string",
+        "default": null,
+        "description": "Controlled selected value."
+      },
+      "defaultValue": {
+        "type": "string",
+        "default": null,
+        "description": "Uncontrolled default value."
+      },
+      "onValueChange": {
+        "type": "(value: string) => void",
+        "default": null
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      },
+      "required": {
+        "type": "boolean",
+        "default": false
+      },
+      "name": {
+        "type": "string",
+        "default": null
+      },
+      "orientation": {
+        "type": "'vertical' | 'horizontal'",
+        "default": "vertical",
+        "description": "Layout direction. Also affects arrow key navigation direction."
+      },
+      "size": {
+        "type": "'large' | 'medium' | 'small'",
+        "default": "medium"
+      }
+    },
+    "RadioItem": {
+      "value": {
+        "type": "string",
+        "required": true
+      },
+      "label": {
+        "type": "string",
+        "default": null
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false
+      }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "large": {
+        "outerSize": "size-5 (20px)",
+        "innerDot": "size-2 (8px)",
+        "labelTypography": "typography-16-regular",
+        "gap": "gap-2 (8px)",
+        "groupGap": "gap-3 (12px)"
+      },
+      "medium": {
+        "outerSize": "size-4.5 (18px)",
+        "innerDot": "size-1.5 (6px)",
+        "labelTypography": "typography-14-regular",
+        "gap": "gap-2 (8px)",
+        "groupGap": "gap-2.5 (10px)"
+      },
+      "small": {
+        "outerSize": "size-4 (16px)",
+        "innerDot": "size-1.5 (6px)",
+        "labelTypography": "typography-13-regular",
+        "gap": "gap-1.5 (6px)",
+        "groupGap": "gap-2 (8px)"
+      }
+    }
+  },
+
+  "states": {
+    "unchecked": {
+      "background": "transparent",
+      "border": "border-2 border-sys-neutral-black-alpha-300",
+      "dot": "none"
+    },
+    "checked": {
+      "background": "bg-sys-neutral-solid-950",
+      "border": "none",
+      "dot": "bg-sys-neutral-solid-0 (centered circle)"
+    },
+    "hover": {
+      "unchecked": "border-sys-neutral-black-alpha-600",
+      "checked": "state overlay: sys-state-on-dim-50"
+    },
+    "focused": {
+      "all": "ring-2 ring-sys-primary-300 ring-offset-2 (focus-visible only)"
+    },
+    "disabled": {
+      "unchecked": {
+        "background": "transparent",
+        "border": "border-2 border-sys-neutral-black-alpha-200"
+      },
+      "checked": {
+        "background": "bg-sys-neutral-solid-300",
+        "dot": "bg-sys-neutral-white-alpha-400"
+      },
+      "label": "text-sys-neutral-black-alpha-200"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-radio-group",
+    "structure": "RadioGroup.Root (flex container) → RadioGroup.Item (styled circle) → RadioGroup.Indicator (inner dot) + Label",
+    "geoNote": "Radio is always circular (rounded-full). No geo radius override needed.",
+    "files": [
+      "src/components/Radio/Radio.tsx",
+      "src/components/Radio/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-radio-group"
+    ]
+  }
+}

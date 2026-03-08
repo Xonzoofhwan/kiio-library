@@ -1,0 +1,201 @@
+{
+  "component": "Textarea",
+  "description": "Multi-line text input with integrated label, helper text, counter, and validation states. Supports 2 sizes with variable height based on rows.",
+  "figmaNode": "7327:29353",
+
+  "props": {
+    "size": {
+      "type": "'xLarge' | 'large'",
+      "default": "large"
+    },
+    "validation": {
+      "type": "'default' | 'error' | 'success'",
+      "default": "default",
+      "description": "Validation state. Controls border color when focused and helper text style."
+    },
+    "label": {
+      "type": "string",
+      "default": null,
+      "description": "Label text displayed above the textarea."
+    },
+    "labelType": {
+      "type": "'none' | 'optional' | 'asterisk'",
+      "default": "none",
+      "description": "Label suffix indicator. Same as Input."
+    },
+    "placeholder": {
+      "type": "string",
+      "default": null
+    },
+    "helperText": {
+      "type": "string",
+      "default": null,
+      "description": "Helper text below the textarea. Switches to error/success style based on validation prop."
+    },
+    "counter": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows character counter (currentLength/maxLength). Requires maxLength prop."
+    },
+    "maxLength": {
+      "type": "number",
+      "default": null,
+      "description": "Maximum character count. Used with counter for display and validation."
+    },
+    "rows": {
+      "type": "number",
+      "default": 3,
+      "description": "Number of visible text lines. Determines initial height."
+    },
+    "resize": {
+      "type": "'none' | 'vertical' | 'both'",
+      "default": "vertical",
+      "description": "CSS resize behavior."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon in the textarea header area."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction."
+    },
+    "readOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Read-only state. Content visible but not editable."
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hug (false) or Fill (true)"
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "variable (rows × line-height)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-4 (16px)",
+        "paddingY": "py-3.5 (14px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-18-regular",
+        "gap": "gap-2 (8px)"
+      },
+      "large": {
+        "height": "variable (rows × line-height)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-3 (12px)",
+        "paddingY": "py-3 (12px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-16-regular",
+        "gap": "gap-1.5 (6px)"
+      }
+    }
+  },
+
+  "states": {
+    "default": {
+      "background": "bg-sys-neutral-black-alpha-70",
+      "text": "text-sys-neutral-black-alpha-400 (placeholder) / text-sys-neutral-black-alpha-800 (typed)",
+      "icon": "text-sys-neutral-black-alpha-800",
+      "border": "none"
+    },
+    "hover": {
+      "overlay": "state overlay: sys-state-on-bright-50"
+    },
+    "pressed": {
+      "overlay": "state overlay: sys-state-on-bright-70"
+    },
+    "focused": {
+      "default": {
+        "background": "bg-sys-neutral-solid-0",
+        "text": "text-sys-neutral-black-alpha-400 (placeholder) / text-sys-neutral-black-alpha-950 (typing)",
+        "border": "border-sys-neutral-black-alpha-800"
+      },
+      "error": {
+        "background": "bg-sys-neutral-solid-0",
+        "text": "text-sys-neutral-black-alpha-950",
+        "border": "border-sys-error-500",
+        "icon": "text-sys-error-500"
+      },
+      "success": {
+        "background": "bg-sys-neutral-solid-0",
+        "text": "text-sys-neutral-black-alpha-950",
+        "border": "border-sys-success-500",
+        "icon": "text-sys-success-500"
+      }
+    },
+    "complete": {
+      "background": "bg-sys-neutral-black-alpha-70",
+      "text": "text-sys-neutral-black-alpha-800",
+      "icon": "text-sys-success-500"
+    },
+    "incomplete": {
+      "background": "bg-sys-neutral-black-alpha-70",
+      "text": "text-sys-neutral-black-alpha-400",
+      "icon": "text-sys-error-500"
+    },
+    "readOnly": {
+      "background": "bg-sys-neutral-black-alpha-50",
+      "text": "text-sys-neutral-black-alpha-800"
+    },
+    "disabled": {
+      "background": "bg-sys-neutral-black-alpha-50",
+      "text": "text-sys-neutral-black-alpha-200",
+      "icon": "text-sys-neutral-black-alpha-200"
+    }
+  },
+
+  "subComponents": {
+    "label": {
+      "typography": "typography-14-semibold",
+      "color": "text-sys-text-on-bright-800",
+      "paddingBottom": "pb-2 (8px)",
+      "variants": {
+        "none": "Label text only",
+        "optional": "Label + ' (Optional)' in typography-14-regular text-sys-text-on-bright-400",
+        "asterisk": "Label + ' *' in typography-14-semibold text-sys-error-500"
+      }
+    },
+    "helperText": {
+      "typography": "typography-13-regular",
+      "icon": "size-4 (16px)",
+      "gap": "gap-0.5 (2px)",
+      "variants": {
+        "default": {
+          "color": "text-sys-text-on-bright-400",
+          "icon": "text-sys-text-on-bright-400"
+        },
+        "error": {
+          "color": "text-sys-error-600",
+          "icon": "text-sys-error-500"
+        },
+        "success": {
+          "color": "text-sys-success-600",
+          "icon": "text-sys-success-500"
+        }
+      }
+    },
+    "counter": {
+      "typography": "typography-13-regular",
+      "color": "text-sys-text-on-bright-400",
+      "errorColor": "text-sys-error-600"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Radix needed — native <textarea>)",
+    "stateOverlay": "Absolute <span> inside textarea container with group-hover/group-active classes.",
+    "focusedLayer": "Absolute <span> border overlay. Visible on focus with validation-dependent border color.",
+    "structure": "Same wrapper pattern as Input: label + field container + helptext area. Field uses native <textarea> instead of <input>.",
+    "files": [
+      "src/components/Textarea/Textarea.tsx",
+      "src/components/Textarea/index.ts"
+    ],
+    "dependencies": []
+  }
+}
