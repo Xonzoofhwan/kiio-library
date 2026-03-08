@@ -1042,6 +1042,43 @@
   --comp-searchbar-icon-lg: var(--spacing-6);
   --comp-searchbar-icon-md: var(--spacing-5);
   --comp-searchbar-icon-sm: var(--spacing-5);
+
+  /* ============================================================
+     COMPONENT TOKENS — Checkbox
+     ============================================================ */
+
+  /* --- Box size — per size --- */
+  --comp-checkbox-box-lg: var(--spacing-5);
+  --comp-checkbox-box-md: 18px;
+  --comp-checkbox-box-sm: var(--spacing-4);
+
+  /* --- Icon size — per size --- */
+  --comp-checkbox-icon-lg: 14px;
+  --comp-checkbox-icon-md: var(--spacing-3);
+  --comp-checkbox-icon-sm: 10px;
+
+  /* --- Radius — per size --- */
+  --comp-checkbox-radius-lg: var(--radius-1);
+  --comp-checkbox-radius-md: var(--radius-1);
+  --comp-checkbox-radius-sm: 2px;
+
+  /* --- Gap — per size --- */
+  --comp-checkbox-gap-lg: var(--spacing-2);
+  --comp-checkbox-gap-md: var(--spacing-2);
+  --comp-checkbox-gap-sm: var(--spacing-1\.5);
+
+  /* --- Colors --- */
+  --comp-checkbox-border: var(--semantic-neutral-black-alpha-300);
+  --comp-checkbox-border-hover: var(--semantic-neutral-black-alpha-600);
+  --comp-checkbox-border-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-checkbox-bg-checked: var(--semantic-neutral-solid-950);
+  --comp-checkbox-bg-checked-disabled: var(--semantic-neutral-solid-300);
+  --comp-checkbox-icon-checked: var(--semantic-neutral-solid-0);
+  --comp-checkbox-icon-checked-disabled: var(--semantic-neutral-white-alpha-400);
+  --comp-checkbox-label-color: var(--semantic-text-on-bright-900);
+  --comp-checkbox-label-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-checkbox-focus-ring: var(--semantic-primary-300);
+  --comp-checkbox-hover-on-dim: var(--semantic-state-on-dim-50);
 }
 
 /* ============================================================
@@ -1080,4 +1117,9 @@
   --comp-searchbar-radius-md: 0px;
   --comp-searchbar-radius-sm: 0px;
   /* SearchBar — circular sub-type stays pill (no override) */
+
+  /* Checkbox — sharp square */
+  --comp-checkbox-radius-lg: 0px;
+  --comp-checkbox-radius-md: 0px;
+  --comp-checkbox-radius-sm: 0px;
 }
