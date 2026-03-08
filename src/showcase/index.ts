@@ -5,6 +5,7 @@ import { inputEntry } from './inputRegistry'
 import { textareaEntry } from './textareaRegistry'
 import { searchbarEntry } from './searchbarRegistry'
 import { checkboxEntry } from './checkboxRegistry'
+import { radioEntry } from './radioRegistry'
 
 /**
  * Registry of all design system showcases.
@@ -22,4 +23,5 @@ export const showcaseRegistry: ShowcaseItem[] = [
   textareaEntry,
   searchbarEntry,
   checkboxEntry,
+  radioEntry,
 ]

@@ -1079,6 +1079,44 @@
   --comp-checkbox-label-disabled: var(--semantic-neutral-black-alpha-200);
   --comp-checkbox-focus-ring: var(--semantic-primary-300);
   --comp-checkbox-hover-on-dim: var(--semantic-state-on-dim-50);
+  /* ============================================================
+     COMPONENT TOKENS — Radio
+     Reuses Checkbox color tokens where applicable.
+     Always circular (rounded-full) — no geo override needed.
+     ============================================================ */
+
+  /* --- Outer size — per size --- */
+  --comp-radio-outer-lg: var(--spacing-5);
+  --comp-radio-outer-md: 18px;
+  --comp-radio-outer-sm: var(--spacing-4);
+
+  /* --- Inner dot size — per size --- */
+  --comp-radio-dot-lg: var(--spacing-2);
+  --comp-radio-dot-md: var(--spacing-1\.5);
+  --comp-radio-dot-sm: var(--spacing-1\.5);
+
+  /* --- Gap — per size (item gap) --- */
+  --comp-radio-gap-lg: var(--spacing-2);
+  --comp-radio-gap-md: var(--spacing-2);
+  --comp-radio-gap-sm: var(--spacing-1\.5);
+
+  /* --- Group gap — per size --- */
+  --comp-radio-group-gap-lg: var(--spacing-3);
+  --comp-radio-group-gap-md: 10px;
+  --comp-radio-group-gap-sm: var(--spacing-2);
+
+  /* --- Colors (same system as Checkbox) --- */
+  --comp-radio-border: var(--semantic-neutral-black-alpha-300);
+  --comp-radio-border-hover: var(--semantic-neutral-black-alpha-600);
+  --comp-radio-border-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-radio-bg-checked: var(--semantic-neutral-solid-950);
+  --comp-radio-bg-checked-disabled: var(--semantic-neutral-solid-300);
+  --comp-radio-dot-color: var(--semantic-neutral-solid-0);
+  --comp-radio-dot-disabled: var(--semantic-neutral-white-alpha-400);
+  --comp-radio-label-color: var(--semantic-text-on-bright-900);
+  --comp-radio-label-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-radio-focus-ring: var(--semantic-primary-300);
+  --comp-radio-hover-on-dim: var(--semantic-state-on-dim-50);
 }
 
 /* ============================================================
