@@ -29,10 +29,10 @@ const buttonVariants = cva(
           'bg-[var(--comp-button-bg-ghost)] text-[var(--comp-button-content-ghost)]',
       },
       size: {
-        xLarge: 'h-[var(--comp-button-height-xl)] px-[var(--comp-button-px-xl)] gap-[var(--comp-button-gap-xl)] rounded-[var(--comp-button-radius-xl)] typography-20-semibold',
-        large:  'h-[var(--comp-button-height-lg)] px-[var(--comp-button-px-lg)] gap-[var(--comp-button-gap-lg)] rounded-[var(--comp-button-radius-lg)] typography-18-semibold',
-        medium: 'h-[var(--comp-button-height-md)] px-[var(--comp-button-px-md)] gap-[var(--comp-button-gap-md)] rounded-[var(--comp-button-radius-md)] typography-16-semibold',
-        small:  'h-[var(--comp-button-height-sm)] px-[var(--comp-button-px-sm)] gap-[var(--comp-button-gap-sm)] rounded-[var(--comp-button-radius-sm)] typography-14-semibold',
+        xLarge: 'h-[var(--comp-button-height-xl)] px-[var(--comp-button-px-xl)] gap-[var(--comp-button-gap-xl)] typography-20-semibold',
+        large:  'h-[var(--comp-button-height-lg)] px-[var(--comp-button-px-lg)] gap-[var(--comp-button-gap-lg)] typography-18-semibold',
+        medium: 'h-[var(--comp-button-height-md)] px-[var(--comp-button-px-md)] gap-[var(--comp-button-gap-md)] typography-16-semibold',
+        small:  'h-[var(--comp-button-height-sm)] px-[var(--comp-button-px-sm)] gap-[var(--comp-button-gap-sm)] typography-14-semibold',
       },
       fullWidth: {
         true: 'w-full',
@@ -78,6 +78,24 @@ const stateOverlayVariants: Record<
   ghost:
     'group-hover:bg-[var(--comp-button-hover-on-bright)] group-active:bg-[var(--comp-button-active-on-bright)]',
 }
+
+/* ─── Radius per button size — default sub-type ─── */
+
+const radiusMap = {
+  xLarge: 'rounded-[var(--comp-button-radius-xl)]',
+  large: 'rounded-[var(--comp-button-radius-lg)]',
+  medium: 'rounded-[var(--comp-button-radius-md)]',
+  small: 'rounded-[var(--comp-button-radius-sm)]',
+} as const
+
+/* ─── Radius per button size — icon-only sub-type ─── */
+
+const radiusIconOnlyMap = {
+  xLarge: 'rounded-[var(--comp-button-radius-icon-xl)]',
+  large: 'rounded-[var(--comp-button-radius-icon-lg)]',
+  medium: 'rounded-[var(--comp-button-radius-icon-md)]',
+  small: 'rounded-[var(--comp-button-radius-icon-sm)]',
+} as const
 
 /* ─── Icon size per button size ─── */
 
@@ -144,11 +162,14 @@ export function Button({
   const Comp = asChild ? Slot : 'button'
   const resolvedSize = size ?? 'medium'
   const resolvedHierarchy = hierarchy ?? 'primary'
+  const isIconOnly = !children && (iconLeading || iconTrailing)
 
   return (
     <Comp
       className={cn(
         buttonVariants({ hierarchy, size, fullWidth }),
+        // Radius — icon-only uses separate sub-type token for geo shape theme
+        isIconOnly ? radiusIconOnlyMap[resolvedSize] : radiusMap[resolvedSize],
         // disabled 색상은 실제 disabled일 때만 적용 (loading 제외)
         disabled && disabledVariants[resolvedHierarchy],
         disabled && 'cursor-not-allowed',

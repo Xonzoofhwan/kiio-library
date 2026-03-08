@@ -17,9 +17,11 @@ function groupByCategory(items: ShowcaseItem[]) {
 interface HeaderProps {
   theme: 'brand1' | 'brand2'
   onThemeChange: (t: 'brand1' | 'brand2') => void
+  shape: 'basic' | 'geo'
+  onShapeChange: (s: 'basic' | 'geo') => void
 }
 
-function Header({ theme, onThemeChange }: HeaderProps) {
+function Header({ theme, onThemeChange, shape, onShapeChange }: HeaderProps) {
   return (
     <header className="h-14 flex-shrink-0 flex items-center px-6 gap-4 bg-semantic-background-0 border-b border-semantic-divider-solid-100 z-10">
       <div className="flex items-center gap-2">
@@ -28,7 +30,7 @@ function Header({ theme, onThemeChange }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-2 ml-auto">
-        <span className="typography-12-regular text-semantic-text-on-bright-400 mr-1">Theme</span>
+        <span className="typography-12-regular text-semantic-text-on-bright-400 mr-1">Color</span>
         <button
           className={cn(
             'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
@@ -50,6 +52,32 @@ function Header({ theme, onThemeChange }: HeaderProps) {
           onClick={() => onThemeChange('brand2')}
         >
           Brand 2
+        </button>
+
+        <div className="w-px h-5 bg-semantic-divider-solid-100 mx-1" />
+
+        <span className="typography-12-regular text-semantic-text-on-bright-400 mr-1">Shape</span>
+        <button
+          className={cn(
+            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
+            shape === 'basic'
+              ? 'bg-semantic-neutral-solid-950 text-semantic-neutral-solid-0'
+              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
+          )}
+          onClick={() => onShapeChange('basic')}
+        >
+          Basic
+        </button>
+        <button
+          className={cn(
+            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
+            shape === 'geo'
+              ? 'bg-semantic-neutral-solid-950 text-semantic-neutral-solid-0'
+              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
+          )}
+          onClick={() => onShapeChange('geo')}
+        >
+          Geo
         </button>
       </div>
     </header>
@@ -167,14 +195,15 @@ function ComponentView({ item }: { item: ShowcaseItem }) {
 // ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [theme, setTheme] = useState<'brand1' | 'brand2'>('brand1')
+  const [shape, setShape] = useState<'basic' | 'geo'>('basic')
   const [activeId, setActiveId] = useState(showcaseRegistry[0]?.id ?? '')
   const [searchQuery, setSearchQuery] = useState('')
 
   const activeItem = showcaseRegistry.find(item => item.id === activeId)
 
   return (
-    <div data-theme={theme} className="h-screen flex flex-col overflow-hidden font-pretendard">
-      <Header theme={theme} onThemeChange={setTheme} />
+    <div data-theme={theme} data-shape={shape} className="h-screen flex flex-col overflow-hidden font-pretendard">
+      <Header theme={theme} onThemeChange={setTheme} shape={shape} onShapeChange={setShape} />
 
       <div className="flex flex-1 overflow-hidden">
         <Sidebar

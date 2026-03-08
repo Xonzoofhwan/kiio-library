@@ -873,15 +873,132 @@
   --comp-button-gap-md: var(--spacing-1\.5);
   --comp-button-gap-sm: var(--spacing-1);
 
-  /* --- Radius — per size --- */
+  /* --- Radius — per size (default sub-type) --- */
   --comp-button-radius-xl: var(--radius-3);
   --comp-button-radius-lg: var(--radius-3);
   --comp-button-radius-md: var(--radius-3);
   --comp-button-radius-sm: var(--radius-2);
+
+  /* --- Radius — icon-only sub-type (same as default in basic) --- */
+  --comp-button-radius-icon-xl: var(--radius-3);
+  --comp-button-radius-icon-lg: var(--radius-3);
+  --comp-button-radius-icon-md: var(--radius-3);
+  --comp-button-radius-icon-sm: var(--radius-2);
 
   /* --- Icon size — per size --- */
   --comp-button-icon-xl: var(--spacing-6);
   --comp-button-icon-lg: var(--spacing-6);
   --comp-button-icon-md: var(--spacing-5);
   --comp-button-icon-sm: var(--spacing-5);
+}
+
+/* ============================================================
+   COMPONENT TOKENS — Input
+   Maps semantic/primitive tokens to Input component roles.
+   ============================================================ */
+
+:root {
+  /* --- Background — per state --- */
+  --comp-input-bg-default: var(--semantic-neutral-black-alpha-70);
+  --comp-input-bg-focused: var(--semantic-neutral-solid-0);
+  --comp-input-bg-readonly: var(--semantic-neutral-black-alpha-50);
+  --comp-input-bg-disabled: var(--semantic-neutral-black-alpha-50);
+
+  /* --- Content — text colors --- */
+  --comp-input-content-placeholder: var(--semantic-neutral-black-alpha-400);
+  --comp-input-content-typed: var(--semantic-neutral-black-alpha-800);
+  --comp-input-content-focused: var(--semantic-neutral-black-alpha-950);
+  --comp-input-content-disabled: var(--semantic-neutral-black-alpha-200);
+
+  /* --- Icon color --- */
+  --comp-input-icon-color: var(--semantic-neutral-black-alpha-800);
+  --comp-input-icon-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-input-icon-error: var(--semantic-error-500);
+  --comp-input-icon-success: var(--semantic-success-500);
+
+  /* --- Border — focused per validation --- */
+  --comp-input-border-default: var(--semantic-neutral-black-alpha-800);
+  --comp-input-border-error: var(--semantic-error-500);
+  --comp-input-border-success: var(--semantic-success-500);
+
+  /* --- State overlay — hover/active --- */
+  --comp-input-hover-on-bright: var(--semantic-state-on-bright-50);
+  --comp-input-active-on-bright: var(--semantic-state-on-bright-70);
+
+  /* --- Focus ring --- */
+  --comp-input-focus-border: var(--semantic-primary-300);
+
+  /* --- Height — per size --- */
+  --comp-input-height-xl: var(--spacing-14);
+  --comp-input-height-lg: var(--spacing-12);
+  --comp-input-height-md: var(--spacing-10);
+  --comp-input-height-sm: var(--spacing-8);
+
+  /* --- Padding-x — per size --- */
+  --comp-input-px-xl: var(--spacing-4);
+  --comp-input-px-lg: var(--spacing-3);
+  --comp-input-px-md: var(--spacing-2);
+  --comp-input-px-sm: var(--spacing-2);
+
+  /* --- Gap — per size --- */
+  --comp-input-gap-xl: var(--spacing-2);
+  --comp-input-gap-lg: var(--spacing-1\.5);
+  --comp-input-gap-md: var(--spacing-1\.5);
+  --comp-input-gap-sm: var(--spacing-1);
+
+  /* --- Radius — per size --- */
+  --comp-input-radius-xl: var(--radius-3);
+  --comp-input-radius-lg: var(--radius-3);
+  --comp-input-radius-md: var(--radius-3);
+  --comp-input-radius-sm: var(--radius-2);
+
+  /* --- Icon size — per size --- */
+  --comp-input-icon-xl: var(--spacing-6);
+  --comp-input-icon-lg: var(--spacing-6);
+  --comp-input-icon-md: var(--spacing-5);
+  --comp-input-icon-sm: 18px;
+
+  /* --- Label tokens --- */
+  --comp-input-label-color: var(--semantic-text-on-bright-800);
+  --comp-input-label-optional: var(--semantic-text-on-bright-400);
+  --comp-input-label-asterisk: var(--semantic-error-500);
+
+  /* --- Helper text tokens --- */
+  --comp-input-helper-color: var(--semantic-text-on-bright-400);
+  --comp-input-helper-icon: var(--semantic-text-on-bright-400);
+  --comp-input-helper-error-color: var(--semantic-error-600);
+  --comp-input-helper-error-icon: var(--semantic-error-500);
+  --comp-input-helper-success-color: var(--semantic-success-600);
+  --comp-input-helper-success-icon: var(--semantic-success-500);
+
+  /* --- Counter tokens --- */
+  --comp-input-counter-color: var(--semantic-text-on-bright-400);
+  --comp-input-counter-error: var(--semantic-error-600);
+}
+
+/* ============================================================
+   SHAPE THEME — geo
+   Overrides radius tokens for the geometric shape theme.
+   Basic shape uses :root defaults (no override needed).
+   Two independent axes: data-theme (color) + data-shape (shape).
+   ============================================================ */
+
+[data-shape="geo"] {
+  /* Button — default sub-type: sharp edges */
+  --comp-button-radius-xl: 0px;
+  --comp-button-radius-lg: 0px;
+  --comp-button-radius-md: 0px;
+  --comp-button-radius-sm: 0px;
+
+  /* Button — icon-only sub-type: pill */
+  --comp-button-radius-icon-xl: 9999px;
+  --comp-button-radius-icon-lg: 9999px;
+  --comp-button-radius-icon-md: 9999px;
+  --comp-button-radius-icon-sm: 9999px;
+
+  /* Input — sharp edges */
+  --comp-input-radius-xl: 0px;
+  --comp-input-radius-lg: 0px;
+  --comp-input-radius-md: 0px;
+  --comp-input-radius-sm: 0px;
 }

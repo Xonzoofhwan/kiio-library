@@ -1,6 +1,7 @@
 export type { ControlDef, ControlValues, ShowcaseItem } from './types'
 import type { ShowcaseItem } from './types'
 import { buttonEntry } from './buttonRegistry'
+import { inputEntry } from './inputRegistry'
 
 /**
  * Registry of all design system showcases.
@@ -14,4 +15,5 @@ import { buttonEntry } from './buttonRegistry'
 export const showcaseRegistry: ShowcaseItem[] = [
   // ── Add new components below ──────────────────────────────────────
   buttonEntry,
+  inputEntry,
 ]
