@@ -3,6 +3,7 @@ import type { ShowcaseItem } from './types'
 import { buttonEntry } from './buttonRegistry'
 import { inputEntry } from './inputRegistry'
 import { textareaEntry } from './textareaRegistry'
+import { searchbarEntry } from './searchbarRegistry'
 
 /**
  * Registry of all design system showcases.
@@ -18,4 +19,5 @@ export const showcaseRegistry: ShowcaseItem[] = [
   buttonEntry,
   inputEntry,
   textareaEntry,
+  searchbarEntry,
 ]

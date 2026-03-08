@@ -1000,6 +1000,48 @@
   /* --- Icon size — per size --- */
   --comp-textarea-icon-xl: var(--spacing-6);
   --comp-textarea-icon-lg: var(--spacing-6);
+
+  /* ============================================================
+     COMPONENT TOKENS — SearchBar
+     Reuses Input color tokens (bg, content, border, icon, state overlays).
+     Has 2 radius sub-types: rectangle and circular (pill).
+     ============================================================ */
+
+  /* --- Height — per size (same as Input) --- */
+  --comp-searchbar-height-xl: var(--spacing-14);
+  --comp-searchbar-height-lg: var(--spacing-12);
+  --comp-searchbar-height-md: var(--spacing-10);
+  --comp-searchbar-height-sm: var(--spacing-8);
+
+  /* --- Padding-x — per size --- */
+  --comp-searchbar-px-xl: var(--spacing-4);
+  --comp-searchbar-px-lg: var(--spacing-3);
+  --comp-searchbar-px-md: 10px;
+  --comp-searchbar-px-sm: var(--spacing-2);
+
+  /* --- Gap — per size --- */
+  --comp-searchbar-gap-xl: var(--spacing-2);
+  --comp-searchbar-gap-lg: var(--spacing-1\.5);
+  --comp-searchbar-gap-md: var(--spacing-1\.5);
+  --comp-searchbar-gap-sm: var(--spacing-1);
+
+  /* --- Radius — rectangle sub-type --- */
+  --comp-searchbar-radius-xl: var(--radius-3);
+  --comp-searchbar-radius-lg: var(--radius-3);
+  --comp-searchbar-radius-md: var(--radius-3);
+  --comp-searchbar-radius-sm: var(--radius-2);
+
+  /* --- Radius — circular sub-type (always pill) --- */
+  --comp-searchbar-radius-circular-xl: 9999px;
+  --comp-searchbar-radius-circular-lg: 9999px;
+  --comp-searchbar-radius-circular-md: 9999px;
+  --comp-searchbar-radius-circular-sm: 9999px;
+
+  /* --- Icon size — per size --- */
+  --comp-searchbar-icon-xl: var(--spacing-6);
+  --comp-searchbar-icon-lg: var(--spacing-6);
+  --comp-searchbar-icon-md: var(--spacing-5);
+  --comp-searchbar-icon-sm: var(--spacing-5);
 }
 
 /* ============================================================
@@ -1031,4 +1073,11 @@
   /* Textarea — sharp edges */
   --comp-textarea-radius-xl: 0px;
   --comp-textarea-radius-lg: 0px;
+
+  /* SearchBar — rectangle sub-type: sharp edges */
+  --comp-searchbar-radius-xl: 0px;
+  --comp-searchbar-radius-lg: 0px;
+  --comp-searchbar-radius-md: 0px;
+  --comp-searchbar-radius-sm: 0px;
+  /* SearchBar — circular sub-type stays pill (no override) */
 }
