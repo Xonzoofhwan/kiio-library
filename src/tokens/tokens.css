@@ -1179,6 +1179,47 @@
   --comp-select-item-bg-selected: var(--semantic-neutral-black-alpha-70);
   --comp-select-item-radius: var(--radius-2);
   --comp-select-item-check-color: var(--semantic-neutral-black-alpha-800);
+
+  /* ============================================================
+     COMPONENT TOKENS — Switch
+     Always pill (rounded-full). No geo override needed.
+     ============================================================ */
+
+  /* --- Track size — per size --- */
+  --comp-switch-track-w-lg: 44px;
+  --comp-switch-track-w-md: 36px;
+  --comp-switch-track-w-sm: 28px;
+  --comp-switch-track-h-lg: var(--spacing-6);
+  --comp-switch-track-h-md: var(--spacing-5);
+  --comp-switch-track-h-sm: var(--spacing-4);
+
+  /* --- Thumb size — per size --- */
+  --comp-switch-thumb-lg: var(--spacing-5);
+  --comp-switch-thumb-md: var(--spacing-4);
+  --comp-switch-thumb-sm: var(--spacing-3);
+
+  /* --- Thumb translate (on state) — per size --- */
+  --comp-switch-translate-lg: 20px;
+  --comp-switch-translate-md: 16px;
+  --comp-switch-translate-sm: 12px;
+
+  /* --- Gap — per size --- */
+  --comp-switch-gap-lg: 10px;
+  --comp-switch-gap-md: var(--spacing-2);
+  --comp-switch-gap-sm: var(--spacing-1\.5);
+
+  /* --- Colors --- */
+  --comp-switch-track-off: var(--semantic-neutral-black-alpha-200);
+  --comp-switch-track-off-hover: var(--semantic-neutral-black-alpha-300);
+  --comp-switch-track-on: var(--semantic-neutral-solid-950);
+  --comp-switch-track-off-disabled: var(--semantic-neutral-black-alpha-100);
+  --comp-switch-track-on-disabled: var(--semantic-neutral-solid-300);
+  --comp-switch-thumb-color: var(--semantic-neutral-solid-0);
+  --comp-switch-thumb-on-disabled: var(--semantic-neutral-white-alpha-400);
+  --comp-switch-hover-on-dim: var(--semantic-state-on-dim-50);
+  --comp-switch-label-color: var(--semantic-text-on-bright-900);
+  --comp-switch-label-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-switch-focus-ring: var(--semantic-primary-300);
 }
 
 /* ============================================================

@@ -7,6 +7,7 @@ import { searchbarEntry } from './searchbarRegistry'
 import { checkboxEntry } from './checkboxRegistry'
 import { radioEntry } from './radioRegistry'
 import { selectEntry } from './selectRegistry'
+import { switchEntry } from './switchRegistry'
 
 /**
  * Registry of all design system showcases.
@@ -26,4 +27,5 @@ export const showcaseRegistry: ShowcaseItem[] = [
   checkboxEntry,
   radioEntry,
   selectEntry,
+  switchEntry,
 ]
