@@ -645,6 +645,7 @@ export default {
     },
   },
   plugins: [
+    require('tailwindcss-animate'),
     // --------------------------------------------------------
     // TYPOGRAPHY TOKENS — Composite (size + weight)
     // Source: Figma Design-System-v3, node 6089-461

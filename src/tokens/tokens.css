@@ -1117,6 +1117,68 @@
   --comp-radio-label-disabled: var(--semantic-neutral-black-alpha-200);
   --comp-radio-focus-ring: var(--semantic-primary-300);
   --comp-radio-hover-on-dim: var(--semantic-state-on-dim-50);
+
+  /* ============================================================
+     COMPONENT TOKENS — Select
+     Trigger reuses Input height/padding system.
+     ============================================================ */
+
+  /* --- Trigger height — per size (same as Input) --- */
+  --comp-select-height-xl: var(--spacing-14);
+  --comp-select-height-lg: var(--spacing-12);
+  --comp-select-height-md: var(--spacing-10);
+  --comp-select-height-sm: var(--spacing-8);
+
+  /* --- Trigger padding-x — per size --- */
+  --comp-select-px-xl: var(--spacing-4);
+  --comp-select-px-lg: var(--spacing-3);
+  --comp-select-px-md: 10px;
+  --comp-select-px-sm: var(--spacing-2);
+
+  /* --- Trigger gap — per size --- */
+  --comp-select-gap-xl: var(--spacing-2);
+  --comp-select-gap-lg: var(--spacing-1\.5);
+  --comp-select-gap-md: var(--spacing-1\.5);
+  --comp-select-gap-sm: var(--spacing-1);
+
+  /* --- Trigger radius — per size --- */
+  --comp-select-radius-xl: var(--radius-3);
+  --comp-select-radius-lg: var(--radius-3);
+  --comp-select-radius-md: var(--radius-3);
+  --comp-select-radius-sm: var(--radius-2);
+
+  /* --- Trigger icon (chevron) — per size --- */
+  --comp-select-icon-xl: var(--spacing-6);
+  --comp-select-icon-lg: var(--spacing-6);
+  --comp-select-icon-md: var(--spacing-5);
+  --comp-select-icon-sm: var(--spacing-5);
+
+  /* --- Trigger colors --- */
+  --comp-select-bg-default: var(--semantic-neutral-black-alpha-70);
+  --comp-select-bg-open: var(--semantic-neutral-solid-0);
+  --comp-select-bg-disabled: var(--semantic-neutral-black-alpha-50);
+  --comp-select-text-placeholder: var(--semantic-neutral-black-alpha-400);
+  --comp-select-text-selected: var(--semantic-neutral-black-alpha-800);
+  --comp-select-text-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-select-chevron-color: var(--semantic-neutral-black-alpha-600);
+  --comp-select-chevron-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-select-border-open: var(--semantic-neutral-black-alpha-800);
+  --comp-select-border-error: var(--semantic-error-500);
+  --comp-select-hover-overlay: var(--semantic-state-on-bright-50);
+
+  /* --- Content (dropdown) --- */
+  --comp-select-content-bg: var(--semantic-neutral-solid-0);
+  --comp-select-content-border: var(--semantic-divider-solid-100);
+  --comp-select-content-radius: var(--radius-3);
+
+  /* --- Item --- */
+  --comp-select-item-text: var(--semantic-neutral-black-alpha-800);
+  --comp-select-item-text-selected: var(--semantic-neutral-black-alpha-950);
+  --comp-select-item-text-disabled: var(--semantic-neutral-black-alpha-200);
+  --comp-select-item-bg-highlighted: var(--semantic-state-on-bright-50);
+  --comp-select-item-bg-selected: var(--semantic-neutral-black-alpha-70);
+  --comp-select-item-radius: var(--radius-2);
+  --comp-select-item-check-color: var(--semantic-neutral-black-alpha-800);
 }
 
 /* ============================================================
@@ -1160,4 +1222,12 @@
   --comp-checkbox-radius-lg: 0px;
   --comp-checkbox-radius-md: 0px;
   --comp-checkbox-radius-sm: 0px;
+
+  /* Select — sharp trigger + dropdown */
+  --comp-select-radius-xl: 0px;
+  --comp-select-radius-lg: 0px;
+  --comp-select-radius-md: 0px;
+  --comp-select-radius-sm: 0px;
+  --comp-select-content-radius: 0px;
+  --comp-select-item-radius: 0px;
 }
