@@ -170,7 +170,10 @@ size: {
 
 #### Component Token Workflow (새 컴포넌트 토크나이즈 절차)
 1. **CVA variants 분석** — variant 축(hierarchy, size 등)별로 변하는 시각 속성 나열 (bg, content, border, height, px, gap, radius, icon size)
-2. **`tokens.css`에 CSS 변수 정의** — `--comp-{name}-{property}-{variant}` 패턴. semantic/spacing/radius 토큰 참조
+2. **`tokens.css`에 CSS 변수 정의** — `--comp-{name}-{property}-{variant}` 패턴.
+   - **색상 토큰** (`bg`, `content`, `border`, `state`, `focus`): `[data-theme]` 스코프에 선언 (semantic 토큰 참조)
+   - **크기/스페이싱 토큰** (`height`, `px`, `gap`, `icon`, `radius`): `:root`에 선언 (spacing/radius 토큰 참조)
+   - ⚠️ `:root`에서 `var(--semantic-*)` 참조 금지 — var() 체인이 끊어져 값이 비어짐
 3. **CVA에서 arbitrary value로 교체** — `{utility}-[var(--comp-{name}-{property}-{variant})]`
 4. **상태 토큰 추가** — disabled, hover, active, focus 각각 별도 토큰
 5. **빌드 확인 + 시각 검증** — `npm run build`, 브라우저에서 모든 variant/state/theme 확인

@@ -448,6 +448,150 @@
   --radius-18:   72px;
   --radius-20:   80px;
   --radius-24:   96px;
+
+  /* ============================================================
+     TYPOGRAPHY TOKENS
+     Source: Figma Design-System-v3 → Typography (node 6089-461)
+     Font: Pretendard Variable
+     Naming:
+       --font-pretendard          font-family stack
+       --text-size-{n}            font-size in rem
+       --text-lh-{n}              line-height in px
+       --text-ls-{n}              letter-spacing in em
+     Usage: compose with Tailwind text-{size}-{weight} utilities
+     ============================================================ */
+
+  /* font-family */
+  --font-pretendard: 'Pretendard Variable', Pretendard, sans-serif;
+
+  /* font-size (rem, base 16px) */
+  --text-size-40: 2.5rem;
+  --text-size-32: 2rem;
+  --text-size-28: 1.75rem;
+  --text-size-24: 1.5rem;
+  --text-size-22: 1.375rem;
+  --text-size-20: 1.25rem;
+  --text-size-18: 1.125rem;
+  --text-size-17: 1.0625rem;
+  --text-size-16: 1rem;
+  --text-size-15: 0.9375rem;
+  --text-size-14: 0.875rem;
+  --text-size-13: 0.8125rem;
+  --text-size-12: 0.75rem;
+
+  /* line-height (px) */
+  --text-lh-40: 48px;
+  --text-lh-32: 38px;
+  --text-lh-28: 34px;
+  --text-lh-24: 30px;
+  --text-lh-22: 28px;
+  --text-lh-20: 28px;
+  --text-lh-18: 26px;
+  --text-lh-17: 24px;
+  --text-lh-16: 24px;
+  --text-lh-15: 22px;
+  --text-lh-14: 20px;
+  --text-lh-13: 18px;
+  --text-lh-12: 16px;
+
+  /* letter-spacing (em) */
+  --text-ls-40: -0.012em;
+  --text-ls-32: -0.012em;
+  --text-ls-28: -0.010em;
+  --text-ls-24: -0.008em;
+  --text-ls-22: -0.016em;
+  --text-ls-20: -0.024em;
+  --text-ls-18: -0.024em;
+  --text-ls-17: -0.020em;
+  --text-ls-16: -0.018em;
+  --text-ls-15: -0.008em;
+  --text-ls-14: 0em;
+  --text-ls-13: 0em;
+  --text-ls-12: 0em;
+
+  /* ----------------------------------------------------------
+     MOTION TOKENS — Duration & Easing
+     Source: CLAUDE.md Motion Tokens section
+     ---------------------------------------------------------- */
+
+  /* Ref: Duration (primitive — do not use directly in components) */
+  --primitive-duration-0:   0ms;
+  --primitive-duration-100: 100ms;
+  --primitive-duration-200: 200ms;
+  --primitive-duration-300: 300ms;
+  --primitive-duration-500: 500ms;
+
+  /* Sys: Duration (semantic — use these in components) */
+  --semantic-duration-instant: var(--primitive-duration-0);
+  --semantic-duration-fast:    var(--primitive-duration-100);
+  --semantic-duration-normal:  var(--primitive-duration-200);
+  --semantic-duration-slow:    var(--primitive-duration-300);
+  --semantic-duration-slower:  var(--primitive-duration-500);
+
+  /* Ref: Easing (primitive — do not use directly in components) */
+  --primitive-easing-ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+  --primitive-easing-ease-in:     cubic-bezier(0.4, 0.0, 1, 1);
+  --primitive-easing-ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --primitive-easing-linear:      linear;
+
+  /* Sys: Easing (semantic — use these in components) */
+  --semantic-easing-enter:  var(--primitive-easing-ease-out);
+  --semantic-easing-exit:   var(--primitive-easing-ease-in);
+  --semantic-easing-move:   var(--primitive-easing-ease-in-out);
+  --semantic-easing-linear: var(--primitive-easing-linear);
+
+  /* ─── Height — per size ─── */
+  --comp-button-height-xs: 24px;
+  --comp-button-height-sm: var(--spacing-8);
+  --comp-button-height-md: var(--spacing-10);
+  --comp-button-height-lg: var(--spacing-12);
+  --comp-button-height-xl: var(--spacing-14);
+
+  /* ─── Container padding-x — per size ─── */
+  --comp-button-px-xs: var(--spacing-1\.5);
+  --comp-button-px-sm: var(--spacing-2);
+  --comp-button-px-md: var(--spacing-3);
+  --comp-button-px-lg: var(--spacing-4);
+  --comp-button-px-xl: var(--spacing-5);
+
+  /* ─── Label inline padding — per size ─── */
+  --comp-button-label-px-xs: var(--spacing-0\.5);
+  --comp-button-label-px-sm: var(--spacing-1);
+  --comp-button-label-px-md: var(--spacing-1);
+  --comp-button-label-px-lg: var(--spacing-1);
+  --comp-button-label-px-xl: var(--spacing-1);
+
+  /* ─── Gap — per size ─── */
+  --comp-button-gap-xs: var(--spacing-0\.5);
+  --comp-button-gap-sm: var(--spacing-1);
+  --comp-button-gap-md: var(--spacing-1);
+  --comp-button-gap-lg: var(--spacing-1);
+  --comp-button-gap-xl: var(--spacing-1\.5);
+
+  /* ─── Icon size — per size ─── */
+  --comp-button-icon-xs: var(--spacing-3\.5);
+  --comp-button-icon-sm: var(--spacing-4);
+  --comp-button-icon-md: 18px;
+  --comp-button-icon-lg: var(--spacing-5);
+  --comp-button-icon-xl: 22px;
+
+  /* ─── Radius: default shape — per size ─── */
+  --comp-button-radius-xs: var(--radius-1);
+  --comp-button-radius-sm: var(--radius-2);
+  --comp-button-radius-md: var(--radius-2);
+  --comp-button-radius-lg: var(--radius-2);
+  --comp-button-radius-xl: var(--radius-2);
+
+  /* ─── Radius: pill & square ─── */
+  --comp-button-radius-pill: 9999px;
+  --comp-button-radius-square: 0px;
+
+  /* ─── IconButton: square size — per size ─── */
+  --comp-icon-button-size-xs: 24px;
+  --comp-icon-button-size-sm: var(--spacing-8);
+  --comp-icon-button-size-md: var(--spacing-10);
+  --comp-icon-button-size-lg: var(--spacing-12);
+  --comp-icon-button-size-xl: var(--spacing-14);
 }
 
 /* ----------------------------------------------------------
@@ -514,8 +658,11 @@
   --semantic-neutral-solid-200: var(--primitive-gray-200);
   --semantic-neutral-solid-300: var(--primitive-gray-300);
   --semantic-neutral-solid-400: var(--primitive-gray-400);
+  --semantic-neutral-solid-500: var(--primitive-gray-500);
   --semantic-neutral-solid-600: var(--primitive-gray-600);
+  --semantic-neutral-solid-700: var(--primitive-gray-700);
   --semantic-neutral-solid-800: var(--primitive-gray-800);
+  --semantic-neutral-solid-900: var(--primitive-gray-900);
   --semantic-neutral-solid-950: var(--primitive-gray-950);
 
   /* Neutral.BlackAlpha */
@@ -643,8 +790,11 @@
   --semantic-neutral-solid-200: var(--primitive-gray-200);
   --semantic-neutral-solid-300: var(--primitive-gray-300);
   --semantic-neutral-solid-400: var(--primitive-gray-400);
+  --semantic-neutral-solid-500: var(--primitive-gray-500);
   --semantic-neutral-solid-600: var(--primitive-gray-600);
+  --semantic-neutral-solid-700: var(--primitive-gray-700);
   --semantic-neutral-solid-800: var(--primitive-gray-800);
+  --semantic-neutral-solid-900: var(--primitive-gray-900);
   --semantic-neutral-solid-950: var(--primitive-gray-950);
 
   /* Neutral.BlackAlpha (same as brand1) */
@@ -715,560 +865,110 @@
   --semantic-state-on-dim-100: var(--primitive-white-alpha-200);
 }
 
-/* ============================================================
-   TYPOGRAPHY TOKENS
-   Source: Figma Design-System-v3 → Typography (node 6089-461)
-   Font: Pretendard Variable
-   Naming:
-     --font-pretendard          font-family stack
-     --text-size-{n}            font-size in rem
-     --text-lh-{n}              line-height in px
-     --text-ls-{n}              letter-spacing in em
-   Usage: compose with Tailwind text-{size}-{weight} utilities
-   ============================================================ */
-:root {
-  /* font-family */
-  --font-pretendard: 'Pretendard Variable', Pretendard, sans-serif;
+/* ----------------------------------------------------------
+   COMPONENT TOKENS — Button & IconButton (color layer)
+   Scoped to [data-theme] so var(--semantic-*) references resolve.
+   Naming: --comp-button-{property}-{variant}[-{intent}][-{state}]
+   Systemic intent omits suffix (default).
+   ---------------------------------------------------------- */
+[data-theme] {
+  /* ─── Background: systemic intent ─── */
+  --comp-button-bg-primary:              var(--semantic-neutral-solid-950);
+  --comp-button-bg-secondary:            var(--semantic-neutral-solid-100);
+  --comp-button-bg-outlined:             transparent;
+  --comp-button-bg-ghost:                transparent;
 
-  /* font-size (rem, base 16px) */
-  --text-size-40: 2.5rem;
-  --text-size-32: 2rem;
-  --text-size-28: 1.75rem;
-  --text-size-24: 1.5rem;
-  --text-size-22: 1.375rem;
-  --text-size-20: 1.25rem;
-  --text-size-18: 1.125rem;
-  --text-size-17: 1.0625rem;
-  --text-size-16: 1rem;
-  --text-size-15: 0.9375rem;
-  --text-size-14: 0.875rem;
-  --text-size-13: 0.8125rem;
-  --text-size-12: 0.75rem;
+  /* ─── Background: brand intent ─── */
+  --comp-button-bg-primary-brand:        var(--semantic-primary-500);
+  --comp-button-bg-secondary-brand:      var(--semantic-primary-50);
+  --comp-button-bg-outlined-brand:       transparent;
+  --comp-button-bg-ghost-brand:          transparent;
 
-  /* line-height (px) */
-  --text-lh-40: 48px;
-  --text-lh-32: 38px;
-  --text-lh-28: 34px;
-  --text-lh-24: 30px;
-  --text-lh-22: 28px;
-  --text-lh-20: 28px;
-  --text-lh-18: 26px;
-  --text-lh-17: 24px;
-  --text-lh-16: 24px;
-  --text-lh-15: 22px;
-  --text-lh-14: 20px;
-  --text-lh-13: 18px;
-  --text-lh-12: 16px;
+  /* ─── Background: destructive intent ─── */
+  --comp-button-bg-primary-destructive:     var(--semantic-error-500);
+  --comp-button-bg-secondary-destructive:   var(--semantic-error-50);
+  --comp-button-bg-outlined-destructive:    transparent;
+  --comp-button-bg-ghost-destructive:       transparent;
 
-  /* letter-spacing (em) */
-  --text-ls-40: -0.012em;
-  --text-ls-32: -0.012em;
-  --text-ls-28: -0.010em;
-  --text-ls-24: -0.008em;
-  --text-ls-22: -0.016em;
-  --text-ls-20: -0.024em;
-  --text-ls-18: -0.024em;
-  --text-ls-17: -0.020em;
-  --text-ls-16: -0.018em;
-  --text-ls-15: -0.008em;
-  --text-ls-14: 0em;
-  --text-ls-13: 0em;
-  --text-ls-12: 0em;
+  /* ─── Content (text + icon): systemic intent ─── */
+  --comp-button-content-primary:            var(--semantic-neutral-solid-0);
+  --comp-button-content-secondary:          var(--semantic-neutral-solid-950);
+  --comp-button-content-outlined:           var(--semantic-neutral-solid-900);
+  --comp-button-content-ghost:              var(--semantic-neutral-solid-700);
 
-  /* ----------------------------------------------------------
-     MOTION TOKENS — Duration & Easing
-     Source: CLAUDE.md Motion Tokens section
-     ---------------------------------------------------------- */
+  /* ─── Content: brand intent ─── */
+  --comp-button-content-primary-brand:      var(--semantic-neutral-solid-0);
+  --comp-button-content-secondary-brand:    var(--semantic-primary-500);
+  --comp-button-content-outlined-brand:     var(--semantic-primary-500);
+  --comp-button-content-ghost-brand:        var(--semantic-primary-500);
 
-  /* Ref: Duration (primitive — do not use directly in components) */
-  --primitive-duration-0:   0ms;
-  --primitive-duration-100: 100ms;
-  --primitive-duration-200: 200ms;
-  --primitive-duration-300: 300ms;
-  --primitive-duration-500: 500ms;
+  /* ─── Content: destructive intent ─── */
+  --comp-button-content-primary-destructive:   var(--semantic-neutral-solid-0);
+  --comp-button-content-secondary-destructive: var(--semantic-error-500);
+  --comp-button-content-outlined-destructive:  var(--semantic-error-500);
+  --comp-button-content-ghost-destructive:     var(--semantic-error-500);
 
-  /* Sys: Duration (semantic — use these in components) */
-  --semantic-duration-instant: var(--primitive-duration-0);
-  --semantic-duration-fast:    var(--primitive-duration-100);
-  --semantic-duration-normal:  var(--primitive-duration-200);
-  --semantic-duration-slow:    var(--primitive-duration-300);
-  --semantic-duration-slower:  var(--primitive-duration-500);
+  /* ─── Border: only outlined variant has visible border ─── */
+  --comp-button-border-outlined:              var(--semantic-neutral-solid-300);
+  --comp-button-border-outlined-brand:        var(--semantic-primary-500);
+  --comp-button-border-outlined-destructive:  var(--semantic-error-500);
 
-  /* Ref: Easing (primitive — do not use directly in components) */
-  --primitive-easing-ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
-  --primitive-easing-ease-in:     cubic-bezier(0.4, 0.0, 1, 1);
-  --primitive-easing-ease-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --primitive-easing-linear:      linear;
+  /* ─── Disabled background: systemic ─── */
+  --comp-button-bg-primary-disabled:            var(--semantic-neutral-solid-100);
+  --comp-button-bg-secondary-disabled:          var(--semantic-neutral-solid-100);
+  --comp-button-bg-outlined-disabled:           transparent;
+  --comp-button-bg-ghost-disabled:              transparent;
 
-  /* Sys: Easing (semantic — use these in components) */
-  --semantic-easing-enter:  var(--primitive-easing-ease-out);
-  --semantic-easing-exit:   var(--primitive-easing-ease-in);
-  --semantic-easing-move:   var(--primitive-easing-ease-in-out);
-  --semantic-easing-linear: var(--primitive-easing-linear);
-}
+  /* ─── Disabled background: brand ─── */
+  --comp-button-bg-primary-brand-disabled:      var(--semantic-neutral-solid-100);
+  --comp-button-bg-secondary-brand-disabled:    var(--semantic-neutral-solid-100);
+  --comp-button-bg-outlined-brand-disabled:     transparent;
+  --comp-button-bg-ghost-brand-disabled:        transparent;
 
-/* ============================================================
-   COMPONENT TOKENS — Button
-   Maps semantic/primitive tokens to component-specific roles.
-   ============================================================ */
+  /* ─── Disabled background: destructive ─── */
+  --comp-button-bg-primary-destructive-disabled:   var(--semantic-neutral-solid-100);
+  --comp-button-bg-secondary-destructive-disabled: var(--semantic-neutral-solid-100);
+  --comp-button-bg-outlined-destructive-disabled:  transparent;
+  --comp-button-bg-ghost-destructive-disabled:     transparent;
 
-:root {
-  /* --- Background — per hierarchy --- */
-  --comp-button-bg-primary: var(--semantic-neutral-solid-950);
-  --comp-button-bg-secondary: var(--semantic-neutral-black-alpha-70);
-  --comp-button-bg-outlined: transparent;
-  --comp-button-bg-ghost: transparent;
+  /* ─── Disabled content: systemic ─── */
+  --comp-button-content-primary-disabled:            var(--semantic-neutral-solid-400);
+  --comp-button-content-secondary-disabled:          var(--semantic-neutral-solid-400);
+  --comp-button-content-outlined-disabled:           var(--semantic-neutral-solid-400);
+  --comp-button-content-ghost-disabled:              var(--semantic-neutral-solid-400);
 
-  /* --- Content (text + icon) — per hierarchy --- */
-  --comp-button-content-primary: var(--semantic-neutral-solid-0);
-  --comp-button-content-secondary: var(--semantic-neutral-solid-950);
-  --comp-button-content-outlined: var(--semantic-neutral-black-alpha-600);
-  --comp-button-content-ghost: var(--semantic-neutral-black-alpha-600);
+  /* ─── Disabled content: brand ─── */
+  --comp-button-content-primary-brand-disabled:      var(--semantic-neutral-solid-400);
+  --comp-button-content-secondary-brand-disabled:    var(--semantic-neutral-solid-400);
+  --comp-button-content-outlined-brand-disabled:     var(--semantic-neutral-solid-400);
+  --comp-button-content-ghost-brand-disabled:        var(--semantic-neutral-solid-400);
 
-  /* --- Border — per hierarchy --- */
-  --comp-button-border-primary: transparent;
-  --comp-button-border-secondary: transparent;
-  --comp-button-border-outlined: var(--semantic-neutral-black-alpha-200);
-  --comp-button-border-ghost: transparent;
+  /* ─── Disabled content: destructive ─── */
+  --comp-button-content-primary-destructive-disabled:   var(--semantic-neutral-solid-400);
+  --comp-button-content-secondary-destructive-disabled: var(--semantic-neutral-solid-400);
+  --comp-button-content-outlined-destructive-disabled:  var(--semantic-neutral-solid-400);
+  --comp-button-content-ghost-destructive-disabled:     var(--semantic-neutral-solid-400);
 
-  /* --- Disabled: background — per hierarchy --- */
-  --comp-button-bg-primary-disabled: var(--semantic-neutral-solid-300);
-  --comp-button-bg-secondary-disabled: var(--semantic-neutral-black-alpha-70);
-  --comp-button-bg-outlined-disabled: var(--semantic-neutral-black-alpha-50);
-  --comp-button-bg-ghost-disabled: transparent;
+  /* ─── Disabled border: outlined only ─── */
+  --comp-button-border-outlined-disabled:              var(--semantic-neutral-solid-200);
+  --comp-button-border-outlined-brand-disabled:        var(--semantic-neutral-solid-200);
+  --comp-button-border-outlined-destructive-disabled:  var(--semantic-neutral-solid-200);
 
-  /* --- Disabled: content — per hierarchy --- */
-  --comp-button-content-primary-disabled: var(--semantic-neutral-white-alpha-400);
-  --comp-button-content-secondary-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-button-content-outlined-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-button-content-ghost-disabled: var(--semantic-neutral-black-alpha-200);
-
-  /* --- Disabled: border — outlined only --- */
-  --comp-button-border-outlined-disabled: var(--semantic-neutral-black-alpha-100);
-
-  /* --- State overlay — hover/active per surface type --- */
-  --comp-button-hover-on-dim: var(--semantic-state-on-dim-50);
-  --comp-button-active-on-dim: var(--semantic-state-on-dim-100);
-  --comp-button-hover-on-bright: var(--semantic-state-on-bright-50);
+  /* ─── State overlay ─── */
+  --comp-button-hover-on-dim:     var(--semantic-state-on-dim-50);
+  --comp-button-active-on-dim:    var(--semantic-state-on-dim-70);
+  --comp-button-hover-on-bright:  var(--semantic-state-on-bright-50);
   --comp-button-active-on-bright: var(--semantic-state-on-bright-70);
 
-  /* --- Focus --- */
-  --comp-button-focus-border: var(--semantic-primary-300);
-
-  /* --- Height — per size --- */
-  --comp-button-height-xl: var(--spacing-14);
-  --comp-button-height-lg: var(--spacing-12);
-  --comp-button-height-md: var(--spacing-10);
-  --comp-button-height-sm: var(--spacing-8);
-
-  /* --- Padding-x — per size --- */
-  --comp-button-px-xl: var(--spacing-4);
-  --comp-button-px-lg: var(--spacing-3);
-  --comp-button-px-md: var(--spacing-2\.5);
-  --comp-button-px-sm: var(--spacing-2);
-
-  /* --- Gap — per size --- */
-  --comp-button-gap-xl: var(--spacing-2);
-  --comp-button-gap-lg: var(--spacing-1\.5);
-  --comp-button-gap-md: var(--spacing-1\.5);
-  --comp-button-gap-sm: var(--spacing-1);
-
-  /* --- Radius — per size (default sub-type) --- */
-  --comp-button-radius-xl: var(--radius-3);
-  --comp-button-radius-lg: var(--radius-3);
-  --comp-button-radius-md: var(--radius-3);
-  --comp-button-radius-sm: var(--radius-2);
-
-  /* --- Radius — icon-only sub-type (same as default in basic) --- */
-  --comp-button-radius-icon-xl: var(--radius-3);
-  --comp-button-radius-icon-lg: var(--radius-3);
-  --comp-button-radius-icon-md: var(--radius-3);
-  --comp-button-radius-icon-sm: var(--radius-2);
-
-  /* --- Icon size — per size --- */
-  --comp-button-icon-xl: var(--spacing-6);
-  --comp-button-icon-lg: var(--spacing-6);
-  --comp-button-icon-md: var(--spacing-5);
-  --comp-button-icon-sm: var(--spacing-5);
+  /* ─── Focus ─── */
+  --comp-button-focus-ring: var(--semantic-primary-300);
 }
 
-/* ============================================================
-   COMPONENT TOKENS — Input
-   Maps semantic/primitive tokens to Input component roles.
-   ============================================================ */
-
-:root {
-  /* --- Background — per state --- */
-  --comp-input-bg-default: var(--semantic-neutral-black-alpha-70);
-  --comp-input-bg-focused: var(--semantic-neutral-solid-0);
-  --comp-input-bg-readonly: var(--semantic-neutral-black-alpha-50);
-  --comp-input-bg-disabled: var(--semantic-neutral-black-alpha-50);
-
-  /* --- Content — text colors --- */
-  --comp-input-content-placeholder: var(--semantic-neutral-black-alpha-400);
-  --comp-input-content-typed: var(--semantic-neutral-black-alpha-800);
-  --comp-input-content-focused: var(--semantic-neutral-black-alpha-950);
-  --comp-input-content-disabled: var(--semantic-neutral-black-alpha-200);
-
-  /* --- Icon color --- */
-  --comp-input-icon-color: var(--semantic-neutral-black-alpha-800);
-  --comp-input-icon-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-input-icon-error: var(--semantic-error-500);
-  --comp-input-icon-success: var(--semantic-success-500);
-
-  /* --- Border — focused per validation --- */
-  --comp-input-border-default: var(--semantic-neutral-black-alpha-800);
-  --comp-input-border-error: var(--semantic-error-500);
-  --comp-input-border-success: var(--semantic-success-500);
-
-  /* --- State overlay — hover/active --- */
-  --comp-input-hover-on-bright: var(--semantic-state-on-bright-50);
-  --comp-input-active-on-bright: var(--semantic-state-on-bright-70);
-
-  /* --- Focus ring --- */
-  --comp-input-focus-border: var(--semantic-primary-300);
-
-  /* --- Height — per size --- */
-  --comp-input-height-xl: var(--spacing-14);
-  --comp-input-height-lg: var(--spacing-12);
-  --comp-input-height-md: var(--spacing-10);
-  --comp-input-height-sm: var(--spacing-8);
-
-  /* --- Padding-x — per size --- */
-  --comp-input-px-xl: var(--spacing-4);
-  --comp-input-px-lg: var(--spacing-3);
-  --comp-input-px-md: var(--spacing-2);
-  --comp-input-px-sm: var(--spacing-2);
-
-  /* --- Gap — per size --- */
-  --comp-input-gap-xl: var(--spacing-2);
-  --comp-input-gap-lg: var(--spacing-1\.5);
-  --comp-input-gap-md: var(--spacing-1\.5);
-  --comp-input-gap-sm: var(--spacing-1);
-
-  /* --- Radius — per size --- */
-  --comp-input-radius-xl: var(--radius-3);
-  --comp-input-radius-lg: var(--radius-3);
-  --comp-input-radius-md: var(--radius-3);
-  --comp-input-radius-sm: var(--radius-2);
-
-  /* --- Icon size — per size --- */
-  --comp-input-icon-xl: var(--spacing-6);
-  --comp-input-icon-lg: var(--spacing-6);
-  --comp-input-icon-md: var(--spacing-5);
-  --comp-input-icon-sm: 18px;
-
-  /* --- Label tokens --- */
-  --comp-input-label-color: var(--semantic-text-on-bright-800);
-  --comp-input-label-optional: var(--semantic-text-on-bright-400);
-  --comp-input-label-asterisk: var(--semantic-error-500);
-
-  /* --- Helper text tokens --- */
-  --comp-input-helper-color: var(--semantic-text-on-bright-400);
-  --comp-input-helper-icon: var(--semantic-text-on-bright-400);
-  --comp-input-helper-error-color: var(--semantic-error-600);
-  --comp-input-helper-error-icon: var(--semantic-error-500);
-  --comp-input-helper-success-color: var(--semantic-success-600);
-  --comp-input-helper-success-icon: var(--semantic-success-500);
-
-  /* --- Counter tokens --- */
-  --comp-input-counter-color: var(--semantic-text-on-bright-400);
-  --comp-input-counter-error: var(--semantic-error-600);
-
-  /* ============================================================
-     COMPONENT TOKENS — Textarea
-     Reuses Input color tokens (bg, content, border, icon, helper,
-     label, counter). Only size/layout tokens differ.
-     ============================================================ */
-
-  /* --- Padding-x — per size --- */
-  --comp-textarea-px-xl: var(--spacing-4);
-  --comp-textarea-px-lg: var(--spacing-3);
-
-  /* --- Padding-y — per size --- */
-  --comp-textarea-py-xl: 14px;
-  --comp-textarea-py-lg: var(--spacing-3);
-
-  /* --- Gap — per size --- */
-  --comp-textarea-gap-xl: var(--spacing-2);
-  --comp-textarea-gap-lg: var(--spacing-1\.5);
-
-  /* --- Radius — per size --- */
-  --comp-textarea-radius-xl: var(--radius-3);
-  --comp-textarea-radius-lg: var(--radius-3);
-
-  /* --- Icon size — per size --- */
-  --comp-textarea-icon-xl: var(--spacing-6);
-  --comp-textarea-icon-lg: var(--spacing-6);
-
-  /* ============================================================
-     COMPONENT TOKENS — SearchBar
-     Reuses Input color tokens (bg, content, border, icon, state overlays).
-     Has 2 radius sub-types: rectangle and circular (pill).
-     ============================================================ */
-
-  /* --- Height — per size (same as Input) --- */
-  --comp-searchbar-height-xl: var(--spacing-14);
-  --comp-searchbar-height-lg: var(--spacing-12);
-  --comp-searchbar-height-md: var(--spacing-10);
-  --comp-searchbar-height-sm: var(--spacing-8);
-
-  /* --- Padding-x — per size --- */
-  --comp-searchbar-px-xl: var(--spacing-4);
-  --comp-searchbar-px-lg: var(--spacing-3);
-  --comp-searchbar-px-md: 10px;
-  --comp-searchbar-px-sm: var(--spacing-2);
-
-  /* --- Gap — per size --- */
-  --comp-searchbar-gap-xl: var(--spacing-2);
-  --comp-searchbar-gap-lg: var(--spacing-1\.5);
-  --comp-searchbar-gap-md: var(--spacing-1\.5);
-  --comp-searchbar-gap-sm: var(--spacing-1);
-
-  /* --- Radius — rectangle sub-type --- */
-  --comp-searchbar-radius-xl: var(--radius-3);
-  --comp-searchbar-radius-lg: var(--radius-3);
-  --comp-searchbar-radius-md: var(--radius-3);
-  --comp-searchbar-radius-sm: var(--radius-2);
-
-  /* --- Radius — circular sub-type (always pill) --- */
-  --comp-searchbar-radius-circular-xl: 9999px;
-  --comp-searchbar-radius-circular-lg: 9999px;
-  --comp-searchbar-radius-circular-md: 9999px;
-  --comp-searchbar-radius-circular-sm: 9999px;
-
-  /* --- Icon size — per size --- */
-  --comp-searchbar-icon-xl: var(--spacing-6);
-  --comp-searchbar-icon-lg: var(--spacing-6);
-  --comp-searchbar-icon-md: var(--spacing-5);
-  --comp-searchbar-icon-sm: var(--spacing-5);
-
-  /* ============================================================
-     COMPONENT TOKENS — Checkbox
-     ============================================================ */
-
-  /* --- Box size — per size --- */
-  --comp-checkbox-box-lg: var(--spacing-5);
-  --comp-checkbox-box-md: 18px;
-  --comp-checkbox-box-sm: var(--spacing-4);
-
-  /* --- Icon size — per size --- */
-  --comp-checkbox-icon-lg: 14px;
-  --comp-checkbox-icon-md: var(--spacing-3);
-  --comp-checkbox-icon-sm: 10px;
-
-  /* --- Radius — per size --- */
-  --comp-checkbox-radius-lg: var(--radius-1);
-  --comp-checkbox-radius-md: var(--radius-1);
-  --comp-checkbox-radius-sm: 2px;
-
-  /* --- Gap — per size --- */
-  --comp-checkbox-gap-lg: var(--spacing-2);
-  --comp-checkbox-gap-md: var(--spacing-2);
-  --comp-checkbox-gap-sm: var(--spacing-1\.5);
-
-  /* --- Colors --- */
-  --comp-checkbox-border: var(--semantic-neutral-black-alpha-300);
-  --comp-checkbox-border-hover: var(--semantic-neutral-black-alpha-600);
-  --comp-checkbox-border-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-checkbox-bg-checked: var(--semantic-neutral-solid-950);
-  --comp-checkbox-bg-checked-disabled: var(--semantic-neutral-solid-300);
-  --comp-checkbox-icon-checked: var(--semantic-neutral-solid-0);
-  --comp-checkbox-icon-checked-disabled: var(--semantic-neutral-white-alpha-400);
-  --comp-checkbox-label-color: var(--semantic-text-on-bright-900);
-  --comp-checkbox-label-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-checkbox-focus-ring: var(--semantic-primary-300);
-  --comp-checkbox-hover-on-dim: var(--semantic-state-on-dim-50);
-  /* ============================================================
-     COMPONENT TOKENS — Radio
-     Reuses Checkbox color tokens where applicable.
-     Always circular (rounded-full) — no geo override needed.
-     ============================================================ */
-
-  /* --- Outer size — per size --- */
-  --comp-radio-outer-lg: var(--spacing-5);
-  --comp-radio-outer-md: 18px;
-  --comp-radio-outer-sm: var(--spacing-4);
-
-  /* --- Inner dot size — per size --- */
-  --comp-radio-dot-lg: var(--spacing-2);
-  --comp-radio-dot-md: var(--spacing-1\.5);
-  --comp-radio-dot-sm: var(--spacing-1\.5);
-
-  /* --- Gap — per size (item gap) --- */
-  --comp-radio-gap-lg: var(--spacing-2);
-  --comp-radio-gap-md: var(--spacing-2);
-  --comp-radio-gap-sm: var(--spacing-1\.5);
-
-  /* --- Group gap — per size --- */
-  --comp-radio-group-gap-lg: var(--spacing-3);
-  --comp-radio-group-gap-md: 10px;
-  --comp-radio-group-gap-sm: var(--spacing-2);
-
-  /* --- Colors (same system as Checkbox) --- */
-  --comp-radio-border: var(--semantic-neutral-black-alpha-300);
-  --comp-radio-border-hover: var(--semantic-neutral-black-alpha-600);
-  --comp-radio-border-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-radio-bg-checked: var(--semantic-neutral-solid-950);
-  --comp-radio-bg-checked-disabled: var(--semantic-neutral-solid-300);
-  --comp-radio-dot-color: var(--semantic-neutral-solid-0);
-  --comp-radio-dot-disabled: var(--semantic-neutral-white-alpha-400);
-  --comp-radio-label-color: var(--semantic-text-on-bright-900);
-  --comp-radio-label-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-radio-focus-ring: var(--semantic-primary-300);
-  --comp-radio-hover-on-dim: var(--semantic-state-on-dim-50);
-
-  /* ============================================================
-     COMPONENT TOKENS — Select
-     Trigger reuses Input height/padding system.
-     ============================================================ */
-
-  /* --- Trigger height — per size (same as Input) --- */
-  --comp-select-height-xl: var(--spacing-14);
-  --comp-select-height-lg: var(--spacing-12);
-  --comp-select-height-md: var(--spacing-10);
-  --comp-select-height-sm: var(--spacing-8);
-
-  /* --- Trigger padding-x — per size --- */
-  --comp-select-px-xl: var(--spacing-4);
-  --comp-select-px-lg: var(--spacing-3);
-  --comp-select-px-md: 10px;
-  --comp-select-px-sm: var(--spacing-2);
-
-  /* --- Trigger gap — per size --- */
-  --comp-select-gap-xl: var(--spacing-2);
-  --comp-select-gap-lg: var(--spacing-1\.5);
-  --comp-select-gap-md: var(--spacing-1\.5);
-  --comp-select-gap-sm: var(--spacing-1);
-
-  /* --- Trigger radius — per size --- */
-  --comp-select-radius-xl: var(--radius-3);
-  --comp-select-radius-lg: var(--radius-3);
-  --comp-select-radius-md: var(--radius-3);
-  --comp-select-radius-sm: var(--radius-2);
-
-  /* --- Trigger icon (chevron) — per size --- */
-  --comp-select-icon-xl: var(--spacing-6);
-  --comp-select-icon-lg: var(--spacing-6);
-  --comp-select-icon-md: var(--spacing-5);
-  --comp-select-icon-sm: var(--spacing-5);
-
-  /* --- Trigger colors --- */
-  --comp-select-bg-default: var(--semantic-neutral-black-alpha-70);
-  --comp-select-bg-open: var(--semantic-neutral-solid-0);
-  --comp-select-bg-disabled: var(--semantic-neutral-black-alpha-50);
-  --comp-select-text-placeholder: var(--semantic-neutral-black-alpha-400);
-  --comp-select-text-selected: var(--semantic-neutral-black-alpha-800);
-  --comp-select-text-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-select-chevron-color: var(--semantic-neutral-black-alpha-600);
-  --comp-select-chevron-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-select-border-open: var(--semantic-neutral-black-alpha-800);
-  --comp-select-border-error: var(--semantic-error-500);
-  --comp-select-hover-overlay: var(--semantic-state-on-bright-50);
-
-  /* --- Content (dropdown) --- */
-  --comp-select-content-bg: var(--semantic-neutral-solid-0);
-  --comp-select-content-border: var(--semantic-divider-solid-100);
-  --comp-select-content-radius: var(--radius-3);
-
-  /* --- Item --- */
-  --comp-select-item-text: var(--semantic-neutral-black-alpha-800);
-  --comp-select-item-text-selected: var(--semantic-neutral-black-alpha-950);
-  --comp-select-item-text-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-select-item-bg-highlighted: var(--semantic-state-on-bright-50);
-  --comp-select-item-bg-selected: var(--semantic-neutral-black-alpha-70);
-  --comp-select-item-radius: var(--radius-2);
-  --comp-select-item-check-color: var(--semantic-neutral-black-alpha-800);
-
-  /* ============================================================
-     COMPONENT TOKENS — Switch
-     Always pill (rounded-full). No geo override needed.
-     ============================================================ */
-
-  /* --- Track size — per size --- */
-  --comp-switch-track-w-lg: 44px;
-  --comp-switch-track-w-md: 36px;
-  --comp-switch-track-w-sm: 28px;
-  --comp-switch-track-h-lg: var(--spacing-6);
-  --comp-switch-track-h-md: var(--spacing-5);
-  --comp-switch-track-h-sm: var(--spacing-4);
-
-  /* --- Thumb size — per size --- */
-  --comp-switch-thumb-lg: var(--spacing-5);
-  --comp-switch-thumb-md: var(--spacing-4);
-  --comp-switch-thumb-sm: var(--spacing-3);
-
-  /* --- Thumb translate (on state) — per size --- */
-  --comp-switch-translate-lg: 20px;
-  --comp-switch-translate-md: 16px;
-  --comp-switch-translate-sm: 12px;
-
-  /* --- Gap — per size --- */
-  --comp-switch-gap-lg: 10px;
-  --comp-switch-gap-md: var(--spacing-2);
-  --comp-switch-gap-sm: var(--spacing-1\.5);
-
-  /* --- Colors --- */
-  --comp-switch-track-off: var(--semantic-neutral-black-alpha-200);
-  --comp-switch-track-off-hover: var(--semantic-neutral-black-alpha-300);
-  --comp-switch-track-on: var(--semantic-neutral-solid-950);
-  --comp-switch-track-off-disabled: var(--semantic-neutral-black-alpha-100);
-  --comp-switch-track-on-disabled: var(--semantic-neutral-solid-300);
-  --comp-switch-thumb-color: var(--semantic-neutral-solid-0);
-  --comp-switch-thumb-on-disabled: var(--semantic-neutral-white-alpha-400);
-  --comp-switch-hover-on-dim: var(--semantic-state-on-dim-50);
-  --comp-switch-label-color: var(--semantic-text-on-bright-900);
-  --comp-switch-label-disabled: var(--semantic-neutral-black-alpha-200);
-  --comp-switch-focus-ring: var(--semantic-primary-300);
-}
-
-/* ============================================================
-   SHAPE THEME — geo
-   Overrides radius tokens for the geometric shape theme.
-   Basic shape uses :root defaults (no override needed).
-   Two independent axes: data-theme (color) + data-shape (shape).
-   ============================================================ */
-
+/* ─── Shape theme: geo — sharp default radius ─── */
 [data-shape="geo"] {
-  /* Button — default sub-type: sharp edges */
-  --comp-button-radius-xl: 0px;
-  --comp-button-radius-lg: 0px;
-  --comp-button-radius-md: 0px;
+  --comp-button-radius-xs: 0px;
   --comp-button-radius-sm: 0px;
-
-  /* Button — icon-only sub-type: pill */
-  --comp-button-radius-icon-xl: 9999px;
-  --comp-button-radius-icon-lg: 9999px;
-  --comp-button-radius-icon-md: 9999px;
-  --comp-button-radius-icon-sm: 9999px;
-
-  /* Input — sharp edges */
-  --comp-input-radius-xl: 0px;
-  --comp-input-radius-lg: 0px;
-  --comp-input-radius-md: 0px;
-  --comp-input-radius-sm: 0px;
-
-  /* Textarea — sharp edges */
-  --comp-textarea-radius-xl: 0px;
-  --comp-textarea-radius-lg: 0px;
-
-  /* SearchBar — rectangle sub-type: sharp edges */
-  --comp-searchbar-radius-xl: 0px;
-  --comp-searchbar-radius-lg: 0px;
-  --comp-searchbar-radius-md: 0px;
-  --comp-searchbar-radius-sm: 0px;
-  /* SearchBar — circular sub-type stays pill (no override) */
-
-  /* Checkbox — sharp square */
-  --comp-checkbox-radius-lg: 0px;
-  --comp-checkbox-radius-md: 0px;
-  --comp-checkbox-radius-sm: 0px;
-
-  /* Select — sharp trigger + dropdown */
-  --comp-select-radius-xl: 0px;
-  --comp-select-radius-lg: 0px;
-  --comp-select-radius-md: 0px;
-  --comp-select-radius-sm: 0px;
-  --comp-select-content-radius: 0px;
-  --comp-select-item-radius: 0px;
+  --comp-button-radius-md: 0px;
+  --comp-button-radius-lg: 0px;
+  --comp-button-radius-xl: 0px;
 }

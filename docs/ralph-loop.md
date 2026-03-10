@@ -417,26 +417,27 @@ Track progress with this table. Update after each component is completed.
 | # | Component | Phase | Spec | Tokens | .tsx | Showcase | Build | Commit | Theme Notes | Status |
 |---|-----------|-------|------|--------|------|----------|-------|--------|-------------|--------|
 | 1 | Button | - | OK | OK | OK | OK | OK | ✓ | icon-only: pill | **DONE** |
-| 2 | Input | 1 | - | - | - | - | - | - | | QUEUE |
-| 3 | Textarea | 1 | - | - | - | - | - | - | | QUEUE |
-| 4 | Checkbox | 1 | - | - | - | - | - | - | | QUEUE |
-| 5 | Radio | 1 | - | - | - | - | - | - | | QUEUE |
-| 6 | Select | 1 | - | - | - | - | - | - | | QUEUE |
-| 7 | Switch | 1 | - | - | - | - | - | - | geo: pill track | QUEUE |
-| 8 | Card | 2 | - | - | - | - | - | - | geo: sharp | QUEUE |
-| 9 | Badge | 2 | - | - | - | - | - | - | geo: pill | QUEUE |
-| 10 | Avatar | 2 | - | - | - | - | - | - | geo: pill | QUEUE |
-| 11 | Divider | 2 | - | - | - | - | - | - | | QUEUE |
-| 12 | Skeleton | 2 | - | - | - | - | - | - | | QUEUE |
-| 13 | Modal | 3 | - | - | - | - | - | - | geo: sharp | QUEUE |
-| 14 | Toast | 3 | - | - | - | - | - | - | | QUEUE |
-| 15 | Alert | 3 | - | - | - | - | - | - | | QUEUE |
-| 16 | Tooltip | 3 | - | - | - | - | - | - | | QUEUE |
-| 17 | Progress | 3 | - | - | - | - | - | - | geo: pill track | QUEUE |
-| 18 | Tabs | 4 | - | - | - | - | - | - | | QUEUE |
-| 19 | Breadcrumb | 4 | - | - | - | - | - | - | | QUEUE |
-| 20 | Pagination | 4 | - | - | - | - | - | - | | QUEUE |
-| 21 | Menu | 4 | - | - | - | - | - | - | geo: sharp | QUEUE |
+| 2 | Input | 1 | OK | OK | OK | OK | OK | ✓ | geo: sharp | **DONE** |
+| 3 | Textarea | 1 | OK | OK | OK | OK | OK | ✓ | geo: sharp | **DONE** |
+| 4 | SearchBar | 1 | OK | OK | OK | OK | OK | ✓ | rect: sharp, circular: pill | **DONE** |
+| 5 | Checkbox | 1 | OK | OK | OK | OK | OK | ✓ | geo: sharp | **DONE** |
+| 6 | Radio | 1 | OK | OK | OK | OK | OK | ✓ | always circular | **DONE** |
+| 7 | Select | 1 | OK | OK | OK | OK | OK | ✓ | geo: sharp | **DONE** |
+| 8 | Switch | 1 | OK | OK | OK | OK | OK | ✓ | always pill | **DONE** |
+| 9 | Card | 2 | - | - | - | - | - | - | geo: sharp | QUEUE |
+| 10 | Badge | 2 | - | - | - | - | - | - | geo: pill | QUEUE |
+| 11 | Avatar | 2 | - | - | - | - | - | - | geo: pill | QUEUE |
+| 12 | Divider | 2 | - | - | - | - | - | - | | QUEUE |
+| 13 | Skeleton | 2 | - | - | - | - | - | - | | QUEUE |
+| 14 | Modal | 3 | - | - | - | - | - | - | geo: sharp | QUEUE |
+| 15 | Toast | 3 | - | - | - | - | - | - | | QUEUE |
+| 16 | Alert | 3 | - | - | - | - | - | - | | QUEUE |
+| 17 | Tooltip | 3 | - | - | - | - | - | - | | QUEUE |
+| 18 | Progress | 3 | - | - | - | - | - | - | geo: pill track | QUEUE |
+| 19 | Tabs | 4 | - | - | - | - | - | - | | QUEUE |
+| 20 | Breadcrumb | 4 | - | - | - | - | - | - | | QUEUE |
+| 21 | Pagination | 4 | - | - | - | - | - | - | | QUEUE |
+| 22 | Menu | 4 | - | - | - | - | - | - | geo: sharp | QUEUE |
 
 ---
 

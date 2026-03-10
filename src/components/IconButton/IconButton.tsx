@@ -1,24 +1,25 @@
 import { forwardRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Spinner } from '@/components/icons'
+import type { ButtonVariant, ButtonIntent, ButtonSize, ButtonShape } from '@/components/Button'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
-export const BUTTON_VARIANTS = ['primary', 'secondary', 'outlined', 'ghost'] as const
-export const BUTTON_INTENTS = ['systemic', 'brand', 'destructive'] as const
-export const BUTTON_SIZES = ['xSmall', 'small', 'medium', 'large', 'xLarge'] as const
-export const BUTTON_SHAPES = ['default', 'pill', 'square'] as const
+export const ICON_BUTTON_VARIANTS = ['primary', 'secondary', 'outlined', 'ghost'] as const
+export const ICON_BUTTON_INTENTS = ['systemic', 'brand', 'destructive'] as const
+export const ICON_BUTTON_SIZES = ['xSmall', 'small', 'medium', 'large', 'xLarge'] as const
+export const ICON_BUTTON_SHAPES = ['default', 'pill', 'square'] as const
 
-export type ButtonVariant = (typeof BUTTON_VARIANTS)[number]
-export type ButtonIntent = (typeof BUTTON_INTENTS)[number]
-export type ButtonSize = (typeof BUTTON_SIZES)[number]
-export type ButtonShape = (typeof BUTTON_SHAPES)[number]
+export type IconButtonVariant = ButtonVariant
+export type IconButtonIntent = ButtonIntent
+export type IconButtonSize = ButtonSize
+export type IconButtonShape = ButtonShape
 
 /* ─── CVA ───────────────────────────────────────────────────────────────────── */
 
-const buttonVariants = cva(
+const iconButtonVariants = cva(
   'group relative inline-flex items-center justify-center shrink-0 select-none overflow-hidden outline-none transition-colors duration-fast ease-enter',
   {
     variants: {
@@ -34,24 +35,20 @@ const buttonVariants = cva(
         destructive: '',
       },
       size: {
-        xSmall: 'h-[var(--comp-button-height-xs)] px-[var(--comp-button-px-xs)] gap-[var(--comp-button-gap-xs)] typography-12-semibold',
-        small: 'h-[var(--comp-button-height-sm)] px-[var(--comp-button-px-sm)] gap-[var(--comp-button-gap-sm)] typography-13-semibold',
-        medium: 'h-[var(--comp-button-height-md)] px-[var(--comp-button-px-md)] gap-[var(--comp-button-gap-md)] typography-14-semibold',
-        large: 'h-[var(--comp-button-height-lg)] px-[var(--comp-button-px-lg)] gap-[var(--comp-button-gap-lg)] typography-15-semibold',
-        xLarge: 'h-[var(--comp-button-height-xl)] px-[var(--comp-button-px-xl)] gap-[var(--comp-button-gap-xl)] typography-16-semibold',
+        xSmall: 'size-[var(--comp-icon-button-size-xs)]',
+        small: 'size-[var(--comp-icon-button-size-sm)]',
+        medium: 'size-[var(--comp-icon-button-size-md)]',
+        large: 'size-[var(--comp-icon-button-size-lg)]',
+        xLarge: 'size-[var(--comp-icon-button-size-xl)]',
       },
       shape: {
         default: '',
         pill: 'rounded-[var(--comp-button-radius-pill)]',
         square: 'rounded-[var(--comp-button-radius-square)]',
       },
-      fullWidth: {
-        true: 'w-full',
-        false: 'w-fit',
-      },
     },
     compoundVariants: [
-      /* ── Systemic colors ── */
+      /* ── Systemic colors (shared with Button tokens) ── */
       { variant: 'primary', intent: 'systemic', className: 'bg-[var(--comp-button-bg-primary)] text-[var(--comp-button-content-primary)]' },
       { variant: 'secondary', intent: 'systemic', className: 'bg-[var(--comp-button-bg-secondary)] text-[var(--comp-button-content-secondary)]' },
       { variant: 'outlined', intent: 'systemic', className: 'bg-[var(--comp-button-bg-outlined)] text-[var(--comp-button-content-outlined)] border-[color:var(--comp-button-border-outlined)]' },
@@ -81,14 +78,13 @@ const buttonVariants = cva(
       intent: 'systemic',
       size: 'medium',
       shape: 'default',
-      fullWidth: false,
     },
   },
 )
 
 /* ─── Lookup maps ──────────────────────────────────────────────────────────── */
 
-const iconSizeMap: Record<ButtonSize, string> = {
+const iconSizeMap: Record<IconButtonSize, string> = {
   xSmall: 'size-[var(--comp-button-icon-xs)]',
   small: 'size-[var(--comp-button-icon-sm)]',
   medium: 'size-[var(--comp-button-icon-md)]',
@@ -96,16 +92,7 @@ const iconSizeMap: Record<ButtonSize, string> = {
   xLarge: 'size-[var(--comp-button-icon-xl)]',
 }
 
-const labelPadMap: Record<ButtonSize, string> = {
-  xSmall: 'px-[var(--comp-button-label-px-xs)]',
-  small: 'px-[var(--comp-button-label-px-sm)]',
-  medium: 'px-[var(--comp-button-label-px-md)]',
-  large: 'px-[var(--comp-button-label-px-lg)]',
-  xLarge: 'px-[var(--comp-button-label-px-xl)]',
-}
-
-/** primary variant uses dark bg → on-dim overlay; others use on-bright */
-const getOverlayClasses = (variant: ButtonVariant) =>
+const getOverlayClasses = (variant: IconButtonVariant) =>
   variant === 'primary'
     ? 'group-hover:bg-[var(--comp-button-hover-on-dim)] group-active:bg-[var(--comp-button-active-on-dim)]'
     : 'group-hover:bg-[var(--comp-button-hover-on-bright)] group-active:bg-[var(--comp-button-active-on-bright)]'
@@ -126,79 +113,76 @@ const disabledClassMap: Record<string, string> = {
   'ghost-destructive':     'bg-[var(--comp-button-bg-ghost-destructive-disabled)] text-[var(--comp-button-content-ghost-destructive-disabled)]',
 }
 
-function getDisabledClasses(variant: ButtonVariant, intent: ButtonIntent): string {
+function getDisabledClasses(variant: IconButtonVariant, intent: IconButtonIntent): string {
   return disabledClassMap[`${variant}-${intent}`] ?? ''
 }
 
 /* ─── Props ────────────────────────────────────────────────────────────────── */
 
 /**
- * Button with 4 visual variants, 3 color intents, 5 sizes, and 3 shapes.
+ * 아이콘만으로 구성된 정사각형 버튼. Button과 동일한 variant/intent/size 체계를 공유한다.
  */
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    Omit<VariantProps<typeof buttonVariants>, 'fullWidth'> {
+export interface IconButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
   /**
-   * 버튼의 시각적 variant. 컨테이너 스타일(filled, outlined, transparent)을 결정한다.
+   * 표시할 아이콘. 필수.
+   */
+  icon: React.ReactNode
+
+  /**
+   * 접근성 레이블. 아이콘 전용 버튼이므로 반드시 제공해야 한다.
+   */
+  'aria-label': string
+
+  /**
+   * 시각적 variant.
    * @default 'primary'
-   * @see BUTTON_VARIANTS
+   * @see ICON_BUTTON_VARIANTS
    */
-  variant?: ButtonVariant
+  variant?: IconButtonVariant
 
   /**
-   * 색상 의도. systemic=중립, brand=브랜드 강조, destructive=에러/경고.
+   * 색상 의도.
    * @default 'systemic'
-   * @see BUTTON_INTENTS
+   * @see ICON_BUTTON_INTENTS
    */
-  intent?: ButtonIntent
+  intent?: IconButtonIntent
 
   /**
-   * 크기 variant. 높이, 패딩, 타이포그래피, 아이콘 크기를 제어한다.
+   * 크기 variant. 정사각형 크기와 아이콘 크기를 제어한다.
    * @default 'medium'
-   * @see BUTTON_SIZES
+   * @see ICON_BUTTON_SIZES
    */
-  size?: ButtonSize
+  size?: IconButtonSize
 
   /**
-   * 형태. default는 사이즈별 radius, pill은 완전 둥근, square는 직각.
+   * 형태. pill은 원형이 된다.
    * @default 'default'
-   * @see BUTTON_SHAPES
+   * @see ICON_BUTTON_SHAPES
    */
-  shape?: ButtonShape
-
-  /** 컨테이너 너비를 100%로 확장한다. @default false */
-  fullWidth?: boolean
+  shape?: IconButtonShape
 
   /** Radix Slot으로 자식 요소에 스타일을 전달한다. @default false */
   asChild?: boolean
 
-  /** 레이블 좌측 아이콘. 크기는 size variant에 의해 제어된다. */
-  iconLeading?: React.ReactNode
-
-  /** 레이블 우측 아이콘. 크기는 size variant에 의해 제어된다. */
-  iconTrailing?: React.ReactNode
-
-  /** 로딩 상태. 콘텐츠를 숨기고 중앙에 스피너를 표시한다. @default false */
+  /** 로딩 상태. @default false */
   loading?: boolean
 }
 
 /* ─── Component ────────────────────────────────────────────────────────────── */
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
+      icon,
       variant = 'primary',
       intent = 'systemic',
       size = 'medium',
       shape = 'default',
-      fullWidth = false,
       asChild = false,
-      iconLeading,
-      iconTrailing,
       loading = false,
       disabled = false,
       className,
-      children,
       onClick,
       ...props
     },
@@ -215,7 +199,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         aria-busy={loading || undefined}
         onClick={isDisabled ? (e: React.MouseEvent) => e.preventDefault() : onClick}
         className={cn(
-          buttonVariants({ variant, intent, size, shape, fullWidth }),
+          iconButtonVariants({ variant, intent, size, shape }),
           isDisabled && 'cursor-not-allowed',
           isDisabled && !loading && getDisabledClasses(variant, intent),
           loading && 'pointer-events-none',
@@ -240,25 +224,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </span>
         )}
 
-        {/* Content */}
-        {iconLeading && (
-          <span className={cn('relative flex-shrink-0', iconSizeMap[size], loading && 'invisible')}>
-            {iconLeading}
-          </span>
-        )}
-        {children != null && (
-          <span className={cn('relative', labelPadMap[size], loading && 'invisible')}>
-            {children}
-          </span>
-        )}
-        {iconTrailing && (
-          <span className={cn('relative flex-shrink-0', iconSizeMap[size], loading && 'invisible')}>
-            {iconTrailing}
-          </span>
-        )}
+        {/* Icon */}
+        <span className={cn('relative flex-shrink-0', iconSizeMap[size], loading && 'invisible')}>
+          {icon}
+        </span>
       </Comp>
     )
   },
 )
 
-Button.displayName = 'Button'
+IconButton.displayName = 'IconButton'

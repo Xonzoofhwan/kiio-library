@@ -1,228 +1,383 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { showcaseRegistry } from './showcase'
-import type { ShowcaseItem } from './showcase/types'
-import { Playground } from './showcase/Playground'
+import { Button } from '@/components/Button'
+import { IconButton } from '@/components/IconButton'
+import type { ButtonVariant, ButtonIntent, ButtonSize } from '@/components/Button'
 
-// ─── Group showcases by category ─────────────────────────────────────────────
-function groupByCategory(items: ShowcaseItem[]) {
-  return items.reduce<Record<string, ShowcaseItem[]>>((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = []
-    acc[item.category].push(item)
-    return acc
-  }, {})
+/* ─── Placeholder icons ───────────────────────────────────────────────────── */
+
+const PlusIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+)
+const TrashIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+  </svg>
+)
+const HeartIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+)
+
+/* ─── Spec data ───────────────────────────────────────────────────────────── */
+
+const VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'outlined', 'ghost']
+const INTENTS: ButtonIntent[] = ['systemic', 'brand', 'destructive']
+const SIZES: ButtonSize[] = ['xSmall', 'small', 'medium', 'large', 'xLarge']
+
+type ColorSpec = { bg: string; content: string; border?: string }
+
+/** variant → intent → semantic token names for bg, content, border */
+const colorSpec: Record<ButtonVariant, Record<ButtonIntent, ColorSpec>> = {
+  primary: {
+    systemic:    { bg: 'neutral-solid-950', content: 'neutral-solid-0' },
+    brand:       { bg: 'primary-500',       content: 'neutral-solid-0' },
+    destructive: { bg: 'error-500',         content: 'neutral-solid-0' },
+  },
+  secondary: {
+    systemic:    { bg: 'neutral-solid-100', content: 'neutral-solid-950' },
+    brand:       { bg: 'primary-50',        content: 'primary-500' },
+    destructive: { bg: 'error-50',          content: 'error-500' },
+  },
+  outlined: {
+    systemic:    { bg: 'transparent',       content: 'neutral-solid-900', border: 'neutral-solid-300' },
+    brand:       { bg: 'transparent',       content: 'primary-500',       border: 'primary-500' },
+    destructive: { bg: 'transparent',       content: 'error-500',         border: 'error-500' },
+  },
+  ghost: {
+    systemic:    { bg: 'transparent',       content: 'neutral-solid-700' },
+    brand:       { bg: 'transparent',       content: 'primary-500' },
+    destructive: { bg: 'transparent',       content: 'error-500' },
+  },
 }
 
-// ─── Header ───────────────────────────────────────────────────────────────────
-interface HeaderProps {
-  theme: 'brand1' | 'brand2'
-  onThemeChange: (t: 'brand1' | 'brand2') => void
-  shape: 'basic' | 'geo'
-  onShapeChange: (s: 'basic' | 'geo') => void
+/** CSS variable name for the component token */
+function compVar(variant: ButtonVariant, intent: ButtonIntent, prop: 'bg' | 'content' | 'border'): string {
+  const intentSuffix = intent === 'systemic' ? '' : `-${intent}`
+  return `--comp-button-${prop}-${variant}${intentSuffix}`
 }
 
-function Header({ theme, onThemeChange, shape, onShapeChange }: HeaderProps) {
+type SizeSpec = { height: string; px: string; gap: string; typography: string; radius: string; icon: string; labelPx: string }
+
+const sizeSpec: Record<ButtonSize, SizeSpec> = {
+  xSmall: { height: '24px', px: '6px',  gap: '2px', typography: '12/16', radius: '4px', icon: '14px', labelPx: '2px' },
+  small:  { height: '32px', px: '8px',  gap: '4px', typography: '13/18', radius: '8px', icon: '16px', labelPx: '4px' },
+  medium: { height: '40px', px: '12px', gap: '4px', typography: '14/20', radius: '8px', icon: '18px', labelPx: '4px' },
+  large:  { height: '48px', px: '16px', gap: '4px', typography: '15/22', radius: '8px', icon: '20px', labelPx: '4px' },
+  xLarge: { height: '56px', px: '20px', gap: '6px', typography: '16/24', radius: '8px', icon: '22px', labelPx: '4px' },
+}
+
+const SIZE_PROPS: { key: keyof SizeSpec; label: string }[] = [
+  { key: 'height',     label: 'Height' },
+  { key: 'px',         label: 'Padding-X' },
+  { key: 'gap',        label: 'Gap' },
+  { key: 'typography', label: 'Font / LH' },
+  { key: 'radius',     label: 'Radius' },
+  { key: 'icon',       label: 'Icon' },
+  { key: 'labelPx',    label: 'Label Pad' },
+]
+
+type IconButtonSizeSpec = { size: string; icon: string; radius: string }
+
+const iconButtonSizeSpec: Record<ButtonSize, IconButtonSizeSpec> = {
+  xSmall: { size: '24px', icon: '14px', radius: '4px' },
+  small:  { size: '32px', icon: '16px', radius: '8px' },
+  medium: { size: '40px', icon: '18px', radius: '8px' },
+  large:  { size: '48px', icon: '20px', radius: '8px' },
+  xLarge: { size: '56px', icon: '22px', radius: '8px' },
+}
+
+const ICON_BUTTON_SIZE_PROPS: { key: keyof IconButtonSizeSpec; label: string }[] = [
+  { key: 'size',   label: 'Size' },
+  { key: 'icon',   label: 'Icon' },
+  { key: 'radius', label: 'Radius' },
+]
+
+/* ─── Helper components ───────────────────────────────────────────────────── */
+
+function ColorSwatch({ cssVar, label }: { cssVar: string; label: string }) {
+  const isTransparent = label === 'transparent'
   return (
-    <header className="h-14 flex-shrink-0 flex items-center px-6 gap-4 bg-semantic-background-0 border-b border-semantic-divider-solid-100 z-10">
-      <div className="flex items-center gap-2">
-        <span className="typography-16-semibold text-semantic-text-on-bright-900">kiio</span>
-        <span className="typography-16-regular text-semantic-text-on-bright-400">Design System</span>
-      </div>
-
-      <div className="flex items-center gap-2 ml-auto">
-        <span className="typography-12-regular text-semantic-text-on-bright-400 mr-1">Color</span>
-        <button
-          className={cn(
-            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
-            theme === 'brand1'
-              ? 'bg-semantic-primary-500 text-white'
-              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
-          )}
-          onClick={() => onThemeChange('brand1')}
-        >
-          Brand 1
-        </button>
-        <button
-          className={cn(
-            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
-            theme === 'brand2'
-              ? 'bg-semantic-primary-500 text-white'
-              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
-          )}
-          onClick={() => onThemeChange('brand2')}
-        >
-          Brand 2
-        </button>
-
-        <div className="w-px h-5 bg-semantic-divider-solid-100 mx-1" />
-
-        <span className="typography-12-regular text-semantic-text-on-bright-400 mr-1">Shape</span>
-        <button
-          className={cn(
-            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
-            shape === 'basic'
-              ? 'bg-semantic-neutral-solid-950 text-semantic-neutral-solid-0'
-              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
-          )}
-          onClick={() => onShapeChange('basic')}
-        >
-          Basic
-        </button>
-        <button
-          className={cn(
-            'px-3 py-1.5 rounded-2 typography-14-medium transition-colors',
-            shape === 'geo'
-              ? 'bg-semantic-neutral-solid-950 text-semantic-neutral-solid-0'
-              : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
-          )}
-          onClick={() => onShapeChange('geo')}
-        >
-          Geo
-        </button>
-      </div>
-    </header>
-  )
-}
-
-// ─── Sidebar ──────────────────────────────────────────────────────────────────
-interface SidebarProps {
-  activeId: string
-  onSelect: (id: string) => void
-  searchQuery: string
-  onSearchChange: (q: string) => void
-}
-
-function Sidebar({ activeId, onSelect, searchQuery, onSearchChange }: SidebarProps) {
-  const filtered = useMemo(() => {
-    if (!searchQuery.trim()) return showcaseRegistry
-    const q = searchQuery.toLowerCase()
-    return showcaseRegistry.filter(
-      item => item.name.toLowerCase().includes(q) || item.category.toLowerCase().includes(q),
-    )
-  }, [searchQuery])
-
-  const grouped = groupByCategory(filtered)
-
-  return (
-    <aside className="w-52 flex-shrink-0 bg-semantic-background-50 border-r border-semantic-divider-solid-100 flex flex-col">
-      {/* Search */}
-      <div className="px-3 pt-4 pb-2">
-        <div className="relative">
-          <svg
-            className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-semantic-text-on-bright-400 pointer-events-none"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.35-4.35" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={e => onSearchChange(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 rounded-2 border border-semantic-divider-solid-100 bg-semantic-background-0 typography-13-regular text-semantic-text-on-bright-900 placeholder:text-semantic-text-on-bright-400 outline-none focus:border-semantic-primary-400 transition-colors"
-          />
-        </div>
-      </div>
-
-      {/* Component list */}
-      <nav className="flex-1 overflow-y-auto py-2">
-        {Object.entries(grouped).map(([category, items]) => (
-          <div key={category} className="mb-3 px-3">
-            <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wide px-2 mb-1">
-              {category}
-            </p>
-            {items.map(item => (
-              <button
-                key={item.id}
-                onClick={() => onSelect(item.id)}
-                className={cn(
-                  'block w-full text-left px-2 py-1.5 rounded-2 typography-14-medium transition-colors',
-                  activeId === item.id
-                    ? 'bg-semantic-primary-50 text-semantic-primary-600'
-                    : 'text-semantic-text-on-bright-600 hover:bg-semantic-state-on-bright-50',
-                )}
-              >
-                {item.name}
-              </button>
-            ))}
-          </div>
-        ))}
-      </nav>
-    </aside>
-  )
-}
-
-// ─── Component View ──────────────────────────────────────────────────────────
-function ComponentView({ item }: { item: ShowcaseItem }) {
-  return (
-    <div className="max-w-5xl mx-auto flex flex-col gap-12 pb-16">
-      {/* Header */}
-      <div>
-        <h1 className="typography-24-bold text-semantic-text-on-bright-900">{item.name}</h1>
-        <p className="typography-14-regular text-semantic-text-on-bright-600 mt-1">{item.description}</p>
-      </div>
-
-      {/* Playground */}
-      <section>
-        <div className="flex items-baseline gap-2 mb-5 pb-3 border-b border-semantic-divider-solid-100">
-          <h2 className="typography-16-semibold text-semantic-text-on-bright-800">Playground</h2>
-          <span className="typography-12-regular text-semantic-text-on-bright-400">
-            모든 prop을 직접 조작해보세요
-          </span>
-        </div>
-        <Playground key={item.id} item={item} />
-      </section>
-
-      {/* States & Variants */}
-      {item.showcase && (
-        <section>
-          <div className="flex items-baseline gap-2 mb-5 pb-3 border-b border-semantic-divider-solid-100">
-            <h2 className="typography-16-semibold text-semantic-text-on-bright-800">States & Variants</h2>
-          </div>
-          <item.showcase />
-        </section>
-      )}
+    <div className="flex items-center gap-1.5">
+      <div
+        className={cn(
+          'w-3 h-3 rounded-full border flex-shrink-0',
+          isTransparent ? 'border-dashed border-semantic-neutral-solid-300' : 'border-semantic-divider-solid-100',
+        )}
+        style={isTransparent ? undefined : { backgroundColor: `var(${cssVar})` }}
+      />
+      <span className="typography-12-regular text-semantic-text-on-bright-400 whitespace-nowrap">{label}</span>
     </div>
   )
 }
 
-// ─── App ──────────────────────────────────────────────────────────────────────
-export default function App() {
-  const [theme, setTheme] = useState<'brand1' | 'brand2'>('brand1')
-  const [shape, setShape] = useState<'basic' | 'geo'>('basic')
-  const [activeId, setActiveId] = useState(showcaseRegistry[0]?.id ?? '')
-  const [searchQuery, setSearchQuery] = useState('')
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <h2 className="typography-16-semibold text-semantic-text-on-bright-800 mb-4">{children}</h2>
+}
 
-  const activeItem = showcaseRegistry.find(item => item.id === activeId)
+function ColHeader({ children }: { children: React.ReactNode }) {
+  return <div className="typography-13-semibold text-semantic-text-on-bright-500 pb-2 text-center">{children}</div>
+}
+
+function RowHeader({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="typography-13-semibold text-semantic-text-on-bright-500 flex items-start pt-2 capitalize">
+      {children}
+    </div>
+  )
+}
+
+function SpecLabel({ children }: { children: React.ReactNode }) {
+  return <div className="typography-12-medium text-semantic-text-on-bright-400">{children}</div>
+}
+
+function SpecValue({ children }: { children: React.ReactNode }) {
+  return <div className="typography-12-regular text-semantic-text-on-bright-500 text-center">{children}</div>
+}
+
+/* ─── App ─────────────────────────────────────────────────────────────────── */
+
+export default function App() {
+  const [shape, setShape] = useState<'basic' | 'geo'>('basic')
 
   return (
-    <div data-theme={theme} data-shape={shape} className="h-screen flex flex-col overflow-hidden font-pretendard">
-      <Header theme={theme} onThemeChange={setTheme} shape={shape} onShapeChange={setShape} />
-
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar
-          activeId={activeId}
-          onSelect={setActiveId}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-        />
-
-        <main className="flex-1 overflow-y-auto bg-semantic-background-0 px-10 py-8">
-          {activeItem ? (
-            <ComponentView item={activeItem} />
-          ) : (
-            <div className="flex items-center justify-center h-full typography-14-regular text-semantic-text-on-bright-400">
-              Select a component from the sidebar
-            </div>
-          )}
-        </main>
+    <div data-theme="brand1" data-shape={shape} className="min-h-screen bg-semantic-background-0 font-pretendard p-8 max-w-5xl mx-auto">
+      {/* Shape controls */}
+      <div className="flex items-center gap-3 mb-8">
+        <span className="typography-12-semibold text-semantic-text-on-bright-400">Shape</span>
+        {(['basic', 'geo'] as const).map(s => (
+          <button
+            key={s}
+            onClick={() => setShape(s)}
+            className={cn(
+              'px-3 py-1 rounded-2 typography-13-medium transition-colors',
+              shape === s ? 'bg-semantic-neutral-solid-950 text-white' : 'bg-semantic-neutral-solid-100 text-semantic-text-on-bright-700',
+            )}
+          >
+            {s}
+          </button>
+        ))}
       </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/*  BUTTON                                                           */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      <h1 className="typography-24-bold text-semantic-text-on-bright-900 mb-6">Button</h1>
+
+      {/* ── Variant × Intent color matrix ── */}
+      <section className="mb-12">
+        <SectionTitle>Variant × Intent</SectionTitle>
+        <div className="grid grid-cols-[100px_1fr_1fr_1fr] gap-x-4 gap-y-0">
+          {/* Column headers */}
+          <div /> {/* empty top-left */}
+          {INTENTS.map(intent => (
+            <ColHeader key={intent}>{intent}</ColHeader>
+          ))}
+
+          {/* Rows: one per variant */}
+          {VARIANTS.map(variant => (
+            <>
+              <RowHeader key={`rh-${variant}`}>{variant}</RowHeader>
+              {INTENTS.map(intent => {
+                const spec = colorSpec[variant][intent]
+                return (
+                  <div key={`${variant}-${intent}`} className="flex flex-col gap-2 py-3 border-t border-semantic-divider-solid-50">
+                    <Button variant={variant} intent={intent} size="medium">
+                      {variant}
+                    </Button>
+                    <div className="flex flex-col gap-1 mt-1">
+                      <ColorSwatch cssVar={compVar(variant, intent, 'bg')} label={`bg: ${spec.bg}`} />
+                      <ColorSwatch cssVar={compVar(variant, intent, 'content')} label={`text: ${spec.content}`} />
+                      {spec.border && (
+                        <ColorSwatch cssVar={compVar(variant, intent, 'border')} label={`border: ${spec.border}`} />
+                      )}
+                      {!spec.border && variant !== 'outlined' && (
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-3" />
+                          <span className="typography-12-regular text-semantic-text-on-bright-300">border: none</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Size spec table ── */}
+      <section className="mb-12">
+        <SectionTitle>Size</SectionTitle>
+        <div className="grid grid-cols-[100px_repeat(5,1fr)] gap-x-4 gap-y-0">
+          {/* Header */}
+          <div />
+          {SIZES.map(size => (
+            <ColHeader key={size}>{size}</ColHeader>
+          ))}
+
+          {/* Button row */}
+          <div />
+          {SIZES.map(size => (
+            <div key={size} className="flex justify-center py-3 border-t border-semantic-divider-solid-50">
+              <Button size={size}>{size}</Button>
+            </div>
+          ))}
+
+          {/* Spec rows */}
+          {SIZE_PROPS.map(prop => (
+            <>
+              <SpecLabel key={`lbl-${prop.key}`}>{prop.label}</SpecLabel>
+              {SIZES.map(size => (
+                <SpecValue key={`${prop.key}-${size}`}>{sizeSpec[size][prop.key]}</SpecValue>
+              ))}
+            </>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Shapes ── */}
+      <section className="mb-10">
+        <SectionTitle>Shape</SectionTitle>
+        <div className="flex items-center gap-4">
+          {(['default', 'pill', 'square'] as const).map(s => (
+            <div key={s} className="flex flex-col items-center gap-2">
+              <Button shape={s}>Button</Button>
+              <span className="typography-12-regular text-semantic-text-on-bright-400">{s}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── With Icons ── */}
+      <section className="mb-10">
+        <SectionTitle>With Icons</SectionTitle>
+        <div className="flex items-center gap-3">
+          <Button iconLeading={<PlusIcon />}>Leading</Button>
+          <Button iconTrailing={<PlusIcon />}>Trailing</Button>
+          <Button iconLeading={<PlusIcon />} iconTrailing={<PlusIcon />}>Both</Button>
+          <Button intent="brand" iconLeading={<HeartIcon />}>Brand</Button>
+          <Button intent="destructive" iconLeading={<TrashIcon />}>Delete</Button>
+        </div>
+      </section>
+
+      {/* ── States ── */}
+      <section className="mb-10">
+        <SectionTitle>States</SectionTitle>
+        <div className="flex items-center gap-3">
+          <Button>Default</Button>
+          <Button disabled>Disabled</Button>
+          <Button loading>Loading</Button>
+          <Button variant="outlined" disabled>Outlined Disabled</Button>
+          <Button variant="ghost" loading>Ghost Loading</Button>
+        </div>
+      </section>
+
+      {/* ── Full Width ── */}
+      <section className="mb-10 max-w-md">
+        <SectionTitle>Full Width</SectionTitle>
+        <Button fullWidth intent="brand">Full Width Brand</Button>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      {/*  ICON BUTTON                                                      */}
+      {/* ═══════════════════════════════════════════════════════════════════ */}
+      <h1 className="typography-24-bold text-semantic-text-on-bright-900 mb-6 mt-16">IconButton</h1>
+
+      {/* ── Variant × Intent color matrix ── */}
+      <section className="mb-12">
+        <SectionTitle>Variant × Intent</SectionTitle>
+        <div className="grid grid-cols-[100px_1fr_1fr_1fr] gap-x-4 gap-y-0">
+          <div />
+          {INTENTS.map(intent => (
+            <ColHeader key={intent}>{intent}</ColHeader>
+          ))}
+
+          {VARIANTS.map(variant => (
+            <>
+              <RowHeader key={`rh-ib-${variant}`}>{variant}</RowHeader>
+              {INTENTS.map(intent => {
+                const spec = colorSpec[variant][intent]
+                return (
+                  <div key={`ib-${variant}-${intent}`} className="flex flex-col gap-2 py-3 border-t border-semantic-divider-solid-50">
+                    <div className="flex justify-center">
+                      <IconButton
+                        variant={variant}
+                        intent={intent}
+                        icon={<PlusIcon />}
+                        aria-label={`${variant} ${intent}`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 mt-1">
+                      <ColorSwatch cssVar={compVar(variant, intent, 'bg')} label={`bg: ${spec.bg}`} />
+                      <ColorSwatch cssVar={compVar(variant, intent, 'content')} label={`text: ${spec.content}`} />
+                      {spec.border && (
+                        <ColorSwatch cssVar={compVar(variant, intent, 'border')} label={`border: ${spec.border}`} />
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </>
+          ))}
+        </div>
+      </section>
+
+      {/* ── IconButton Size spec table ── */}
+      <section className="mb-12">
+        <SectionTitle>Size</SectionTitle>
+        <div className="grid grid-cols-[100px_repeat(5,1fr)] gap-x-4 gap-y-0">
+          <div />
+          {SIZES.map(size => (
+            <ColHeader key={size}>{size}</ColHeader>
+          ))}
+
+          {/* IconButton row */}
+          <div />
+          {SIZES.map(size => (
+            <div key={size} className="flex justify-center py-3 border-t border-semantic-divider-solid-50">
+              <IconButton size={size} icon={<PlusIcon />} aria-label={size} />
+            </div>
+          ))}
+
+          {/* Spec rows */}
+          {ICON_BUTTON_SIZE_PROPS.map(prop => (
+            <>
+              <SpecLabel key={`lbl-ib-${prop.key}`}>{prop.label}</SpecLabel>
+              {SIZES.map(size => (
+                <SpecValue key={`ib-${prop.key}-${size}`}>{iconButtonSizeSpec[size][prop.key]}</SpecValue>
+              ))}
+            </>
+          ))}
+        </div>
+      </section>
+
+      {/* ── IconButton Shapes ── */}
+      <section className="mb-10">
+        <SectionTitle>Shape</SectionTitle>
+        <div className="flex items-center gap-4">
+          {(['default', 'pill', 'square'] as const).map(s => (
+            <div key={s} className="flex flex-col items-center gap-2">
+              <IconButton shape={s} icon={<HeartIcon />} aria-label={s} intent="brand" />
+              <span className="typography-12-regular text-semantic-text-on-bright-400">{s}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── IconButton States ── */}
+      <section className="mb-10">
+        <SectionTitle>States</SectionTitle>
+        <div className="flex items-center gap-3">
+          <IconButton icon={<PlusIcon />} aria-label="default" />
+          <IconButton icon={<PlusIcon />} aria-label="disabled" disabled />
+          <IconButton icon={<PlusIcon />} aria-label="loading" loading />
+        </div>
+      </section>
     </div>
   )
 }

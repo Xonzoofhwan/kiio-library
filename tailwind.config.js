@@ -443,8 +443,11 @@ export default {
               200: 'var(--semantic-neutral-solid-200)',
               300: 'var(--semantic-neutral-solid-300)',
               400: 'var(--semantic-neutral-solid-400)',
+              500: 'var(--semantic-neutral-solid-500)',
               600: 'var(--semantic-neutral-solid-600)',
+              700: 'var(--semantic-neutral-solid-700)',
               800: 'var(--semantic-neutral-solid-800)',
+              900: 'var(--semantic-neutral-solid-900)',
               950: 'var(--semantic-neutral-solid-950)',
             },
             'black-alpha': {

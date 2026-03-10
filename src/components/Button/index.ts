@@ -1,2 +1,8 @@
-export { Button, BUTTON_HIERARCHIES, BUTTON_SIZES } from './Button'
-export type { ButtonProps, ButtonHierarchy, ButtonSize } from './Button'
+export { Button, BUTTON_VARIANTS, BUTTON_INTENTS, BUTTON_SIZES, BUTTON_SHAPES } from './Button'
+export type {
+  ButtonProps,
+  ButtonVariant,
+  ButtonIntent,
+  ButtonSize,
+  ButtonShape,
+} from './Button'
