@@ -2,7 +2,7 @@
 // TYPOGRAPHY TOKENS
 // Source: Figma Design-System-v3 → Typography (node 6089-461)
 // Font: Pretendard Variable
-// Scale: 13 sizes × 4 weights = 52 composite tokens
+// Scale: 15 sizes × 4 weights = 60 composite tokens
 // Naming: {size}-{weight} e.g. "40-bold", "16-semibold"
 // ============================================================
 
@@ -10,7 +10,7 @@ export type TypographyWeight = 'regular' | 'medium' | 'semibold' | 'bold';
 
 export type TypographySize =
   | '40' | '32' | '28' | '24' | '22' | '20' | '18'
-  | '17' | '16' | '15' | '14' | '13' | '12';
+  | '17' | '16' | '15' | '14' | '13' | '12' | '11' | '10';
 
 export type TypographyKey = `${TypographySize}-${TypographyWeight}`;
 
@@ -46,6 +46,8 @@ const sizes: Record<TypographySize, [string, string, string]> = {
   '14': ['0.875rem',  '20px',  '0em'],
   '13': ['0.8125rem', '18px',  '0em'],
   '12': ['0.75rem',   '16px',  '0em'],
+  '11': ['0.6875rem', '14px',  '0em'],
+  '10': ['0.625rem',  '12px',  '0em'],
 };
 
 const weights: Record<TypographyWeight, number> = {

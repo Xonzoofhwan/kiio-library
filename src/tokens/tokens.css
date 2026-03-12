@@ -478,6 +478,8 @@
   --text-size-14: 0.875rem;
   --text-size-13: 0.8125rem;
   --text-size-12: 0.75rem;
+  --text-size-11: 0.6875rem;
+  --text-size-10: 0.625rem;
 
   /* line-height (px) */
   --text-lh-40: 48px;
@@ -493,6 +495,8 @@
   --text-lh-14: 20px;
   --text-lh-13: 18px;
   --text-lh-12: 16px;
+  --text-lh-11: 14px;
+  --text-lh-10: 12px;
 
   /* letter-spacing (em) */
   --text-ls-40: -0.012em;
@@ -508,6 +512,8 @@
   --text-ls-14: 0em;
   --text-ls-13: 0em;
   --text-ls-12: 0em;
+  --text-ls-11: 0em;
+  --text-ls-10: 0em;
 
   /* ----------------------------------------------------------
      MOTION TOKENS — Duration & Easing
@@ -592,6 +598,354 @@
   --comp-icon-button-size-md: var(--spacing-10);
   --comp-icon-button-size-lg: var(--spacing-12);
   --comp-icon-button-size-xl: var(--spacing-14);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — TextField (size/spacing layer)
+     Naming: --comp-textfield-{property}-{size}
+     Height/icon/radius reuse button tokens.
+     ---------------------------------------------------------- */
+
+  /* ─── Height — per size (= button height) ─── */
+  --comp-textfield-height-xs: var(--comp-button-height-xs);
+  --comp-textfield-height-sm: var(--comp-button-height-sm);
+  --comp-textfield-height-md: var(--comp-button-height-md);
+  --comp-textfield-height-lg: var(--comp-button-height-lg);
+  --comp-textfield-height-xl: var(--comp-button-height-xl);
+
+  /* ─── Padding-x — per size ─── */
+  --comp-textfield-px-xs: var(--spacing-2);      /* 8px */
+  --comp-textfield-px-sm: var(--spacing-2\.5);   /* 10px */
+  --comp-textfield-px-md: var(--spacing-3);      /* 12px */
+  --comp-textfield-px-lg: var(--spacing-3\.5);   /* 14px */
+  --comp-textfield-px-xl: var(--spacing-4);      /* 16px */
+
+  /* ─── Gap between slots — per size ─── */
+  --comp-textfield-gap-xs: var(--spacing-1);     /* 4px */
+  --comp-textfield-gap-sm: var(--spacing-1\.5);  /* 6px */
+  --comp-textfield-gap-md: var(--spacing-2);     /* 8px */
+  --comp-textfield-gap-lg: var(--spacing-2);     /* 8px */
+  --comp-textfield-gap-xl: var(--spacing-2\.5);  /* 10px */
+
+  /* ─── Icon size — per size (= button icon) ─── */
+  --comp-textfield-icon-xs: var(--comp-button-icon-xs);
+  --comp-textfield-icon-sm: var(--comp-button-icon-sm);
+  --comp-textfield-icon-md: var(--comp-button-icon-md);
+  --comp-textfield-icon-lg: var(--comp-button-icon-lg);
+  --comp-textfield-icon-xl: var(--comp-button-icon-xl);
+
+  /* ─── Border radius — per size (= button radius) ─── */
+  --comp-textfield-radius-xs: var(--comp-button-radius-xs);
+  --comp-textfield-radius-sm: var(--comp-button-radius-sm);
+  --comp-textfield-radius-md: var(--comp-button-radius-md);
+  --comp-textfield-radius-lg: var(--comp-button-radius-lg);
+  --comp-textfield-radius-xl: var(--comp-button-radius-xl);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Textarea (size/spacing layer)
+     Naming: --comp-textarea-{property}-{size}
+     2 sizes only: Large (16px text) / xLarge (18px text).
+     No height tokens — height is content-driven (minRows/maxRows).
+     Colors reuse textfield tokens directly in component code.
+     ---------------------------------------------------------- */
+
+  /* ─── Large (text-16, padding 12px all sides) ─── */
+  --comp-textarea-px-lg: var(--spacing-3);        /* 12px */
+  --comp-textarea-py-lg: var(--spacing-3);        /* 12px */
+  --comp-textarea-radius-lg: var(--radius-3);     /* 12px */
+
+  /* ─── xLarge (text-18, px 16px, py 14px) ─── */
+  --comp-textarea-px-xl: var(--spacing-4);        /* 16px */
+  --comp-textarea-py-xl: var(--spacing-3\.5);     /* 14px */
+  --comp-textarea-radius-xl: var(--radius-3);     /* 12px */
+
+  /* ─── Pill radius — used when pill prop is true ─── */
+  --comp-textarea-radius-pill-lg: 9999px;
+  --comp-textarea-radius-pill-xl: 9999px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — FormField (spacing layer)
+     Naming: --comp-formfield-gap-{element}
+     ---------------------------------------------------------- */
+  --comp-formfield-gap-label-description:  2px;
+  --comp-formfield-gap-label-input:        6px;
+  --comp-formfield-gap-description-input:  6px;
+  --comp-formfield-gap-input-bottom:       4px;
+  --comp-formfield-gap-left-label:         12px;
+  --comp-formfield-gap-bottom-text-count:  8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Chip (size/spacing layer)
+     Naming: --comp-chip-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Height — per size ─── */
+  --comp-chip-height-sm: 24px;
+  --comp-chip-height-md: var(--spacing-8);
+  --comp-chip-height-lg: var(--spacing-10);
+
+  /* ─── Container padding-x — per size ─── */
+  --comp-chip-padding-h-sm: var(--spacing-1\.5);
+  --comp-chip-padding-h-md: var(--spacing-2);
+  --comp-chip-padding-h-lg: var(--spacing-2\.5);
+
+  /* ─── Gap — per size ─── */
+  --comp-chip-gap-sm: var(--spacing-0\.5);
+  --comp-chip-gap-md: var(--spacing-0\.5);
+  --comp-chip-gap-lg: var(--spacing-1);
+
+  /* ─── Icon size — per size ─── */
+  --comp-chip-icon-sm: 16px;
+  --comp-chip-icon-md: 18px;
+  --comp-chip-icon-lg: var(--spacing-5);
+
+  /* ─── Label extra padding-x — per size (asymmetric: text side gets more padding) ─── */
+  --comp-chip-label-px-sm: var(--spacing-0\.5);
+  --comp-chip-label-px-md: var(--spacing-1);
+  --comp-chip-label-px-lg: var(--spacing-1);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tab (size/spacing layer)
+     Naming: --comp-tab-{property}-{variant}-{size}
+     ---------------------------------------------------------- */
+
+  /* === Underline === */
+
+  /* Large (40) */
+  --comp-tab-height-underline-lg:           40px;
+  --comp-tab-padding-x-underline-lg:        0px;
+  --comp-tab-gap-underline-lg:              6px;
+  --comp-tab-icon-size-underline-lg:        18px;
+  --comp-tab-indicator-height-underline-lg: 2px;
+
+  /* Small (32) */
+  --comp-tab-height-underline-sm:           32px;
+  --comp-tab-padding-x-underline-sm:        0px;
+  --comp-tab-gap-underline-sm:              4px;
+  --comp-tab-icon-size-underline-sm:        14px;
+  --comp-tab-indicator-height-underline-sm: 2px;
+
+  /* === Pill === */
+
+  /* Large (40) */
+  --comp-tab-height-pill-lg:                40px;
+  --comp-tab-padding-x-pill-lg:             16px;
+  --comp-tab-gap-pill-lg:                   6px;
+  --comp-tab-icon-size-pill-lg:             18px;
+  --comp-tab-radius-pill-lg:                20px;
+
+  /* Small (32) */
+  --comp-tab-height-pill-sm:                32px;
+  --comp-tab-padding-x-pill-sm:             12px;
+  --comp-tab-gap-pill-sm:                   4px;
+  --comp-tab-icon-size-pill-sm:             14px;
+  --comp-tab-radius-pill-sm:                16px;
+
+  /* === TabList === */
+  --comp-tab-list-gap-underline:            8px;
+  --comp-tab-list-gap-pill:                 8px;
+  --comp-tab-list-padding-y-pill:           8px;
+
+  /* === Scroll === */
+  --comp-tab-scroll-fade-width:             24px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — DropdownMenu (size/spacing layer)
+     Naming: --comp-dropdown-{property}[-{detail}]
+     ---------------------------------------------------------- */
+
+  /* Panel container */
+  --comp-dropdown-min-width:           200px;
+  --comp-dropdown-max-width:           320px;
+  --comp-dropdown-max-height:          480px;
+  --comp-dropdown-padding-y:           8px;
+  --comp-dropdown-padding-x:           6px;
+  --comp-dropdown-radius:              var(--radius-3);    /* 12px */
+  --comp-dropdown-shadow:              0px 1px 4px rgba(0,0,0,0.04), 0px 4px 24px rgba(0,0,0,0.12);
+
+  /* Item */
+  --comp-dropdown-item-height:         32px;
+  --comp-dropdown-item-padding-x:      8px;
+  --comp-dropdown-item-gap:            4px;
+  --comp-dropdown-item-radius:         var(--radius-2);    /* 8px */
+
+  /* Icon sizes */
+  --comp-dropdown-icon-leading:        20px;
+  --comp-dropdown-icon-trailing:       18px;
+  --comp-dropdown-icon-check:          18px;
+  --comp-dropdown-icon-back:           20px;
+
+  /* Title row (submenu back nav) */
+  --comp-dropdown-title-height:        36px;
+  --comp-dropdown-title-padding-x:     12px;
+  --comp-dropdown-title-gap:           8px;
+
+  /* Subtitle row */
+  --comp-dropdown-subtitle-height:     22px;
+  --comp-dropdown-subtitle-padding-x:  8px;
+
+  /* Divider */
+  --comp-dropdown-divider-margin-y:    4px;
+  --comp-dropdown-divider-margin-x:    4px;
+
+  /* Header slot */
+  --comp-dropdown-header-padding:      8px;
+
+  /* Positioning */
+  --comp-dropdown-trigger-offset:      4px;
+  --comp-dropdown-submenu-offset:      6px;
+  --comp-dropdown-collision-padding:   8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Select (size/spacing layer)
+     Naming: --comp-select-{property}[-{size}]
+     Trigger reuses textfield tokens. Adds chevron sizes.
+     ---------------------------------------------------------- */
+
+  /* ─── Chevron icon size — per size ─── */
+  --comp-select-chevron-xs: 14px;
+  --comp-select-chevron-sm: 16px;
+  --comp-select-chevron-md: 18px;
+  --comp-select-chevron-lg: 20px;
+  --comp-select-chevron-xl: 20px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SegmentBar (size/spacing layer)
+     Naming: --comp-segment-{element}-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Button: height — per size ─── */
+  --comp-segment-btn-height-lg: 48px;
+  --comp-segment-btn-height-md: 36px;
+  --comp-segment-btn-height-sm: 28px;
+  --comp-segment-btn-height-xs: 20px;
+
+  /* ─── Button: padding-x — per size ─── */
+  --comp-segment-btn-px-lg: var(--spacing-4);        /* 16px */
+  --comp-segment-btn-px-md: var(--spacing-3);        /* 12px */
+  --comp-segment-btn-px-sm: var(--spacing-2\.5);     /* 10px */
+  --comp-segment-btn-px-xs: var(--spacing-1\.5);     /* 6px  */
+
+  /* ─── Button: gap (icon → label) — per size ─── */
+  --comp-segment-btn-gap-lg: var(--spacing-1\.5);    /* 6px */
+  --comp-segment-btn-gap-md: var(--spacing-1\.5);    /* 6px */
+  --comp-segment-btn-gap-sm: var(--spacing-1);       /* 4px */
+  --comp-segment-btn-gap-xs: var(--spacing-1);       /* 4px */
+
+  /* ─── Button: radius (square shape) — per size ─── */
+  --comp-segment-btn-radius-lg: var(--radius-3);     /* 12px */
+  --comp-segment-btn-radius-md: var(--radius-2\.5);  /* 10px */
+  --comp-segment-btn-radius-sm: var(--radius-2);     /* 8px  */
+  --comp-segment-btn-radius-xs: var(--radius-1\.5);  /* 6px  */
+
+  /* ─── Button: icon size — per size ─── */
+  --comp-segment-icon-lg: 18px;
+  --comp-segment-icon-md: 18px;
+  --comp-segment-icon-sm: var(--spacing-4);          /* 16px */
+  --comp-segment-icon-xs: var(--spacing-4);          /* 16px */
+
+  /* ─── Bar: padding — per size ─── */
+  --comp-segment-bar-padding-lg: var(--spacing-1);   /* 4px */
+  --comp-segment-bar-padding-md: var(--spacing-1);   /* 4px */
+  --comp-segment-bar-padding-sm: var(--spacing-1);   /* 4px */
+  --comp-segment-bar-padding-xs: 3px;
+
+  /* ─── Bar: radius (square shape) — per size (= btn radius + bar padding) ─── */
+  --comp-segment-bar-radius-lg: var(--radius-4);     /* 16px */
+  --comp-segment-bar-radius-md: 14px;
+  --comp-segment-bar-radius-sm: var(--radius-3);     /* 12px */
+  --comp-segment-bar-radius-xs: 9px;
+
+  /* ─── Divider height — per size ─── */
+  --comp-segment-divider-height-lg: var(--spacing-6);    /* 24px */
+  --comp-segment-divider-height-md: var(--spacing-5);    /* 20px */
+  --comp-segment-divider-height-sm: var(--spacing-5);    /* 20px */
+  --comp-segment-divider-height-xs: var(--spacing-4);    /* 16px */
+
+  /* ─── Active indicator: shadow — per size ─── */
+  --comp-segment-shadow-lg: 0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08);
+  --comp-segment-shadow-md: 0px 1px 4px rgba(0,0,0,0.08), 0px 1px 2px rgba(0,0,0,0.04);
+  --comp-segment-shadow-sm: 0px 1px 3px rgba(0,0,0,0.06), 0px 0px 1px rgba(0,0,0,0.04);
+  --comp-segment-shadow-xs: 0px 1px 2px rgba(0,0,0,0.06), 0px 0px 1px rgba(0,0,0,0.04);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Badge (size/spacing layer)
+     Naming: --comp-badge-{property}[-{size}]
+     Badge is display-only. Colors handled via TS color map.
+     ---------------------------------------------------------- */
+
+  /* ─── Height — per size ─── */
+  --comp-badge-height-sm: 20px;
+  --comp-badge-height-md: 28px;
+
+  /* ─── Padding X — square shape ─── */
+  --comp-badge-px-sm: var(--spacing-1);        /* 4px */
+  --comp-badge-px-md: var(--spacing-1\.5);     /* 6px */
+
+  /* ─── Padding X — pill shape (square보다 2px 넓게) ─── */
+  --comp-badge-px-sm-pill: var(--spacing-1\.5); /* 6px */
+  --comp-badge-px-md-pill: var(--spacing-2);    /* 8px */
+
+  /* ─── Border radius — square shape per size ─── */
+  --comp-badge-radius-sm: var(--radius-1);     /* 4px */
+  --comp-badge-radius-md: var(--radius-1\.5);  /* 6px */
+
+  /* ─── Border radius — pill shape ─── */
+  --comp-badge-radius-pill: 9999px;
+
+  /* ─── Counter (항상 pill, 고정 사이즈) ─── */
+  --comp-badge-counter-height: 16px;
+  --comp-badge-counter-px: var(--spacing-1\.5); /* 6px */
+  --comp-badge-counter-min-w: 16px;
+
+  /* ─── Dot ─── */
+  --comp-badge-dot-size: 8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tooltip (size/spacing layer)
+     Naming: --comp-tooltip-{property}
+     ---------------------------------------------------------- */
+  --comp-tooltip-max-width:       320px;
+  --comp-tooltip-px:              var(--spacing-3\.5);   /* 14px */
+  --comp-tooltip-py:              var(--spacing-3);      /* 12px */
+  --comp-tooltip-radius:          var(--radius-2);       /* 8px */
+  --comp-tooltip-arrow-width:     10px;
+  --comp-tooltip-arrow-height:    5px;
+  --comp-tooltip-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Callout (size/spacing layer)
+     Naming: --comp-callout-{property}
+     ---------------------------------------------------------- */
+  --comp-callout-max-width:       320px;
+  --comp-callout-px:              var(--spacing-3\.5);   /* 14px */
+  --comp-callout-py:              var(--spacing-3);      /* 12px */
+  --comp-callout-radius:          var(--radius-2);       /* 8px */
+  --comp-callout-arrow-width:     10px;
+  --comp-callout-arrow-height:    5px;
+  --comp-callout-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
+  --comp-callout-close-size:      32px;
+  --comp-callout-close-icon:      20px;
+  --comp-callout-action-icon:     20px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SideNav (size/spacing layer)
+     Naming: --comp-sidenav-{property}-{size}
+     ---------------------------------------------------------- */
+  --comp-sidenav-item-height-lg:  44px;
+  --comp-sidenav-item-height-md:  36px;
+  --comp-sidenav-item-height-sm:  32px;
+  --comp-sidenav-item-px-lg:      var(--spacing-3);      /* 12px */
+  --comp-sidenav-item-px-md:      var(--spacing-3);      /* 12px */
+  --comp-sidenav-item-px-sm:      var(--spacing-2\.5);   /* 10px */
+  --comp-sidenav-item-gap-lg:     var(--spacing-2);      /* 8px */
+  --comp-sidenav-item-gap-md:     var(--spacing-1\.5);   /* 6px */
+  --comp-sidenav-item-gap-sm:     var(--spacing-1\.5);   /* 6px */
+  --comp-sidenav-item-radius-lg:  var(--radius-2);       /* 8px */
+  --comp-sidenav-item-radius-md:  var(--radius-1\.5);    /* 6px */
+  --comp-sidenav-item-radius-sm:  var(--radius-1\.5);    /* 6px */
+  --comp-sidenav-icon-lg:         20px;
+  --comp-sidenav-icon-md:         18px;
+  --comp-sidenav-icon-sm:         16px;
 }
 
 /* ----------------------------------------------------------
@@ -962,6 +1316,337 @@
 
   /* ─── Focus ─── */
   --comp-button-focus-ring: var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Chip (color layer)
+     Naming: --comp-chip-{type}-{property}-{variant}[-{state}]
+     Systemic intent omits suffix (default).
+     ---------------------------------------------------------- */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — TextField (color layer)
+     Naming: --comp-textfield-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Background ─── */
+  --comp-textfield-bg:             var(--semantic-neutral-solid-70);
+  --comp-textfield-bg-focus:       var(--semantic-neutral-solid-0);
+  --comp-textfield-bg-error:       var(--semantic-error-50);
+  --comp-textfield-bg-error-focus: var(--semantic-neutral-solid-0);
+  --comp-textfield-bg-disabled:    var(--semantic-neutral-solid-100);
+  --comp-textfield-bg-readonly:    var(--semantic-neutral-solid-50);
+
+  /* ─── Border ─── */
+  --comp-textfield-border:          var(--semantic-neutral-solid-70);
+  --comp-textfield-border-focus:    var(--semantic-neutral-solid-400); /* grayscale */
+  --comp-textfield-border-error:    var(--semantic-error-500);
+  --comp-textfield-border-disabled: var(--semantic-neutral-solid-100);
+  --comp-textfield-border-readonly: var(--semantic-neutral-solid-50);
+
+  /* ─── Text ─── */
+  --comp-textfield-text:                      var(--semantic-text-on-bright-950);
+  --comp-textfield-text-placeholder:          var(--semantic-neutral-solid-400);
+  --comp-textfield-text-prefix:               var(--semantic-neutral-solid-600);
+  --comp-textfield-text-disabled:             var(--semantic-neutral-solid-400);
+  --comp-textfield-text-placeholder-disabled: var(--semantic-neutral-solid-300);
+
+  /* ─── Icon ─── */
+  --comp-textfield-icon-color:     var(--semantic-neutral-solid-600);
+  --comp-textfield-icon-error:     var(--semantic-error-500);
+  --comp-textfield-icon-positive:  var(--semantic-success-500);
+  --comp-textfield-icon-disabled:  var(--semantic-neutral-solid-300);
+
+  /* ─── Caret ─── */
+  --comp-textfield-caret: var(--semantic-text-on-bright-950); /* grayscale */
+
+  /* ─── State overlay ─── */
+  --comp-textfield-hover-on-bright:  var(--semantic-state-on-bright-50);
+  --comp-textfield-active-on-bright: var(--semantic-state-on-bright-70);
+
+  /* ─── Focus ring ─── */
+  --comp-textfield-focus-ring:       var(--semantic-neutral-solid-300); /* grayscale */
+  --comp-textfield-focus-ring-error: var(--semantic-error-500);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — FormField (color layer)
+     Naming: --comp-formfield-text-{element}[-{state}]
+     ---------------------------------------------------------- */
+  --comp-formfield-text-label:                 var(--semantic-text-on-bright-950);
+  --comp-formfield-text-label-disabled:        var(--semantic-neutral-solid-400);
+  --comp-formfield-text-required:              var(--semantic-error-500);
+  --comp-formfield-text-description:           var(--semantic-text-on-bright-600);
+  --comp-formfield-text-description-disabled:  var(--semantic-neutral-solid-400);
+  --comp-formfield-text-helper:                var(--semantic-text-on-bright-600);
+  --comp-formfield-text-helper-disabled:       var(--semantic-neutral-solid-400);
+  --comp-formfield-text-error:                 var(--semantic-error-500);
+  --comp-formfield-text-count:                 var(--semantic-text-on-bright-600);
+  --comp-formfield-text-count-over:            var(--semantic-error-500);
+  --comp-formfield-text-count-disabled:        var(--semantic-neutral-solid-400);
+
+  /* === Tag === */
+
+  /* Tag — grayscale (systemic — suffix omitted) */
+  --comp-chip-tag-bg:                       var(--semantic-neutral-solid-100);
+  --comp-chip-tag-label:                    var(--semantic-neutral-solid-900);
+  --comp-chip-tag-remove:                   var(--semantic-neutral-solid-600);
+
+  /* Tag — error */
+  --comp-chip-tag-bg-error:                 var(--semantic-error-50);
+  --comp-chip-tag-label-error:              var(--semantic-error-700);
+  --comp-chip-tag-remove-error:             var(--semantic-error-500);
+
+  /* Tag — disabled (intent-agnostic) */
+  --comp-chip-tag-bg-disabled:              var(--semantic-neutral-solid-70);
+  --comp-chip-tag-label-disabled:           var(--semantic-neutral-solid-400);
+  --comp-chip-tag-remove-disabled:          var(--semantic-neutral-solid-300);
+
+  /* === Filter === */
+
+  /* Filter — off (intent-agnostic) */
+  --comp-chip-filter-bg-off:                var(--semantic-neutral-solid-70);
+  --comp-chip-filter-label-off:             var(--semantic-neutral-solid-700);
+
+  /* Filter — on, grayscale (systemic — suffix omitted) */
+  --comp-chip-filter-bg-on:                 var(--semantic-neutral-solid-950);
+  --comp-chip-filter-label-on:              var(--semantic-neutral-solid-0);
+
+  /* Filter — on, brand */
+  --comp-chip-filter-bg-on-brand:           var(--semantic-primary-500);
+  --comp-chip-filter-label-on-brand:        var(--semantic-neutral-solid-0);
+
+  /* Filter — disabled */
+  --comp-chip-filter-bg-off-disabled:       var(--semantic-neutral-solid-70);
+  --comp-chip-filter-bg-on-disabled:        var(--semantic-neutral-solid-100);
+  --comp-chip-filter-label-disabled:        var(--semantic-neutral-solid-400);
+
+  /* === Dropdown === */
+
+  /* Dropdown — off (intent-agnostic) */
+  --comp-chip-dropdown-bg-off:              var(--semantic-neutral-solid-70);
+  --comp-chip-dropdown-label-off:           var(--semantic-neutral-solid-700);
+
+  /* Dropdown — on, grayscale (systemic — suffix omitted) */
+  --comp-chip-dropdown-bg-on:               var(--semantic-neutral-solid-950);
+  --comp-chip-dropdown-label-on:            var(--semantic-neutral-solid-0);
+
+  /* Dropdown — on, brand */
+  --comp-chip-dropdown-bg-on-brand:         var(--semantic-primary-500);
+  --comp-chip-dropdown-label-on-brand:      var(--semantic-neutral-solid-0);
+
+  /* Dropdown — disabled */
+  --comp-chip-dropdown-bg-off-disabled:     var(--semantic-neutral-solid-70);
+  --comp-chip-dropdown-bg-on-disabled:      var(--semantic-neutral-solid-100);
+  --comp-chip-dropdown-label-disabled:      var(--semantic-neutral-solid-400);
+
+  /* Dropdown — badge */
+  --comp-chip-dropdown-badge-bg:            var(--semantic-primary-500);
+  --comp-chip-dropdown-badge-label:         var(--semantic-neutral-solid-0);
+
+  /* === Shared === */
+
+  /* State overlay */
+  --comp-chip-state-hover-on-bright:        var(--semantic-state-on-bright-50);
+  --comp-chip-state-pressed-on-bright:      var(--semantic-state-on-bright-70);
+  --comp-chip-state-hover-on-dim:           var(--semantic-state-on-dim-50);
+  --comp-chip-state-pressed-on-dim:         var(--semantic-state-on-dim-70);
+
+  /* Focus ring */
+  --comp-chip-focus-ring:                   var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tab (color layer)
+     Naming: --comp-tab-{property}-{variant}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* === Underline variant === */
+
+  /* Label */
+  --comp-tab-label-underline:                   var(--semantic-neutral-solid-500);
+  --comp-tab-label-underline-selected:          var(--semantic-neutral-solid-950);
+  --comp-tab-label-underline-disabled:          var(--semantic-neutral-solid-400);
+  --comp-tab-label-underline-selected-disabled: var(--semantic-neutral-solid-400);
+
+  /* Indicator */
+  --comp-tab-indicator-underline:               var(--semantic-neutral-solid-950);
+  --comp-tab-indicator-underline-disabled:      var(--semantic-neutral-solid-200);
+
+  /* TabList bottom border */
+  --comp-tab-border-underline:                  var(--semantic-neutral-solid-200);
+
+  /* State overlay — always on-bright surface */
+  --comp-tab-hover-underline:                   var(--semantic-state-on-bright-50);
+  --comp-tab-pressed-underline:                 var(--semantic-state-on-bright-70);
+
+  /* === Pill variant === */
+
+  /* Label */
+  --comp-tab-label-pill:                        var(--semantic-neutral-solid-500);
+  --comp-tab-label-pill-selected:               var(--semantic-neutral-solid-0);
+  --comp-tab-label-pill-disabled:               var(--semantic-neutral-solid-400);
+  --comp-tab-label-pill-selected-disabled:      var(--semantic-neutral-solid-400);
+
+  /* TabItem background */
+  --comp-tab-bg-pill:                           var(--semantic-neutral-solid-70);
+  --comp-tab-bg-pill-selected:                  var(--semantic-neutral-solid-950);
+  --comp-tab-bg-pill-disabled:                  var(--semantic-neutral-solid-70);
+  --comp-tab-bg-pill-selected-disabled:         var(--semantic-neutral-solid-200);
+
+  /* State overlay — surface-aware */
+  --comp-tab-hover-pill:                        var(--semantic-state-on-bright-50);
+  --comp-tab-pressed-pill:                      var(--semantic-state-on-bright-70);
+  --comp-tab-hover-pill-selected:               var(--semantic-state-on-dim-50);
+  --comp-tab-pressed-pill-selected:             var(--semantic-state-on-dim-70);
+
+  /* TabList background */
+  --comp-tab-list-bg-pill:                      var(--semantic-background-0);
+
+  /* === Shared === */
+  --comp-tab-focus-ring:                        var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — DropdownMenu (color layer)
+     Naming: --comp-dropdown-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* Panel */
+  --comp-dropdown-bg:                     var(--semantic-neutral-solid-0);
+  --comp-dropdown-border:                 var(--semantic-neutral-white-alpha-100);
+  --comp-dropdown-divider:                var(--semantic-neutral-solid-70);
+
+  /* Item — default */
+  --comp-dropdown-item-label:             var(--semantic-neutral-black-alpha-800);
+  --comp-dropdown-item-icon:              var(--semantic-neutral-black-alpha-800);
+  --comp-dropdown-item-chevron:           var(--semantic-neutral-black-alpha-400);
+
+  /* Item — state overlay */
+  --comp-dropdown-item-hover:             var(--semantic-state-on-bright-50);
+  --comp-dropdown-item-pressed:           var(--semantic-state-on-bright-70);
+
+  /* Item — disabled */
+  --comp-dropdown-item-label-disabled:    var(--semantic-neutral-black-alpha-300);
+  --comp-dropdown-item-icon-disabled:     var(--semantic-neutral-black-alpha-300);
+  --comp-dropdown-item-chevron-disabled:  var(--semantic-neutral-black-alpha-100);
+
+  /* Check / Radio */
+  --comp-dropdown-check-checked:            var(--semantic-success-500);
+  --comp-dropdown-check-unchecked:          var(--semantic-neutral-black-alpha-200);
+  --comp-dropdown-check-checked-disabled:   var(--semantic-success-200);
+  --comp-dropdown-check-unchecked-disabled: var(--semantic-neutral-black-alpha-100);
+
+  /* Focus */
+  --comp-dropdown-focus-ring:             var(--semantic-primary-300);
+
+  /* Subtitle & Title */
+  --comp-dropdown-subtitle:               var(--semantic-neutral-black-alpha-400);
+  --comp-dropdown-title-label:            var(--semantic-neutral-black-alpha-800);
+  --comp-dropdown-title-icon:             var(--semantic-neutral-black-alpha-800);
+  --comp-dropdown-title-border:           var(--semantic-divider-solid-100);
+  --comp-dropdown-header-border:          var(--semantic-neutral-solid-70);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Select (color layer)
+     Naming: --comp-select-{property}[-{state}]
+     Trigger reuses textfield color tokens. Adds chevron colors.
+     ---------------------------------------------------------- */
+
+  /* Chevron */
+  --comp-select-chevron-color:          var(--comp-textfield-icon-color);
+  --comp-select-chevron-color-open:     var(--semantic-text-on-bright-950);
+  --comp-select-chevron-color-disabled: var(--comp-textfield-icon-disabled);
+
+  /* Selected check indicator */
+  --comp-select-check-color:            var(--comp-dropdown-check-checked);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SegmentBar (color layer)
+     Naming: --comp-segment-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Bar background ─── */
+  --comp-segment-bar-bg:                 var(--semantic-state-on-bright-50);
+
+  /* ─── Label text ─── */
+  --comp-segment-label:                  var(--semantic-neutral-black-alpha-400);
+  --comp-segment-label-active:           var(--semantic-neutral-black-alpha-800);
+  --comp-segment-label-disabled:         var(--semantic-neutral-solid-400);
+
+  /* ─── Active indicator ─── */
+  --comp-segment-active-bg:              var(--semantic-neutral-solid-0);
+  --comp-segment-active-border:          var(--semantic-neutral-black-alpha-600);
+  --comp-segment-active-bg-disabled:     var(--semantic-neutral-solid-100);
+
+  /* ─── State overlay ─── */
+  --comp-segment-hover:                  var(--semantic-state-on-bright-50);
+  --comp-segment-pressed:                var(--semantic-state-on-bright-70);
+
+  /* ─── Divider ─── */
+  --comp-segment-divider:                var(--semantic-neutral-solid-200);
+
+  /* ─── Focus ring ─── */
+  --comp-segment-focus-ring:             var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tooltip (color layer)
+     Naming: --comp-tooltip-{property}-{variant}
+     ---------------------------------------------------------- */
+
+  /* ─── Black variant (default) ─── */
+  --comp-tooltip-bg-black:               var(--semantic-neutral-solid-950);
+  --comp-tooltip-text-black:             var(--semantic-text-on-dim-900);
+  --comp-tooltip-arrow-black:            var(--semantic-neutral-solid-950);
+
+  /* ─── White variant ─── */
+  --comp-tooltip-bg-white:               var(--semantic-neutral-solid-50);
+  --comp-tooltip-text-white:             var(--semantic-text-on-bright-900);
+  --comp-tooltip-arrow-white:            var(--semantic-neutral-solid-50);
+
+  /* ─── Brand variant ─── */
+  --comp-tooltip-bg-brand:               var(--semantic-primary-500);
+  --comp-tooltip-text-brand:             var(--semantic-text-on-dim-950);
+  --comp-tooltip-arrow-brand:            var(--semantic-primary-500);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Callout (color layer)
+     Naming: --comp-callout-{property}-{variant}
+     ---------------------------------------------------------- */
+
+  /* ─── Black variant (default) ─── */
+  --comp-callout-bg-black:               var(--semantic-neutral-solid-950);
+  --comp-callout-text-black:             var(--semantic-text-on-dim-900);
+  --comp-callout-arrow-black:            var(--semantic-neutral-solid-950);
+  --comp-callout-close-black:            var(--semantic-text-on-dim-600);
+  --comp-callout-close-hover-black:      var(--semantic-state-on-dim-50);
+  --comp-callout-action-black:           var(--semantic-text-on-dim-900);
+
+  /* ─── White variant ─── */
+  --comp-callout-bg-white:               var(--semantic-neutral-solid-50);
+  --comp-callout-text-white:             var(--semantic-text-on-bright-900);
+  --comp-callout-arrow-white:            var(--semantic-neutral-solid-50);
+  --comp-callout-close-white:            var(--semantic-text-on-bright-600);
+  --comp-callout-close-hover-white:      var(--semantic-state-on-bright-50);
+  --comp-callout-action-white:           var(--semantic-text-on-bright-900);
+
+  /* ─── Brand variant ─── */
+  --comp-callout-bg-brand:               var(--semantic-primary-500);
+  --comp-callout-text-brand:             var(--semantic-text-on-dim-950);
+  --comp-callout-arrow-brand:            var(--semantic-primary-500);
+  --comp-callout-close-brand:            var(--semantic-text-on-dim-800);
+  --comp-callout-close-hover-brand:      var(--semantic-state-on-dim-50);
+  --comp-callout-action-brand:           var(--semantic-text-on-dim-950);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SideNav (color layer)
+     Naming: --comp-sidenav-{property}[-{state}]
+     ---------------------------------------------------------- */
+  --comp-sidenav-text:             var(--semantic-text-on-bright-500);
+  --comp-sidenav-text-active:      var(--semantic-text-on-bright-900);
+  --comp-sidenav-text-disabled:    var(--semantic-text-on-bright-400);
+  --comp-sidenav-group-text:       var(--semantic-text-on-bright-400);
+  --comp-sidenav-bg-active:        var(--semantic-state-on-bright-100);
+  --comp-sidenav-hover:            var(--semantic-state-on-bright-70);
+  --comp-sidenav-active:           var(--semantic-state-on-bright-100);
+  --comp-sidenav-focus-ring:       var(--semantic-primary-300);
+  --comp-sidenav-divider:          var(--semantic-divider-solid-100);
 }
 
 /* ─── Shape theme: geo — sharp default radius ─── */
@@ -971,4 +1656,35 @@
   --comp-button-radius-md: 0px;
   --comp-button-radius-lg: 0px;
   --comp-button-radius-xl: 0px;
+
+  --comp-textarea-radius-lg: 0px;
+  --comp-textarea-radius-xl: 0px;
+  --comp-textarea-radius-pill-lg: calc(var(--comp-textfield-height-lg) / 2);  /* 48/2 = 24px */
+  --comp-textarea-radius-pill-xl: calc(var(--comp-textfield-height-xl) / 2);  /* 56/2 = 28px */
+
+  --comp-dropdown-radius:      0px;
+  --comp-dropdown-item-radius: 0px;
+
+  /* Badge: square → sharp, pill/counter → 9999px 유지 */
+  --comp-badge-radius-sm: 0px;
+  --comp-badge-radius-md: 0px;
+
+  /* SegmentBar: square → sharp (circular은 항상 rounded-full) */
+  --comp-segment-bar-radius-lg: 0px;
+  --comp-segment-bar-radius-md: 0px;
+  --comp-segment-bar-radius-sm: 0px;
+  --comp-segment-bar-radius-xs: 0px;
+  --comp-segment-btn-radius-lg: 0px;
+  --comp-segment-btn-radius-md: 0px;
+  --comp-segment-btn-radius-sm: 0px;
+  --comp-segment-btn-radius-xs: 0px;
+
+  /* Tooltip / Callout */
+  --comp-tooltip-radius: 0px;
+  --comp-callout-radius: 0px;
+
+  /* SideNav */
+  --comp-sidenav-item-radius-lg: 0px;
+  --comp-sidenav-item-radius-md: 0px;
+  --comp-sidenav-item-radius-sm: 0px;
 }

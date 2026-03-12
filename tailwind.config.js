@@ -728,6 +728,16 @@ export default {
         '12-semibold': { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '600' },
         '12-medium':   { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '500' },
         '12-regular':  { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '400' },
+        // size 11 — 0.6875rem / 14px / 0em
+        '11-bold':     { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '700' },
+        '11-semibold': { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '600' },
+        '11-medium':   { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '500' },
+        '11-regular':  { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '400' },
+        // size 10 — 0.625rem / 12px / 0em
+        '10-bold':     { fontSize: 'var(--text-size-10)', lineHeight: 'var(--text-lh-10)', letterSpacing: 'var(--text-ls-10)', fontWeight: '700' },
+        '10-semibold': { fontSize: 'var(--text-size-10)', lineHeight: 'var(--text-lh-10)', letterSpacing: 'var(--text-ls-10)', fontWeight: '600' },
+        '10-medium':   { fontSize: 'var(--text-size-10)', lineHeight: 'var(--text-lh-10)', letterSpacing: 'var(--text-ls-10)', fontWeight: '500' },
+        '10-regular':  { fontSize: 'var(--text-size-10)', lineHeight: 'var(--text-lh-10)', letterSpacing: 'var(--text-ls-10)', fontWeight: '400' },
       }
       const utilities = {}
       for (const [key, value] of Object.entries(tokens)) {
