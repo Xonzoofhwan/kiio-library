@@ -1,0 +1,148 @@
+{
+  "component": "IconButton",
+  "description": "Icon-only square button sharing Button's variant/intent/size system. Renders a single icon in a square container with identical color tokens, state overlays, and disabled behavior as Button.",
+  "classification": "Primitive",
+
+  "props": {
+    "icon": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Required. The icon to display. Sized internally per size variant."
+    },
+    "aria-label": {
+      "type": "string",
+      "default": null,
+      "description": "Required. Accessibility label for the icon-only button."
+    },
+    "variant": {
+      "type": "'primary' | 'secondary' | 'outlined' | 'ghost'",
+      "default": "primary",
+      "description": "Visual variant. Shares Button's color token system."
+    },
+    "intent": {
+      "type": "'systemic' | 'brand' | 'destructive'",
+      "default": "systemic",
+      "description": "Color intent. Shares Button's intent token system."
+    },
+    "size": {
+      "type": "'xSmall' | 'small' | 'medium' | 'large' | 'xLarge'",
+      "default": "medium",
+      "description": "Size variant. Controls square container size and icon size."
+    },
+    "shape": {
+      "type": "'default' | 'pill' | 'square'",
+      "default": "default",
+      "description": "Shape. default = size-mapped radius, pill = circle (9999px), square = sharp (0px)."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element while forwarding all styles and props."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows centered spinner, hides icon, disables interaction."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction via aria-disabled + event prevention."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xSmall": {
+        "containerSize": "--comp-icon-button-size-xs (24px)",
+        "iconSize": "--comp-button-icon-xs (14px)",
+        "radius": "--comp-button-radius-xs (4px)"
+      },
+      "small": {
+        "containerSize": "--comp-icon-button-size-sm (32px)",
+        "iconSize": "--comp-button-icon-sm (16px)",
+        "radius": "--comp-button-radius-sm (8px)"
+      },
+      "medium": {
+        "containerSize": "--comp-icon-button-size-md (40px)",
+        "iconSize": "--comp-button-icon-md (18px)",
+        "radius": "--comp-button-radius-md (8px)"
+      },
+      "large": {
+        "containerSize": "--comp-icon-button-size-lg (48px)",
+        "iconSize": "--comp-button-icon-lg (20px)",
+        "radius": "--comp-button-radius-lg (8px)"
+      },
+      "xLarge": {
+        "containerSize": "--comp-icon-button-size-xl (56px)",
+        "iconSize": "--comp-button-icon-xl (22px)",
+        "radius": "--comp-button-radius-xl (8px)"
+      }
+    },
+    "shape": {
+      "default": "Size-mapped radius via compound variants (--comp-button-radius-{size})",
+      "pill": "--comp-button-radius-pill (9999px) — becomes a circle",
+      "square": "--comp-button-radius-square (0px)"
+    },
+    "variant_x_intent": {
+      "description": "Shares all 12 variant x intent color combinations with Button. See button.json for full token mapping.",
+      "tokens_reused": [
+        "--comp-button-bg-{variant}[-{intent}]",
+        "--comp-button-content-{variant}[-{intent}]",
+        "--comp-button-border-outlined[-{intent}]"
+      ]
+    }
+  },
+
+  "states": {
+    "hover": {
+      "primary": "State overlay: --comp-button-hover-on-dim → semantic-state-on-dim-50",
+      "secondary/outlined/ghost": "State overlay: --comp-button-hover-on-bright → semantic-state-on-bright-50"
+    },
+    "pressed": {
+      "primary": "State overlay: --comp-button-active-on-dim → semantic-state-on-dim-70",
+      "secondary/outlined/ghost": "State overlay: --comp-button-active-on-bright → semantic-state-on-bright-70"
+    },
+    "focused": {
+      "all": "focus-visible:ring-2 ring-offset-2 ring-[--comp-button-focus-ring] → semantic-primary-300"
+    },
+    "disabled": {
+      "description": "Shares all 12 disabled class combinations with Button. See button.json for full token mapping.",
+      "tokens_reused": [
+        "--comp-button-bg-{variant}[-{intent}]-disabled",
+        "--comp-button-content-{variant}[-{intent}]-disabled",
+        "--comp-button-border-outlined[-{intent}]-disabled"
+      ],
+      "behavior": "cursor-not-allowed, aria-disabled=true, click event prevented"
+    },
+    "loading": {
+      "description": "Icon marked invisible, Spinner absolutely centered. pointer-events-none + aria-busy=true. Disabled classes NOT applied during loading."
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "stateOverlay": "Identical to Button: absolute <span> with group-hover/group-active. Root has 'group relative'.",
+    "loadingStrategy": "Icon span gets 'invisible'. Spinner absolutely centered. Uses motion-essential class.",
+    "tokenReuse": "Reuses all --comp-button-* color tokens. Only has its own --comp-icon-button-size-{size} for square container dimensions.",
+    "typeImportReuse": "Types (IconButtonVariant, IconButtonIntent, IconButtonSize, IconButtonShape) are aliased from Button types.",
+    "noChildren": "Omits 'children' from HTMLButtonElement attributes. Icon is the sole visual content.",
+    "typeDefault": "Defaults to type='button' unless asChild is true.",
+    "files": [
+      "src/components/IconButton/IconButton.tsx",
+      "src/components/IconButton/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "src/lib/utils.ts",
+      "src/components/icons/Spinner.tsx",
+      "src/components/Button (type imports only)"
+    ],
+    "tokenFiles": {
+      "size": "src/tokens/tokens.css :root (--comp-icon-button-size-*)",
+      "color": "Reuses --comp-button-* color tokens from [data-theme] scope",
+      "radius": "Reuses --comp-button-radius-* from :root"
+    }
+  }
+}

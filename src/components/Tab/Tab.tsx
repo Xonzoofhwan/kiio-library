@@ -9,11 +9,13 @@ import React, {
 } from 'react'
 import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
+import { BadgeDot } from '@/components/Badge'
+import { IconButton } from '@/components/IconButton'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
 export const TAB_VARIANTS = ['underline', 'pill'] as const
-export const TAB_SIZES    = ['lg', 'sm'] as const
+export const TAB_SIZES    = ['large', 'medium'] as const
 
 export type TabVariant = (typeof TAB_VARIANTS)[number]
 export type TabSize    = (typeof TAB_SIZES)[number]
@@ -48,19 +50,19 @@ const tabItemVariants = cva(
         pill: '',
       },
       size: {
-        lg: '',
-        sm: '',
+        large: '',
+        medium: '',
       },
     },
     compoundVariants: [
       // underline: semibold typography
-      { variant: 'underline', size: 'lg', className: 'h-[var(--comp-tab-height-underline-lg)] px-[var(--comp-tab-padding-x-underline-lg)] gap-[var(--comp-tab-gap-underline-lg)] typography-17-semibold' },
-      { variant: 'underline', size: 'sm', className: 'h-[var(--comp-tab-height-underline-sm)] px-[var(--comp-tab-padding-x-underline-sm)] gap-[var(--comp-tab-gap-underline-sm)] typography-13-semibold' },
+      { variant: 'underline', size: 'large', className: 'h-[var(--comp-tab-height-underline-large)] px-[var(--comp-tab-padding-x-underline-large)] gap-[var(--comp-tab-gap-underline-large)] typography-17-semibold' },
+      { variant: 'underline', size: 'medium', className: 'h-[var(--comp-tab-height-underline-medium)] px-[var(--comp-tab-padding-x-underline-medium)] gap-[var(--comp-tab-gap-underline-medium)] typography-13-semibold' },
       // pill: medium typography + radius
-      { variant: 'pill', size: 'lg', className: 'h-[var(--comp-tab-height-pill-lg)] px-[var(--comp-tab-padding-x-pill-lg)] gap-[var(--comp-tab-gap-pill-lg)] typography-17-medium rounded-[var(--comp-tab-radius-pill-lg)]' },
-      { variant: 'pill', size: 'sm', className: 'h-[var(--comp-tab-height-pill-sm)] px-[var(--comp-tab-padding-x-pill-sm)] gap-[var(--comp-tab-gap-pill-sm)] typography-13-medium rounded-[var(--comp-tab-radius-pill-sm)]' },
+      { variant: 'pill', size: 'large', className: 'h-[var(--comp-tab-height-pill-large)] px-[var(--comp-tab-padding-x-pill-large)] gap-[var(--comp-tab-gap-pill-large)] typography-17-medium rounded-[var(--comp-tab-radius-pill-large)]' },
+      { variant: 'pill', size: 'medium', className: 'h-[var(--comp-tab-height-pill-medium)] px-[var(--comp-tab-padding-x-pill-medium)] gap-[var(--comp-tab-gap-pill-medium)] typography-13-medium rounded-[var(--comp-tab-radius-pill-medium)]' },
     ],
-    defaultVariants: { variant: 'underline', size: 'lg' },
+    defaultVariants: { variant: 'underline', size: 'large' },
   },
 )
 
@@ -100,12 +102,12 @@ const tabOverlayMap: Record<string, string> = {
 
 const iconSizeMap: Record<TabVariant, Record<TabSize, string>> = {
   underline: {
-    lg: 'size-[var(--comp-tab-icon-size-underline-lg)]',
-    sm: 'size-[var(--comp-tab-icon-size-underline-sm)]',
+    large: 'size-[var(--comp-tab-icon-size-underline-large)]',
+    medium: 'size-[var(--comp-tab-icon-size-underline-medium)]',
   },
   pill: {
-    lg: 'size-[var(--comp-tab-icon-size-pill-lg)]',
-    sm: 'size-[var(--comp-tab-icon-size-pill-sm)]',
+    large: 'size-[var(--comp-tab-icon-size-pill-large)]',
+    medium: 'size-[var(--comp-tab-icon-size-pill-medium)]',
   },
 }
 
@@ -146,7 +148,7 @@ export interface TabGroupProps {
 
   /**
    * 크기. 높이, 패딩, 타이포그래피, 아이콘 크기, gap을 제어한다.
-   * @default 'lg'
+   * @default 'large'
    * @see TAB_SIZES
    */
   size?: TabSize
@@ -175,6 +177,11 @@ export interface TabListProps {
   className?: string
   /** 접근성 레이블 (role="tablist"에 적용). */
   'aria-label'?: string
+  /**
+   * 스크롤 가능 시 좌우 chevron 버튼을 표시한다.
+   * @default false
+   */
+  showScrollButtons?: boolean
 }
 
 /**
@@ -195,8 +202,14 @@ export interface TabItemProps {
   /** 탭 아이콘. 크기는 size variant에 의해 제어된다. */
   icon?: React.ReactNode
 
-  /** 뱃지 콘텐츠 (숫자 또는 ReactNode). Label 우측에 배치된다. */
+  /** 뱃지 카운터. underline=인라인(가로폭 포함), pill=오버레이(텍스트 우상단). */
   badge?: React.ReactNode
+
+  /**
+   * 업데이트 인디케이터 dot 표시. badge와 동시 사용 시 badge 우선.
+   * @default false
+   */
+  showIndicator?: boolean
 
   children: React.ReactNode
   className?: string
@@ -228,7 +241,7 @@ export function TabGroup({
   defaultValue,
   onValueChange,
   variant = 'underline',
-  size = 'lg',
+  size = 'large',
   disabled = false,
   activationMode = 'manual',
   children,
@@ -255,7 +268,7 @@ export function TabGroup({
 
 /* ─── TabList ──────────────────────────────────────────────────────────────── */
 
-export function TabList({ children, className, 'aria-label': ariaLabel }: TabListProps) {
+export function TabList({ children, className, 'aria-label': ariaLabel, showScrollButtons = false }: TabListProps) {
   const { value, onChange, variant, size, activationMode } = useTabContext()
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -411,6 +424,21 @@ export function TabList({ children, className, 'aria-label': ariaLabel }: TabLis
         />
       )}
 
+      {/* Left scroll button */}
+      {showScrollButtons && showLeftFade && (
+        <IconButton
+          variant="outlined"
+          intent="systemic"
+          size="small"
+          shape="pill"
+          icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+          aria-label="이전 탭으로 스크롤"
+          tabIndex={-1}
+          onClick={() => scrollRef.current?.scrollBy({ left: -200, behavior: 'smooth' })}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20"
+        />
+      )}
+
       {/* Right fade gradient */}
       {showRightFade && (
         <span
@@ -420,6 +448,21 @@ export function TabList({ children, className, 'aria-label': ariaLabel }: TabLis
             width: 'var(--comp-tab-scroll-fade-width)',
             background: `linear-gradient(to left, var(--semantic-background-0), transparent)`,
           }}
+        />
+      )}
+
+      {/* Right scroll button */}
+      {showScrollButtons && showRightFade && (
+        <IconButton
+          variant="outlined"
+          intent="systemic"
+          size="small"
+          shape="pill"
+          icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+          aria-label="다음 탭으로 스크롤"
+          tabIndex={-1}
+          onClick={() => scrollRef.current?.scrollBy({ left: 200, behavior: 'smooth' })}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20"
         />
       )}
     </div>
@@ -433,6 +476,7 @@ export function TabItem({
   disabled: propDisabled = false,
   icon,
   badge,
+  showIndicator = false,
   children,
   className,
 }: TabItemProps) {
@@ -477,14 +521,35 @@ export function TabItem({
         <span className={cn('relative flex-shrink-0', iconSizeMap[ctx.variant][ctx.size])}>{icon}</span>
       )}
 
-      {/* Label */}
-      <span className="relative">{children}</span>
+      {/* Label + overlay badges/indicators */}
+      <span className="relative">
+        {children}
 
-      {/* Badge — absolute top-right of button */}
-      {badge != null && (
-        <span className="absolute top-0 right-0 -translate-y-1/3 translate-x-1/3 z-10 pointer-events-none">
-          {badge}
-        </span>
+        {/* Underline + Indicator: 텍스트 우상단 오버레이 */}
+        {ctx.variant === 'underline' && showIndicator && !badge && (
+          <span className="absolute top-0 -right-[3px] -translate-y-1/2 translate-x-1/2 z-10 pointer-events-none">
+            <BadgeDot color="red-bright" />
+          </span>
+        )}
+
+        {/* Pill + Counter: 텍스트 우상단 오버레이 (기존보다 4px 더 우측) */}
+        {ctx.variant === 'pill' && badge != null && (
+          <span className="absolute -top-0.5 -right-2 -translate-y-1/2 translate-x-1/2 z-10 pointer-events-none">
+            {badge}
+          </span>
+        )}
+
+        {/* Pill + Indicator: 텍스트 기준 10px↑, left-full */}
+        {ctx.variant === 'pill' && showIndicator && !badge && (
+          <span className="absolute -top-2.5 left-full z-10 pointer-events-none">
+            <BadgeDot color="red-bright" />
+          </span>
+        )}
+      </span>
+
+      {/* Underline + Counter: 인라인 flex child (가로폭에 포함) */}
+      {ctx.variant === 'underline' && badge != null && (
+        <span className="relative flex-shrink-0 inline-flex items-center">{badge}</span>
       )}
     </button>
   )

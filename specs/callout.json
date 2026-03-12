@@ -1,0 +1,360 @@
+{
+  "component": "Callout",
+  "description": "Radix UI Popover 기반의 콜아웃 컴포넌트. black/white/brand 3가지 색상 variant와 manual/auto/none 3가지 닫힘 정책(dismiss mode)을 지원한다. 텍스트, 닫기 버튼, 액션 버튼, 화살표 등 서브 컴포넌트를 조합하여 구성하며, Portal 렌더링 시 앵커 조상의 테마 속성을 자동 전파한다.",
+  "classification": "Compound",
+
+  "subComponents": [
+    {
+      "name": "Callout",
+      "role": "Root. Radix Popover.Root를 감싸고 CalloutThemeContext + CalloutContext를 제공. variant, dismiss mode, auto-dismiss 타이머, controlled/uncontrolled 열림 상태를 관리.",
+      "element": "RadixPopover.Root",
+      "props": {
+        "variant": {
+          "type": "'black' | 'white' | 'brand'",
+          "default": "black",
+          "description": "시각적 variant. 배경, 텍스트, 화살표, 버튼 색상을 결정한다."
+        },
+        "dismiss": {
+          "type": "'manual' | 'auto' | 'none'",
+          "default": "manual",
+          "description": "닫힘 정책. manual=외부 클릭+Esc+Close, auto=manual+타이머, none=Close 전용."
+        },
+        "autoDismissDuration": {
+          "type": "number",
+          "default": 5000,
+          "description": "자동 닫힘 시간 (ms). dismiss='auto'일 때만 유효."
+        },
+        "open": { "type": "boolean", "description": "열림 상태 (controlled)." },
+        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태 (uncontrolled)." },
+        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백." },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "CalloutAnchor",
+      "role": "앵커/트리거 요소. Radix Popover.Trigger를 감싸며 asChild로 자식 요소에 trigger props 전달. 내부적으로 anchorRef를 CalloutThemeContext에 등록.",
+      "element": "RadixPopover.Trigger",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "default": true,
+          "description": "자식 요소에 anchor/trigger props를 전달한다."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "CalloutContent",
+      "role": "콜아웃 콘텐츠 컨테이너. Portal로 렌더링되며 테마 속성을 자동 전파. dismiss mode에 따라 외부 클릭/Escape 동작을 제어.",
+      "element": "RadixPopover.Content (Portal 내부)",
+      "props": {
+        "side": {
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "default": "bottom",
+          "description": "배치 방향."
+        },
+        "align": {
+          "type": "'start' | 'center' | 'end'",
+          "default": "center",
+          "description": "정렬."
+        },
+        "showShadow": {
+          "type": "boolean",
+          "default": false,
+          "description": "그림자 표시 여부."
+        },
+        "sideOffset": {
+          "type": "number",
+          "default": 8,
+          "description": "트리거에서 간격 (px)."
+        },
+        "collisionPadding": {
+          "type": "number",
+          "default": 8,
+          "description": "뷰포트 가장자리 최소 간격 (px)."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "CalloutArrow",
+      "role": "화살표. variant별 fill 색상 적용. RadixPopover.Arrow를 감싼다.",
+      "element": "RadixPopover.Arrow",
+      "props": {
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "CalloutText",
+      "role": "텍스트 영역. 내부 패딩(px, py)과 typography-16-medium을 적용.",
+      "element": "div",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "CalloutClose",
+      "role": "닫기 버튼. absolute top-right 배치. variant별 아이콘 색상과 hover 배경 적용. 클릭 시 onClose 호출.",
+      "element": "button",
+      "props": {
+        "aria-label": {
+          "type": "string",
+          "default": "Close",
+          "description": "접근성 레이블."
+        },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "CalloutAction",
+      "role": "액션 버튼. 우측 정렬, trailing arrow-forward 아이콘 포함. variant별 텍스트 색상 적용. closeOnClick 옵션으로 클릭 시 콜아웃 닫기.",
+      "element": "button",
+      "props": {
+        "onClick": { "type": "(event: React.MouseEvent) => void", "description": "클릭 핸들러." },
+        "closeOnClick": {
+          "type": "boolean",
+          "default": false,
+          "description": "true면 클릭 시 Callout을 닫는다."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    }
+  ],
+
+  "context": {
+    "themeContext": {
+      "name": "CalloutThemeContext",
+      "sharedState": {
+        "anchorRef": "앵커 DOM element 참조. Portal 내부에서 조상 테마 속성을 읽기 위해 사용."
+      },
+      "themeInheritance": "anchorRef.closest('[data-theme]')에서 data-theme를 읽어 Portal 내부 wrapper에 전파."
+    },
+    "componentContext": {
+      "name": "CalloutContext",
+      "sharedState": {
+        "variant": "현재 variant (black/white/brand). 서브 컴포넌트에서 색상 토큰 결정에 사용.",
+        "dismiss": "현재 dismiss mode (manual/auto/none). Content에서 외부 클릭/Esc 동작 제어에 사용.",
+        "onClose": "닫기 핸들러. CalloutClose와 CalloutAction(closeOnClick)에서 호출."
+      },
+      "errorBoundary": "CalloutContext 외부에서 서브 컴포넌트 사용 시 'must be used inside <Callout>' 에러 throw."
+    }
+  },
+
+  "variants": {
+    "variant": {
+      "black": {
+        "background": "--comp-callout-bg-black → semantic-neutral-solid-950",
+        "text": "--comp-callout-text-black → semantic-text-on-dim-900",
+        "arrow": "--comp-callout-arrow-black → semantic-neutral-solid-950",
+        "close": "--comp-callout-close-black → semantic-text-on-dim-600",
+        "closeHover": "--comp-callout-close-hover-black → semantic-state-on-dim-50",
+        "action": "--comp-callout-action-black → semantic-text-on-dim-900"
+      },
+      "white": {
+        "background": "--comp-callout-bg-white → semantic-neutral-solid-50",
+        "text": "--comp-callout-text-white → semantic-text-on-bright-900",
+        "arrow": "--comp-callout-arrow-white → semantic-neutral-solid-50",
+        "close": "--comp-callout-close-white → semantic-text-on-bright-600",
+        "closeHover": "--comp-callout-close-hover-white → semantic-state-on-bright-50",
+        "action": "--comp-callout-action-white → semantic-text-on-bright-900"
+      },
+      "brand": {
+        "background": "--comp-callout-bg-brand → semantic-primary-500",
+        "text": "--comp-callout-text-brand → semantic-text-on-dim-950",
+        "arrow": "--comp-callout-arrow-brand → semantic-primary-500",
+        "close": "--comp-callout-close-brand → semantic-text-on-dim-800",
+        "closeHover": "--comp-callout-close-hover-brand → semantic-state-on-dim-50",
+        "action": "--comp-callout-action-brand → semantic-text-on-dim-950"
+      }
+    },
+    "side": {
+      "values": ["top", "bottom", "left", "right"],
+      "default": "bottom",
+      "description": "Radix Popover.Content side prop으로 전달."
+    },
+    "align": {
+      "values": ["start", "center", "end"],
+      "default": "center",
+      "description": "Radix Popover.Content align prop으로 전달."
+    },
+    "dismiss": {
+      "manual": {
+        "description": "외부 클릭(onInteractOutside) + Escape(onEscapeKeyDown) + CalloutClose 버튼으로 닫힘.",
+        "interactOutside": "허용",
+        "escapeKeyDown": "허용"
+      },
+      "auto": {
+        "description": "manual의 모든 방법 + 타이머(autoDismissDuration) 자동 닫힘.",
+        "interactOutside": "허용",
+        "escapeKeyDown": "허용",
+        "timer": "autoDismissDuration (기본 5000ms) 후 자동 닫힘. isOpen 변경 시 타이머 리셋."
+      },
+      "none": {
+        "description": "CalloutClose 버튼으로만 닫힘. 외부 클릭과 Escape를 preventDefault로 차단.",
+        "interactOutside": "preventDefault",
+        "escapeKeyDown": "preventDefault"
+      }
+    }
+  },
+
+  "states": {
+    "open": {
+      "animation": "tooltip-enter keyframes, duration-fast, ease-enter",
+      "selector": "data-[state=open]"
+    },
+    "closed": {
+      "animation": "tooltip-exit keyframes, duration-fast, ease-exit, forwards",
+      "selector": "data-[state=closed]"
+    },
+    "closeButton": {
+      "hover": "transition-colors duration-fast ease-enter, bg → --comp-callout-close-hover-{variant}",
+      "position": "absolute top-2 right-2",
+      "shape": "rounded-full"
+    },
+    "actionButton": {
+      "hover": "transition-opacity duration-fast ease-enter, hover:opacity-80"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "pattern": "--comp-callout-{property}",
+      "list": [
+        "--comp-callout-max-width: 320px",
+        "--comp-callout-px: var(--spacing-3\\.5) = 14px",
+        "--comp-callout-py: var(--spacing-3) = 12px",
+        "--comp-callout-radius: var(--radius-2) = 8px",
+        "--comp-callout-arrow-width: 10px",
+        "--comp-callout-arrow-height: 5px",
+        "--comp-callout-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)",
+        "--comp-callout-close-size: 32px",
+        "--comp-callout-close-icon: 20px",
+        "--comp-callout-action-icon: 20px"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "pattern": "--comp-callout-{property}-{variant}",
+      "list": [
+        "--comp-callout-bg-black: semantic-neutral-solid-950",
+        "--comp-callout-text-black: semantic-text-on-dim-900",
+        "--comp-callout-arrow-black: semantic-neutral-solid-950",
+        "--comp-callout-close-black: semantic-text-on-dim-600",
+        "--comp-callout-close-hover-black: semantic-state-on-dim-50",
+        "--comp-callout-action-black: semantic-text-on-dim-900",
+        "--comp-callout-bg-white: semantic-neutral-solid-50",
+        "--comp-callout-text-white: semantic-text-on-bright-900",
+        "--comp-callout-arrow-white: semantic-neutral-solid-50",
+        "--comp-callout-close-white: semantic-text-on-bright-600",
+        "--comp-callout-close-hover-white: semantic-state-on-bright-50",
+        "--comp-callout-action-white: semantic-text-on-bright-900",
+        "--comp-callout-bg-brand: semantic-primary-500",
+        "--comp-callout-text-brand: semantic-text-on-dim-950",
+        "--comp-callout-arrow-brand: semantic-primary-500",
+        "--comp-callout-close-brand: semantic-text-on-dim-800",
+        "--comp-callout-close-hover-brand: semantic-state-on-dim-50",
+        "--comp-callout-action-brand: semantic-text-on-dim-950"
+      ]
+    },
+    "geoShapeOverrides": []
+  },
+
+  "features": {
+    "themeInheritance": {
+      "mechanism": "useThemeAttributes hook. anchorRef에서 closest('[data-theme]')를 찾아 Portal wrapper에 data-theme 전파.",
+      "components": ["CalloutContent"]
+    },
+    "dismissModes": {
+      "manual": "외부 클릭(onInteractOutside) + Escape(onEscapeKeyDown) + Close 버튼. Radix Popover 기본 동작 활용.",
+      "auto": "manual의 모든 방법 + setTimeout 타이머. useEffect에서 dismiss='auto' && isOpen일 때 autoDismissDuration 후 handleOpenChange(false). cleanup으로 clearTimeout.",
+      "none": "onInteractOutside/onEscapeKeyDown에서 e.preventDefault(). Close 버튼으로만 닫힘."
+    },
+    "arrow": {
+      "description": "CalloutArrow 서브 컴포넌트로 선택적 렌더링. RadixPopover.Arrow를 감싼다.",
+      "size": "width=10, height=5",
+      "color": "variant별 --comp-callout-arrow-{variant} fill 적용."
+    },
+    "shadow": {
+      "description": "showShadow=true일 때 --comp-callout-shadow box-shadow 적용.",
+      "value": "0px 2px 10px 0px rgba(0,0,0,0.12)"
+    },
+    "animation": {
+      "enter": "tooltip-enter keyframes, var(--semantic-duration-fast), var(--semantic-easing-enter). data-[state=open] 트리거.",
+      "exit": "tooltip-exit keyframes, var(--semantic-duration-fast), var(--semantic-easing-exit), forwards. data-[state=closed] 트리거."
+    },
+    "closeButton": {
+      "position": "absolute top-2 right-2",
+      "size": "--comp-callout-close-size (32px)",
+      "iconSize": "--comp-callout-close-icon (20px)",
+      "icon": "내장 CloseIcon SVG (X 모양, stroke currentColor)",
+      "transition": "transition-colors duration-fast ease-enter"
+    },
+    "actionButton": {
+      "layout": "flex justify-end, px/pb는 --comp-callout-px/--comp-callout-py 사용",
+      "typography": "typography-14-medium",
+      "icon": "내장 ArrowForwardIcon SVG (→ 화살표), --comp-callout-action-icon (20px)",
+      "closeOnClick": "true면 onClick 실행 후 onClose() 호출",
+      "transition": "transition-opacity duration-fast ease-enter, hover:opacity-80"
+    },
+    "textArea": {
+      "typography": "typography-16-medium",
+      "padding": "px-[var(--comp-callout-px)] py-[var(--comp-callout-py)]"
+    },
+    "controlledUncontrolled": {
+      "description": "open prop 유무로 controlled/uncontrolled 판단. 내부 state(internalOpen) + isControlled 패턴.",
+      "defaultOpen": "uncontrolled 모드의 초기값 (기본 false)"
+    },
+    "collision": "Radix 내장 collision detection. collisionPadding으로 뷰포트 가장자리 간격 설정.",
+    "internalIcons": "CloseIcon, ArrowForwardIcon — 내부 SVG 컴포넌트로 정의. 외부 의존성 없음."
+  },
+
+  "accessibility": {
+    "roles": "Radix Popover가 자동 관리 (dialog role, aria-describedby 등 Radix 기본값)",
+    "closeButton": "aria-label='Close' (기본값, 커스터마이즈 가능)",
+    "keyboard": {
+      "manual": "Escape로 닫힘 가능",
+      "auto": "Escape로 닫힘 가능 (타이머도 활성)",
+      "none": "Escape 차단 (Close 버튼만 사용)"
+    },
+    "anchor": "asChild=true(기본값)로 자식 요소의 접근성 속성 유지"
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Radix UI Popover + Dual Context (theme + component) + cn",
+    "compoundExport": "Object.assign(CalloutRoot, { Anchor, Content, Arrow, Text, Close, Action })",
+    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-pretendard'> wrapper.",
+    "variantStyleMaps": "bgMap, textMap, arrowColorMap, closeColorMap, actionColorMap — 5개의 Record<CalloutVariant, string> 맵.",
+    "contentLayout": "flex flex-col — 서브 컴포넌트(Text, Close, Action, Arrow)를 수직 배치.",
+    "files": [
+      "src/components/Callout/Callout.tsx",
+      "src/components/Callout/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-popover"
+    ],
+    "variantMetadata": {
+      "CALLOUT_VARIANTS": ["black", "white", "brand"],
+      "CALLOUT_SIDES": ["top", "bottom", "left", "right"],
+      "CALLOUT_ALIGNS": ["start", "center", "end"],
+      "CALLOUT_DISMISS_MODES": ["manual", "auto", "none"]
+    },
+    "exportedTypes": [
+      "CalloutProps",
+      "CalloutAnchorProps",
+      "CalloutContentProps",
+      "CalloutArrowProps",
+      "CalloutTextProps",
+      "CalloutCloseProps",
+      "CalloutActionProps",
+      "CalloutVariant",
+      "CalloutSide",
+      "CalloutAlign",
+      "CalloutDismissMode"
+    ]
+  }
+}

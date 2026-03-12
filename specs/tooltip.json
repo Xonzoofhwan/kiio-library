@@ -1,0 +1,241 @@
+{
+  "component": "Tooltip",
+  "description": "Radix UI Tooltip 기반의 툴팁 컴포넌트. black/white/brand 3가지 색상 variant를 지원하며, 화살표, 그림자, 방향/정렬 설정을 제공한다. Portal 렌더링 시 트리거 조상의 테마 속성을 자동 전파한다.",
+  "classification": "Compound",
+
+  "subComponents": [
+    {
+      "name": "TooltipProvider",
+      "role": "전역 설정 Provider. Radix TooltipProvider를 감싸며 delayDuration, skipDelayDuration, disableHoverableContent를 제어한다.",
+      "element": "RadixTooltip.Provider",
+      "props": {
+        "delayDuration": {
+          "type": "number",
+          "default": 700,
+          "description": "툴팁 열림까지의 전역 지연 시간 (ms)."
+        },
+        "skipDelayDuration": {
+          "type": "number",
+          "default": 300,
+          "description": "빠르게 연속으로 툴팁을 열 때 적용되는 축약 지연 (ms)."
+        },
+        "disableHoverableContent": {
+          "type": "boolean",
+          "default": false,
+          "description": "true면 Content에 마우스를 올려도 툴팁이 유지되지 않는다."
+        },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "Tooltip",
+      "role": "Root. Radix Tooltip.Root를 감싸고 TooltipThemeContext를 제공. triggerRef를 통해 테마 전파를 위한 DOM 참조를 관리.",
+      "element": "RadixTooltip.Root",
+      "props": {
+        "open": { "type": "boolean", "description": "열림 상태 (controlled)." },
+        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태 (uncontrolled)." },
+        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백." },
+        "delayDuration": { "type": "number", "description": "이 인스턴스의 지연 시간 (ms). Provider 설정을 오버라이드." },
+        "disableHoverableContent": { "type": "boolean", "description": "true면 Content에 마우스를 올려도 툴팁이 유지되지 않는다." },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "TooltipTrigger",
+      "role": "트리거 요소. asChild로 자식 요소에 trigger props 전달. 내부적으로 triggerRef를 TooltipThemeContext에 등록.",
+      "element": "RadixTooltip.Trigger",
+      "props": {
+        "asChild": {
+          "type": "boolean",
+          "default": true,
+          "description": "자식 요소에 trigger props를 전달한다."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "TooltipContent",
+      "role": "툴팁 콘텐츠 패널. Portal로 렌더링되며 테마 속성을 자동 전파. variant별 배경/텍스트/화살표 색상, 방향/정렬, 화살표/그림자 제어.",
+      "element": "RadixTooltip.Content (Portal 내부)",
+      "props": {
+        "variant": {
+          "type": "'black' | 'white' | 'brand'",
+          "default": "black",
+          "description": "시각적 variant. 배경, 텍스트, 화살표 색상을 결정한다."
+        },
+        "side": {
+          "type": "'top' | 'bottom' | 'left' | 'right'",
+          "default": "top",
+          "description": "배치 방향."
+        },
+        "align": {
+          "type": "'start' | 'center' | 'end'",
+          "default": "center",
+          "description": "정렬."
+        },
+        "hasArrow": {
+          "type": "boolean",
+          "default": true,
+          "description": "화살표 표시 여부."
+        },
+        "showShadow": {
+          "type": "boolean",
+          "default": false,
+          "description": "그림자 표시 여부."
+        },
+        "sideOffset": {
+          "type": "number",
+          "default": 8,
+          "description": "트리거에서 간격 (px)."
+        },
+        "collisionPadding": {
+          "type": "number",
+          "default": 8,
+          "description": "뷰포트 가장자리 최소 간격 (px)."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    }
+  ],
+
+  "context": {
+    "themeContext": {
+      "name": "TooltipThemeContext",
+      "sharedState": {
+        "triggerRef": "트리거 DOM element 참조. Portal 내부에서 조상 테마 속성을 읽기 위해 사용."
+      },
+      "themeInheritance": "triggerRef.closest('[data-theme]')에서 data-theme를 읽어 Portal 내부 wrapper에 전파."
+    }
+  },
+
+  "variants": {
+    "variant": {
+      "black": {
+        "background": "--comp-tooltip-bg-black → semantic-neutral-solid-950",
+        "text": "--comp-tooltip-text-black → semantic-text-on-dim-900",
+        "arrow": "--comp-tooltip-arrow-black → semantic-neutral-solid-950"
+      },
+      "white": {
+        "background": "--comp-tooltip-bg-white → semantic-neutral-solid-50",
+        "text": "--comp-tooltip-text-white → semantic-text-on-bright-900",
+        "arrow": "--comp-tooltip-arrow-white → semantic-neutral-solid-50"
+      },
+      "brand": {
+        "background": "--comp-tooltip-bg-brand → semantic-primary-500",
+        "text": "--comp-tooltip-text-brand → semantic-text-on-dim-950",
+        "arrow": "--comp-tooltip-arrow-brand → semantic-primary-500"
+      }
+    },
+    "side": {
+      "values": ["top", "bottom", "left", "right"],
+      "default": "top",
+      "description": "Radix Tooltip.Content side prop으로 전달."
+    },
+    "align": {
+      "values": ["start", "center", "end"],
+      "default": "center",
+      "description": "Radix Tooltip.Content align prop으로 전달."
+    }
+  },
+
+  "states": {
+    "delayed-open": {
+      "animation": "tooltip-enter, duration-fast, ease-enter",
+      "selector": "data-[state=delayed-open]"
+    },
+    "closed": {
+      "animation": "tooltip-exit, duration-fast, ease-exit, forwards",
+      "selector": "data-[state=closed]"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "pattern": "--comp-tooltip-{property}",
+      "list": [
+        "--comp-tooltip-max-width: 320px",
+        "--comp-tooltip-px: var(--spacing-3\\.5) = 14px",
+        "--comp-tooltip-py: var(--spacing-3) = 12px",
+        "--comp-tooltip-radius: var(--radius-2) = 8px",
+        "--comp-tooltip-arrow-width: 10px",
+        "--comp-tooltip-arrow-height: 5px",
+        "--comp-tooltip-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "pattern": "--comp-tooltip-{property}-{variant}",
+      "list": [
+        "--comp-tooltip-bg-black: semantic-neutral-solid-950",
+        "--comp-tooltip-text-black: semantic-text-on-dim-900",
+        "--comp-tooltip-arrow-black: semantic-neutral-solid-950",
+        "--comp-tooltip-bg-white: semantic-neutral-solid-50",
+        "--comp-tooltip-text-white: semantic-text-on-bright-900",
+        "--comp-tooltip-arrow-white: semantic-neutral-solid-50",
+        "--comp-tooltip-bg-brand: semantic-primary-500",
+        "--comp-tooltip-text-brand: semantic-text-on-dim-950",
+        "--comp-tooltip-arrow-brand: semantic-primary-500"
+      ]
+    },
+    "geoShapeOverrides": []
+  },
+
+  "features": {
+    "themeInheritance": {
+      "mechanism": "useThemeAttributes hook. triggerRef에서 closest('[data-theme]')를 찾아 Portal wrapper에 data-theme 전파.",
+      "components": ["TooltipContent"]
+    },
+    "arrow": {
+      "description": "hasArrow=true(기본값)일 때 RadixTooltip.Arrow로 SVG 화살표 렌더링.",
+      "size": "width=10, height=5",
+      "color": "variant별 --comp-tooltip-arrow-{variant} fill 적용."
+    },
+    "shadow": {
+      "description": "showShadow=true일 때 --comp-tooltip-shadow box-shadow 적용.",
+      "value": "0px 2px 10px 0px rgba(0,0,0,0.12)"
+    },
+    "animation": {
+      "enter": "tooltip-enter keyframes, var(--semantic-duration-fast), var(--semantic-easing-enter). data-[state=delayed-open] 트리거.",
+      "exit": "tooltip-exit keyframes, var(--semantic-duration-fast), var(--semantic-easing-exit), forwards. data-[state=closed] 트리거."
+    },
+    "typography": "typography-16-medium (고정, variant/size에 따라 변하지 않음).",
+    "collision": "Radix 내장 collision detection. collisionPadding으로 뷰포트 가장자리 간격 설정."
+  },
+
+  "accessibility": {
+    "roles": "Radix Tooltip이 자동 관리 (tooltip role, aria-describedby 연결)",
+    "keyboard": "Radix 내장 — focus로 열림, Escape로 닫힘",
+    "trigger": "asChild=true(기본값)로 자식 요소의 접근성 속성 유지"
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Radix UI Tooltip + Context (theme only) + cn",
+    "compoundExport": "Object.assign(TooltipRoot, { Provider, Trigger, Content })",
+    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-pretendard'> wrapper.",
+    "variantStyleMaps": "variantMap (bg+text), arrowColorMap (fill) — Record<TooltipVariant, string> 형태로 cn()에서 사용.",
+    "files": [
+      "src/components/Tooltip/Tooltip.tsx",
+      "src/components/Tooltip/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-tooltip"
+    ],
+    "variantMetadata": {
+      "TOOLTIP_VARIANTS": ["black", "white", "brand"],
+      "TOOLTIP_SIDES": ["top", "bottom", "left", "right"],
+      "TOOLTIP_ALIGNS": ["start", "center", "end"]
+    },
+    "exportedTypes": [
+      "TooltipProviderProps",
+      "TooltipRootProps",
+      "TooltipTriggerProps",
+      "TooltipContentProps",
+      "TooltipVariant",
+      "TooltipSide",
+      "TooltipAlign"
+    ]
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "component": "DropdownMenu",
+  "description": "Radix UI DropdownMenu 기반의 드롭다운 메뉴 컴포넌트. MenuItem, CheckboxItem, RadioItem, SubMenu 등 다양한 아이템 타입을 지원하며, 그룹화, 구분선, 라벨을 제공한다. Portal 렌더링 시 테마 속성을 자동 전파한다.",
+  "classification": "Compound",
+
+  "subComponents": [
+    {
+      "name": "DropdownMenu",
+      "role": "Root. Radix DropdownMenu.Root를 감싸고 DropdownThemeContext를 제공.",
+      "element": "RadixDropdownMenu.Root",
+      "props": {
+        "open": { "type": "boolean", "description": "열림 상태 (controlled)" },
+        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태 (uncontrolled)" },
+        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백" },
+        "modal": { "type": "boolean", "default": true, "description": "모달 모드" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "DropdownMenuTrigger",
+      "role": "트리거 버튼. asChild로 자식 요소에 trigger props 전달. 내부적으로 triggerRef를 DropdownThemeContext에 등록.",
+      "element": "RadixDropdownMenu.Trigger",
+      "props": {
+        "asChild": { "type": "boolean", "default": true, "description": "자식 요소에 trigger props 전달" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuContent",
+      "role": "드롭다운 패널 컨테이너. Portal로 렌더링되며 테마 속성을 자동 전파. 헤더 슬롯 지원.",
+      "element": "RadixDropdownMenu.Content (Portal 내부)",
+      "props": {
+        "side": { "type": "'top' | 'right' | 'bottom' | 'left'", "default": "bottom", "description": "배치 방향" },
+        "align": { "type": "'start' | 'center' | 'end'", "default": "start", "description": "정렬" },
+        "sideOffset": { "type": "number", "default": 4, "description": "트리거에서 간격 (px)" },
+        "collisionPadding": { "type": "number", "default": 8, "description": "뷰포트 가장자리에서 최소 간격 (px)" },
+        "header": { "type": "ReactNode", "description": "Sticky header 슬롯 (Search Input 등)" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuItem",
+      "role": "기본 메뉴 아이템. 클릭 시 onSelect 호출 후 자동 닫힘.",
+      "element": "RadixDropdownMenu.Item",
+      "props": {
+        "disabled": { "type": "boolean", "description": "비활성화" },
+        "onSelect": { "type": "(event: Event) => void", "description": "클릭 핸들러" },
+        "iconLeading": { "type": "ReactNode", "description": "Leading icon" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuCheckboxItem",
+      "role": "체크박스 아이템. 선택 시 메뉴가 닫히지 않음 (e.preventDefault).",
+      "element": "RadixDropdownMenu.CheckboxItem",
+      "props": {
+        "checked": { "type": "boolean", "description": "체크 상태" },
+        "onCheckedChange": { "type": "(checked: boolean) => void", "description": "체크 변경 콜백" },
+        "disabled": { "type": "boolean", "description": "비활성화" },
+        "iconLeading": { "type": "ReactNode", "description": "Leading icon" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuRadioGroup",
+      "role": "라디오 그룹 컨테이너. value/onValueChange로 단일 선택 관리.",
+      "element": "RadixDropdownMenu.RadioGroup",
+      "props": {
+        "value": { "type": "string", "description": "현재 선택값" },
+        "onValueChange": { "type": "(value: string) => void", "description": "선택 변경 콜백" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "DropdownMenuRadioItem",
+      "role": "라디오 아이템. RadioGroup 내부에서 사용. 선택/미선택 아이콘 표시.",
+      "element": "RadixDropdownMenu.RadioItem",
+      "props": {
+        "value": { "type": "string", "description": "이 아이템의 값" },
+        "disabled": { "type": "boolean", "description": "비활성화" },
+        "iconLeading": { "type": "ReactNode", "description": "Leading icon" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuSub",
+      "role": "서브메뉴 루트. open/onOpenChange로 서브메뉴 상태 관리.",
+      "element": "RadixDropdownMenu.Sub",
+      "props": {
+        "open": { "type": "boolean", "description": "서브메뉴 열림 상태 (controlled)" },
+        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태" },
+        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "DropdownMenuSubTrigger",
+      "role": "서브메뉴 트리거 아이템. 우측에 chevron right 아이콘 표시.",
+      "element": "RadixDropdownMenu.SubTrigger",
+      "props": {
+        "disabled": { "type": "boolean", "description": "비활성화" },
+        "iconLeading": { "type": "ReactNode", "description": "Leading icon" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuSubContent",
+      "role": "서브메뉴 콘텐츠 패널. Portal로 렌더링되며 테마 속성 자동 전파.",
+      "element": "RadixDropdownMenu.SubContent (Portal 내부)",
+      "props": {
+        "sideOffset": { "type": "number", "default": 6, "description": "서브메뉴 간격 (px)" },
+        "collisionPadding": { "type": "number", "default": 8, "description": "뷰포트 가장자리에서 최소 간격" },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuGroup",
+      "role": "아이템 논리적 그룹화. 시각적 차이 없음, 접근성 목적.",
+      "element": "RadixDropdownMenu.Group",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuLabel",
+      "role": "그룹 헤더 라벨. sticky top-0으로 스크롤 시 고정.",
+      "element": "RadixDropdownMenu.Label",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DropdownMenuSeparator",
+      "role": "시각적 구분선.",
+      "element": "RadixDropdownMenu.Separator",
+      "props": {
+        "className": { "type": "string" }
+      }
+    }
+  ],
+
+  "context": {
+    "name": "DropdownThemeContext",
+    "sharedState": {
+      "triggerRef": "트리거 DOM element 참조. Portal 내부에서 조상 테마 속성을 읽기 위해 사용."
+    },
+    "themeInheritance": "triggerRef.closest('[data-theme]')에서 data-theme를 읽어 Portal 내부 wrapper에 전파."
+  },
+
+  "variants": {
+    "side": {
+      "values": ["top", "right", "bottom", "left"],
+      "default": "bottom",
+      "description": "드롭다운 배치 방향"
+    },
+    "align": {
+      "values": ["start", "center", "end"],
+      "default": "start",
+      "description": "드롭다운 정렬"
+    }
+  },
+
+  "states": {
+    "item-default": {
+      "label": "var(--comp-dropdown-item-label) → neutral-black-alpha-800",
+      "icon": "var(--comp-dropdown-item-icon) → neutral-black-alpha-800"
+    },
+    "item-hover": {
+      "overlay": "var(--comp-dropdown-item-hover) → state-on-bright-50",
+      "trigger": "data-[highlighted] Radix 제공"
+    },
+    "item-pressed": {
+      "overlay": "var(--comp-dropdown-item-pressed) → state-on-bright-70"
+    },
+    "item-disabled": {
+      "label": "var(--comp-dropdown-item-label-disabled) → neutral-black-alpha-300",
+      "icon": "var(--comp-dropdown-item-icon-disabled) → neutral-black-alpha-300",
+      "chevron": "var(--comp-dropdown-item-chevron-disabled) → neutral-black-alpha-100",
+      "cursor": "cursor-default"
+    },
+    "check-states": {
+      "checked": "var(--comp-dropdown-check-checked) → success-500",
+      "unchecked": "var(--comp-dropdown-check-unchecked) → neutral-black-alpha-200",
+      "checked-disabled": "var(--comp-dropdown-check-checked-disabled) → success-200",
+      "unchecked-disabled": "var(--comp-dropdown-check-unchecked-disabled) → neutral-black-alpha-100"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "pattern": "--comp-dropdown-{property}[-{detail}]",
+      "list": [
+        "--comp-dropdown-min-width: 200px",
+        "--comp-dropdown-max-width: 320px",
+        "--comp-dropdown-max-height: 480px",
+        "--comp-dropdown-padding-y: 8px",
+        "--comp-dropdown-padding-x: 6px",
+        "--comp-dropdown-radius: var(--radius-3) = 12px",
+        "--comp-dropdown-shadow: 0px 1px 4px rgba(0,0,0,0.04), 0px 4px 24px rgba(0,0,0,0.12)",
+        "--comp-dropdown-item-height: 32px",
+        "--comp-dropdown-item-padding-x: 8px",
+        "--comp-dropdown-item-gap: 4px",
+        "--comp-dropdown-item-radius: var(--radius-2) = 8px",
+        "--comp-dropdown-icon-leading: 20px",
+        "--comp-dropdown-icon-trailing: 18px",
+        "--comp-dropdown-icon-check: 18px",
+        "--comp-dropdown-icon-back: 20px",
+        "--comp-dropdown-title-height: 36px",
+        "--comp-dropdown-title-padding-x: 12px",
+        "--comp-dropdown-title-gap: 8px",
+        "--comp-dropdown-subtitle-height: 22px",
+        "--comp-dropdown-subtitle-padding-x: 8px",
+        "--comp-dropdown-divider-margin-y: 4px",
+        "--comp-dropdown-divider-margin-x: 4px",
+        "--comp-dropdown-header-padding: 8px",
+        "--comp-dropdown-trigger-offset: 4px",
+        "--comp-dropdown-submenu-offset: 6px",
+        "--comp-dropdown-collision-padding: 8px"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "pattern": "--comp-dropdown-{property}[-{state}]",
+      "list": [
+        "--comp-dropdown-bg: neutral-solid-0",
+        "--comp-dropdown-border: neutral-white-alpha-100",
+        "--comp-dropdown-divider: neutral-solid-70",
+        "--comp-dropdown-item-label: neutral-black-alpha-800",
+        "--comp-dropdown-item-icon: neutral-black-alpha-800",
+        "--comp-dropdown-item-chevron: neutral-black-alpha-400",
+        "--comp-dropdown-item-hover: state-on-bright-50",
+        "--comp-dropdown-item-pressed: state-on-bright-70",
+        "--comp-dropdown-item-label-disabled: neutral-black-alpha-300",
+        "--comp-dropdown-item-icon-disabled: neutral-black-alpha-300",
+        "--comp-dropdown-item-chevron-disabled: neutral-black-alpha-100",
+        "--comp-dropdown-check-checked: success-500",
+        "--comp-dropdown-check-unchecked: neutral-black-alpha-200",
+        "--comp-dropdown-check-checked-disabled: success-200",
+        "--comp-dropdown-check-unchecked-disabled: neutral-black-alpha-100",
+        "--comp-dropdown-focus-ring: primary-300",
+        "--comp-dropdown-subtitle: neutral-black-alpha-400",
+        "--comp-dropdown-title-label: neutral-black-alpha-800",
+        "--comp-dropdown-title-icon: neutral-black-alpha-800",
+        "--comp-dropdown-title-border: divider-solid-100",
+        "--comp-dropdown-header-border: neutral-solid-70"
+      ]
+    },
+    "geoShapeOverrides": []
+  },
+
+  "features": {
+    "themeInheritance": {
+      "mechanism": "useThemeAttributes hook. triggerRef에서 closest('[data-theme]')를 찾아 Portal wrapper에 data-theme 전파.",
+      "components": ["DropdownMenuContent", "DropdownMenuSubContent"]
+    },
+    "headerSlot": {
+      "description": "Content에 header prop으로 sticky 헤더 삽입 가능 (검색 입력 등).",
+      "styling": "bg-[var(--comp-dropdown-bg)] p-[var(--comp-dropdown-header-padding)] border-b border-[var(--comp-dropdown-header-border)]"
+    },
+    "stickyLabel": {
+      "description": "DropdownMenuLabel은 sticky top-0으로 스크롤 시 고정.",
+      "styling": "typography-12-medium, text-[var(--comp-dropdown-subtitle)]"
+    },
+    "animation": {
+      "mainMenu": {
+        "enter": "dropdown-enter, duration-normal, ease-enter",
+        "exit": "dropdown-exit, duration-fast, ease-exit, forwards"
+      },
+      "subMenu": {
+        "enter": "dropdown-sub-enter, duration-normal, ease-enter",
+        "exit": "dropdown-sub-exit, duration-fast, ease-exit, forwards"
+      }
+    },
+    "stateOverlay": "모든 아이템 타입에 공통. sibling <span> absolute inset-0 rounded-[inherit]. group-data-[highlighted] + group-active."
+  },
+
+  "accessibility": {
+    "roles": "Radix DropdownMenu가 자동 관리 (menu, menuitem, menuitemcheckbox, menuitemradio)",
+    "keyboard": "Radix 내장 (ArrowDown/Up, Enter/Space, Escape, Sub arrow navigation)",
+    "checkIndicator": {
+      "checkbox": "Checked/Unchecked 아이콘 SVG 토글",
+      "radio": "Checked/Unchecked 아이콘 SVG. data-[state=checked] 기반 표시/숨김"
+    }
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Radix UI DropdownMenu + Context (theme only) + cn",
+    "stateOverlay": "sibling <span> + group-data-[highlighted]/group-active, rounded-[inherit]",
+    "itemBaseClasses": "group relative flex items-center outline-none cursor-pointer select-none h-[var(--comp-dropdown-item-height)] px-[var(--comp-dropdown-item-padding-x)] gap-[var(--comp-dropdown-item-gap)] rounded-[var(--comp-dropdown-item-radius)] typography-14-medium",
+    "files": [
+      "src/components/DropdownMenu/DropdownMenu.tsx",
+      "src/components/DropdownMenu/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-dropdown-menu"
+    ],
+    "variantMetadata": {
+      "DROPDOWN_MENU_SIDES": ["top", "right", "bottom", "left"],
+      "DROPDOWN_MENU_ALIGNS": ["start", "center", "end"]
+    },
+    "exportedTypes": [
+      "DropdownMenuProps",
+      "DropdownMenuTriggerProps",
+      "DropdownMenuContentProps",
+      "DropdownMenuItemProps",
+      "DropdownMenuCheckboxItemProps",
+      "DropdownMenuRadioGroupProps",
+      "DropdownMenuRadioItemProps",
+      "DropdownMenuSubProps",
+      "DropdownMenuSubTriggerProps",
+      "DropdownMenuSubContentProps",
+      "DropdownMenuGroupProps",
+      "DropdownMenuSeparatorProps",
+      "DropdownMenuLabelProps",
+      "DropdownMenuSide",
+      "DropdownMenuAlign"
+    ]
+  }
+}

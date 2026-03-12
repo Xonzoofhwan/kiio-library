@@ -1,0 +1,164 @@
+{
+  "component": "Textarea",
+  "description": "Multi-line text input with 2 sizes (large/xLarge), auto-resize support, row-based height control (minRows/maxRows), and FormField context integration. Reuses TextField color tokens for visual consistency.",
+  "classification": "Primitive",
+
+  "props": {
+    "id": {
+      "type": "string",
+      "default": "undefined",
+      "description": "Textarea element ID. Auto-provided by FormField context, or set directly."
+    },
+    "size": {
+      "type": "'large' | 'xLarge'",
+      "default": "large",
+      "description": "Size variant. Controls padding, typography, and border-radius. Height is content-driven."
+    },
+    "minRows": {
+      "type": "number",
+      "default": 3,
+      "description": "Minimum row count. Determines min-height based on line-height (large: 24px, xLarge: 26px)."
+    },
+    "maxRows": {
+      "type": "number",
+      "default": "undefined",
+      "description": "Maximum row count. Determines max-height. Content scrolls when exceeded. Unlimited if unset."
+    },
+    "autoResize": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-adjusts height based on content. Bounded by minRows/maxRows. Uses useLayoutEffect + scrollHeight."
+    },
+    "error": {
+      "type": "boolean",
+      "default": false,
+      "description": "Error state. Changes background/border to error colors. Auto-provided by FormField context."
+    },
+    "positive": {
+      "type": "boolean",
+      "default": false,
+      "description": "Success state. Changes border color only (no icon for Textarea)."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Disabled state. Muted colors, cursor-not-allowed. Auto-provided by FormField context."
+    },
+    "readOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Read-only state. Subtle background, no hover overlay. Auto-provided by FormField context."
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": true,
+      "description": "When true, container is w-full. When false, w-fit with min-w-[200px]."
+    },
+    "pill": {
+      "type": "boolean",
+      "default": false,
+      "description": "Overrides border-radius to 9999px for fully rounded appearance."
+    },
+    "value": {
+      "type": "string",
+      "default": null,
+      "description": "Controlled value. Triggers auto-resize recalculation when changed."
+    },
+    "onChange": {
+      "type": "(e: ChangeEvent<HTMLTextAreaElement>) => void",
+      "default": null,
+      "description": "Standard onChange handler. Also triggers auto-resize if enabled."
+    },
+    "placeholder": {
+      "type": "string",
+      "default": null,
+      "description": "Placeholder text with dedicated color token (reuses TextField tokens)."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "large": {
+        "paddingX": "--comp-textarea-px-lg (12px)",
+        "paddingY": "--comp-textarea-py-lg (12px)",
+        "typography": "typography-16-regular",
+        "lineHeight": "24px (from typography-16)",
+        "radius": "--comp-textarea-radius-lg (12px)"
+      },
+      "xLarge": {
+        "paddingX": "--comp-textarea-px-xl (16px)",
+        "paddingY": "--comp-textarea-py-xl (14px)",
+        "typography": "typography-18-regular",
+        "lineHeight": "26px (from typography-18)",
+        "radius": "--comp-textarea-radius-xl (12px)"
+      }
+    }
+  },
+
+  "states": {
+    "rest": {
+      "background": "--comp-textfield-bg → semantic-neutral-solid-70",
+      "border": "--comp-textfield-border → semantic-neutral-solid-70",
+      "text": "--comp-textfield-text → semantic-text-on-bright-950",
+      "placeholder": "--comp-textfield-text-placeholder → semantic-neutral-solid-400",
+      "caret": "--comp-textfield-caret → semantic-text-on-bright-950"
+    },
+    "hover": {
+      "overlay": "--comp-textfield-hover-on-bright → semantic-state-on-bright-50"
+    },
+    "pressed": {
+      "overlay": "--comp-textfield-active-on-bright → semantic-state-on-bright-70"
+    },
+    "focused": {
+      "background": "--comp-textfield-bg-focus → semantic-neutral-solid-0",
+      "border": "--comp-textfield-border-focus → semantic-neutral-solid-400",
+      "keyboardFocusRing": "--comp-textfield-focus-ring → semantic-neutral-solid-300 (ring-2 ring-offset-2, keyboard only)"
+    },
+    "error": {
+      "background": "--comp-textfield-bg-error → semantic-error-50",
+      "backgroundFocused": "--comp-textfield-bg-error-focus → semantic-neutral-solid-0",
+      "border": "--comp-textfield-border-error → semantic-error-500",
+      "keyboardFocusRing": "--comp-textfield-focus-ring-error → semantic-error-500"
+    },
+    "positive": {
+      "description": "Background and border remain in normal state (same as TextField positive behavior)."
+    },
+    "disabled": {
+      "background": "--comp-textfield-bg-disabled → semantic-neutral-solid-100",
+      "border": "--comp-textfield-border-disabled → semantic-neutral-solid-100",
+      "text": "--comp-textfield-text-disabled → semantic-neutral-solid-400",
+      "placeholder": "--comp-textfield-text-placeholder-disabled → semantic-neutral-solid-300",
+      "behavior": "cursor-not-allowed, no hover overlay"
+    },
+    "readOnly": {
+      "background": "--comp-textfield-bg-readonly → semantic-neutral-solid-50",
+      "border": "--comp-textfield-border-readonly → semantic-neutral-solid-50",
+      "behavior": "No hover overlay"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Radix Slot, no asChild)",
+    "stateOverlay": "Absolute <span> sibling with group-hover/group-active. Hidden when disabled or readOnly.",
+    "focusDetection": "pointerRef tracks mouse vs keyboard focus. ring-2 only for keyboard focus.",
+    "autoResizeStrategy": "useLayoutEffect recalculates on mount, value change, and onChange. Sets el.style.height='auto' then reads scrollHeight, clamped between minRows*lineHeight and maxRows*lineHeight.",
+    "heightCalculation": "minHeight = lineHeight * minRows (inline style). maxHeight = lineHeight * maxRows or undefined (inline style). resize: 'none' forced via inline style.",
+    "mergedRef": "useCallback merges forwarded ref + internal textareaRef for auto-resize DOM access.",
+    "formFieldIntegration": "Merges id, error, disabled, readOnly, required from FormField context. Context values serve as fallback.",
+    "colorTokenReuse": "All color tokens reuse --comp-textfield-* variables (no separate --comp-textarea-* color tokens).",
+    "ariaAttributes": "aria-invalid (error), aria-disabled, aria-required, aria-describedby (FormField IDs).",
+    "files": [
+      "src/components/Textarea/Textarea.tsx",
+      "src/components/Textarea/index.ts"
+    ],
+    "dependencies": [
+      "class-variance-authority",
+      "src/lib/utils.ts",
+      "src/components/FormField (useFormField hook)"
+    ],
+    "tokenFiles": {
+      "size": "src/tokens/tokens.css :root (--comp-textarea-px-*, --comp-textarea-py-*, --comp-textarea-radius-*)",
+      "color": "Reuses --comp-textfield-* color tokens from [data-theme] scope"
+    }
+  }
+}

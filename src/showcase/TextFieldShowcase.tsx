@@ -174,13 +174,13 @@ export function TextFieldShowcase() {
       <section id="textfield-pill" className="mb-12 scroll-mt-6">
         <SectionTitle>Pill</SectionTitle>
         <p className="typography-13-regular text-semantic-text-on-bright-400 mb-4">
-          pill prop으로 완전 둥근 끝(9999px) 적용. geo shape에서 sharp(0px)와 pill을 선택할 수 있다.
+          shape="pill"로 완전 둥근 끝(9999px) 적용.
         </p>
         <div className="flex flex-col gap-3 max-w-md">
-          <TextField pill placeholder="Pill 텍스트 입력" />
-          <TextField pill placeholder="Pill + 검색" startEnhancer={<SearchIcon />} />
-          <TextField pill placeholder="Pill + 에러" error />
-          <TextField pill size="large" placeholder="Pill Large" />
+          <TextField shape="pill" placeholder="Pill 텍스트 입력" />
+          <TextField shape="pill" placeholder="Pill + 검색" startEnhancer={<SearchIcon />} />
+          <TextField shape="pill" placeholder="Pill + 에러" error />
+          <TextField shape="pill" size="large" placeholder="Pill Large" />
         </div>
       </section>
 

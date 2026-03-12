@@ -11,7 +11,6 @@ export const TEXTAREA_TOC: TocEntry[] = [
   { id: 'textarea-states',       label: 'States (with FormField)'          },
   { id: 'textarea-sizes',        label: 'Sizes'                            },
   { id: 'textarea-auto-resize',  label: 'Auto Resize'                     },
-  { id: 'textarea-pill',         label: 'Pill'                             },
   { id: 'textarea-standalone',   label: 'Standalone'                       },
 ]
 
@@ -149,19 +148,6 @@ export function TextareaShowcase() {
               placeholder="xLarge 사이즈 자동 확장..."
             />
           </FormField>
-        </div>
-      </section>
-
-      {/* Pill */}
-      <section id="textarea-pill" className="mb-12 scroll-mt-6">
-        <SectionTitle>Pill</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-400 mb-4">
-          pill prop으로 둥근 끝 적용. basic에서 9999px, geo에서 대응 TextField 높이의 절반.
-        </p>
-        <div className="flex flex-col gap-3 max-w-md">
-          <Textarea pill placeholder="Pill textarea" minRows={2} />
-          <Textarea pill size="xLarge" placeholder="Pill xLarge textarea" minRows={2} />
-          <Textarea pill placeholder="Pill + 에러" error minRows={2} />
         </div>
       </section>
 

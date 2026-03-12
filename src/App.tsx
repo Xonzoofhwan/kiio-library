@@ -15,10 +15,13 @@ import { SelectShowcase, SELECT_TOC } from '@/showcase/SelectShowcase'
 import { BadgeShowcase, BADGE_TOC } from '@/showcase/BadgeShowcase'
 import { SegmentBarShowcase, SEGMENTBAR_TOC } from '@/showcase/SegmentBarShowcase'
 import { SideNavShowcase, SIDENAV_TOC } from '@/showcase/SideNavShowcase'
+import { FormFieldShowcase, FORMFIELD_TOC } from '@/showcase/FormFieldShowcase'
+import { TooltipShowcase, TOOLTIP_TOC } from '@/showcase/TooltipShowcase'
+import { CalloutShowcase, CALLOUT_TOC } from '@/showcase/CalloutShowcase'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
 
-type ComponentId = 'home' | 'button' | 'icon-button' | 'chip' | 'textfield' | 'textarea' | 'taginput' | 'searchfield' | 'tab' | 'dropdown-menu' | 'select' | 'badge' | 'segment-bar' | 'sidenav'
+type ComponentId = 'home' | 'button' | 'icon-button' | 'chip' | 'textfield' | 'textarea' | 'taginput' | 'searchfield' | 'tab' | 'dropdown-menu' | 'select' | 'badge' | 'segment-bar' | 'sidenav' | 'formfield' | 'tooltip' | 'callout'
 
 const SHOWCASE_MAP: Record<ComponentId, { component: React.ComponentType; toc: TocEntry[] }> = {
   'home':        { component: HomeShowcase,        toc: HOME_TOC        },
@@ -35,12 +38,14 @@ const SHOWCASE_MAP: Record<ComponentId, { component: React.ComponentType; toc: T
   'badge':       { component: BadgeShowcase,       toc: BADGE_TOC       },
   'segment-bar': { component: SegmentBarShowcase, toc: SEGMENTBAR_TOC  },
   'sidenav':     { component: SideNavShowcase,   toc: SIDENAV_TOC     },
+  'formfield':   { component: FormFieldShowcase, toc: FORMFIELD_TOC   },
+  'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
+  'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
 }
 
 /* ─── App ─────────────────────────────────────────────────────────────────── */
 
 export default function App() {
-  const [shape, setShape] = useState<'basic' | 'geo'>('basic')
   const [activeId, setActiveId] = useState<ComponentId>('home')
   const mainRef = useRef<HTMLDivElement>(null)
 
@@ -54,14 +59,11 @@ export default function App() {
   return (
     <div
       data-theme="brand1"
-      data-shape={shape}
       className="flex h-screen overflow-hidden bg-semantic-background-0 font-pretendard"
     >
       <Sidebar
         active={activeId}
         onSelect={handleSelect}
-        shape={shape}
-        onShapeChange={setShape}
       />
 
       <main

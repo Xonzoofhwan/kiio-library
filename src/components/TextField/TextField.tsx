@@ -8,6 +8,9 @@ import { useFormField } from '@/components/FormField'
 export const TEXTFIELD_SIZES = ['xSmall', 'small', 'medium', 'large', 'xLarge'] as const
 export type TextFieldSize = (typeof TEXTFIELD_SIZES)[number]
 
+export const TEXTFIELD_SHAPES = ['default', 'pill'] as const
+export type TextFieldShape = (typeof TEXTFIELD_SHAPES)[number]
+
 /* ─── CVA ───────────────────────────────────────────────────────────────────── */
 
 const containerVariants = cva(
@@ -132,10 +135,11 @@ export interface TextFieldProps
   fullWidth?: boolean
 
   /**
-   * pill 형태. border-radius를 완전 둥근 끝(9999px)으로 설정한다.
-   * @default false
+   * Shape variant. default = 사이즈별 기본 radius, pill = 완전 둥근 끝(9999px).
+   * @default 'default'
+   * @see TEXTFIELD_SHAPES
    */
-  pill?: boolean
+  shape?: TextFieldShape
 
   /**
    * Clear 버튼 클릭 시 콜백.
@@ -194,7 +198,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       endEnhancer,
       type = 'text',
       fullWidth = true,
-      pill = false,
+      shape = 'default',
       onChange,
       onClear,
       onFocus,
@@ -309,7 +313,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
       <div
         className={cn(
           containerVariants({ size, fullWidth }),
-          pill && 'rounded-[9999px]',
+          shape === 'pill' && 'rounded-[9999px]',
           containerBg,
           containerBorder,
           containerRing,

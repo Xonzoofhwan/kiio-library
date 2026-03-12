@@ -1,0 +1,211 @@
+{
+  "component": "TextField",
+  "description": "Single-line text input with 5 sizes, multiple states (rest/hover/focus/error/positive/disabled/readOnly), start/end enhancer slots, clearable button, password toggle, and FormField context integration.",
+  "classification": "Primitive",
+
+  "props": {
+    "id": {
+      "type": "string",
+      "default": "undefined",
+      "description": "Input element ID. Auto-provided by FormField context, or set directly."
+    },
+    "size": {
+      "type": "'xSmall' | 'small' | 'medium' | 'large' | 'xLarge'",
+      "default": "medium",
+      "description": "Size variant. Controls height, padding, gap, typography, icon size, and border-radius."
+    },
+    "error": {
+      "type": "boolean",
+      "default": false,
+      "description": "Error state. Changes background/border to error colors. Shows AlertIcon. Auto-provided by FormField context."
+    },
+    "positive": {
+      "type": "boolean",
+      "default": false,
+      "description": "Success state. Shows CheckIcon in success color. Background/border remain in normal state."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Disabled state. Muted colors, cursor-not-allowed. Auto-provided by FormField context."
+    },
+    "readOnly": {
+      "type": "boolean",
+      "default": false,
+      "description": "Read-only state. Subtle background, no hover overlay. Auto-provided by FormField context."
+    },
+    "clearable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows clear (X) button when input has a value and is not disabled/readOnly."
+    },
+    "clearOnEscape": {
+      "type": "boolean",
+      "default": true,
+      "description": "When true and clearable, pressing Escape clears the input via onClear callback."
+    },
+    "startEnhancer": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Left slot. String renders as text (prefix typography), ReactNode renders as icon (icon size map)."
+    },
+    "endEnhancer": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Right slot. Renders after validation icon, password toggle, and clear button."
+    },
+    "type": {
+      "type": "'text' | 'password' | 'email' | 'tel' | 'url' | 'search' | 'number'",
+      "default": "text",
+      "description": "Input type. 'password' auto-inserts eye/eye-off toggle button."
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": true,
+      "description": "When true, container is w-full. When false, w-fit with min-w-[200px]."
+    },
+    "pill": {
+      "type": "boolean",
+      "default": false,
+      "description": "Overrides border-radius to 9999px for fully rounded appearance."
+    },
+    "onClear": {
+      "type": "() => void",
+      "default": null,
+      "description": "Callback when clear button is clicked or Escape is pressed (if clearOnEscape)."
+    },
+    "value": {
+      "type": "string",
+      "default": null,
+      "description": "Controlled value. Used for clearable value tracking."
+    },
+    "onChange": {
+      "type": "(e: ChangeEvent<HTMLInputElement>) => void",
+      "default": null,
+      "description": "Standard onChange handler."
+    },
+    "placeholder": {
+      "type": "string",
+      "default": null,
+      "description": "Placeholder text with dedicated color token."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xSmall": {
+        "height": "--comp-textfield-height-xs → --comp-button-height-xs (24px)",
+        "paddingX": "--comp-textfield-px-xs (8px)",
+        "gap": "--comp-textfield-gap-xs (4px)",
+        "iconSize": "--comp-textfield-icon-xs → --comp-button-icon-xs (14px)",
+        "typography": "typography-12-regular",
+        "radius": "--comp-textfield-radius-xs → --comp-button-radius-xs (4px)"
+      },
+      "small": {
+        "height": "--comp-textfield-height-sm → --comp-button-height-sm (32px)",
+        "paddingX": "--comp-textfield-px-sm (10px)",
+        "gap": "--comp-textfield-gap-sm (6px)",
+        "iconSize": "--comp-textfield-icon-sm → --comp-button-icon-sm (16px)",
+        "typography": "typography-13-regular",
+        "radius": "--comp-textfield-radius-sm → --comp-button-radius-sm (8px)"
+      },
+      "medium": {
+        "height": "--comp-textfield-height-md → --comp-button-height-md (40px)",
+        "paddingX": "--comp-textfield-px-md (12px)",
+        "gap": "--comp-textfield-gap-md (8px)",
+        "iconSize": "--comp-textfield-icon-md → --comp-button-icon-md (18px)",
+        "typography": "typography-14-regular",
+        "radius": "--comp-textfield-radius-md → --comp-button-radius-md (8px)"
+      },
+      "large": {
+        "height": "--comp-textfield-height-lg → --comp-button-height-lg (48px)",
+        "paddingX": "--comp-textfield-px-lg (14px)",
+        "gap": "--comp-textfield-gap-lg (8px)",
+        "iconSize": "--comp-textfield-icon-lg → --comp-button-icon-lg (20px)",
+        "typography": "typography-15-regular",
+        "radius": "--comp-textfield-radius-lg → --comp-button-radius-lg (8px)"
+      },
+      "xLarge": {
+        "height": "--comp-textfield-height-xl → --comp-button-height-xl (56px)",
+        "paddingX": "--comp-textfield-px-xl (16px)",
+        "gap": "--comp-textfield-gap-xl (10px)",
+        "iconSize": "--comp-textfield-icon-xl → --comp-button-icon-xl (22px)",
+        "typography": "typography-16-regular",
+        "radius": "--comp-textfield-radius-xl → --comp-button-radius-xl (8px)"
+      }
+    }
+  },
+
+  "states": {
+    "rest": {
+      "background": "--comp-textfield-bg → semantic-neutral-solid-70",
+      "border": "--comp-textfield-border → semantic-neutral-solid-70",
+      "text": "--comp-textfield-text → semantic-text-on-bright-950",
+      "placeholder": "--comp-textfield-text-placeholder → semantic-neutral-solid-400",
+      "caret": "--comp-textfield-caret → semantic-text-on-bright-950"
+    },
+    "hover": {
+      "overlay": "--comp-textfield-hover-on-bright → semantic-state-on-bright-50",
+      "description": "State overlay via sibling <span> with group-hover class."
+    },
+    "pressed": {
+      "overlay": "--comp-textfield-active-on-bright → semantic-state-on-bright-70",
+      "description": "State overlay via sibling <span> with group-active class."
+    },
+    "focused": {
+      "background": "--comp-textfield-bg-focus → semantic-neutral-solid-0",
+      "border": "--comp-textfield-border-focus → semantic-neutral-solid-400",
+      "keyboardFocusRing": "--comp-textfield-focus-ring → semantic-neutral-solid-300 (ring-2 ring-offset-2, keyboard focus only via pointerRef detection)"
+    },
+    "error": {
+      "background": "--comp-textfield-bg-error → semantic-error-50",
+      "backgroundFocused": "--comp-textfield-bg-error-focus → semantic-neutral-solid-0",
+      "border": "--comp-textfield-border-error → semantic-error-500",
+      "icon": "--comp-textfield-icon-error → semantic-error-500 (AlertIcon shown)",
+      "keyboardFocusRing": "--comp-textfield-focus-ring-error → semantic-error-500"
+    },
+    "positive": {
+      "description": "Background and border remain in normal state. Only CheckIcon shown in success color.",
+      "icon": "--comp-textfield-icon-positive → semantic-success-500"
+    },
+    "disabled": {
+      "background": "--comp-textfield-bg-disabled → semantic-neutral-solid-100",
+      "border": "--comp-textfield-border-disabled → semantic-neutral-solid-100",
+      "text": "--comp-textfield-text-disabled → semantic-neutral-solid-400",
+      "placeholder": "--comp-textfield-text-placeholder-disabled → semantic-neutral-solid-300",
+      "icon": "--comp-textfield-icon-disabled → semantic-neutral-solid-300",
+      "behavior": "cursor-not-allowed, no hover overlay, no clear/password toggle"
+    },
+    "readOnly": {
+      "background": "--comp-textfield-bg-readonly → semantic-neutral-solid-50",
+      "border": "--comp-textfield-border-readonly → semantic-neutral-solid-50",
+      "behavior": "No hover overlay, no clear button"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Radix Slot)",
+    "stateOverlay": "Absolute <span> sibling with group-hover/group-active. Hidden when disabled or readOnly.",
+    "focusDetection": "pointerRef tracks mouse vs keyboard focus. ring-2 only shown for keyboard focus (keyboardFocused state).",
+    "passwordToggle": "Auto-inserted when type='password'. Toggles between 'text' and 'password' effectiveType. Uses EyeIcon/EyeOffIcon inline SVGs.",
+    "clearButton": "Shown when clearable && hasValue && !disabled && !readOnly. tabIndex={-1}. Calls onClear callback. XIcon inline SVG.",
+    "validationIcon": "AlertIcon for error, CheckIcon for positive. Shown when !disabled && (error || positive).",
+    "enhancerSlots": "startEnhancer/endEnhancer: string → text span with typography, ReactNode → icon span with iconSizeMap. Both get disabled color override.",
+    "formFieldIntegration": "Merges id, error, disabled, readOnly, required from FormField context. Context values serve as fallback (prop overrides).",
+    "ariaAttributes": "aria-invalid (error), aria-disabled, aria-required, aria-describedby (FormField description + bottom message IDs).",
+    "slotOrder": "startEnhancer → input → validationIcon → passwordToggle → clearButton → endEnhancer",
+    "files": [
+      "src/components/TextField/TextField.tsx",
+      "src/components/TextField/index.ts"
+    ],
+    "dependencies": [
+      "class-variance-authority",
+      "src/lib/utils.ts",
+      "src/components/FormField (useFormField hook)"
+    ],
+    "tokenFiles": {
+      "size": "src/tokens/tokens.css :root (--comp-textfield-height-*, --comp-textfield-px-*, --comp-textfield-gap-*, --comp-textfield-icon-*, --comp-textfield-radius-*)",
+      "color": "src/tokens/tokens.css [data-theme] (--comp-textfield-bg*, --comp-textfield-border*, --comp-textfield-text*, --comp-textfield-icon-*, --comp-textfield-caret, --comp-textfield-hover-*, --comp-textfield-active-*, --comp-textfield-focus-ring*)"
+    }
+  }
+}

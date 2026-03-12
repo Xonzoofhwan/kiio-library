@@ -83,7 +83,7 @@ const CalloutThemeContext = createContext<CalloutThemeContextValue>({
 })
 
 function useThemeAttributes(anchorRef: React.RefObject<HTMLElement | null>) {
-  const [attrs, setAttrs] = useState<{ theme?: string; shape?: string }>({})
+  const [theme, setTheme] = useState<string | undefined>()
 
   useEffect(() => {
     const el = anchorRef.current
@@ -91,15 +91,11 @@ function useThemeAttributes(anchorRef: React.RefObject<HTMLElement | null>) {
     const themed = el.closest('[data-theme]')
     if (themed) {
       const t = themed.getAttribute('data-theme') ?? undefined
-      const s = themed.getAttribute('data-shape') ?? undefined
-      setAttrs(prev => {
-        if (prev.theme === t && prev.shape === s) return prev
-        return { theme: t, shape: s }
-      })
+      setTheme(prev => prev === t ? prev : t)
     }
   })
 
-  return attrs
+  return { theme }
 }
 
 /* ─── Callout context ─────────────────────────────────────────────────────── */
@@ -278,12 +274,12 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
     ref,
   ) => {
     const { anchorRef } = useContext(CalloutThemeContext)
-    const { theme, shape } = useThemeAttributes(anchorRef)
+    const { theme } = useThemeAttributes(anchorRef)
     const { variant, dismiss } = useCalloutContext()
 
     return (
       <RadixPopover.Portal>
-        <div data-theme={theme} data-shape={shape} className="font-pretendard">
+        <div data-theme={theme} className="font-pretendard">
           <RadixPopover.Content
             ref={ref}
             side={side}

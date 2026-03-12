@@ -12,8 +12,9 @@ export const TAB_TOC: TocEntry[] = [
   { id: 'tab-underline-size',    label: 'Underline × Size'                           },
   { id: 'tab-filled-size',       label: 'Pill × Size'                                },
   { id: 'tab-states',            label: 'States'                                     },
-  { id: 'tab-icons-badge',       label: 'With Icons & Badge'                         },
+  { id: 'tab-icons-badge',       label: 'With Icons, Badge & Indicator'              },
   { id: 'tab-scrollable',        label: 'Scrollable'                                 },
+  { id: 'tab-scroll-buttons',    label: 'Scrollable + Chevron Buttons'               },
 ]
 
 /* ─── Showcase ────────────────────────────────────────────────────────────── */
@@ -35,6 +36,7 @@ export function TabShowcase() {
   const [statesTab, setStatesTab] = useState('tab1')
   const [iconsTab, setIconsTab] = useState('home')
   const [scrollTab, setScrollTab] = useState('tab1')
+  const [scrollBtnTab, setScrollBtnTab] = useState('tab1')
 
   function setTab(variant: TabVariant, size: TabSize, value: string) {
     setTabStates(prev => ({
@@ -165,11 +167,11 @@ export function TabShowcase() {
         </div>
       </section>
 
-      {/* With Icons & Badge */}
+      {/* With Icons, Badge & Indicator */}
       <section id="tab-icons-badge" className="mb-12 scroll-mt-6">
-        <SectionTitle>With Icons &amp; Badge</SectionTitle>
+        <SectionTitle>With Icons, Badge &amp; Indicator</SectionTitle>
 
-        <SpecLabel>Underline — icons &amp; badge</SpecLabel>
+        <SpecLabel>Underline — counter badge (inline)</SpecLabel>
         <div className="mt-2 mb-6">
           <TabGroup variant="underline" value={iconsTab} onValueChange={setIconsTab}>
             <TabList>
@@ -185,13 +187,37 @@ export function TabShowcase() {
           </TabGroup>
         </div>
 
-        <SpecLabel>Pill — icons &amp; badge</SpecLabel>
-        <div className="mt-2">
+        <SpecLabel>Underline — indicator dot (overlay)</SpecLabel>
+        <div className="mt-2 mb-6">
+          <TabGroup variant="underline" defaultValue="home">
+            <TabList>
+              <TabItem value="home" icon={<GridIcon />}>홈</TabItem>
+              <TabItem value="favorites" icon={<StarIcon />} showIndicator>즐겨찾기</TabItem>
+              <TabItem value="library" icon={<BookIcon />}>라이브러리</TabItem>
+              <TabItem value="settings" showIndicator>설정</TabItem>
+            </TabList>
+          </TabGroup>
+        </div>
+
+        <SpecLabel>Pill — counter badge (overlay)</SpecLabel>
+        <div className="mt-2 mb-6">
           <TabGroup variant="pill" defaultValue="home">
             <TabList>
               <TabItem value="home" icon={<GridIcon />}>홈</TabItem>
               <TabItem value="favorites" icon={<StarIcon />} badge={<BadgeCounter>{3}</BadgeCounter>}>즐겨찾기</TabItem>
               <TabItem value="library" icon={<BookIcon />}>라이브러리</TabItem>
+            </TabList>
+          </TabGroup>
+        </div>
+
+        <SpecLabel>Pill — indicator dot (inline)</SpecLabel>
+        <div className="mt-2">
+          <TabGroup variant="pill" defaultValue="home">
+            <TabList>
+              <TabItem value="home" icon={<GridIcon />}>홈</TabItem>
+              <TabItem value="favorites" icon={<StarIcon />} showIndicator>즐겨찾기</TabItem>
+              <TabItem value="library" icon={<BookIcon />}>라이브러리</TabItem>
+              <TabItem value="settings" showIndicator>설정</TabItem>
             </TabList>
           </TabGroup>
         </div>
@@ -221,6 +247,38 @@ export function TabShowcase() {
         <div className="mt-2 max-w-xs">
           <TabGroup variant="pill" defaultValue="tab1">
             <TabList>
+              {scrollTabs.slice(0, 8).map((label, i) => (
+                <TabItem key={label} value={`tab${i + 1}`}>{label}</TabItem>
+              ))}
+            </TabList>
+          </TabGroup>
+        </div>
+      </section>
+
+      {/* Scrollable + Chevron Buttons */}
+      <section id="tab-scroll-buttons" className="mb-12 scroll-mt-6">
+        <SectionTitle>Scrollable + Chevron Buttons</SectionTitle>
+
+        <SpecLabel>Underline — showScrollButtons</SpecLabel>
+        <div className="mt-2 mb-6 max-w-sm">
+          <TabGroup variant="underline" value={scrollBtnTab} onValueChange={setScrollBtnTab}>
+            <TabList showScrollButtons>
+              {scrollTabs.map((label, i) => (
+                <TabItem key={label} value={`tab${i + 1}`}>{label}</TabItem>
+              ))}
+            </TabList>
+            {scrollTabs.map((label, i) => (
+              <TabPanel key={label} value={`tab${i + 1}`}>
+                <div className="pt-4 typography-14-regular text-semantic-text-on-bright-700">{label} content</div>
+              </TabPanel>
+            ))}
+          </TabGroup>
+        </div>
+
+        <SpecLabel>Pill — showScrollButtons</SpecLabel>
+        <div className="mt-2 max-w-xs">
+          <TabGroup variant="pill" defaultValue="tab1">
+            <TabList showScrollButtons>
               {scrollTabs.slice(0, 8).map((label, i) => (
                 <TabItem key={label} value={`tab${i + 1}`}>{label}</TabItem>
               ))}

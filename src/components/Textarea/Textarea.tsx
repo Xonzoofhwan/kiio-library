@@ -43,12 +43,6 @@ const lineHeightMap: Record<TextareaSize, number> = {
   xLarge: 26,
 }
 
-/** Pill radius class per size — resolves to 9999px (basic) or height/2 (geo) via tokens */
-const pillRadiusMap: Record<TextareaSize, string> = {
-  large:  'rounded-[var(--comp-textarea-radius-pill-lg)]',
-  xLarge: 'rounded-[var(--comp-textarea-radius-pill-xl)]',
-}
-
 /* ─── Props ────────────────────────────────────────────────────────────────── */
 
 /**
@@ -119,11 +113,6 @@ export interface TextareaProps
    */
   fullWidth?: boolean
 
-  /**
-   * pill 형태. basic에서는 9999px, geo에서는 대응하는 TextField 높이의 절반으로 설정한다.
-   * @default false
-   */
-  pill?: boolean
 }
 
 /* ─── Component ────────────────────────────────────────────────────────────── */
@@ -136,7 +125,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       minRows = 3,
       maxRows,
       autoResize = false,
-      pill = false,
       error: errorProp,
       positive = false,
       disabled: disabledProp,
@@ -263,7 +251,6 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <div
         className={cn(
           containerVariants({ size, fullWidth }),
-          pill && pillRadiusMap[size],
           containerBg,
           containerBorder,
           containerRing,

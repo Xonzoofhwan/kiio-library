@@ -112,7 +112,7 @@ function CheckIcon() {
 /* ─── Theme propagation (same pattern as DropdownMenu) ─────────────────────── */
 
 function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
-  const [attrs, setAttrs] = useState<{ theme?: string; shape?: string }>({})
+  const [theme, setTheme] = useState<string | undefined>()
 
   useEffect(() => {
     const el = triggerRef.current
@@ -120,15 +120,11 @@ function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
     const themed = el.closest('[data-theme]')
     if (themed) {
       const t = themed.getAttribute('data-theme') ?? undefined
-      const s = themed.getAttribute('data-shape') ?? undefined
-      setAttrs((prev) => {
-        if (prev.theme === t && prev.shape === s) return prev
-        return { theme: t, shape: s }
-      })
+      setTheme(prev => prev === t ? prev : t)
     }
   })
 
-  return attrs
+  return { theme }
 }
 
 /* ─── Props ────────────────────────────────────────────────────────────────── */
@@ -305,7 +301,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
     const inputRef = useRef<HTMLInputElement>(null)
 
     /* ── Theme propagation ── */
-    const { theme, shape } = useThemeAttributes(triggerRef)
+    const { theme } = useThemeAttributes(triggerRef)
 
     /* ── Focus handlers ── */
     const handlePointerDown = () => {
@@ -736,7 +732,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(
         </Popover.Trigger>
 
         <Popover.Portal>
-          <div data-theme={theme} data-shape={shape} className="font-pretendard">
+          <div data-theme={theme} className="font-pretendard">
             <Popover.Content
               side="bottom"
               align="start"

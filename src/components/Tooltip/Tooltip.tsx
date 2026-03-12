@@ -37,7 +37,7 @@ const TooltipThemeContext = createContext<TooltipThemeContextValue>({
 })
 
 function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
-  const [attrs, setAttrs] = useState<{ theme?: string; shape?: string }>({})
+  const [theme, setTheme] = useState<string | undefined>()
 
   useEffect(() => {
     const el = triggerRef.current
@@ -45,15 +45,11 @@ function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
     const themed = el.closest('[data-theme]')
     if (themed) {
       const t = themed.getAttribute('data-theme') ?? undefined
-      const s = themed.getAttribute('data-shape') ?? undefined
-      setAttrs(prev => {
-        if (prev.theme === t && prev.shape === s) return prev
-        return { theme: t, shape: s }
-      })
+      setTheme(prev => prev === t ? prev : t)
     }
   })
 
-  return attrs
+  return { theme }
 }
 
 /* ─── TooltipProvider ─────────────────────────────────────────────────────── */
@@ -237,11 +233,11 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
     ref,
   ) => {
     const { triggerRef } = useContext(TooltipThemeContext)
-    const { theme, shape } = useThemeAttributes(triggerRef)
+    const { theme } = useThemeAttributes(triggerRef)
 
     return (
       <RadixTooltip.Portal>
-        <div data-theme={theme} data-shape={shape} className="font-pretendard">
+        <div data-theme={theme} className="font-pretendard">
           <RadixTooltip.Content
             ref={ref}
             side={side}

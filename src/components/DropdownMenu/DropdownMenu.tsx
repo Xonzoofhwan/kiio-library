@@ -57,7 +57,7 @@ function RadioUncheckedIcon() {
 /* ─── Theme context ────────────────────────────────────────────────────────── */
 
 /**
- * Portal에 렌더링되는 Content가 [data-theme]/[data-shape] 스코프를
+ * Portal에 렌더링되는 Content가 [data-theme] 스코프를
  * 상속받을 수 있도록, trigger ref를 통해 조상 속성을 전달한다.
  */
 interface DropdownThemeContextValue {
@@ -69,7 +69,7 @@ const DropdownThemeContext = createContext<DropdownThemeContextValue>({
 })
 
 function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
-  const [attrs, setAttrs] = useState<{ theme?: string; shape?: string }>({})
+  const [theme, setTheme] = useState<string | undefined>()
 
   useEffect(() => {
     const el = triggerRef.current
@@ -77,15 +77,11 @@ function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
     const themed = el.closest('[data-theme]')
     if (themed) {
       const t = themed.getAttribute('data-theme') ?? undefined
-      const s = themed.getAttribute('data-shape') ?? undefined
-      setAttrs(prev => {
-        if (prev.theme === t && prev.shape === s) return prev
-        return { theme: t, shape: s }
-      })
+      setTheme(prev => prev === t ? prev : t)
     }
   })
 
-  return attrs
+  return { theme }
 }
 
 /* ─── Shared item classes ──────────────────────────────────────────────────── */
@@ -201,11 +197,11 @@ export const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuConten
     ref,
   ) => {
     const { triggerRef } = useContext(DropdownThemeContext)
-    const { theme, shape } = useThemeAttributes(triggerRef)
+    const { theme } = useThemeAttributes(triggerRef)
 
     return (
       <RadixDropdownMenu.Portal>
-        <div data-theme={theme} data-shape={shape} className="font-pretendard">
+        <div data-theme={theme} className="font-pretendard">
           <RadixDropdownMenu.Content
             ref={ref}
             side={side}
@@ -607,11 +603,11 @@ export interface DropdownMenuSubContentProps {
 export const DropdownMenuSubContent = forwardRef<HTMLDivElement, DropdownMenuSubContentProps>(
   ({ sideOffset = 6, collisionPadding = 8, children, className, ...props }, ref) => {
     const { triggerRef } = useContext(DropdownThemeContext)
-    const { theme, shape } = useThemeAttributes(triggerRef)
+    const { theme } = useThemeAttributes(triggerRef)
 
     return (
       <RadixDropdownMenu.Portal>
-        <div data-theme={theme} data-shape={shape} className="font-pretendard">
+        <div data-theme={theme} className="font-pretendard">
           <RadixDropdownMenu.SubContent
             ref={ref}
             sideOffset={sideOffset}

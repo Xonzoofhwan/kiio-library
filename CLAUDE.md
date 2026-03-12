@@ -94,7 +94,7 @@ kiio-library/
 |------|------|------|
 | [CLAUDE.md](./CLAUDE.md) | 루트 (이 파일) | 핵심 규칙, 토큰 참조, 컴포넌트 컨벤션, 코드 패턴 |
 | [ADVANCED_PATTERNS.md](./docs/ADVANCED_PATTERNS.md) | `docs/` | 복합 컴포넌트, Context, 훅, 테스트, Storybook 패턴 |
-| [DESIGN_PRINCIPLES.md](./docs/DESIGN_PRINCIPLES.md) | `docs/` | 디자인 철학, API 설계 원칙, 접근성 심화, 디자인-코드 일관성 |
+| [DESIGN_PRINCIPLES.md](./docs/DESIGN_PRINCIPLES.md) | `docs/` | **디자인 판단 기초 원칙(Meta)**, API 설계, 시각적 설계, 접근성, 디자인-코드 일관성 |
 | [INTERACTION_DESIGN.md](./docs/INTERACTION_DESIGN.md) | `docs/` | 인터랙션 설계, 모션 원칙, 상태 전이, 피드백 패턴, 반응형 전략 |
 | [UI_PATTERNS.md](./docs/UI_PATTERNS.md) | `docs/` | UI 패턴, 네비게이션 구조, 오버레이, 데이터 표시, 폼, 페이지 구성 |
 | [FIGMA_TO_CODE.md](./docs/FIGMA_TO_CODE.md) | `docs/` | Figma→Code 실전 워크플로, MCP 도구, 토큰 매핑, 레이아웃 변환 |
@@ -102,8 +102,8 @@ kiio-library/
 | [COMPONENT_PATTERNS.md](./docs/COMPONENT_PATTERNS.md) | `docs/` | CVA+cn, Icon, Loading, asChild 코드 패턴 |
 | [COMPONENT_CHECKLIST.md](./docs/COMPONENT_CHECKLIST.md) | `docs/` | 컴포넌트 개발 체크리스트 (Design, A11y, TS, Quality) |
 | [TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) | `docs/` | 컴포넌트 개발 트러블슈팅 가이드 |
-| [ralph-loop.md](./docs/ralph-loop.md) | `docs/` | 컴포넌트 루프 참조 문서 (PROMPT.md 배경 설명) |
-| [PROMPT.md](./PROMPT.md) | 루트 | ralph-wiggum 자동 인식 컴포넌트 구현 프롬프트 |
+| [DEVIATIONS.md](./docs/DEVIATIONS.md) | `docs/` | 시스템 이탈 기록, 반복 이탈 시 수정 트리거 (원칙 8) |
+| Skill commands | `.claude/commands/` | 4-phase 컴포넌트 개발 워크플로: `/visual-spec` → `/behavior-spec` → `/implement` → `/showcase` + `/verify` |
 
 **문서 관리 원칙**:
 - CLAUDE.md에는 **핵심 규칙과 빠른 참조**만 둔다. 상세 가이드는 `docs/`에 별도 문서로 분리한다.
@@ -316,6 +316,24 @@ export type { ButtonHierarchy, ButtonSize } from './Button'
 
 **Naming Convention**: `{COMPONENT}_{PROP}S` in SCREAMING_SNAKE_CASE (e.g., `INPUT_VARIANTS`, `BADGE_SIZES`).
 
+### Design Thinking Foundation
+
+디자인 판단 시 아래 8원칙이 모든 규칙(A~D절)의 상위 기준이다. 규칙 충돌 시 이 원칙으로 판단한다.
+
+**상시 원칙 (항상 적용)**:
+1. **고정점 우선** — 변하지 않는 것을 먼저 정의하고 나머지를 파생. (토큰: Primitive→Semantic→Comp, API: Figma variant→code prop)
+2. **시스템으로 판단 대체** — 반복 판단을 구조·규칙으로 흡수. 새 규칙이 필요하면 문서에 흡수.
+3. **실증 지향** — Figma 데이터 > 유사 컴포넌트 참조 > 전제 의심. 추측으로 구현하지 않는다.
+4. **시각 디테일은 시스템 통제 대상** — 하드코딩 금지, 토큰 레이어 규칙, 복합 토큰으로 개별 판단을 불필요하게 만든다.
+
+**조건부 원칙 (해당 상황에서 트리거)**:
+5. **전체 흐름 > 개별 화면** — 새 화면·컴포넌트 설계 시, 시스템 전체 일관성을 먼저 점검. (예외: 시각 경험 자체가 기능인 화면)
+6. **문제 정의 > 시각물** — 새 컴포넌트 기획 시, "이 컴포넌트가 해결하는 문제"를 먼저 정의. UI는 문제가 명확하면 소수 선택지로 귀결.
+7. **사용자 자율성 보호** — UX 패턴 선택 시, 개별 유도는 수용하되 중첩 다크패턴은 거부.
+8. **시스템 이탈 = 수정 신호** — 규칙 예외 시 근거를 요구·기록([docs/DEVIATIONS.md](./docs/DEVIATIONS.md)). 동일 이탈 3회 반복 시 시스템 수정 검토.
+
+> 각 원칙의 상세 적용 예시, A~D절과의 관계 매핑은 [DESIGN_PRINCIPLES.md §F](./docs/DESIGN_PRINCIPLES.md#f-디자인-판단의-기초-원칙-meta) 참고.
+
 ### Props Design Principles
 > Props 추가 판단 트리, children vs 구조화 props 기준, variant 네이밍 원칙, 컴포넌트 분류 기준 등은 [DESIGN_PRINCIPLES.md](./docs/DESIGN_PRINCIPLES.md)의 "A. 컴포넌트 API 설계 원칙" 참고.
 
@@ -354,38 +372,45 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 ```
 ### Theme Support
 
-Two independent theme axes via data attributes on an ancestor element:
+Color theme via `data-theme` attribute on an ancestor element:
 
-| Axis | Attribute | Values | Controls |
-|------|-----------|--------|----------|
-| Color | `data-theme` | `brand1`, `brand2` | Primary/success/warning/error color palette |
-| Shape | `data-shape` | `basic` (default), `geo` | Border-radius (basic = standard, geo = 0 or pill only) |
+| Attribute | Values | Controls |
+|-----------|--------|----------|
+| `data-theme` | `brand1`, `brand2` | Primary/success/warning/error color palette |
 
-**No theme logic in components** — components NEVER reference theme names (basic/geo/brand1/brand2):
+**No theme logic in components** — components NEVER reference theme names (brand1/brand2):
 ```tsx
 // Correct: token-only
 className="bg-semantic-primary-500 rounded-[var(--comp-button-radius-md)]"
 
 // Wrong: theme branching in component
-const radius = theme === 'geo' ? 'rounded-none' : 'rounded-md'
+const color = theme === 'brand1' ? 'bg-purple-500' : 'bg-red-500'
 ```
-
-**Sub-type tokens for conditional radius** (e.g., icon-only button = pill in geo):
-```
---comp-{name}-radius-{size}        // default sub-type
---comp-{name}-radius-icon-{size}   // icon-only sub-type
-```
-Both resolve to the same value in basic. In geo, default → `0px`, icon-only → `9999px`.
 
 **Usage:**
 ```tsx
-<div data-theme="brand1" data-shape="basic">
-  <Button>Rounded purple button</Button>
+<div data-theme="brand1">
+  <Button>Purple button</Button>
 </div>
-<div data-theme="brand2" data-shape="geo">
-  <Button>Sharp red-orange button</Button>
+<div data-theme="brand2">
+  <Button>Red-orange button</Button>
 </div>
 ```
+
+### Per-Component Shape
+
+Shape(border-radius)는 글로벌 테마가 아닌 **컴포넌트별 `shape` prop**으로 제어한다.
+
+| Shape 값 | 적용 조건 | 설명 |
+|----------|----------|------|
+| `default` | 모든 컴포넌트 기본값 | 사이즈별 고유 radius (토큰 기반) |
+| `pill` | **고정 높이** 컨트롤만 (Button, IconButton, TextField, Badge) | 9999px — 캡슐 형태 |
+| `square` | 필요한 컴포넌트만 (Button, IconButton) | 0px — 직각 모서리 |
+| `circular` | 정사각 요소만 (SegmentBar) | rounded-full — 원형 |
+
+- 가변 높이 요소(Textarea, Card, Tooltip)에는 `pill` 불가 — 높이에 따라 형태가 왜곡됨
+- shape prop이 불필요한 컴포넌트(Tooltip, Callout 등)는 항상 default radius 사용
+- shape 값은 컴포넌트마다 다름 — 해당 컴포넌트의 `{COMPONENT}_SHAPES` 배열 참고
 ---
 ## Common Component Patterns
 

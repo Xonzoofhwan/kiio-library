@@ -658,9 +658,6 @@
   --comp-textarea-py-xl: var(--spacing-3\.5);     /* 14px */
   --comp-textarea-radius-xl: var(--radius-3);     /* 12px */
 
-  /* ─── Pill radius — used when pill prop is true ─── */
-  --comp-textarea-radius-pill-lg: 9999px;
-  --comp-textarea-radius-pill-xl: 9999px;
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — FormField (spacing layer)
@@ -711,37 +708,37 @@
   /* === Underline === */
 
   /* Large (40) */
-  --comp-tab-height-underline-lg:           40px;
-  --comp-tab-padding-x-underline-lg:        0px;
-  --comp-tab-gap-underline-lg:              6px;
-  --comp-tab-icon-size-underline-lg:        18px;
-  --comp-tab-indicator-height-underline-lg: 2px;
+  --comp-tab-height-underline-large:           40px;
+  --comp-tab-padding-x-underline-large:        0px;
+  --comp-tab-gap-underline-large:              6px;
+  --comp-tab-icon-size-underline-large:        18px;
+  --comp-tab-indicator-height-underline-large: 2px;
 
-  /* Small (32) */
-  --comp-tab-height-underline-sm:           32px;
-  --comp-tab-padding-x-underline-sm:        0px;
-  --comp-tab-gap-underline-sm:              4px;
-  --comp-tab-icon-size-underline-sm:        14px;
-  --comp-tab-indicator-height-underline-sm: 2px;
+  /* Medium (32) */
+  --comp-tab-height-underline-medium:           32px;
+  --comp-tab-padding-x-underline-medium:        0px;
+  --comp-tab-gap-underline-medium:              4px;
+  --comp-tab-icon-size-underline-medium:        14px;
+  --comp-tab-indicator-height-underline-medium: 2px;
 
   /* === Pill === */
 
   /* Large (40) */
-  --comp-tab-height-pill-lg:                40px;
-  --comp-tab-padding-x-pill-lg:             16px;
-  --comp-tab-gap-pill-lg:                   6px;
-  --comp-tab-icon-size-pill-lg:             18px;
-  --comp-tab-radius-pill-lg:                20px;
+  --comp-tab-height-pill-large:                40px;
+  --comp-tab-padding-x-pill-large:             16px;
+  --comp-tab-gap-pill-large:                   6px;
+  --comp-tab-icon-size-pill-large:             18px;
+  --comp-tab-radius-pill-large:                20px;
 
-  /* Small (32) */
-  --comp-tab-height-pill-sm:                32px;
-  --comp-tab-padding-x-pill-sm:             12px;
-  --comp-tab-gap-pill-sm:                   4px;
-  --comp-tab-icon-size-pill-sm:             14px;
-  --comp-tab-radius-pill-sm:                16px;
+  /* Medium (32) */
+  --comp-tab-height-pill-medium:                32px;
+  --comp-tab-padding-x-pill-medium:             12px;
+  --comp-tab-gap-pill-medium:                   4px;
+  --comp-tab-icon-size-pill-medium:             14px;
+  --comp-tab-radius-pill-medium:                16px;
 
   /* === TabList === */
-  --comp-tab-list-gap-underline:            8px;
+  --comp-tab-list-gap-underline:            16px;
   --comp-tab-list-gap-pill:                 8px;
   --comp-tab-list-padding-y-pill:           8px;
 
@@ -1647,44 +1644,4 @@
   --comp-sidenav-active:           var(--semantic-state-on-bright-100);
   --comp-sidenav-focus-ring:       var(--semantic-primary-300);
   --comp-sidenav-divider:          var(--semantic-divider-solid-100);
-}
-
-/* ─── Shape theme: geo — sharp default radius ─── */
-[data-shape="geo"] {
-  --comp-button-radius-xs: 0px;
-  --comp-button-radius-sm: 0px;
-  --comp-button-radius-md: 0px;
-  --comp-button-radius-lg: 0px;
-  --comp-button-radius-xl: 0px;
-
-  --comp-textarea-radius-lg: 0px;
-  --comp-textarea-radius-xl: 0px;
-  --comp-textarea-radius-pill-lg: calc(var(--comp-textfield-height-lg) / 2);  /* 48/2 = 24px */
-  --comp-textarea-radius-pill-xl: calc(var(--comp-textfield-height-xl) / 2);  /* 56/2 = 28px */
-
-  --comp-dropdown-radius:      0px;
-  --comp-dropdown-item-radius: 0px;
-
-  /* Badge: square → sharp, pill/counter → 9999px 유지 */
-  --comp-badge-radius-sm: 0px;
-  --comp-badge-radius-md: 0px;
-
-  /* SegmentBar: square → sharp (circular은 항상 rounded-full) */
-  --comp-segment-bar-radius-lg: 0px;
-  --comp-segment-bar-radius-md: 0px;
-  --comp-segment-bar-radius-sm: 0px;
-  --comp-segment-bar-radius-xs: 0px;
-  --comp-segment-btn-radius-lg: 0px;
-  --comp-segment-btn-radius-md: 0px;
-  --comp-segment-btn-radius-sm: 0px;
-  --comp-segment-btn-radius-xs: 0px;
-
-  /* Tooltip / Callout */
-  --comp-tooltip-radius: 0px;
-  --comp-callout-radius: 0px;
-
-  /* SideNav */
-  --comp-sidenav-item-radius-lg: 0px;
-  --comp-sidenav-item-radius-md: 0px;
-  --comp-sidenav-item-radius-sm: 0px;
 }

@@ -284,7 +284,7 @@ export function HomeShowcase() {
             onChange={(e) => setSearchValue(e.target.value)}
             onSearch={() => {}}
             placeholder="Search components..."
-            pill
+            shape="pill"
           />
         </div>
       </SectionCard>
@@ -347,7 +347,7 @@ export function HomeShowcase() {
           {/* Underline variant */}
           <div>
             <p className="typography-13-semibold text-semantic-text-on-bright-400 mb-3">Underline</p>
-            <TabGroup variant="underline" size="lg" defaultValue="overview">
+            <TabGroup variant="underline" size="large" defaultValue="overview">
               <TabList aria-label="Documentation">
                 <TabItem value="overview" icon={<BookIcon />}>Overview</TabItem>
                 <TabItem value="components" icon={<GridIcon />}>Components</TabItem>
@@ -374,7 +374,7 @@ export function HomeShowcase() {
           {/* Pill variant */}
           <div>
             <p className="typography-13-semibold text-semantic-text-on-bright-400 mb-3">Pill</p>
-            <TabGroup variant="pill" size="sm" defaultValue="all">
+            <TabGroup variant="pill" size="medium" defaultValue="all">
               <TabList aria-label="Filter">
                 <TabItem value="all">All</TabItem>
                 <TabItem value="active">Active</TabItem>

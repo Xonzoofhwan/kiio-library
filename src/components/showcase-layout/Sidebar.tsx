@@ -1,6 +1,5 @@
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils'
-import { SegmentBar, SegmentButton } from '@/components/SegmentBar'
 import { SideNav, SideNavGroup, SideNavItem, SideNavDivider } from '@/components/SideNav'
 
 /* ─── Nav config ──────────────────────────────────────────────────────────── */
@@ -31,6 +30,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'taginput',     label: 'TagInput' },
       { id: 'searchfield', label: 'SearchField' },
       { id: 'select', label: 'Select' },
+      { id: 'formfield', label: 'FormField' },
     ],
   },
   {
@@ -51,6 +51,8 @@ const NAV_GROUPS: NavGroup[] = [
     label: 'Overlay',
     items: [
       { id: 'dropdown-menu', label: 'DropdownMenu' },
+      { id: 'tooltip', label: 'Tooltip' },
+      { id: 'callout', label: 'Callout' },
     ],
   },
   {
@@ -66,11 +68,9 @@ const NAV_GROUPS: NavGroup[] = [
 interface SidebarProps {
   active: string
   onSelect: (id: string) => void
-  shape: 'basic' | 'geo'
-  onShapeChange: (s: 'basic' | 'geo') => void
 }
 
-export function Sidebar({ active, onSelect, shape, onShapeChange }: SidebarProps) {
+export function Sidebar({ active, onSelect }: SidebarProps) {
   return (
     <aside className="fixed top-0 left-0 h-screen w-[240px] flex flex-col bg-semantic-background-0 border-r border-semantic-divider-solid-50 overflow-y-auto z-20">
       {/* Logo — click to go home */}
@@ -86,14 +86,6 @@ export function Sidebar({ active, onSelect, shape, onShapeChange }: SidebarProps
         <span className="typography-16-bold text-semantic-text-on-bright-900">kiio</span>
         <span className="typography-12-regular text-semantic-text-on-bright-400 ml-1">components</span>
       </button>
-
-      {/* Shape switcher */}
-      <div className="px-4 pt-4 pb-2">
-        <SegmentBar value={shape} onValueChange={v => onShapeChange(v as 'basic' | 'geo')} size="small" shape="square">
-          <SegmentButton value="basic">Basic</SegmentButton>
-          <SegmentButton value="geo">Geo</SegmentButton>
-        </SegmentBar>
-      </div>
 
       {/* Nav groups */}
       <div className="flex-1 px-4 py-4">

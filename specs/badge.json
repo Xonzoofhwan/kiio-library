@@ -1,0 +1,186 @@
+{
+  "component": "Badge",
+  "description": "Non-interactive decorative badge system with 3 sub-components: BadgeLabel (text labels), BadgeCounter (numeric counts), BadgeDot (status indicator). Uses primitive color tokens directly for theme-independent decorative colors. 17 color families × 2 weights.",
+  "classification": "Primitive (multi-variant, 3 sub-components)",
+
+  "subComponents": [
+    {
+      "name": "BadgeLabel",
+      "description": "Text label badge. Used for data labeling, status display. 2 sizes × 2 shapes × 2 weights × 17 colors.",
+      "element": "span",
+      "props": {
+        "children": {
+          "type": "ReactNode",
+          "description": "Badge inner text. Short label."
+        },
+        "size": {
+          "type": "'small' | 'medium'",
+          "default": "small",
+          "description": "Size variant. Controls height and typography.",
+          "metadataArray": "BADGE_SIZES"
+        },
+        "shape": {
+          "type": "'square' | 'pill'",
+          "default": "square",
+          "description": "Shape. square = size-specific rounded corners, pill = fully rounded (wider padding).",
+          "metadataArray": "BADGE_SHAPES"
+        },
+        "weight": {
+          "type": "'light' | 'heavy'",
+          "default": "light",
+          "description": "Visual weight. light = light bg + dark text, heavy = dark bg + light text.",
+          "metadataArray": "BADGE_WEIGHTS"
+        },
+        "color": {
+          "type": "'gray' | 'indigo' | 'purple' | 'violet' | 'pink' | 'rose' | 'red-bright' | 'orange' | 'amber' | 'yellow' | 'lime' | 'edamame' | 'forest' | 'emerald' | 'cyan' | 'sky' | 'blue'",
+          "default": "gray",
+          "description": "Decorative color family. Maps 1:1 to primitive token names.",
+          "metadataArray": "BADGE_COLORS"
+        }
+      },
+      "variants": {
+        "size": {
+          "small": {
+            "height": "--comp-badge-height-sm (20px)",
+            "typography": "typography-12-medium",
+            "paddingX-square": "--comp-badge-px-sm → spacing-1 (4px)",
+            "paddingX-pill": "--comp-badge-px-sm-pill → spacing-1.5 (6px)",
+            "radius-square": "--comp-badge-radius-sm → radius-1 (4px)"
+          },
+          "medium": {
+            "height": "--comp-badge-height-md (28px)",
+            "typography": "typography-14-medium",
+            "paddingX-square": "--comp-badge-px-md → spacing-1.5 (6px)",
+            "paddingX-pill": "--comp-badge-px-md-pill → spacing-2 (8px)",
+            "radius-square": "--comp-badge-radius-md → radius-1.5 (6px)"
+          }
+        },
+        "shape": {
+          "square": "radius per size (see size variants)",
+          "pill": "--comp-badge-radius-pill (9999px)"
+        },
+        "weight": {
+          "light": "primitive-{color}-100 bg + primitive-{color}-700 text (some colors use -200/-600 shades)",
+          "heavy": "primitive-{color}-500 bg + primitive-gray-0 text (yellow uses -400 bg + -950 text)"
+        }
+      },
+      "colorMap": {
+        "note": "Uses badgeColorMap — shared between BadgeLabel and BadgeCounter. Literal Tailwind classes for JIT scanning.",
+        "examples": {
+          "gray-light": "bg-primitive-gray-100 text-primitive-gray-700",
+          "gray-heavy": "bg-primitive-gray-800 text-primitive-gray-0",
+          "indigo-light": "bg-primitive-indigo-100 text-primitive-indigo-700",
+          "indigo-heavy": "bg-primitive-indigo-500 text-primitive-gray-0",
+          "yellow-light": "bg-primitive-yellow-100 text-primitive-yellow-700",
+          "yellow-heavy": "bg-primitive-yellow-400 text-primitive-yellow-950"
+        }
+      }
+    },
+    {
+      "name": "BadgeCounter",
+      "description": "Counter/tag badge. Used for unread message counts, filter counts, New/Beta tags. Fixed height (16px), always pill shape, min-width 16px. Single-character content renders as circle.",
+      "element": "span",
+      "props": {
+        "children": {
+          "type": "ReactNode",
+          "description": "Counter text. Number or short label ('99+', 'New')."
+        },
+        "weight": {
+          "type": "'light' | 'heavy'",
+          "default": "heavy",
+          "description": "Visual weight. Shares badgeColorMap with BadgeLabel."
+        },
+        "color": {
+          "type": "BadgeColor (17 colors)",
+          "default": "red-bright",
+          "description": "Decorative color family."
+        }
+      },
+      "variants": {
+        "fixedSize": {
+          "height": "--comp-badge-counter-height (16px)",
+          "radius": "--comp-badge-radius-pill (9999px)",
+          "typography": "typography-12-medium",
+          "minWidth": "--comp-badge-counter-min-w (16px)",
+          "paddingX": "--comp-badge-counter-px → spacing-1.5 (6px)"
+        },
+        "singleCharBehavior": "When content is a single character, width equals height (circle). Otherwise min-width + paddingX."
+      }
+    },
+    {
+      "name": "BadgeDot",
+      "description": "Circular dot indicator. Used for status display or notification decoration. 8px fixed size with 1px inset white border.",
+      "element": "span (self-closing)",
+      "props": {
+        "color": {
+          "type": "BadgeColor (17 colors)",
+          "default": "gray",
+          "description": "Decorative color family. Uses own dotColorMap (single shade per color)."
+        }
+      },
+      "variants": {
+        "fixedSize": {
+          "size": "--comp-badge-dot-size (8px)",
+          "radius": "rounded-full",
+          "border": "inset box-shadow: 0 0 0 1px var(--primitive-gray-0)"
+        }
+      },
+      "colorMap": {
+        "note": "Separate dotColorMap — always uses single -500 shade (gray uses -300).",
+        "examples": {
+          "gray": "bg-primitive-gray-300",
+          "indigo": "bg-primitive-indigo-500",
+          "red-bright": "bg-primitive-red-bright-500"
+        }
+      }
+    }
+  ],
+
+  "states": {
+    "note": "All Badge sub-components are non-interactive. No hover, focus, pressed, disabled, or loading states."
+  },
+
+  "tokens": {
+    "sizeSpacing": {
+      "layer": ":root",
+      "naming": "--comp-badge-{property}[-{size}]",
+      "list": [
+        "--comp-badge-height-sm: 20px",
+        "--comp-badge-height-md: 28px",
+        "--comp-badge-px-sm: var(--spacing-1) (4px)",
+        "--comp-badge-px-md: var(--spacing-1.5) (6px)",
+        "--comp-badge-px-sm-pill: var(--spacing-1.5) (6px)",
+        "--comp-badge-px-md-pill: var(--spacing-2) (8px)",
+        "--comp-badge-radius-sm: var(--radius-1) (4px)",
+        "--comp-badge-radius-md: var(--radius-1.5) (6px)",
+        "--comp-badge-radius-pill: 9999px",
+        "--comp-badge-counter-height: 16px",
+        "--comp-badge-counter-px: var(--spacing-1.5) (6px)",
+        "--comp-badge-counter-min-w: 16px",
+        "--comp-badge-dot-size: 8px"
+      ]
+    },
+    "color": {
+      "layer": "N/A — uses primitive tokens directly via literal Tailwind class maps (badgeColorMap, dotColorMap). Theme-independent decorative colors."
+    },
+    "themeOverrides": {}
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (BadgeLabel), cn only (BadgeCounter, BadgeDot)",
+    "colorStrategy": "Literal Tailwind class lookup maps (badgeColorMap, dotColorMap) instead of CSS custom properties — required for Tailwind JIT scanning of 17 × 2 color combinations.",
+    "sharedColorMap": "badgeColorMap is exported from BadgeLabel and imported by BadgeCounter.",
+    "files": [
+      "src/components/Badge/BadgeLabel.tsx",
+      "src/components/Badge/BadgeCounter.tsx",
+      "src/components/Badge/BadgeDot.tsx",
+      "src/components/Badge/index.ts"
+    ],
+    "dependencies": [],
+    "exports": {
+      "components": ["BadgeLabel", "BadgeCounter", "BadgeDot"],
+      "types": ["BadgeLabelProps", "BadgeCounterProps", "BadgeDotProps", "BadgeColor", "BadgeSize", "BadgeWeight", "BadgeShape"],
+      "metadata": ["BADGE_COLORS", "BADGE_SIZES", "BADGE_WEIGHTS", "BADGE_SHAPES", "badgeColorMap"]
+    }
+  }
+}

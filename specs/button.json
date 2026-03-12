@@ -1,0 +1,271 @@
+{
+  "component": "Button",
+  "description": "Primary action trigger with 4 visual variants, 3 color intents, 5 sizes, and 3 shapes. Supports leading/trailing icons, loading state, full-width layout, and polymorphic rendering via asChild.",
+  "classification": "Primitive",
+
+  "props": {
+    "variant": {
+      "type": "'primary' | 'secondary' | 'outlined' | 'ghost'",
+      "default": "primary",
+      "description": "Visual variant. Controls container style: filled (primary/secondary), outlined border, or transparent (ghost)."
+    },
+    "intent": {
+      "type": "'systemic' | 'brand' | 'destructive'",
+      "default": "systemic",
+      "description": "Color intent. systemic = neutral, brand = theme primary, destructive = error/warning."
+    },
+    "size": {
+      "type": "'xSmall' | 'small' | 'medium' | 'large' | 'xLarge'",
+      "default": "medium",
+      "description": "Size variant. Controls height, padding, typography, icon size, gap, and default radius."
+    },
+    "shape": {
+      "type": "'default' | 'pill' | 'square'",
+      "default": "default",
+      "description": "Shape. default = size-mapped radius, pill = fully rounded (9999px), square = sharp (0px)."
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "When true, button expands to 100% container width (w-full). Otherwise w-fit."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element while forwarding all styles and props."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Leading icon slot. Sized internally per size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon slot. Sized internally per size variant."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows centered spinner, hides content, disables interaction (pointer-events-none + aria-busy)."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction via aria-disabled + event prevention."
+    },
+    "children": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Button label text. Wrapped in a span with label padding per size."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xSmall": {
+        "height": "--comp-button-height-xs (24px)",
+        "paddingX": "--comp-button-px-xs (6px)",
+        "labelPaddingX": "--comp-button-label-px-xs (2px)",
+        "gap": "--comp-button-gap-xs (2px)",
+        "iconSize": "--comp-button-icon-xs (14px)",
+        "typography": "typography-12-semibold",
+        "radius": "--comp-button-radius-xs (4px)"
+      },
+      "small": {
+        "height": "--comp-button-height-sm (32px)",
+        "paddingX": "--comp-button-px-sm (8px)",
+        "labelPaddingX": "--comp-button-label-px-sm (4px)",
+        "gap": "--comp-button-gap-sm (4px)",
+        "iconSize": "--comp-button-icon-sm (16px)",
+        "typography": "typography-13-semibold",
+        "radius": "--comp-button-radius-sm (8px)"
+      },
+      "medium": {
+        "height": "--comp-button-height-md (40px)",
+        "paddingX": "--comp-button-px-md (12px)",
+        "labelPaddingX": "--comp-button-label-px-md (4px)",
+        "gap": "--comp-button-gap-md (4px)",
+        "iconSize": "--comp-button-icon-md (18px)",
+        "typography": "typography-14-semibold",
+        "radius": "--comp-button-radius-md (8px)"
+      },
+      "large": {
+        "height": "--comp-button-height-lg (48px)",
+        "paddingX": "--comp-button-px-lg (16px)",
+        "labelPaddingX": "--comp-button-label-px-lg (4px)",
+        "gap": "--comp-button-gap-lg (4px)",
+        "iconSize": "--comp-button-icon-lg (20px)",
+        "typography": "typography-15-semibold",
+        "radius": "--comp-button-radius-lg (8px)"
+      },
+      "xLarge": {
+        "height": "--comp-button-height-xl (56px)",
+        "paddingX": "--comp-button-px-xl (20px)",
+        "labelPaddingX": "--comp-button-label-px-xl (4px)",
+        "gap": "--comp-button-gap-xl (6px)",
+        "iconSize": "--comp-button-icon-xl (22px)",
+        "typography": "typography-16-semibold",
+        "radius": "--comp-button-radius-xl (8px)"
+      }
+    },
+    "shape": {
+      "default": "Size-mapped radius via compound variants (--comp-button-radius-{size})",
+      "pill": "--comp-button-radius-pill (9999px)",
+      "square": "--comp-button-radius-square (0px)"
+    },
+    "variant_x_intent": {
+      "primary-systemic": {
+        "background": "--comp-button-bg-primary → semantic-neutral-solid-950",
+        "content": "--comp-button-content-primary → semantic-neutral-solid-0"
+      },
+      "secondary-systemic": {
+        "background": "--comp-button-bg-secondary → semantic-neutral-solid-100",
+        "content": "--comp-button-content-secondary → semantic-neutral-solid-950"
+      },
+      "outlined-systemic": {
+        "background": "--comp-button-bg-outlined → transparent",
+        "content": "--comp-button-content-outlined → semantic-neutral-solid-900",
+        "border": "--comp-button-border-outlined → semantic-neutral-solid-300"
+      },
+      "ghost-systemic": {
+        "background": "--comp-button-bg-ghost → transparent",
+        "content": "--comp-button-content-ghost → semantic-neutral-solid-700"
+      },
+      "primary-brand": {
+        "background": "--comp-button-bg-primary-brand → semantic-primary-500",
+        "content": "--comp-button-content-primary-brand → semantic-neutral-solid-0"
+      },
+      "secondary-brand": {
+        "background": "--comp-button-bg-secondary-brand → semantic-primary-50",
+        "content": "--comp-button-content-secondary-brand → semantic-primary-500"
+      },
+      "outlined-brand": {
+        "background": "--comp-button-bg-outlined-brand → transparent",
+        "content": "--comp-button-content-outlined-brand → semantic-primary-500",
+        "border": "--comp-button-border-outlined-brand → semantic-primary-500"
+      },
+      "ghost-brand": {
+        "background": "--comp-button-bg-ghost-brand → transparent",
+        "content": "--comp-button-content-ghost-brand → semantic-primary-500"
+      },
+      "primary-destructive": {
+        "background": "--comp-button-bg-primary-destructive → semantic-error-500",
+        "content": "--comp-button-content-primary-destructive → semantic-neutral-solid-0"
+      },
+      "secondary-destructive": {
+        "background": "--comp-button-bg-secondary-destructive → semantic-error-50",
+        "content": "--comp-button-content-secondary-destructive → semantic-error-500"
+      },
+      "outlined-destructive": {
+        "background": "--comp-button-bg-outlined-destructive → transparent",
+        "content": "--comp-button-content-outlined-destructive → semantic-error-500",
+        "border": "--comp-button-border-outlined-destructive → semantic-error-500"
+      },
+      "ghost-destructive": {
+        "background": "--comp-button-bg-ghost-destructive → transparent",
+        "content": "--comp-button-content-ghost-destructive → semantic-error-500"
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "primary": "State overlay: --comp-button-hover-on-dim → semantic-state-on-dim-50",
+      "secondary": "State overlay: --comp-button-hover-on-bright → semantic-state-on-bright-50",
+      "outlined": "State overlay: --comp-button-hover-on-bright → semantic-state-on-bright-50",
+      "ghost": "State overlay: --comp-button-hover-on-bright → semantic-state-on-bright-50"
+    },
+    "pressed": {
+      "primary": "State overlay: --comp-button-active-on-dim → semantic-state-on-dim-70",
+      "secondary": "State overlay: --comp-button-active-on-bright → semantic-state-on-bright-70",
+      "outlined": "State overlay: --comp-button-active-on-bright → semantic-state-on-bright-70",
+      "ghost": "State overlay: --comp-button-active-on-bright → semantic-state-on-bright-70"
+    },
+    "focused": {
+      "all": "focus-visible:ring-2 ring-offset-2 ring-[--comp-button-focus-ring] → semantic-primary-300"
+    },
+    "disabled": {
+      "primary-systemic": {
+        "background": "--comp-button-bg-primary-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-primary-disabled → semantic-neutral-solid-400"
+      },
+      "secondary-systemic": {
+        "background": "--comp-button-bg-secondary-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-secondary-disabled → semantic-neutral-solid-400"
+      },
+      "outlined-systemic": {
+        "background": "--comp-button-bg-outlined-disabled → transparent",
+        "content": "--comp-button-content-outlined-disabled → semantic-neutral-solid-400",
+        "border": "--comp-button-border-outlined-disabled → semantic-neutral-solid-200"
+      },
+      "ghost-systemic": {
+        "background": "--comp-button-bg-ghost-disabled → transparent",
+        "content": "--comp-button-content-ghost-disabled → semantic-neutral-solid-400"
+      },
+      "primary-brand": {
+        "background": "--comp-button-bg-primary-brand-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-primary-brand-disabled → semantic-neutral-solid-400"
+      },
+      "secondary-brand": {
+        "background": "--comp-button-bg-secondary-brand-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-secondary-brand-disabled → semantic-neutral-solid-400"
+      },
+      "outlined-brand": {
+        "background": "--comp-button-bg-outlined-brand-disabled → transparent",
+        "content": "--comp-button-content-outlined-brand-disabled → semantic-neutral-solid-400",
+        "border": "--comp-button-border-outlined-brand-disabled → semantic-neutral-solid-200"
+      },
+      "ghost-brand": {
+        "background": "--comp-button-bg-ghost-brand-disabled → transparent",
+        "content": "--comp-button-content-ghost-brand-disabled → semantic-neutral-solid-400"
+      },
+      "primary-destructive": {
+        "background": "--comp-button-bg-primary-destructive-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-primary-destructive-disabled → semantic-neutral-solid-400"
+      },
+      "secondary-destructive": {
+        "background": "--comp-button-bg-secondary-destructive-disabled → semantic-neutral-solid-100",
+        "content": "--comp-button-content-secondary-destructive-disabled → semantic-neutral-solid-400"
+      },
+      "outlined-destructive": {
+        "background": "--comp-button-bg-outlined-destructive-disabled → transparent",
+        "content": "--comp-button-content-outlined-destructive-disabled → semantic-neutral-solid-400",
+        "border": "--comp-button-border-outlined-destructive-disabled → semantic-neutral-solid-200"
+      },
+      "ghost-destructive": {
+        "background": "--comp-button-bg-ghost-destructive-disabled → transparent",
+        "content": "--comp-button-content-ghost-destructive-disabled → semantic-neutral-solid-400"
+      },
+      "behavior": "cursor-not-allowed, aria-disabled=true, click event prevented"
+    },
+    "loading": {
+      "description": "Content marked invisible, Spinner absolutely centered. Same size as icon per size variant. pointer-events-none + aria-busy=true. Disabled classes NOT applied during loading (colors preserved)."
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "stateOverlay": "Absolute <span> inside component with group-hover/group-active classes. Root has 'group relative'. Overlay inherits border-radius via rounded-[inherit].",
+    "loadingStrategy": "Content spans get 'invisible' class. Spinner absolutely centered in its own container. Spinner uses motion-essential class.",
+    "labelPadding": "Label children wrapped in <span> with per-size inline padding (--comp-button-label-px-{size}).",
+    "iconHandling": "iconLeading and iconTrailing rendered in flex-shrink-0 spans. Icon sizing via --comp-button-icon-{size} tokens.",
+    "disabledLogic": "isDisabled = disabled || loading. Disabled classes applied only when !loading. Loading gets pointer-events-none instead.",
+    "compoundVariants": "variant x intent compound variants handle all 12 color combinations. shape x size compound variants handle default radius per size.",
+    "typeDefault": "Defaults to type='button' unless asChild is true.",
+    "files": [
+      "src/components/Button/Button.tsx",
+      "src/components/Button/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "src/lib/utils.ts",
+      "src/components/icons/Spinner.tsx"
+    ],
+    "tokenFiles": {
+      "size": "src/tokens/tokens.css :root (--comp-button-height-*, --comp-button-px-*, --comp-button-gap-*, --comp-button-icon-*, --comp-button-label-px-*, --comp-button-radius-*)",
+      "color": "src/tokens/tokens.css [data-theme] (--comp-button-bg-*, --comp-button-content-*, --comp-button-border-*, --comp-button-hover-*, --comp-button-active-*, --comp-button-focus-ring)"
+    }
+  }
+}
