@@ -1,0 +1,168 @@
+{
+  "component": "TextButton",
+  "description": "Background-less text button with optional leading/trailing icons. Used for lightweight actions within content areas, callouts, and inline contexts. Supports on-bright and on-dim color contexts.",
+  "classification": "Primitive",
+  "figmaNode": "6657:27930, 8186:213381",
+
+  "props": {
+    "intent": {
+      "type": "'systemic' | 'brand'",
+      "default": "systemic",
+      "description": "Color intent. systemic = neutral text colors, brand = theme primary colors."
+    },
+    "size": {
+      "type": "'xLarge' | 'large' | 'medium' | 'small'",
+      "default": "medium",
+      "description": "Size variant. Controls height, typography, icon size."
+    },
+    "surface": {
+      "type": "'bright' | 'dim'",
+      "default": "bright",
+      "description": "Surface context. bright = light background (dark text), dim = dark background (light text)."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Leading icon slot. Sized internally per size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon slot. Sized internally per size variant."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows centered spinner, hides content, disables interaction."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction, reduces text opacity."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element with component styles."
+    },
+    "children": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Button label text."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "--comp-textbutton-height-xl (36px)",
+        "iconSize": "--comp-textbutton-icon-xl (24px)",
+        "typography": "typography-20-medium",
+        "gap": "--comp-textbutton-gap (4px)"
+      },
+      "large": {
+        "height": "--comp-textbutton-height-lg (32px)",
+        "iconSize": "--comp-textbutton-icon-lg (24px)",
+        "typography": "typography-18-medium",
+        "gap": "--comp-textbutton-gap (4px)"
+      },
+      "medium": {
+        "height": "--comp-textbutton-height-md (28px)",
+        "iconSize": "--comp-textbutton-icon-md (20px)",
+        "typography": "typography-16-medium",
+        "gap": "--comp-textbutton-gap (4px)"
+      },
+      "small": {
+        "height": "--comp-textbutton-height-sm (24px)",
+        "iconSize": "--comp-textbutton-icon-sm (20px)",
+        "typography": "typography-14-medium",
+        "gap": "--comp-textbutton-gap (4px)"
+      }
+    },
+    "intent": {
+      "systemic": {
+        "onBright": {
+          "default": "semantic-text-on-bright-800",
+          "hover": "semantic-text-on-bright-600",
+          "pressed": "semantic-text-on-bright-400",
+          "disabled": "semantic-text-on-bright-300"
+        },
+        "onDim": {
+          "default": "semantic-text-on-dim-950",
+          "hover": "semantic-text-on-dim-800",
+          "pressed": "semantic-text-on-dim-600",
+          "disabled": "semantic-text-on-dim-300"
+        }
+      },
+      "brand": {
+        "onBright": {
+          "default": "semantic-primary-500",
+          "hover": "semantic-primary-600",
+          "pressed": "semantic-primary-700",
+          "disabled": "semantic-text-on-bright-300"
+        },
+        "onDim": {
+          "default": "semantic-primary-500",
+          "hover": "semantic-primary-400",
+          "pressed": "semantic-primary-300",
+          "disabled": "semantic-text-on-dim-300"
+        }
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "description": "Text + icon color changes (no background overlay). See variants.intent color tables."
+    },
+    "pressed": {
+      "description": "Text + icon color changes. See variants.intent color tables."
+    },
+    "focused": {
+      "all": "2px border semantic-primary-300 (absolute inset overlay, focus-visible only)"
+    },
+    "disabled": {
+      "description": "Text + icon color changes to low-opacity. pointer-events-none + aria-disabled."
+    },
+    "loading": {
+      "description": "Content masked/invisible, spinner centered. Interaction disabled."
+    }
+  },
+
+  "features": {
+    "interactableArea": {
+      "description": "Visual layout follows Figma exactly, but actual clickable area is expanded beyond the visible bounds using ::after pseudo-element or negative inset technique for better touch/click targets."
+    },
+    "noBackground": {
+      "description": "No background color, no border, no padding. Only text + icons with gap."
+    },
+    "colorContext": {
+      "description": "onDim prop switches between on-bright and on-dim color sets. This determines whether the button is on a light or dark background."
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "classification": "Primitive",
+    "stateOverlay": "None — no background, so no overlay span. Color changes only via hover:/active: pseudo-classes on text/icon color.",
+    "loadingStrategy": "Content marked invisible, Spinner absolute centered. pointer-events-none + aria-disabled + aria-busy.",
+    "interactableArea": "::after pseudo-element with negative inset (e.g., -4px) for expanded hit area beyond visible text bounds.",
+    "focusStrategy": "focus-visible only. 2px ring semantic-primary-300 via absolute inset overlay.",
+    "files": [
+      "src/tokens/tokens.css",
+      "src/components/TextButton/TextButton.tsx",
+      "src/components/TextButton/index.ts",
+      "src/showcase/TextButtonShowcase.tsx",
+      "src/App.tsx",
+      "src/components/showcase-layout/Sidebar.tsx"
+    ],
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "src/components/icons/Spinner.tsx"
+    ],
+    "consumers": [
+      "src/components/Callout/Callout.tsx (CalloutAction → TextButton 교체)"
+    ],
+    "tokenReuse": "none — independent token set. TextButton has unique height/icon sizes different from Button."
+  }
+}
