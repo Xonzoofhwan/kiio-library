@@ -905,8 +905,8 @@
   --comp-tooltip-px:              var(--spacing-3\.5);   /* 14px */
   --comp-tooltip-py:              var(--spacing-3);      /* 12px */
   --comp-tooltip-radius:          var(--radius-2);       /* 8px */
-  --comp-tooltip-arrow-width:     10px;
-  --comp-tooltip-arrow-height:    5px;
+  --comp-tooltip-arrow-width:     16px;
+  --comp-tooltip-arrow-height:    8px;
   --comp-tooltip-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
 
   /* ----------------------------------------------------------
@@ -917,8 +917,8 @@
   --comp-callout-px:              var(--spacing-3\.5);   /* 14px */
   --comp-callout-py:              var(--spacing-3);      /* 12px */
   --comp-callout-radius:          var(--radius-2);       /* 8px */
-  --comp-callout-arrow-width:     10px;
-  --comp-callout-arrow-height:    5px;
+  --comp-callout-arrow-width:     16px;
+  --comp-callout-arrow-height:    8px;
   --comp-callout-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
   --comp-callout-close-size:      32px;
   --comp-callout-close-icon:      20px;
@@ -943,6 +943,163 @@
   --comp-sidenav-icon-lg:         20px;
   --comp-sidenav-icon-md:         18px;
   --comp-sidenav-icon-sm:         16px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Switch (size/spacing layer)
+     Naming: --comp-switch-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Track ─── */
+  --comp-switch-track-h-sm:       16px;
+  --comp-switch-track-h-md:       24px;
+  --comp-switch-track-h-lg:       var(--spacing-8);              /* 32px */
+  --comp-switch-track-h-xl:       var(--spacing-10);             /* 40px */
+  --comp-switch-track-w-sm:       28px;
+  --comp-switch-track-w-md:       44px;
+  --comp-switch-track-w-lg:       56px;
+  --comp-switch-track-w-xl:       72px;
+
+  /* ─── Thumb — 3 stages: off < hover < on ─── */
+  --comp-switch-thumb-off-sm:     8px;
+  --comp-switch-thumb-off-md:     14px;
+  --comp-switch-thumb-off-lg:     18px;
+  --comp-switch-thumb-off-xl:     24px;
+  --comp-switch-thumb-hover-sm:   10px;
+  --comp-switch-thumb-hover-md:   16px;
+  --comp-switch-thumb-hover-lg:   22px;
+  --comp-switch-thumb-hover-xl:   28px;
+  --comp-switch-thumb-on-sm:      12px;
+  --comp-switch-thumb-on-md:      20px;
+  --comp-switch-thumb-on-lg:      26px;
+  --comp-switch-thumb-on-xl:      34px;
+
+  /* ─── Padding & translate ─── */
+  --comp-switch-padding-sm:       2px;
+  --comp-switch-padding-md:       2px;
+  --comp-switch-padding-lg:       3px;
+  --comp-switch-padding-xl:       3px;
+  --comp-switch-translate-sm:     12px;
+  --comp-switch-translate-md:     20px;
+  --comp-switch-translate-lg:     24px;
+  --comp-switch-translate-xl:     32px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — TextButton (size/spacing layer)
+     Naming: --comp-textbutton-{property}-{size}
+     ---------------------------------------------------------- */
+  --comp-textbutton-height-xl:    var(--spacing-9);      /* 36px */
+  --comp-textbutton-height-lg:    var(--spacing-8);      /* 32px */
+  --comp-textbutton-height-md:    var(--spacing-7);      /* 28px */
+  --comp-textbutton-height-sm:    var(--spacing-6);      /* 24px */
+  --comp-textbutton-icon-xl:      var(--spacing-6);      /* 24px */
+  --comp-textbutton-icon-lg:      var(--spacing-6);      /* 24px */
+  --comp-textbutton-icon-md:      var(--spacing-5);      /* 20px */
+  --comp-textbutton-icon-sm:      var(--spacing-5);      /* 20px */
+  --comp-textbutton-gap:          var(--spacing-1);      /* 4px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Toast / Snackbar (size/spacing layer)
+     Naming: --comp-toast-{property}, --comp-snackbar-{property}
+     ---------------------------------------------------------- */
+
+  /* ── Container ── */
+  --comp-toast-width:              384px;
+  --comp-snackbar-width:           448px;
+  --comp-toast-radius:             var(--radius-4);        /* 16px */
+  --comp-toast-px:                 var(--spacing-3\.5);    /* 14px */
+  --comp-toast-py:                 12px;
+  --comp-toast-gap:                var(--spacing-1\.5);    /* 6px */
+  --comp-toast-icon-size:          24px;
+  --comp-toast-text-pl:            2px;
+  --comp-toast-text-py:            var(--spacing-1);       /* 4px */
+  --comp-toast-shadow:             0px 1px 2px rgba(0,0,0,0.04), 0px 4px 16px rgba(0,0,0,0.08);
+  --comp-toast-backdrop-blur:      16px;
+
+  /* ── Viewport ── */
+  --comp-toast-viewport-offset:    24px;
+  --comp-toast-stack-gap:          8px;
+
+  /* ── Snackbar buttons ── */
+  --comp-snackbar-button-h:        32px;
+  --comp-snackbar-button-radius:   var(--radius-2);        /* 8px */
+  --comp-snackbar-button-w:        112px;
+  --comp-snackbar-button-row-pl:   32px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Dialog (size/spacing layer)
+     Naming: --comp-dialog-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-dialog-width-xs:          480px;
+  --comp-dialog-width-sm:          640px;
+  --comp-dialog-width-md:          800px;
+  --comp-dialog-radius:            var(--radius-6);       /* 24px */
+  --comp-dialog-px:                var(--spacing-6);      /* 24px */
+  --comp-dialog-title-pt:          var(--spacing-6);      /* 24px */
+  --comp-dialog-footer-px:         var(--spacing-6);      /* 24px */
+  --comp-dialog-footer-py:         var(--spacing-4);      /* 16px */
+  --comp-dialog-footer-gap:        var(--spacing-2);      /* 8px */
+  --comp-dialog-close-size:        32px;
+  --comp-dialog-close-size-lg:     48px;
+  --comp-dialog-close-icon:        20px;
+  --comp-dialog-close-icon-lg:     24px;
+  --comp-dialog-close-inset:       var(--spacing-4);      /* 16px */
+  --comp-dialog-close-radius:      9999px;
+  --comp-dialog-image-height-xs:   160px;
+  --comp-dialog-image-height-sm:   200px;
+  --comp-dialog-image-height-md:   256px;
+  --comp-dialog-image-mark-height: 120px;
+  --comp-dialog-image-mark-min:    96px;
+  --comp-dialog-shadow:            0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Drawer (size/spacing layer)
+     Naming: --comp-drawer-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-drawer-width-xs:          480px;
+  --comp-drawer-width-sm:          640px;
+  --comp-drawer-width-md:          800px;
+  --comp-drawer-margin:            var(--spacing-10);     /* 40px */
+  --comp-drawer-topbar-height:     44px;
+  --comp-drawer-topbar-px:         var(--spacing-4);      /* 16px */
+  --comp-drawer-px:                var(--spacing-6);      /* 24px */
+  --comp-drawer-footer-px:         var(--spacing-6);      /* 24px */
+  --comp-drawer-footer-py:         var(--spacing-4);      /* 16px */
+  --comp-drawer-footer-gap:        var(--spacing-2);      /* 8px */
+  --comp-drawer-topbar-btn-size:   40px;
+  --comp-drawer-topbar-icon-size:  24px;
+  --comp-drawer-shadow:            -4px 0px 20px rgba(0,0,0,0.08), -1px 0px 3px rgba(0,0,0,0.04);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Table (size/spacing layer)
+     Naming: --comp-table-{property}[-{detail}]
+     ---------------------------------------------------------- */
+
+  /* Row */
+  --comp-table-row-height:         44px;
+
+  /* Cell */
+  --comp-table-cell-px:            12px;
+  --comp-table-cell-py:            10px;
+  --comp-table-cell-gap:           4px;
+  --comp-table-cell-icon:          20px;
+
+  /* Sort icon */
+  --comp-table-sort-icon:          16px;
+
+  /* Density — compact */
+  --comp-table-row-height-compact:      36px;
+  --comp-table-cell-py-compact:         6px;
+
+  /* Density — comfortable */
+  --comp-table-row-height-comfortable:  52px;
+  --comp-table-cell-py-comfortable:     14px;
+
+  /* Select cell */
+  --comp-table-select-width:       44px;
+  --comp-table-select-size:        18px;
+
+  /* Row actions */
+  --comp-table-row-actions-gap:    4px;
 }
 
 /* ----------------------------------------------------------
@@ -952,7 +1109,7 @@
    context determines which values are active at runtime.
    ---------------------------------------------------------- */
 
-[data-theme="brand1"] {
+[data-theme="light"] {
   /* Primary — Purple */
   --semantic-primary-50:  var(--primitive-purple-50);
   --semantic-primary-100: var(--primitive-purple-100);
@@ -1060,13 +1217,16 @@
   --semantic-divider-alpha-300: var(--primitive-black-alpha-300);
 
   /* Text.OnBright — BlackAlpha */
+  --semantic-text-on-bright-300: var(--primitive-black-alpha-300);
   --semantic-text-on-bright-400: var(--primitive-black-alpha-400);
+  --semantic-text-on-bright-500: var(--primitive-black-alpha-500);
   --semantic-text-on-bright-600: var(--primitive-black-alpha-600);
   --semantic-text-on-bright-800: var(--primitive-black-alpha-800);
   --semantic-text-on-bright-900: var(--primitive-black-alpha-900);
   --semantic-text-on-bright-950: var(--primitive-black-alpha-950);
 
   /* Text.OnDim — WhiteAlpha (with shade offset) */
+  --semantic-text-on-dim-300: var(--primitive-white-alpha-400);
   --semantic-text-on-dim-400: var(--primitive-white-alpha-500);
   --semantic-text-on-dim-600: var(--primitive-white-alpha-700);
   --semantic-text-on-dim-800: var(--primitive-white-alpha-900);
@@ -1084,136 +1244,139 @@
   --semantic-state-on-dim-100: var(--primitive-white-alpha-200);
 }
 
-[data-theme="brand2"] {
-  /* Primary — RedOrange */
-  --semantic-primary-50:  var(--primitive-red-orange-50);
-  --semantic-primary-100: var(--primitive-red-orange-100);
-  --semantic-primary-200: var(--primitive-red-orange-200);
-  --semantic-primary-300: var(--primitive-red-orange-300);
-  --semantic-primary-400: var(--primitive-red-orange-400);
-  --semantic-primary-500: var(--primitive-red-orange-500);
-  --semantic-primary-600: var(--primitive-red-orange-600);
-  --semantic-primary-700: var(--primitive-red-orange-700);
-  --semantic-primary-800: var(--primitive-red-orange-800);
-  --semantic-primary-900: var(--primitive-red-orange-900);
+[data-theme="dark"] {
+  /* Primary — Purple (same as light) */
+  --semantic-primary-50:  var(--primitive-purple-50);
+  --semantic-primary-100: var(--primitive-purple-100);
+  --semantic-primary-200: var(--primitive-purple-200);
+  --semantic-primary-300: var(--primitive-purple-300);
+  --semantic-primary-400: var(--primitive-purple-400);
+  --semantic-primary-500: var(--primitive-purple-500);
+  --semantic-primary-600: var(--primitive-purple-600);
+  --semantic-primary-700: var(--primitive-purple-700);
+  --semantic-primary-800: var(--primitive-purple-800);
+  --semantic-primary-900: var(--primitive-purple-900);
 
-  /* Success — Green */
-  --semantic-success-50:  var(--primitive-green-50);
-  --semantic-success-100: var(--primitive-green-100);
-  --semantic-success-200: var(--primitive-green-200);
-  --semantic-success-300: var(--primitive-green-300);
-  --semantic-success-400: var(--primitive-green-400);
-  --semantic-success-500: var(--primitive-green-500);
-  --semantic-success-600: var(--primitive-green-600);
-  --semantic-success-700: var(--primitive-green-700);
-  --semantic-success-800: var(--primitive-green-800);
-  --semantic-success-900: var(--primitive-green-950);
+  /* Success — Forest (same as light) */
+  --semantic-success-50:  var(--primitive-forest-50);
+  --semantic-success-100: var(--primitive-forest-100);
+  --semantic-success-200: var(--primitive-forest-200);
+  --semantic-success-300: var(--primitive-forest-300);
+  --semantic-success-400: var(--primitive-forest-400);
+  --semantic-success-500: var(--primitive-forest-500);
+  --semantic-success-600: var(--primitive-forest-600);
+  --semantic-success-700: var(--primitive-forest-700);
+  --semantic-success-800: var(--primitive-forest-800);
+  --semantic-success-900: var(--primitive-forest-900);
 
-  /* Warning — Yellow (with shade offset at 600+) */
-  --semantic-warning-50:  var(--primitive-yellow-50);
-  --semantic-warning-100: var(--primitive-yellow-100);
-  --semantic-warning-200: var(--primitive-yellow-200);
-  --semantic-warning-300: var(--primitive-yellow-300);
-  --semantic-warning-400: var(--primitive-yellow-400);
-  --semantic-warning-500: var(--primitive-yellow-500);
-  --semantic-warning-600: var(--primitive-yellow-700);
-  --semantic-warning-700: var(--primitive-yellow-800);
-  --semantic-warning-800: var(--primitive-yellow-900);
-  --semantic-warning-900: var(--primitive-yellow-950);
+  /* Warning — Amber (same as light, with shade offset at 600+) */
+  --semantic-warning-50:  var(--primitive-amber-50);
+  --semantic-warning-100: var(--primitive-amber-100);
+  --semantic-warning-200: var(--primitive-amber-200);
+  --semantic-warning-300: var(--primitive-amber-300);
+  --semantic-warning-400: var(--primitive-amber-400);
+  --semantic-warning-500: var(--primitive-amber-500);
+  --semantic-warning-600: var(--primitive-amber-700);
+  --semantic-warning-700: var(--primitive-amber-800);
+  --semantic-warning-800: var(--primitive-amber-900);
+  --semantic-warning-900: var(--primitive-amber-950);
 
-  /* Error — RedDark */
-  --semantic-error-50:  var(--primitive-red-dark-50);
-  --semantic-error-100: var(--primitive-red-dark-100);
-  --semantic-error-200: var(--primitive-red-dark-200);
-  --semantic-error-300: var(--primitive-red-dark-300);
-  --semantic-error-400: var(--primitive-red-dark-400);
-  --semantic-error-500: var(--primitive-red-dark-500);
-  --semantic-error-600: var(--primitive-red-dark-600);
-  --semantic-error-700: var(--primitive-red-dark-700);
-  --semantic-error-800: var(--primitive-red-dark-800);
-  --semantic-error-900: var(--primitive-red-dark-950);
+  /* Error — RedBright (same as light) */
+  --semantic-error-50:  var(--primitive-red-bright-50);
+  --semantic-error-100: var(--primitive-red-bright-100);
+  --semantic-error-200: var(--primitive-red-bright-200);
+  --semantic-error-300: var(--primitive-red-bright-300);
+  --semantic-error-400: var(--primitive-red-bright-400);
+  --semantic-error-500: var(--primitive-red-bright-500);
+  --semantic-error-600: var(--primitive-red-bright-600);
+  --semantic-error-700: var(--primitive-red-bright-700);
+  --semantic-error-800: var(--primitive-red-bright-800);
+  --semantic-error-900: var(--primitive-red-bright-950);
 
-  /* Neutral.Solid — Gray (same as brand1) */
-  --semantic-neutral-solid-0:   var(--primitive-gray-0);
-  --semantic-neutral-solid-50:  var(--primitive-gray-50);
-  --semantic-neutral-solid-70:  var(--primitive-gray-70);
-  --semantic-neutral-solid-100: var(--primitive-gray-100);
-  --semantic-neutral-solid-200: var(--primitive-gray-200);
-  --semantic-neutral-solid-300: var(--primitive-gray-300);
+  /* Neutral.Solid — Gray REVERSED (dark surfaces) */
+  --semantic-neutral-solid-0:   var(--primitive-gray-950);
+  --semantic-neutral-solid-50:  var(--primitive-gray-900);
+  --semantic-neutral-solid-70:  var(--primitive-gray-800);
+  --semantic-neutral-solid-100: var(--primitive-gray-700);
+  --semantic-neutral-solid-200: var(--primitive-gray-600);
+  --semantic-neutral-solid-300: var(--primitive-gray-500);
   --semantic-neutral-solid-400: var(--primitive-gray-400);
-  --semantic-neutral-solid-500: var(--primitive-gray-500);
-  --semantic-neutral-solid-600: var(--primitive-gray-600);
-  --semantic-neutral-solid-700: var(--primitive-gray-700);
-  --semantic-neutral-solid-800: var(--primitive-gray-800);
-  --semantic-neutral-solid-900: var(--primitive-gray-900);
-  --semantic-neutral-solid-950: var(--primitive-gray-950);
+  --semantic-neutral-solid-500: var(--primitive-gray-300);
+  --semantic-neutral-solid-600: var(--primitive-gray-200);
+  --semantic-neutral-solid-700: var(--primitive-gray-100);
+  --semantic-neutral-solid-800: var(--primitive-gray-70);
+  --semantic-neutral-solid-900: var(--primitive-gray-50);
+  --semantic-neutral-solid-950: var(--primitive-gray-0);
 
-  /* Neutral.BlackAlpha (same as brand1) */
-  --semantic-neutral-black-alpha-0:   var(--primitive-black-alpha-0);
-  --semantic-neutral-black-alpha-50:  var(--primitive-black-alpha-50);
-  --semantic-neutral-black-alpha-70:  var(--primitive-black-alpha-70);
-  --semantic-neutral-black-alpha-100: var(--primitive-black-alpha-100);
-  --semantic-neutral-black-alpha-200: var(--primitive-black-alpha-200);
-  --semantic-neutral-black-alpha-300: var(--primitive-black-alpha-300);
-  --semantic-neutral-black-alpha-400: var(--primitive-black-alpha-400);
-  --semantic-neutral-black-alpha-600: var(--primitive-black-alpha-600);
-  --semantic-neutral-black-alpha-800: var(--primitive-black-alpha-800);
-  --semantic-neutral-black-alpha-950: var(--primitive-black-alpha-950);
+  /* Neutral.BlackAlpha — uses WhiteAlpha (light-on-dark) */
+  --semantic-neutral-black-alpha-0:   var(--primitive-white-alpha-0);
+  --semantic-neutral-black-alpha-50:  var(--primitive-white-alpha-50);
+  --semantic-neutral-black-alpha-70:  var(--primitive-white-alpha-70);
+  --semantic-neutral-black-alpha-100: var(--primitive-white-alpha-100);
+  --semantic-neutral-black-alpha-200: var(--primitive-white-alpha-200);
+  --semantic-neutral-black-alpha-300: var(--primitive-white-alpha-300);
+  --semantic-neutral-black-alpha-400: var(--primitive-white-alpha-400);
+  --semantic-neutral-black-alpha-600: var(--primitive-white-alpha-600);
+  --semantic-neutral-black-alpha-800: var(--primitive-white-alpha-800);
+  --semantic-neutral-black-alpha-950: var(--primitive-white-alpha-950);
 
-  /* Neutral.WhiteAlpha (same as brand1) */
-  --semantic-neutral-white-alpha-0:   var(--primitive-white-alpha-0);
-  --semantic-neutral-white-alpha-50:  var(--primitive-white-alpha-50);
-  --semantic-neutral-white-alpha-70:  var(--primitive-white-alpha-70);
-  --semantic-neutral-white-alpha-100: var(--primitive-white-alpha-100);
-  --semantic-neutral-white-alpha-200: var(--primitive-white-alpha-200);
-  --semantic-neutral-white-alpha-300: var(--primitive-white-alpha-300);
-  --semantic-neutral-white-alpha-400: var(--primitive-white-alpha-400);
-  --semantic-neutral-white-alpha-600: var(--primitive-white-alpha-600);
-  --semantic-neutral-white-alpha-800: var(--primitive-white-alpha-800);
-  --semantic-neutral-white-alpha-950: var(--primitive-white-alpha-950);
+  /* Neutral.WhiteAlpha — uses BlackAlpha (dark-on-dark) */
+  --semantic-neutral-white-alpha-0:   var(--primitive-black-alpha-0);
+  --semantic-neutral-white-alpha-50:  var(--primitive-black-alpha-50);
+  --semantic-neutral-white-alpha-70:  var(--primitive-black-alpha-70);
+  --semantic-neutral-white-alpha-100: var(--primitive-black-alpha-100);
+  --semantic-neutral-white-alpha-200: var(--primitive-black-alpha-200);
+  --semantic-neutral-white-alpha-300: var(--primitive-black-alpha-300);
+  --semantic-neutral-white-alpha-400: var(--primitive-black-alpha-400);
+  --semantic-neutral-white-alpha-600: var(--primitive-black-alpha-600);
+  --semantic-neutral-white-alpha-800: var(--primitive-black-alpha-800);
+  --semantic-neutral-white-alpha-950: var(--primitive-black-alpha-950);
 
-  /* Background — Gray (same as brand1) */
-  --semantic-background-0:  var(--primitive-gray-0);
-  --semantic-background-50: var(--primitive-gray-50);
-  --semantic-background-70: var(--primitive-gray-70);
+  /* Background — Gray REVERSED (dark surfaces) */
+  --semantic-background-0:  var(--primitive-gray-950);
+  --semantic-background-50: var(--primitive-gray-900);
+  --semantic-background-70: var(--primitive-gray-800);
 
-  /* Divider.Solid — Gray (same as brand1) */
-  --semantic-divider-solid-50:  var(--primitive-gray-50);
-  --semantic-divider-solid-70:  var(--primitive-gray-70);
-  --semantic-divider-solid-100: var(--primitive-gray-100);
-  --semantic-divider-solid-200: var(--primitive-gray-200);
-  --semantic-divider-solid-300: var(--primitive-gray-300);
+  /* Divider.Solid — Gray REVERSED */
+  --semantic-divider-solid-50:  var(--primitive-gray-800);
+  --semantic-divider-solid-70:  var(--primitive-gray-700);
+  --semantic-divider-solid-100: var(--primitive-gray-600);
+  --semantic-divider-solid-200: var(--primitive-gray-500);
+  --semantic-divider-solid-300: var(--primitive-gray-400);
 
-  /* Divider.Alpha — BlackAlpha (same as brand1) */
-  --semantic-divider-alpha-50:  var(--primitive-black-alpha-50);
-  --semantic-divider-alpha-70:  var(--primitive-black-alpha-70);
-  --semantic-divider-alpha-100: var(--primitive-black-alpha-100);
-  --semantic-divider-alpha-200: var(--primitive-black-alpha-200);
-  --semantic-divider-alpha-300: var(--primitive-black-alpha-300);
+  /* Divider.Alpha — WhiteAlpha (light dividers on dark bg) */
+  --semantic-divider-alpha-50:  var(--primitive-white-alpha-50);
+  --semantic-divider-alpha-70:  var(--primitive-white-alpha-70);
+  --semantic-divider-alpha-100: var(--primitive-white-alpha-100);
+  --semantic-divider-alpha-200: var(--primitive-white-alpha-200);
+  --semantic-divider-alpha-300: var(--primitive-white-alpha-300);
 
-  /* Text.OnBright — BlackAlpha (same as brand1) */
-  --semantic-text-on-bright-400: var(--primitive-black-alpha-400);
-  --semantic-text-on-bright-600: var(--primitive-black-alpha-600);
-  --semantic-text-on-bright-800: var(--primitive-black-alpha-800);
-  --semantic-text-on-bright-900: var(--primitive-black-alpha-900);
-  --semantic-text-on-bright-950: var(--primitive-black-alpha-950);
+  /* Text.OnBright — WhiteAlpha (light text on dark bg) */
+  --semantic-text-on-bright-300: var(--primitive-white-alpha-400);
+  --semantic-text-on-bright-400: var(--primitive-white-alpha-500);
+  --semantic-text-on-bright-500: var(--primitive-white-alpha-600);
+  --semantic-text-on-bright-600: var(--primitive-white-alpha-700);
+  --semantic-text-on-bright-800: var(--primitive-white-alpha-900);
+  --semantic-text-on-bright-900: var(--primitive-white-alpha-950);
+  --semantic-text-on-bright-950: var(--primitive-white-alpha-1000);
 
-  /* Text.OnDim — WhiteAlpha with offset (same as brand1) */
-  --semantic-text-on-dim-400: var(--primitive-white-alpha-500);
-  --semantic-text-on-dim-600: var(--primitive-white-alpha-700);
-  --semantic-text-on-dim-800: var(--primitive-white-alpha-900);
-  --semantic-text-on-dim-900: var(--primitive-white-alpha-950);
-  --semantic-text-on-dim-950: var(--primitive-white-alpha-1000);
+  /* Text.OnDim — BlackAlpha (dark text on light accent) */
+  --semantic-text-on-dim-300: var(--primitive-black-alpha-300);
+  --semantic-text-on-dim-400: var(--primitive-black-alpha-400);
+  --semantic-text-on-dim-600: var(--primitive-black-alpha-600);
+  --semantic-text-on-dim-800: var(--primitive-black-alpha-800);
+  --semantic-text-on-dim-900: var(--primitive-black-alpha-900);
+  --semantic-text-on-dim-950: var(--primitive-black-alpha-950);
 
-  /* State.OnBright — BlackAlpha (same as brand1) */
-  --semantic-state-on-bright-50:  var(--primitive-black-alpha-50);
-  --semantic-state-on-bright-70:  var(--primitive-black-alpha-70);
-  --semantic-state-on-bright-100: var(--primitive-black-alpha-100);
+  /* State.OnBright — WhiteAlpha (light hover on dark bg) */
+  --semantic-state-on-bright-50:  var(--primitive-white-alpha-70);
+  --semantic-state-on-bright-70:  var(--primitive-white-alpha-100);
+  --semantic-state-on-bright-100: var(--primitive-white-alpha-200);
 
-  /* State.OnDim — WhiteAlpha with offset (same as brand1) */
-  --semantic-state-on-dim-50:  var(--primitive-white-alpha-70);
-  --semantic-state-on-dim-70:  var(--primitive-white-alpha-100);
-  --semantic-state-on-dim-100: var(--primitive-white-alpha-200);
+  /* State.OnDim — BlackAlpha (dark hover on light accent) */
+  --semantic-state-on-dim-50:  var(--primitive-black-alpha-50);
+  --semantic-state-on-dim-70:  var(--primitive-black-alpha-70);
+  --semantic-state-on-dim-100: var(--primitive-black-alpha-100);
 }
 
 /* ----------------------------------------------------------
@@ -1328,8 +1491,8 @@
   /* ─── Background ─── */
   --comp-textfield-bg:             var(--semantic-neutral-solid-70);
   --comp-textfield-bg-focus:       var(--semantic-neutral-solid-0);
-  --comp-textfield-bg-error:       var(--semantic-error-50);
-  --comp-textfield-bg-error-focus: var(--semantic-neutral-solid-0);
+  --comp-textfield-bg-error:       var(--comp-textfield-bg);
+  --comp-textfield-bg-error-focus: var(--comp-textfield-bg-focus);
   --comp-textfield-bg-disabled:    var(--semantic-neutral-solid-100);
   --comp-textfield-bg-readonly:    var(--semantic-neutral-solid-50);
 
@@ -1613,7 +1776,7 @@
   --comp-callout-arrow-black:            var(--semantic-neutral-solid-950);
   --comp-callout-close-black:            var(--semantic-text-on-dim-600);
   --comp-callout-close-hover-black:      var(--semantic-state-on-dim-50);
-  --comp-callout-action-black:           var(--semantic-text-on-dim-900);
+  --comp-callout-action-black:           var(--semantic-text-on-dim-800);
 
   /* ─── White variant ─── */
   --comp-callout-bg-white:               var(--semantic-neutral-solid-50);
@@ -1621,7 +1784,7 @@
   --comp-callout-arrow-white:            var(--semantic-neutral-solid-50);
   --comp-callout-close-white:            var(--semantic-text-on-bright-600);
   --comp-callout-close-hover-white:      var(--semantic-state-on-bright-50);
-  --comp-callout-action-white:           var(--semantic-text-on-bright-900);
+  --comp-callout-action-white:           var(--semantic-text-on-bright-800);
 
   /* ─── Brand variant ─── */
   --comp-callout-bg-brand:               var(--semantic-primary-500);
@@ -1629,7 +1792,7 @@
   --comp-callout-arrow-brand:            var(--semantic-primary-500);
   --comp-callout-close-brand:            var(--semantic-text-on-dim-800);
   --comp-callout-close-hover-brand:      var(--semantic-state-on-dim-50);
-  --comp-callout-action-brand:           var(--semantic-text-on-dim-950);
+  --comp-callout-action-brand:           var(--semantic-text-on-dim-800);
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — SideNav (color layer)
@@ -1639,9 +1802,406 @@
   --comp-sidenav-text-active:      var(--semantic-text-on-bright-900);
   --comp-sidenav-text-disabled:    var(--semantic-text-on-bright-400);
   --comp-sidenav-group-text:       var(--semantic-text-on-bright-400);
+  --comp-sidenav-group-chevron:    var(--semantic-neutral-black-alpha-200);
   --comp-sidenav-bg-active:        var(--semantic-state-on-bright-100);
   --comp-sidenav-hover:            var(--semantic-state-on-bright-70);
   --comp-sidenav-active:           var(--semantic-state-on-bright-100);
   --comp-sidenav-focus-ring:       var(--semantic-primary-300);
   --comp-sidenav-divider:          var(--semantic-divider-solid-100);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Switch (color layer)
+     Naming: --comp-switch-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Track background ─── */
+  --comp-switch-bg-off:              var(--semantic-neutral-solid-200);
+  --comp-switch-bg-on:               var(--semantic-primary-500);
+
+  /* ─── Thumb ─── */
+  --comp-switch-thumb:               var(--semantic-neutral-solid-0);
+  --comp-switch-thumb-off:           var(--semantic-neutral-white-alpha-800);
+
+  /* ─── Disabled ─── */
+  --comp-switch-bg-off-disabled:     var(--semantic-neutral-solid-100);
+  --comp-switch-bg-on-disabled:      var(--semantic-primary-200);
+  --comp-switch-thumb-disabled:      var(--semantic-neutral-solid-50);
+
+  /* ─── State overlay ─── */
+  --comp-switch-hover-on-bright:     var(--semantic-state-on-bright-50);
+  --comp-switch-active-on-bright:    var(--semantic-state-on-bright-70);
+  --comp-switch-hover-on-dim:        var(--semantic-state-on-dim-50);
+  --comp-switch-active-on-dim:       var(--semantic-state-on-dim-70);
+
+  /* ─── Focus ring ─── */
+  --comp-switch-focus-ring:          var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — TextButton (color layer)
+     Naming: --comp-textbutton-{property}-{intent}[-{state}]
+     on-dim prefix: --comp-textbutton-dim-{property}-{intent}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── On-bright: systemic intent ─── */
+  --comp-textbutton-content-systemic:            var(--semantic-text-on-bright-800);
+  --comp-textbutton-content-systemic-hover:      var(--semantic-text-on-bright-600);
+  --comp-textbutton-content-systemic-active:     var(--semantic-text-on-bright-400);
+  --comp-textbutton-content-systemic-disabled:   var(--semantic-text-on-bright-300);
+
+  /* ─── On-bright: brand intent ─── */
+  --comp-textbutton-content-brand:               var(--semantic-primary-500);
+  --comp-textbutton-content-brand-hover:         var(--semantic-primary-600);
+  --comp-textbutton-content-brand-active:        var(--semantic-primary-700);
+  --comp-textbutton-content-brand-disabled:      var(--semantic-text-on-bright-300);
+
+  /* ─── On-dim: systemic intent ─── */
+  --comp-textbutton-dim-content-systemic:            var(--semantic-text-on-dim-950);
+  --comp-textbutton-dim-content-systemic-hover:      var(--semantic-text-on-dim-800);
+  --comp-textbutton-dim-content-systemic-active:     var(--semantic-text-on-dim-600);
+  --comp-textbutton-dim-content-systemic-disabled:   var(--semantic-text-on-dim-300);
+
+  /* ─── On-dim: brand intent ─── */
+  --comp-textbutton-dim-content-brand:               var(--semantic-primary-500);
+  --comp-textbutton-dim-content-brand-hover:         var(--semantic-primary-400);
+  --comp-textbutton-dim-content-brand-active:        var(--semantic-primary-300);
+  --comp-textbutton-dim-content-brand-disabled:      var(--semantic-text-on-dim-300);
+
+  /* ─── Focus ─── */
+  --comp-textbutton-focus-border:                var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Toast / Snackbar (color layer)
+     Naming: --comp-toast-{property}, --comp-snackbar-btn-{property}
+     ---------------------------------------------------------- */
+
+  /* ── Container ── */
+  --comp-toast-bg:                 var(--semantic-neutral-white-alpha-800);
+  --comp-toast-border:             var(--semantic-neutral-black-alpha-50);
+  --comp-toast-text:               var(--semantic-neutral-black-alpha-600);
+
+  /* ── Intent icon colors ── */
+  --comp-toast-icon-default:       var(--semantic-neutral-black-alpha-400);
+  --comp-toast-icon-positive:      var(--semantic-success-500);
+  --comp-toast-icon-warning:       var(--semantic-warning-500);
+  --comp-toast-icon-error:         var(--semantic-error-500);
+
+  /* ── Snackbar button colors ── */
+  --comp-snackbar-btn-text-assist: var(--semantic-neutral-black-alpha-600);
+  --comp-snackbar-btn-bg-main:     var(--semantic-neutral-black-alpha-70);
+  --comp-snackbar-btn-text-main:   var(--semantic-neutral-solid-950);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Dialog (color layer)
+     Naming: --comp-dialog-{property}[-{state}]
+     ---------------------------------------------------------- */
+  --comp-dialog-bg:                var(--semantic-neutral-solid-0);
+  --comp-dialog-overlay:           var(--semantic-neutral-black-alpha-400);
+  --comp-dialog-title:             var(--semantic-neutral-black-alpha-950);
+  --comp-dialog-desc:              var(--semantic-neutral-black-alpha-600);
+  --comp-dialog-close-bg:          var(--semantic-neutral-white-alpha-600);
+  --comp-dialog-close-icon-color:  var(--semantic-neutral-black-alpha-800);
+  --comp-dialog-close-hover:       var(--semantic-state-on-bright-50);
+  --comp-dialog-close-active:      var(--semantic-state-on-bright-70);
+  --comp-dialog-title-border:      var(--semantic-divider-solid-100);
+  --comp-dialog-footer-border:     var(--semantic-divider-solid-100);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Drawer (color layer)
+     Naming: --comp-drawer-{property}[-{state}]
+     ---------------------------------------------------------- */
+  --comp-drawer-bg:                var(--semantic-neutral-solid-0);
+  --comp-drawer-overlay:           var(--semantic-neutral-black-alpha-400);
+  --comp-drawer-topbar-border:     var(--semantic-neutral-solid-100);
+  --comp-drawer-topbar-icon:       var(--semantic-neutral-black-alpha-800);
+  --comp-drawer-footer-border:     var(--semantic-divider-solid-100);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Badge (color layer)
+     Naming: --comp-badge-{color}-{weight}-{property}
+     Uses primitive tokens directly → must override per theme.
+     ---------------------------------------------------------- */
+
+  /* ─── BadgeLabel / BadgeCounter — light weight ─── */
+  --comp-badge-gray-light-bg:        var(--primitive-gray-100);
+  --comp-badge-gray-light-text:      var(--primitive-gray-700);
+  --comp-badge-indigo-light-bg:      var(--primitive-indigo-100);
+  --comp-badge-indigo-light-text:    var(--primitive-indigo-700);
+  --comp-badge-purple-light-bg:      var(--primitive-purple-100);
+  --comp-badge-purple-light-text:    var(--primitive-purple-700);
+  --comp-badge-violet-light-bg:      var(--primitive-violet-100);
+  --comp-badge-violet-light-text:    var(--primitive-violet-700);
+  --comp-badge-pink-light-bg:        var(--primitive-pink-100);
+  --comp-badge-pink-light-text:      var(--primitive-pink-700);
+  --comp-badge-rose-light-bg:        var(--primitive-rose-100);
+  --comp-badge-rose-light-text:      var(--primitive-rose-700);
+  --comp-badge-red-bright-light-bg:  var(--primitive-red-bright-100);
+  --comp-badge-red-bright-light-text: var(--primitive-red-bright-600);
+  --comp-badge-orange-light-bg:      var(--primitive-orange-100);
+  --comp-badge-orange-light-text:    var(--primitive-orange-600);
+  --comp-badge-amber-light-bg:       var(--primitive-amber-100);
+  --comp-badge-amber-light-text:     var(--primitive-amber-600);
+  --comp-badge-yellow-light-bg:      var(--primitive-yellow-100);
+  --comp-badge-yellow-light-text:    var(--primitive-yellow-700);
+  --comp-badge-lime-light-bg:        var(--primitive-lime-200);
+  --comp-badge-lime-light-text:      var(--primitive-lime-800);
+  --comp-badge-edamame-light-bg:     var(--primitive-edamame-100);
+  --comp-badge-edamame-light-text:   var(--primitive-edamame-700);
+  --comp-badge-forest-light-bg:      var(--primitive-forest-100);
+  --comp-badge-forest-light-text:    var(--primitive-forest-600);
+  --comp-badge-emerald-light-bg:     var(--primitive-emerald-100);
+  --comp-badge-emerald-light-text:   var(--primitive-emerald-600);
+  --comp-badge-cyan-light-bg:        var(--primitive-cyan-100);
+  --comp-badge-cyan-light-text:      var(--primitive-cyan-700);
+  --comp-badge-sky-light-bg:         var(--primitive-sky-100);
+  --comp-badge-sky-light-text:       var(--primitive-sky-700);
+  --comp-badge-blue-light-bg:        var(--primitive-blue-100);
+  --comp-badge-blue-light-text:      var(--primitive-blue-700);
+
+  /* ─── BadgeLabel / BadgeCounter — heavy weight ─── */
+  --comp-badge-gray-heavy-bg:        var(--primitive-gray-800);
+  --comp-badge-gray-heavy-text:      var(--primitive-gray-0);
+  --comp-badge-indigo-heavy-bg:      var(--primitive-indigo-500);
+  --comp-badge-indigo-heavy-text:    var(--primitive-gray-0);
+  --comp-badge-purple-heavy-bg:      var(--primitive-purple-500);
+  --comp-badge-purple-heavy-text:    var(--primitive-gray-0);
+  --comp-badge-violet-heavy-bg:      var(--primitive-violet-500);
+  --comp-badge-violet-heavy-text:    var(--primitive-gray-0);
+  --comp-badge-pink-heavy-bg:        var(--primitive-pink-500);
+  --comp-badge-pink-heavy-text:      var(--primitive-gray-0);
+  --comp-badge-rose-heavy-bg:        var(--primitive-rose-500);
+  --comp-badge-rose-heavy-text:      var(--primitive-gray-0);
+  --comp-badge-red-bright-heavy-bg:  var(--primitive-red-bright-500);
+  --comp-badge-red-bright-heavy-text: var(--primitive-gray-0);
+  --comp-badge-orange-heavy-bg:      var(--primitive-orange-500);
+  --comp-badge-orange-heavy-text:    var(--primitive-gray-0);
+  --comp-badge-amber-heavy-bg:       var(--primitive-amber-500);
+  --comp-badge-amber-heavy-text:     var(--primitive-gray-0);
+  --comp-badge-yellow-heavy-bg:      var(--primitive-yellow-400);
+  --comp-badge-yellow-heavy-text:    var(--primitive-yellow-950);
+  --comp-badge-lime-heavy-bg:        var(--primitive-lime-500);
+  --comp-badge-lime-heavy-text:      var(--primitive-gray-0);
+  --comp-badge-edamame-heavy-bg:     var(--primitive-edamame-500);
+  --comp-badge-edamame-heavy-text:   var(--primitive-gray-0);
+  --comp-badge-forest-heavy-bg:      var(--primitive-forest-500);
+  --comp-badge-forest-heavy-text:    var(--primitive-gray-0);
+  --comp-badge-emerald-heavy-bg:     var(--primitive-emerald-500);
+  --comp-badge-emerald-heavy-text:   var(--primitive-gray-0);
+  --comp-badge-cyan-heavy-bg:        var(--primitive-cyan-500);
+  --comp-badge-cyan-heavy-text:      var(--primitive-gray-0);
+  --comp-badge-sky-heavy-bg:         var(--primitive-sky-500);
+  --comp-badge-sky-heavy-text:       var(--primitive-gray-0);
+  --comp-badge-blue-heavy-bg:        var(--primitive-blue-500);
+  --comp-badge-blue-heavy-text:      var(--primitive-gray-0);
+
+  /* ─── BadgeDot ─── */
+  --comp-badge-dot-gray:       var(--primitive-gray-300);
+  --comp-badge-dot-indigo:     var(--primitive-indigo-500);
+  --comp-badge-dot-purple:     var(--primitive-purple-500);
+  --comp-badge-dot-violet:     var(--primitive-violet-500);
+  --comp-badge-dot-pink:       var(--primitive-pink-500);
+  --comp-badge-dot-rose:       var(--primitive-rose-500);
+  --comp-badge-dot-red-bright: var(--primitive-red-bright-500);
+  --comp-badge-dot-orange:     var(--primitive-orange-500);
+  --comp-badge-dot-amber:      var(--primitive-amber-500);
+  --comp-badge-dot-yellow:     var(--primitive-yellow-500);
+  --comp-badge-dot-lime:       var(--primitive-lime-500);
+  --comp-badge-dot-edamame:    var(--primitive-edamame-500);
+  --comp-badge-dot-forest:     var(--primitive-forest-500);
+  --comp-badge-dot-emerald:    var(--primitive-emerald-500);
+  --comp-badge-dot-cyan:       var(--primitive-cyan-500);
+  --comp-badge-dot-sky:        var(--primitive-sky-500);
+  --comp-badge-dot-blue:       var(--primitive-blue-500);
+
+  /* ─── BadgeDot inset border ─── */
+  --comp-badge-dot-border:     var(--primitive-gray-0);
+}
+
+/* ----------------------------------------------------------
+   DARK MODE — Component Token Overrides
+   Overrides component tokens that don't auto-invert correctly.
+   Same specificity as [data-theme], wins by cascade order.
+   ---------------------------------------------------------- */
+[data-theme="dark"] {
+  /* === A. Elevated Surfaces ===
+     background-0 = gray-950. Component surfaces need elevation.
+     neutral-solid-70 in dark = gray-800 (subtle). */
+  --comp-dialog-bg:                var(--semantic-neutral-solid-70);
+  --comp-dropdown-bg:              var(--semantic-neutral-solid-70);
+  --comp-textfield-bg-focus:       var(--semantic-neutral-solid-100);
+  --comp-segment-active-bg:        var(--semantic-neutral-solid-100);
+  /* Drawer: same as page bg (relies on overlay for separation) */
+
+  /* === B. Overlays (stay dark) ===
+     neutral-black-alpha → white-alpha in dark = bright overlay (wrong).
+     Use neutral-white-alpha → black-alpha in dark = dark overlay. */
+  --comp-dialog-overlay:           var(--semantic-neutral-white-alpha-400);
+  --comp-drawer-overlay:           var(--semantic-neutral-white-alpha-400);
+
+  /* === C. Toast Container ===
+     white-alpha-800 → black-alpha-800 in dark = blends with bg. */
+  --comp-toast-bg:                 var(--semantic-neutral-solid-100);
+  --comp-toast-border:             var(--semantic-neutral-solid-200);
+  --comp-toast-text:               var(--semantic-text-on-bright-900);
+
+  /* === D. Tooltip/Callout — Black variant (stay dark + light text) ===
+     Use neutral-solid-70 (gray-800) to distinguish from page bg (gray-950). */
+  --comp-tooltip-bg-black:               var(--semantic-neutral-solid-70);
+  --comp-tooltip-text-black:             var(--semantic-text-on-bright-900);
+  --comp-tooltip-arrow-black:            var(--semantic-neutral-solid-70);
+
+  --comp-callout-bg-black:               var(--semantic-neutral-solid-70);
+  --comp-callout-text-black:             var(--semantic-text-on-bright-900);
+  --comp-callout-arrow-black:            var(--semantic-neutral-solid-70);
+  --comp-callout-close-black:            var(--semantic-text-on-bright-600);
+  --comp-callout-close-hover-black:      var(--semantic-state-on-bright-50);
+  --comp-callout-action-black:           var(--semantic-text-on-bright-800);
+
+  /* === D. Tooltip/Callout — White variant (stay light + dark text) === */
+  --comp-tooltip-bg-white:               var(--semantic-neutral-solid-950);
+  --comp-tooltip-text-white:             var(--semantic-text-on-dim-900);
+  --comp-tooltip-arrow-white:            var(--semantic-neutral-solid-950);
+
+  --comp-callout-bg-white:               var(--semantic-neutral-solid-950);
+  --comp-callout-text-white:             var(--semantic-text-on-dim-900);
+  --comp-callout-arrow-white:            var(--semantic-neutral-solid-950);
+  --comp-callout-close-white:            var(--semantic-text-on-dim-600);
+  --comp-callout-close-hover-white:      var(--semantic-state-on-dim-50);
+  --comp-callout-action-white:           var(--semantic-text-on-dim-800);
+
+  /* === D. Tooltip/Callout — Brand variant (accent bg unchanged → keep light text) === */
+  --comp-tooltip-text-brand:             var(--semantic-text-on-bright-950);
+
+  --comp-callout-text-brand:             var(--semantic-text-on-bright-950);
+  --comp-callout-close-brand:            var(--semantic-text-on-bright-800);
+  --comp-callout-close-hover-brand:      var(--semantic-state-on-bright-50);
+  --comp-callout-action-brand:           var(--semantic-text-on-bright-800);
+
+  /* === E. Switch Thumb === */
+  --comp-switch-thumb:                   var(--semantic-neutral-solid-800);
+  --comp-switch-thumb-off:               var(--semantic-neutral-solid-600);
+  --comp-switch-thumb-disabled:          var(--semantic-neutral-solid-500);
+
+  /* === F. Content on Accent Backgrounds (stay light) ===
+     Accent bg (Primary, Error) doesn't invert → content shouldn't either. */
+  --comp-button-content-primary-brand:        var(--semantic-neutral-solid-950);
+  --comp-button-content-primary-destructive:  var(--semantic-neutral-solid-950);
+  --comp-chip-filter-label-on-brand:          var(--semantic-neutral-solid-950);
+  --comp-chip-dropdown-label-on-brand:        var(--semantic-neutral-solid-950);
+  --comp-chip-dropdown-badge-label:           var(--semantic-neutral-solid-950);
+
+  /* === G. SideNav states (reduce opacity) === */
+  --comp-sidenav-bg-active:          var(--semantic-state-on-bright-70);
+  --comp-sidenav-hover:              var(--semantic-state-on-bright-50);
+  --comp-sidenav-active:             var(--semantic-state-on-bright-70);
+  --comp-sidenav-group-chevron:      var(--semantic-neutral-black-alpha-300);
+
+  /* === H. Misc === */
+  --comp-dropdown-border:            var(--semantic-neutral-black-alpha-100);
+  --comp-dialog-close-bg:            var(--semantic-neutral-black-alpha-200);
+
+  /* === I. Badge — shade inversion ===
+     Primitive tokens don't auto-invert. Override all light-weight
+     and gray-heavy for dark backgrounds. */
+
+  /* ─── light weight — bg ↑900, text ↓300 ─── */
+  --comp-badge-gray-light-bg:        var(--primitive-gray-800);
+  --comp-badge-gray-light-text:      var(--primitive-gray-300);
+  --comp-badge-indigo-light-bg:      var(--primitive-indigo-900);
+  --comp-badge-indigo-light-text:    var(--primitive-indigo-300);
+  --comp-badge-purple-light-bg:      var(--primitive-purple-900);
+  --comp-badge-purple-light-text:    var(--primitive-purple-300);
+  --comp-badge-violet-light-bg:      var(--primitive-violet-900);
+  --comp-badge-violet-light-text:    var(--primitive-violet-300);
+  --comp-badge-pink-light-bg:        var(--primitive-pink-900);
+  --comp-badge-pink-light-text:      var(--primitive-pink-300);
+  --comp-badge-rose-light-bg:        var(--primitive-rose-900);
+  --comp-badge-rose-light-text:      var(--primitive-rose-300);
+  --comp-badge-red-bright-light-bg:  var(--primitive-red-bright-900);
+  --comp-badge-red-bright-light-text: var(--primitive-red-bright-300);
+  --comp-badge-orange-light-bg:      var(--primitive-orange-900);
+  --comp-badge-orange-light-text:    var(--primitive-orange-300);
+  --comp-badge-amber-light-bg:       var(--primitive-amber-900);
+  --comp-badge-amber-light-text:     var(--primitive-amber-300);
+  --comp-badge-yellow-light-bg:      var(--primitive-yellow-900);
+  --comp-badge-yellow-light-text:    var(--primitive-yellow-300);
+  --comp-badge-lime-light-bg:        var(--primitive-lime-900);
+  --comp-badge-lime-light-text:      var(--primitive-lime-300);
+  --comp-badge-edamame-light-bg:     var(--primitive-edamame-900);
+  --comp-badge-edamame-light-text:   var(--primitive-edamame-300);
+  --comp-badge-forest-light-bg:      var(--primitive-forest-900);
+  --comp-badge-forest-light-text:    var(--primitive-forest-300);
+  --comp-badge-emerald-light-bg:     var(--primitive-emerald-900);
+  --comp-badge-emerald-light-text:   var(--primitive-emerald-300);
+  --comp-badge-cyan-light-bg:        var(--primitive-cyan-900);
+  --comp-badge-cyan-light-text:      var(--primitive-cyan-300);
+  --comp-badge-sky-light-bg:         var(--primitive-sky-900);
+  --comp-badge-sky-light-text:       var(--primitive-sky-300);
+  --comp-badge-blue-light-bg:        var(--primitive-blue-900);
+  --comp-badge-blue-light-text:      var(--primitive-blue-300);
+
+  /* ─── heavy weight — gray only (invert for dark bg contrast) ─── */
+  --comp-badge-gray-heavy-bg:        var(--primitive-gray-200);
+  --comp-badge-gray-heavy-text:      var(--primitive-gray-900);
+
+  /* ─── BadgeDot — gray brighter on dark ─── */
+  --comp-badge-dot-gray:             var(--primitive-gray-400);
+
+  /* ─── BadgeDot inset border — dark on dark ─── */
+  --comp-badge-dot-border:           var(--primitive-gray-950);
+}
+
+/* ----------------------------------------------------------
+   COMPONENT TOKENS — Table (color layer)
+   Scoped to [data-theme] so var(--semantic-*) references resolve.
+   Naming: --comp-table-{property}[-{state}]
+   ---------------------------------------------------------- */
+[data-theme] {
+  /* ─── Row background ─── */
+  --comp-table-row-bg:                var(--semantic-background-0);
+  --comp-table-row-bg-selected:       var(--semantic-primary-50);
+
+  /* ─── Row state overlays (on-bright since table is on light surface) ─── */
+  --comp-table-row-hover:             var(--semantic-state-on-bright-50);
+  --comp-table-row-active:            var(--semantic-state-on-bright-70);
+
+  /* ─── Header ─── */
+  --comp-table-header-bg:             var(--semantic-background-50);
+
+  /* ─── Cell text — emphasis hierarchy ─── */
+  --comp-table-text-strong:           var(--semantic-text-on-bright-950);
+  --comp-table-text-normal:           var(--semantic-text-on-bright-800);
+  --comp-table-text-weak:             var(--semantic-text-on-bright-400);
+
+  /* ─── Header text ─── */
+  --comp-table-header-text:           var(--semantic-text-on-bright-600);
+  --comp-table-header-text-sorted:    var(--semantic-text-on-bright-900);
+
+  /* ─── Borders ─── */
+  --comp-table-border-row:            var(--semantic-divider-solid-100);
+  --comp-table-border-side:           var(--semantic-divider-solid-100);
+  --comp-table-border-sticky:         var(--semantic-divider-solid-300);
+
+  /* ─── Sort icon ─── */
+  --comp-table-sort-icon-color:       var(--semantic-text-on-bright-400);
+  --comp-table-sort-icon-color-active: var(--semantic-text-on-bright-900);
+
+  /* ─── Striped rows ─── */
+  --comp-table-row-bg-striped:        var(--semantic-background-50);
+
+  /* ─── Row hover opaque (for sticky cells that need opaque bg) ─── */
+  --comp-table-row-hover-opaque:      var(--semantic-background-50);
+
+  /* ─── Header hover (sortable) ─── */
+  --comp-table-header-hover:          var(--semantic-state-on-bright-50);
+
+  /* ─── Column highlight ─── */
+  --comp-table-col-highlight:         var(--semantic-state-on-bright-50);
+
+  /* ─── Cell button themes ─── */
+  --comp-table-btn-system:            var(--semantic-text-on-bright-800);
+  --comp-table-btn-system-hover:      var(--semantic-state-on-bright-50);
+  --comp-table-btn-brand:             var(--semantic-primary-500);
+  --comp-table-btn-brand-hover:       var(--semantic-primary-50);
+  --comp-table-btn-error:             var(--semantic-error-500);
+  --comp-table-btn-error-hover:       var(--semantic-error-50);
 }
