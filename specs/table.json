@@ -1,0 +1,179 @@
+{
+  "component": "Table",
+  "description": "Compound table component for displaying structured data. Provides styled semantic HTML table elements with emphasis/alignment variants, sort indicators, row selection states, horizontal scrolling, and sticky columns. Data logic (sorting, filtering, pagination) is the consumer's responsibility.",
+  "classification": "Primitive",
+  "figmaNode": "7424:50019",
+
+  "subComponents": {
+    "Table": {
+      "element": "<div> wrapper + <table>",
+      "description": "Root wrapper. Outer div provides horizontal scroll container, inner table uses full width.",
+      "props": {
+        "className": { "type": "string", "description": "Applied to the <table> element." },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableHeader": {
+      "element": "<thead>",
+      "description": "Table header section. Applies header background. Header rows do NOT have row hover interaction.",
+      "props": {
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableBody": {
+      "element": "<tbody>",
+      "description": "Table body section. Passthrough wrapper.",
+      "props": {
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableFooter": {
+      "element": "<tfoot>",
+      "description": "Table footer section. Passthrough wrapper.",
+      "props": {
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableRow": {
+      "element": "<tr>",
+      "description": "Table row with hover and selected states. Selected applies primary tint background.",
+      "props": {
+        "selected": {
+          "type": "boolean",
+          "default": false,
+          "description": "Selected row background (primary tint). Sets aria-selected."
+        },
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableHead": {
+      "element": "<th>",
+      "description": "Header cell with optional sort indicator. Sortable headers render an internal button for accessibility.",
+      "props": {
+        "align": {
+          "type": "'left' | 'center' | 'right'",
+          "default": "left",
+          "description": "Text alignment."
+        },
+        "sortDirection": {
+          "type": "'ascending' | 'descending' | false",
+          "default": "undefined",
+          "description": "Sort state. undefined = non-sortable column. false = sortable but unsorted. 'ascending'/'descending' = active sort."
+        },
+        "onSort": {
+          "type": "() => void",
+          "description": "Sort toggle handler. When provided with sortDirection, header becomes clickable."
+        },
+        "sticky": {
+          "type": "boolean",
+          "default": false,
+          "description": "Fixed column via position: sticky. Applies opaque background and right border."
+        },
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    "TableCell": {
+      "element": "<td>",
+      "description": "Data cell with emphasis hierarchy and alignment. Strong for key identifiers, Normal for general text, Weak for empty/no-data.",
+      "props": {
+        "emphasis": {
+          "type": "'strong' | 'normal' | 'weak'",
+          "default": "normal",
+          "description": "Text emphasis. Strong = semibold + darkest, Normal = regular + medium, Weak = regular + lightest."
+        },
+        "align": {
+          "type": "'left' | 'center' | 'right'",
+          "default": "left",
+          "description": "Text alignment."
+        },
+        "sticky": {
+          "type": "boolean",
+          "default": false,
+          "description": "Fixed column via position: sticky. Inherits row background."
+        },
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    }
+  },
+
+  "variants": {
+    "cell_emphasis": {
+      "strong": {
+        "typography": "typography-16-semibold",
+        "color": "--comp-table-text-strong → semantic-text-on-bright-950"
+      },
+      "normal": {
+        "typography": "typography-16-regular",
+        "color": "--comp-table-text-normal → semantic-text-on-bright-800"
+      },
+      "weak": {
+        "typography": "typography-16-regular",
+        "color": "--comp-table-text-weak → semantic-text-on-bright-400"
+      }
+    },
+    "cell_align": {
+      "left": "text-left",
+      "center": "text-center",
+      "right": "text-right"
+    },
+    "dimensions": {
+      "row": {
+        "height": "--comp-table-row-height (44px)"
+      },
+      "cell": {
+        "paddingX": "--comp-table-cell-px (12px)",
+        "paddingY": "--comp-table-cell-py (10px)",
+        "gap": "--comp-table-cell-gap (4px)",
+        "iconSize": "--comp-table-cell-icon (20px)"
+      },
+      "sortIcon": {
+        "size": "--comp-table-sort-icon (16px)"
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "bodyRow": "bg-[var(--comp-table-row-hover)] → semantic-state-on-bright-50",
+      "headerRow": "No row hover (per Figma). Sort header cell only has hover styling.",
+      "sortHeader": "Cursor pointer, text color change"
+    },
+    "active": {
+      "bodyRow": "bg-[var(--comp-table-row-active)] → semantic-state-on-bright-70"
+    },
+    "selected": {
+      "row": "bg-[var(--comp-table-row-bg-selected)] → semantic-primary-50. aria-selected=true"
+    },
+    "sortDirection": {
+      "ascending": "Sort icon rotated up, active color. Header text uses --comp-table-header-text-sorted. aria-sort=ascending",
+      "descending": "Sort icon rotated down, active color. Header text uses --comp-table-header-text-sorted. aria-sort=descending",
+      "default": "Both arrows (neutral icon), subtle color. aria-sort=none"
+    }
+  },
+
+  "implementation": {
+    "pattern": "Compound Component (flat, no Context required)",
+    "stateOverlay": "CSS hover/active on <tr> directly (not span overlay — <tr> cannot contain non-td children).",
+    "stickyColumn": "CSS position: sticky + opaque background (bg-inherit for body cells, explicit bg for header cells) + right border --comp-table-border-sticky.",
+    "sortInteraction": "3-state cycle: Default → Descending → Ascending → Default. Internal <button> in <th> for keyboard a11y (Enter/Space).",
+    "selectionNote": "No built-in checkbox. Consumer renders their own checkbox in TableCell. TableRow.selected controls visual state only.",
+    "files": [
+      "src/components/Table/Table.tsx",
+      "src/components/Table/index.ts"
+    ],
+    "dependencies": [
+      "class-variance-authority",
+      "src/lib/utils.ts"
+    ],
+    "tokenFiles": {
+      "size": "src/tokens/tokens.css :root (--comp-table-row-height, --comp-table-cell-px, --comp-table-cell-py, --comp-table-cell-gap, --comp-table-cell-icon, --comp-table-sort-icon)",
+      "color": "src/tokens/tokens.css [data-theme] (--comp-table-row-bg, --comp-table-row-bg-selected, --comp-table-row-hover, --comp-table-row-active, --comp-table-header-bg, --comp-table-text-strong, --comp-table-text-normal, --comp-table-text-weak, --comp-table-header-text, --comp-table-header-text-sorted, --comp-table-border-row, --comp-table-border-side, --comp-table-border-sticky, --comp-table-sort-icon-color, --comp-table-sort-icon-color-active)"
+    }
+  }
+}
