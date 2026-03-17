@@ -1,0 +1,89 @@
+{
+  "component": "Snackbar",
+  "description": "Toast 컨테이너를 공유하는 액션 버튼 포함 알림 컴포넌트. 1~2개의 버튼(Assist/Main)을 지원하며, 자동 닫힘(8초). toast.snackbar()로 호출.",
+  "figmaNode": "7032:15757",
+  "figmaFile": "3ZDIVn83opF9OYSzWYE1iF",
+  "extendsComponent": "Toast (공유 컨테이너, 아이콘, 텍스트 스타일)",
+
+  "props": {
+    "message": {
+      "type": "string",
+      "description": "표시할 텍스트 메시지."
+    },
+    "intent": {
+      "type": "'default' | 'positive' | 'warning' | 'error'",
+      "default": "default",
+      "description": "아이콘 색상과 종류를 결정하는 의도 유형."
+    },
+    "showIcon": {
+      "type": "boolean",
+      "default": true,
+      "description": "아이콘 표시 여부."
+    },
+    "duration": {
+      "type": "number | null",
+      "default": 8000,
+      "description": "자동 닫힘 시간(ms). 액션이 있어 Toast보다 길다."
+    },
+    "actions": {
+      "type": "ToastAction[]",
+      "description": "1~2개 액션 버튼. { label: string, onClick: () => void, variant?: 'assist' | 'main' }",
+      "maxItems": 2
+    }
+  },
+
+  "visual": {
+    "container": {
+      "width": "448px",
+      "note": "Toast(384px)보다 넓음. 나머지 컨테이너 스타일은 Toast와 동일."
+    },
+    "buttons": {
+      "height": "32px",
+      "width": "112px",
+      "radius": "8px (radius-2)",
+      "paddingX": "8px (spacing-2)",
+      "typography": "typography-14-semibold",
+      "assist": {
+        "background": "transparent",
+        "text": "--comp-snackbar-btn-text-assist → semantic-neutral-black-alpha-600"
+      },
+      "main": {
+        "background": "--comp-snackbar-btn-bg-main → semantic-neutral-black-alpha-70",
+        "text": "--comp-snackbar-btn-text-main → semantic-neutral-solid-950"
+      }
+    },
+    "layout": {
+      "oneButton": "horizontal — icon + text + button (items-center, gap-8px)",
+      "twoButtons": "vertical — [icon + text] row + [assist + main] row (justify-end, pl-32px)"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "list": [
+        "--comp-snackbar-width: 448px",
+        "--comp-snackbar-button-h: 32px",
+        "--comp-snackbar-button-radius: var(--radius-2) = 8px",
+        "--comp-snackbar-button-w: 112px",
+        "--comp-snackbar-button-row-pl: 32px"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "list": [
+        "--comp-snackbar-btn-text-assist: semantic-neutral-black-alpha-600",
+        "--comp-snackbar-btn-bg-main: semantic-neutral-black-alpha-70",
+        "--comp-snackbar-btn-text-main: semantic-neutral-solid-950"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "Imperative store + Radix Toast + cn (Toast 인프라 공유)",
+    "sharedWith": "Toast — 동일 Toaster, toast-store, toast-icons, shared.ts 사용",
+    "files": [
+      "src/components/Toast/Snackbar.tsx"
+    ]
+  }
+}

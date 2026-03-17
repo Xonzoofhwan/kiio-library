@@ -1,0 +1,145 @@
+{
+  "component": "Toast",
+  "description": "글래스모피즘 스타일의 단순 알림 컴포넌트. 아이콘(optional)과 텍스트로 구성. 자동 닫힘(5초), 호버 시 일시정지. imperative API(toast())로 호출하며 Toaster viewport에서 렌더링된다.",
+  "figmaNode": "7032:15729",
+  "figmaFile": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "props": {
+    "message": {
+      "type": "string",
+      "description": "표시할 텍스트 메시지."
+    },
+    "intent": {
+      "type": "'default' | 'positive' | 'warning' | 'error'",
+      "default": "default",
+      "description": "아이콘 색상과 종류를 결정하는 의도 유형."
+    },
+    "showIcon": {
+      "type": "boolean",
+      "default": true,
+      "description": "아이콘 표시 여부."
+    },
+    "duration": {
+      "type": "number | null",
+      "default": 5000,
+      "description": "자동 닫힘 시간(ms). null이면 자동 닫힘 없음."
+    }
+  },
+
+  "variants": {
+    "intent": {
+      "default": {
+        "icon": "Info circle (회색)",
+        "iconColor": "--comp-toast-icon-default → semantic-neutral-black-alpha-400"
+      },
+      "positive": {
+        "icon": "Check circle (초록)",
+        "iconColor": "--comp-toast-icon-positive → semantic-success-500"
+      },
+      "warning": {
+        "icon": "Warning triangle (주황)",
+        "iconColor": "--comp-toast-icon-warning → semantic-warning-500"
+      },
+      "error": {
+        "icon": "Error circle (빨강)",
+        "iconColor": "--comp-toast-icon-error → semantic-error-500"
+      }
+    }
+  },
+
+  "visual": {
+    "container": {
+      "width": "384px",
+      "paddingX": "14px (spacing-3.5)",
+      "paddingY": "12px",
+      "radius": "16px (radius-4)",
+      "background": "--comp-toast-bg → semantic-neutral-white-alpha-800",
+      "border": "1px solid --comp-toast-border → semantic-neutral-black-alpha-50",
+      "shadow": "0px 1px 2px rgba(0,0,0,0.04), 0px 4px 16px rgba(0,0,0,0.08)",
+      "backdropBlur": "16px"
+    },
+    "icon": {
+      "size": "24px",
+      "innerViewbox": "18×18 (inset 12.5%)"
+    },
+    "text": {
+      "typography": "typography-16-regular",
+      "color": "--comp-toast-text → semantic-neutral-black-alpha-600",
+      "wrapperPaddingLeft": "2px",
+      "wrapperPaddingY": "4px (spacing-1)"
+    },
+    "layout": {
+      "direction": "horizontal (flex row)",
+      "gap": "6px (spacing-1.5)",
+      "items": "align-items: start"
+    }
+  },
+
+  "states": {
+    "enter": {
+      "animation": "toast-enter-bottom/top keyframes",
+      "duration": "duration-normal (200ms)",
+      "easing": "ease-enter"
+    },
+    "exit": {
+      "animation": "toast-exit-bottom/top keyframes",
+      "duration": "duration-fast (100ms)",
+      "easing": "ease-exit"
+    },
+    "autoDismiss": {
+      "duration": 5000,
+      "hoverPause": true,
+      "description": "Radix Toast 내장 auto-dismiss + hover pause 활용"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "list": [
+        "--comp-toast-width: 384px",
+        "--comp-toast-radius: var(--radius-4) = 16px",
+        "--comp-toast-px: var(--spacing-3\\.5) = 14px",
+        "--comp-toast-py: 12px",
+        "--comp-toast-gap: var(--spacing-1\\.5) = 6px",
+        "--comp-toast-icon-size: 24px",
+        "--comp-toast-text-pl: 2px",
+        "--comp-toast-text-py: var(--spacing-1) = 4px",
+        "--comp-toast-shadow: 0px 1px 2px rgba(0,0,0,0.04), 0px 4px 16px rgba(0,0,0,0.08)",
+        "--comp-toast-backdrop-blur: 16px",
+        "--comp-toast-viewport-offset: 24px",
+        "--comp-toast-stack-gap: 8px"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "list": [
+        "--comp-toast-bg: semantic-neutral-white-alpha-800",
+        "--comp-toast-border: semantic-neutral-black-alpha-50",
+        "--comp-toast-text: semantic-neutral-black-alpha-600",
+        "--comp-toast-icon-default: semantic-neutral-black-alpha-400",
+        "--comp-toast-icon-positive: semantic-success-500",
+        "--comp-toast-icon-warning: semantic-warning-500",
+        "--comp-toast-icon-error: semantic-error-500"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "Imperative store + Radix Toast + cn",
+    "library": "@radix-ui/react-toast",
+    "files": [
+      "src/components/Toast/Toast.tsx",
+      "src/components/Toast/Snackbar.tsx",
+      "src/components/Toast/Toaster.tsx",
+      "src/components/Toast/toast-store.ts",
+      "src/components/Toast/toast-icons.tsx",
+      "src/components/Toast/shared.ts",
+      "src/components/Toast/index.ts"
+    ],
+    "variantMetadata": {
+      "TOAST_INTENTS": ["default", "positive", "warning", "error"],
+      "TOAST_POSITIONS": ["bottom-center", "top-center", "bottom-right", "top-right"]
+    }
+  }
+}
