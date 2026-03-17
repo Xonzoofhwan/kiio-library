@@ -34,9 +34,9 @@
 
 | 상황 | 어디서 분기? | 예시 |
 |------|------------|------|
-| 브랜드 전체 색상이 달라짐 | **Semantic** | `--semantic-primary-500`: brand1→purple, brand2→red-orange |
+| 브랜드 전체 색상이 달라짐 | **Semantic** | `--semantic-primary-500`: 테마별 primitive 매핑 |
 | 시스템 전체 radius 방향이 달라짐 | **Semantic** | `--semantic-radius-default`, `--semantic-radius-full` 추가 |
-| 특정 컴포넌트만 테마별로 다름 | **Component 오버라이드** | `[data-theme="brand2"] { --comp-button-radius-md: ... }` |
+| 특정 컴포넌트만 테마별로 다름 | **Component 오버라이드** | `[data-theme="X"] { --comp-button-radius-md: ... }` |
 
 ---
 
@@ -69,8 +69,8 @@
   --comp-button-radius-md: var(--radius-3);   /* 12px */
 }
 
-/* brand2에서만 오버라이드 */
-[data-theme="brand2"] {
+/* 특정 테마에서만 오버라이드 */
+[data-theme="X"] {
   --comp-button-radius-md: var(--radius-0);   /* 0px */
 }
 ```
@@ -87,7 +87,7 @@
 
 ```css
 /* Semantic: 시스템 전체 옵션 정의 */
-[data-theme="brand2"] {
+[data-theme="X"] {
   --semantic-radius-default: var(--radius-0);     /* 각진 UI */
   --semantic-radius-full: var(--radius-24);       /* pill 형태 */
 }
@@ -152,9 +152,8 @@ Primitive          →  Component                →  CVA
 ### 색상 (테마 변동, Component가 Semantic primary 참조)
 
 ```
-brand1: --semantic-primary-300 → var(--primitive-purple-300) → #c9b1f8
-brand2: --semantic-primary-300 → var(--primitive-red-orange-300) → #ff9d85
+--semantic-primary-300 → var(--primitive-purple-300) (light/dark 공통 accent palette)
 
 --comp-button-focus-border: var(--semantic-primary-300)
-→ data-theme 전환만으로 focus 색상 자동 변경
+→ data-theme="light"/"dark" 전환만으로 focus 색상 자동 변경
 ```

@@ -27,8 +27,7 @@
 ## Theme Support
 - [ ] Uses only semantic tokens for colors (no primitive tokens)
 - [ ] Uses only semantic tokens for motion (`duration-fast`, `ease-enter` — no `duration-100`, `ease-out`)
-- [ ] Tested with `data-theme="brand1"`
-- [ ] Tested with `data-theme="brand2"`
+- [ ] Tested with all `data-theme` values
 - [ ] No theme-specific logic in component code
 
 ## Accessibility
@@ -62,7 +61,7 @@
 - [ ] Barrel export: `index.ts`
 - [ ] Both interface and component exported from index
 
-## Testing
+## Testing (Phase 5 설정 후 적용)
 - [ ] All size combinations tested
 - [ ] All variant combinations tested
 - [ ] All states tested (hover, focus, disabled, etc.)

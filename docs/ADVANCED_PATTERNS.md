@@ -548,6 +548,8 @@ const handleEscapeKeyDown = useCallback(
 
 ## G. 테스트 구조 패턴
 
+> **Phase 5 예정.** 현재 프로젝트에 테스트 프레임워크(vitest, @testing-library) 미설정. 아래는 도입 시 참고할 패턴.
+
 ### 도구
 
 - **vitest** — 테스트 러너
@@ -649,6 +651,8 @@ describe('Modal', () => {
 ---
 
 ## H. Storybook 스토리 패턴
+
+> **Phase 5 예정.** 현재 프로젝트에 Storybook 미설정. 아래는 도입 시 참고할 패턴.
 
 ### 파일 위치
 

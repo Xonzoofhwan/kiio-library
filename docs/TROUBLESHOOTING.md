@@ -10,7 +10,7 @@
 **Problem**: Components don't change color when switching themes.
 
 **Solutions**:
-- Ensure `data-theme="brand1"` or `data-theme="brand2"` is on an ancestor element
+- Ensure `data-theme` attribute is set on an ancestor element
 - Verify you're using `semantic-*` tokens, not `primitive-*` tokens
 - Check that `src/tokens/tokens.css` is imported in `src/index.css`
 - Inspect element in browser DevTools to see if CSS variables are applied

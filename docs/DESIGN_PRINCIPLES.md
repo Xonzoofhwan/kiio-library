@@ -267,18 +267,18 @@ Ref (Primitive) → Sys (Semantic) → Component
 1. **컴포넌트 내부에 테마 분기 로직 금지**
    ```tsx
    // DO NOT
-   const bg = theme === 'align' ? 'bg-purple-500' : 'bg-orange-500'
+   const bg = theme === 'foo' ? 'bg-purple-500' : 'bg-orange-500'
 
-   // DO — sys 토큰이 자동 처리
-   className="bg-sys-primary-500"
+   // DO — semantic 토큰이 자동 처리
+   className="bg-semantic-primary-500"
    ```
 
-2. **양 테마에서 검증 필수**
-   - `data-theme="align"` + `data-theme="edutap"` 양쪽에서 의도한 대비/가독성 확인
-   - 특히 `on-bright` / `on-dim` 텍스트 가독성 주의
+2. **light와 dark 모드 모두에서 검증 필수**
+   - `data-theme="light"`와 `data-theme="dark"` 모두에서 의도한 대비/가독성 확인
+   - 특히 `on-bright` / `on-dim` 텍스트 가독성 주의 (dark 모드에서는 역할이 반전됨)
 
 3. **테마 전환 메커니즘**
-   - 조상 요소의 `data-theme` attribute로 제어
+   - 조상 요소의 `data-theme` attribute로 제어 (`"light"` 또는 `"dark"`)
    - CSS 변수가 자동 전환됨 — JS 로직 불필요
 
 ---

@@ -34,7 +34,7 @@ Figma 컴포넌트
 [B] MCP 도구로 추출 ─── get_design_context
       │
       ▼
-[C] 테마 매핑 확인 ──── Figma mode → brand1/brand2
+[C] 테마 매핑 확인 ──── Figma mode → data-theme
       │
       ▼
 [D] 토큰 매핑 ────────── hex→ref→sys→Tailwind 역추적
@@ -133,34 +133,17 @@ MCP가 반환하는 세 가지 결과물:
 
 ---
 
-## C. Figma Mode → 프로젝트 테마 매핑
+## C. 테마 매핑
 
-### 테마 이름 매핑
+### 테마 메커니즘
 
-| Figma Mode | 프로젝트 테마 | `data-theme` 값 | 브랜드 색상 |
-|---|---|---|---|
-| Align / align | brand1 | `data-theme="brand1"` | Purple (`--ref-purple-*`) |
-| Edutap / edutap | brand2 | `data-theme="brand2"` | Red-Orange (`--ref-red-bright-*`) |
+- 조상 요소의 `data-theme` attribute로 색상 테마 전환
+- Semantic 토큰이 `[data-theme]` 스코프에서 자동 전환됨
+- **컴포넌트 코드에 테마 분기 로직을 넣지 않는다**
 
-> **규칙**: MCP output에서 Figma mode 이름이 `align` 또는 `edutap`으로 나오면 `brand1` / `brand2`로 자동 매핑한다. JSON spec과 코드에서 `align`/`edutap`이라는 이름을 사용하지 않는다.
+### Figma Mode 매핑
 
-### sys 토큰의 자동 테마 처리
-
-```css
-/* tokens.css */
-[data-theme="brand1"] { --sys-primary-500: var(--ref-purple-500); }
-[data-theme="brand2"] { --sys-primary-500: var(--ref-red-bright-500); }
-```
-
-컴포넌트에서 `bg-sys-primary-500`을 쓰면 `data-theme` 조상에 따라 올바른 색상이 자동 적용된다. **컴포넌트 코드에 테마 분기 로직을 넣지 않는다.**
-
-### 테마별 검증 방법
-
-```tsx
-// Showcase에서 양 테마를 나란히 렌더링
-<div data-theme="brand1"><Button>Brand 1</Button></div>
-<div data-theme="brand2"><Button>Brand 2</Button></div>
-```
+Figma MCP output의 mode 이름을 프로젝트의 `data-theme` 값으로 변환한다. JSON spec과 코드에서 Figma mode 이름을 직접 사용하지 않는다.
 
 ---
 
@@ -517,9 +500,7 @@ src/components/{ComponentName}/
 
 ### I-2. 테마 검증
 
-- [ ] `data-theme="brand1"` — 의도한 색상
-- [ ] `data-theme="brand2"` — 의도한 색상
-- [ ] primary 색상: brand1 = purple, brand2 = red-orange
+- [ ] 모든 `data-theme` 값에서 의도한 색상 확인
 - [ ] 텍스트 대비 WCAG AA 충족 (일반 텍스트 4.5:1, 큰 텍스트 3:1)
 
 ### I-3. 타입 검증
@@ -567,8 +548,8 @@ src/components/{ComponentName}/
 
 ### 테마 관련
 
-**문제**: brand1/brand2 테마가 전환되지 않음
-- **해결**: `data-theme` 속성이 컴포넌트의 조상 요소에 있는지 확인. `data-theme="align"` 같은 구 이름 사용 금지 — `brand1`/`brand2`만 유효.
+**문제**: 테마가 전환되지 않음
+- **해결**: `data-theme` 속성이 컴포넌트의 조상 요소에 있는지 확인. 유효한 `data-theme` 값을 사용하고 있는지 검증.
 
 **문제**: 양 테마에서 색상이 동일하게 나옴
 - **해결**: `sys-primary-*` 토큰이 아닌 `sys-neutral-*` 토큰을 사용했을 가능성. Neutral은 테마에 따라 변하지 않음.

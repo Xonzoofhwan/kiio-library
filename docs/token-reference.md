@@ -16,7 +16,7 @@
   - [Typography](#primitive-typography)
   - [Motion](#primitive-motion)
 - [Layer 2: Semantic Tokens](#layer-2-semantic-tokens)
-  - [Theme-Varying (brand1 / brand2)](#theme-varying-categories)
+  - [Theme-Varying](#theme-varying-categories)
   - [Theme-Shared](#theme-shared-categories)
   - [Motion](#semantic-motion)
 - [Layer 3: Component Tokens](#layer-3-component-tokens)
@@ -36,7 +36,7 @@
 ├─────────────────────────────────────────────────────────────────┤
 │ Semantic (의미 부여, [data-theme] 스코프)                         │
 │   CSS: --semantic-{category}-{shade}                            │
-│   테마별 전환: brand1 / brand2                                    │
+│   테마별 전환: data-theme 스코프                                   │
 ├─────────────────────────────────────────────────────────────────┤
 │ Component (역할 바인딩, :root)                                    │
 │   CSS: --comp-{component}-{property}-{variant}[-{state}]        │
@@ -598,83 +598,82 @@ CSS: `--primitive-duration-{n}`, `--primitive-easing-{name}`
 
 CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
 
-테마 스코프: `[data-theme="brand1"]` / `[data-theme="brand2"]`
+테마 스코프: `[data-theme]` selector
 
-### Theme-Varying Categories
+### Accent Colors (light/dark 공통)
 
-> Primary, Success, Warning, Error만 테마에 따라 다른 primitive를 참조합니다.
+> Primary, Success, Warning, Error는 light와 dark 모드에서 동일한 primitive를 참조합니다.
 
-#### Primary
+#### Primary → Purple
 
-| Semantic | brand1 → Primitive | brand2 → Primitive |
-|----------|-------------------|-------------------|
-| `primary-50` | purple-50 `#f5efff` | red-orange-50 `#ffefea` |
-| `primary-100` | purple-100 `#e5d8fc` | red-orange-100 `#ffd0c2` |
-| `primary-200` | purple-200 `#d8c6fb` | red-orange-200 `#ffb7a4` |
-| `primary-300` | purple-300 `#c9b1f8` | red-orange-300 `#ff9d85` |
-| `primary-400` | purple-400 `#b898f6` | red-orange-400 `#ff8467` |
-| `primary-500` | purple-500 `#a37af3` | red-orange-500 `#fe542e` |
-| `primary-600` | purple-600 `#8657dc` | red-orange-600 `#d23c19` |
-| `primary-700` | purple-700 `#6933c5` | red-orange-700 `#ad3014` |
-| `primary-800` | purple-800 `#4c11af` | red-orange-800 `#872710` |
-| `primary-900` | purple-900 `#370c7b` | red-orange-900 `#581d0f` |
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `primary-50` | purple-50 | `#f5efff` |
+| `primary-100` | purple-100 | `#e5d8fc` |
+| `primary-200` | purple-200 | `#d8c6fb` |
+| `primary-300` | purple-300 | `#c9b1f8` |
+| `primary-400` | purple-400 | `#b898f6` |
+| `primary-500` | purple-500 | `#a37af3` |
+| `primary-600` | purple-600 | `#8657dc` |
+| `primary-700` | purple-700 | `#6933c5` |
+| `primary-800` | purple-800 | `#4c11af` |
+| `primary-900` | purple-900 | `#370c7b` |
 
-#### Success
+#### Success → Forest
 
-| Semantic | brand1 → Primitive | brand2 → Primitive |
-|----------|-------------------|-------------------|
-| `success-50` | forest-50 `#ecffec` | green-50 `#f1ffea` |
-| `success-100` | forest-100 `#c7f6d4` | green-100 `#c8f5bd` |
-| `success-200` | forest-200 `#9de9bf` | green-200 `#a8ed9e` |
-| `success-300` | forest-300 `#67d7a4` | green-300 `#85e57e` |
-| `success-400` | forest-400 `#37c88c` | green-400 `#66dd60` |
-| `success-500` | forest-500 `#01b671` | green-500 `#2cd028` |
-| `success-600` | forest-600 `#069253` | green-600 `#22a21e` |
-| `success-700` | forest-700 `#08703b` | green-700 `#1b8117` |
-| `success-800` | forest-800 `#095027` | green-800 `#156611` |
-| `success-900` | forest-900 `#073116` | green-**950** `#093005` ⚠️ |
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `success-50` | forest-50 | `#ecffec` |
+| `success-100` | forest-100 | `#c7f6d4` |
+| `success-200` | forest-200 | `#9de9bf` |
+| `success-300` | forest-300 | `#67d7a4` |
+| `success-400` | forest-400 | `#37c88c` |
+| `success-500` | forest-500 | `#01b671` |
+| `success-600` | forest-600 | `#069253` |
+| `success-700` | forest-700 | `#08703b` |
+| `success-800` | forest-800 | `#095027` |
+| `success-900` | forest-900 | `#073116` |
 
-> ⚠️ brand2 success-900은 green-**950**을 참조 (shade offset)
+#### Warning → Amber
 
-#### Warning
-
-| Semantic | brand1 → Primitive | brand2 → Primitive |
-|----------|-------------------|-------------------|
-| `warning-50` | amber-50 `#fff5f0` | yellow-50 `#fff6e9` |
-| `warning-100` | amber-100 `#ffe4ce` | yellow-100 `#fdebc0` |
-| `warning-200` | amber-200 `#ffd2a6` | yellow-200 `#fae29a` |
-| `warning-300` | amber-300 `#ffc07f` | yellow-300 `#f7d86b` |
-| `warning-400` | amber-400 `#ffb05a` | yellow-400 `#f3cd37` |
-| `warning-500` | amber-500 `#ff9f33` | yellow-500 `#f0c100` |
-| `warning-600` | amber-**700** `#b86916` ⚠️ | yellow-**700** `#a48001` ⚠️ |
-| `warning-700` | amber-**800** `#934d08` ⚠️ | yellow-**800** `#7a5c00` ⚠️ |
-| `warning-800` | amber-**900** `#623308` ⚠️ | yellow-**900** `#523d00` ⚠️ |
-| `warning-900` | amber-**950** `#3a1d04` ⚠️ | yellow-**950** `#322502` ⚠️ |
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `warning-50` | amber-50 | `#fff5f0` |
+| `warning-100` | amber-100 | `#ffe4ce` |
+| `warning-200` | amber-200 | `#ffd2a6` |
+| `warning-300` | amber-300 | `#ffc07f` |
+| `warning-400` | amber-400 | `#ffb05a` |
+| `warning-500` | amber-500 | `#ff9f33` |
+| `warning-600` | amber-**700** | `#b86916` ⚠️ |
+| `warning-700` | amber-**800** | `#934d08` ⚠️ |
+| `warning-800` | amber-**900** | `#623308` ⚠️ |
+| `warning-900` | amber-**950** | `#3a1d04` ⚠️ |
 
 > ⚠️ 600 이상에서 shade offset: semantic 600 → primitive 700, 700→800, 800→900, 900→950
 
-#### Error
+#### Error → RedBright
 
-| Semantic | brand1 → Primitive | brand2 → Primitive |
-|----------|-------------------|-------------------|
-| `error-50` | red-bright-50 `#ffefed` | red-dark-50 `#fff1ef` |
-| `error-100` | red-bright-100 `#fed3cf` | red-dark-100 `#fececb` |
-| `error-200` | red-bright-200 `#fdb9b4` | red-dark-200 `#f7aeab` |
-| `error-300` | red-bright-300 `#fa958d` | red-dark-300 `#f48684` |
-| `error-400` | red-bright-400 `#f9756c` | red-dark-400 `#ed605e` |
-| `error-500` | red-bright-500 `#f6493e` | red-dark-500 `#de2d2c` |
-| `error-600` | red-bright-600 `#df3b31` | red-dark-600 `#b72321` |
-| `error-700` | red-bright-700 `#bd261e` | red-dark-700 `#921817` |
-| `error-800` | red-bright-800 `#960f08` | red-dark-800 `#6e1615` |
-| `error-900` | red-bright-**950** `#360503` ⚠️ | red-dark-**950** `#2a0505` ⚠️ |
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `error-50` | red-bright-50 | `#ffefed` |
+| `error-100` | red-bright-100 | `#fed3cf` |
+| `error-200` | red-bright-200 | `#fdb9b4` |
+| `error-300` | red-bright-300 | `#fa958d` |
+| `error-400` | red-bright-400 | `#f9756c` |
+| `error-500` | red-bright-500 | `#f6493e` |
+| `error-600` | red-bright-600 | `#df3b31` |
+| `error-700` | red-bright-700 | `#bd261e` |
+| `error-800` | red-bright-800 | `#960f08` |
+| `error-900` | red-bright-**950** | `#360503` ⚠️ |
 
 > ⚠️ 900에서 shade offset: semantic 900 → primitive 950
 
 ---
 
-### Theme-Shared Categories
+### Surface Categories (light/dark 차이)
 
-> 아래 카테고리는 brand1/brand2 모두 동일합니다.
+> 아래 카테고리는 light에서는 밝은 표면, dark에서는 어두운 표면으로 반전됩니다.
+> 테이블은 light 모드 값을 표시합니다. dark 모드의 반전 매핑은 하단 참고.
 
 #### Neutral.Solid → Gray
 
@@ -787,6 +786,23 @@ CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
 | `state-on-dim-70` | white-alpha-**100** | 0.14 | +30 |
 | `state-on-dim-100` | white-alpha-**200** | 0.2 | +100 |
 
+#### Dark Mode Surface Mapping
+
+Dark 모드에서는 표면 토큰이 반전됩니다:
+
+| Category | Light → Primitive | Dark → Primitive |
+|----------|-------------------|------------------|
+| Background | gray-0/50/70 | gray-950/900/800 |
+| Neutral.Solid | gray 순방향 (0→950) | gray 역방향 (950→0) |
+| Neutral.BlackAlpha | black-alpha | **white-alpha** |
+| Neutral.WhiteAlpha | white-alpha | **black-alpha** |
+| Divider.Solid | gray-50~300 | gray-800~400 |
+| Divider.Alpha | black-alpha | **white-alpha** |
+| Text.OnBright | black-alpha (어두운 글자) | **white-alpha** (밝은 글자) |
+| Text.OnDim | white-alpha (밝은 글자) | **black-alpha** (어두운 글자) |
+| State.OnBright | black-alpha | **white-alpha** |
+| State.OnDim | white-alpha | **black-alpha** |
+
 ---
 
 ### Semantic Motion
@@ -886,7 +902,7 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 
 | Token | Semantic Reference | Resolved |
 |-------|-------------------|----------|
-| `--comp-button-focus-border` | `primary-300` | brand1: `#c9b1f8` / brand2: `#ff9d85` |
+| `--comp-button-focus-border` | `primary-300` | 테마별 자동 전환 |
 
 > 유일하게 테마에 따라 달라지는 component token (semantic-primary 참조)
 
@@ -944,19 +960,19 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 ```
 Primitive (:root)                Semantic ([data-theme])           Component (:root)
 ─────────────────                ─────────────────────             ──────────────────
---primitive-purple-500           --semantic-primary-500            --comp-button-focus-border
-  #a37af3              ──[brand1]──►  var(--primitive-purple-500)     = var(--semantic-primary-300)
---primitive-red-orange-500       --semantic-primary-500
-  #fe542e              ──[brand2]──►  var(--primitive-red-orange-500)
+--primitive-{color}-500          --semantic-primary-500            --comp-button-focus-border
+                       ──[data-theme]──►  var(--primitive-{color}-500)   = var(--semantic-primary-300)
 ```
 
-### Neutral Color (테마 불변)
+### Neutral Color (light/dark 반전)
 
 ```
-Primitive (:root)                Semantic (both themes)            Component (:root)
-─────────────────                ────────────────────              ──────────────────
+Primitive (:root)                Semantic ([data-theme])           Component ([data-theme])
+─────────────────                ─────────────────────             ──────────────────
 --primitive-gray-950             --semantic-neutral-solid-950      --comp-button-bg-primary
-  #1d1e22              ────────►   var(--primitive-gray-950)  ───►   var(--semantic-neutral-solid-950)
+  #1d1e22              ──light──►  var(--primitive-gray-950)  ───►   var(--semantic-neutral-solid-950)
+--primitive-gray-0
+  #fdfefe              ──dark───►  var(--primitive-gray-0)
 ```
 
 ### Spacing (semantic layer 없음)
@@ -1012,20 +1028,20 @@ Primitive (:root)                Tailwind Plugin
 | | Typography sizes | **13** (x4 weights = 52 utilities) |
 | | Motion duration | **5** |
 | | Motion easing | **4** |
-| **Semantic** | Primary | 10 shades x 2 themes |
-| | Success | 10 shades x 2 themes |
-| | Warning | 10 shades x 2 themes |
-| | Error | 10 shades x 2 themes |
-| | Neutral.Solid | 10 shades (shared) |
-| | Neutral.BlackAlpha | 10 shades (shared) |
-| | Neutral.WhiteAlpha | 10 shades (shared) |
-| | Background | 3 shades (shared) |
-| | Divider.Solid | 5 shades (shared) |
-| | Divider.Alpha | 5 shades (shared) |
-| | Text.OnBright | 5 shades (shared) |
-| | Text.OnDim | 5 shades (shared) |
-| | State.OnBright | 3 shades (shared) |
-| | State.OnDim | 3 shades (shared) |
+| **Semantic** | Primary | 10 shades (light/dark 공통) |
+| | Success | 10 shades (light/dark 공통) |
+| | Warning | 10 shades (light/dark 공통) |
+| | Error | 10 shades (light/dark 공통) |
+| | Neutral.Solid | 10 shades (light/dark 반전) |
+| | Neutral.BlackAlpha | 10 shades (light/dark 반전) |
+| | Neutral.WhiteAlpha | 10 shades (light/dark 반전) |
+| | Background | 3 shades (light/dark 반전) |
+| | Divider.Solid | 5 shades (light/dark 반전) |
+| | Divider.Alpha | 5 shades (light/dark 반전) |
+| | Text.OnBright | 5 shades (light/dark 반전) |
+| | Text.OnDim | 5 shades (light/dark 반전) |
+| | State.OnBright | 3 shades (light/dark 반전) |
+| | State.OnDim | 3 shades (light/dark 반전) |
 | | Motion duration | 5 (shared) |
 | | Motion easing | 4 (shared) |
 | **Component** | Button | **~40 tokens** (bg, content, border, disabled, state, focus, height, px, gap, radius, icon) |

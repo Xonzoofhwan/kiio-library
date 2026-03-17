@@ -5,7 +5,7 @@ React 19 + TypeScript design system library. Provides design tokens and styled U
 **Goal**: Build a production-ready design system that bridges Figma designs and React components through structured JSON specifications.
 **What This Project Demonstrates**:
 - Design token architecture (Figma → JSON → TypeScript → CSS → Tailwind)
-- Multi-theme system (Align & Edutap)
+- Multi-theme system
 - Type-safe component API design
 - Systematic design-to-code workflow
 - Scalable component specification system
@@ -103,7 +103,11 @@ kiio-library/
 | [COMPONENT_CHECKLIST.md](./docs/COMPONENT_CHECKLIST.md) | `docs/` | 컴포넌트 개발 체크리스트 (Design, A11y, TS, Quality) |
 | [TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) | `docs/` | 컴포넌트 개발 트러블슈팅 가이드 |
 | [DEVIATIONS.md](./docs/DEVIATIONS.md) | `docs/` | 시스템 이탈 기록, 반복 이탈 시 수정 트리거 (원칙 8) |
-| Skill commands | `.claude/commands/` | 4-phase 컴포넌트 개발 워크플로: `/visual-spec` → `/behavior-spec` → `/implement` → `/showcase` + `/verify` |
+| [token-reference.md](./docs/token-reference.md) | `docs/` | 토큰 전체 값, CSS 변수, Tailwind config 매핑 |
+| [ROADMAP.md](./docs/ROADMAP.md) | `docs/` | 컴포넌트 개발 로드맵 (Phase 1–6) |
+| Skill commands | `.claude/skills/` | 4-phase 컴포넌트 개발 워크플로: `/visual-spec` → `/behavior-spec` → `/implement` → `/showcase` + `/verify` |
+| Commit skill | `.claude/skills/07-commit/` | 커밋 자동화: 빌드 확인 → 보안 검사 → 작업 분리 → 커밋 생성 |
+| Code review skill | `.claude/skills/08-frontend-review/` | 컴포넌트 코드 품질 리뷰: React 성능, 클린 코드, 안티패턴 검사 |
 
 **문서 관리 원칙**:
 - CLAUDE.md에는 **핵심 규칙과 빠른 참조**만 둔다. 상세 가이드는 `docs/`에 별도 문서로 분리한다.
@@ -124,7 +128,7 @@ Three-layer token system: **Primitive → Semantic → Component**. All tokens e
 - Tailwind: `bg-primitive-indigo-500`, `text-primitive-gray-800`
 - **Do NOT use primitive tokens directly in components** — use semantic tokens instead.
 ### Semantic Tokens
-`src/tokens/semantic.ts` — Theme-aware semantic tokens mapped from primitive tokens. Switched via `data-theme="brand1"` or `data-theme="brand2"` on an ancestor element.
+`src/tokens/semantic.ts` — Theme-aware semantic tokens mapped from primitive tokens. Switched via `data-theme="light"` or `data-theme="dark"` on an ancestor element.
 Categories and Tailwind usage:
 | Category | Example class | Notes |
 |----------|--------------|-------|
@@ -267,26 +271,9 @@ className={cn(buttonVariants({ variant, size }), className)}
 cn('p-4', 'p-2')  // → 'p-2' (last conflicting class wins)
 cn('text-red-500', condition && 'text-blue-500')  // conditional classes
 ```
-**DON'T:**
-```tsx
-// Don't use primitive tokens directly in components
-className="bg-primitive-indigo-500"
-// Don't hardcode values
-className="text-[16px] p-[16px]"
-style={{ padding: '16px' }}
-// Don't use arbitrary colors
-className="bg-[#5B4FFF]"
-// Don't use base Tailwind typography
-className="text-base font-medium"  // Use typography-16-medium instead
-// Don't use base Tailwind motion utilities (ref level)
-className="duration-100 ease-out"  // Use duration-fast ease-enter instead
-// Don't hardcode motion values
-style={{ transitionDuration: '200ms' }}
-// Don't use transition-all (unintended properties, perf hit)
-className="transition-all duration-fast"  // Use transition-colors, transition-opacity etc.
-// Don't skip CVA for multi-variant components
-{variant === 'primary' ? 'bg-blue' : 'bg-gray'}
-```
+**DON'T:** primitive 토큰 직접 사용, 하드코딩 값(`text-[16px]`, `bg-[#5B4FFF]`, `style={{}}`), 기본 Tailwind 타이포/모션(`text-base`, `duration-100`), `transition-all`, CVA 없이 조건 분기
+
+> 전체 안티패턴 목록은 `/frontend-review` 스킬 참고.
 ### Variant Metadata Export
 Every component with CVA variants MUST export its valid values as `as const` arrays. This enables:
 - AI 도구가 유효한 variant 값을 프로그래밍적으로 발견
@@ -318,21 +305,11 @@ export type { ButtonHierarchy, ButtonSize } from './Button'
 
 ### Design Thinking Foundation
 
-디자인 판단 시 아래 8원칙이 모든 규칙(A~D절)의 상위 기준이다. 규칙 충돌 시 이 원칙으로 판단한다.
+8원칙이 모든 규칙의 상위 기준. 규칙 충돌 시 이 원칙으로 판단:
+1. 고정점 우선 2. 시스템으로 판단 대체 3. 실증 지향 4. 시각 디테일은 시스템 통제
+5. 전체 흐름 > 개별 화면 6. 문제 정의 > 시각물 7. 사용자 자율성 보호 8. 시스템 이탈 = 수정 신호
 
-**상시 원칙 (항상 적용)**:
-1. **고정점 우선** — 변하지 않는 것을 먼저 정의하고 나머지를 파생. (토큰: Primitive→Semantic→Comp, API: Figma variant→code prop)
-2. **시스템으로 판단 대체** — 반복 판단을 구조·규칙으로 흡수. 새 규칙이 필요하면 문서에 흡수.
-3. **실증 지향** — Figma 데이터 > 유사 컴포넌트 참조 > 전제 의심. 추측으로 구현하지 않는다.
-4. **시각 디테일은 시스템 통제 대상** — 하드코딩 금지, 토큰 레이어 규칙, 복합 토큰으로 개별 판단을 불필요하게 만든다.
-
-**조건부 원칙 (해당 상황에서 트리거)**:
-5. **전체 흐름 > 개별 화면** — 새 화면·컴포넌트 설계 시, 시스템 전체 일관성을 먼저 점검. (예외: 시각 경험 자체가 기능인 화면)
-6. **문제 정의 > 시각물** — 새 컴포넌트 기획 시, "이 컴포넌트가 해결하는 문제"를 먼저 정의. UI는 문제가 명확하면 소수 선택지로 귀결.
-7. **사용자 자율성 보호** — UX 패턴 선택 시, 개별 유도는 수용하되 중첩 다크패턴은 거부.
-8. **시스템 이탈 = 수정 신호** — 규칙 예외 시 근거를 요구·기록([docs/DEVIATIONS.md](./docs/DEVIATIONS.md)). 동일 이탈 3회 반복 시 시스템 수정 검토.
-
-> 각 원칙의 상세 적용 예시, A~D절과의 관계 매핑은 [DESIGN_PRINCIPLES.md §F](./docs/DESIGN_PRINCIPLES.md#f-디자인-판단의-기초-원칙-meta) 참고.
+> 각 원칙의 정의, 적용 예시, A~D절 관계는 [DESIGN_PRINCIPLES.md §F](./docs/DESIGN_PRINCIPLES.md#f-디자인-판단의-기초-원칙-meta) 참고.
 
 ### Props Design Principles
 > Props 추가 판단 트리, children vs 구조화 props 기준, variant 네이밍 원칙, 컴포넌트 분류 기준 등은 [DESIGN_PRINCIPLES.md](./docs/DESIGN_PRINCIPLES.md)의 "A. 컴포넌트 API 설계 원칙" 참고.
@@ -341,60 +318,24 @@ export type { ButtonHierarchy, ButtonSize } from './Button'
 - Always define and export props interfaces
 - Use `type` for unions, `interface` for objects
 - Extend appropriate HTML element props
-- Document props with JSDoc comments
 - Use strict types (no `any`)
+- JSDoc: 각 exported prop에 동작 설명 + `@default` + `@see {AS_CONST_ARRAY}` 포함
 
-**JSDoc Standard Template**:
-모든 exported props의 각 필드에 다음을 포함한다:
-- 동작 설명 (해당 prop이 무엇을 제어하는지)
-- `@default` (기본값이 있을 때)
-- `@see` (as const 배열 참조)
-
-```tsx
-/**
- * Button component with multiple visual hierarchies and sizes
- */
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /**
-   * 버튼의 시각적 계층. 배경색, 텍스트 색, 상태 오버레이 동작을 결정한다.
-   * @default 'primary'
-   * @see BUTTON_HIERARCHIES
-   */
-  hierarchy?: ButtonHierarchy
-
-  /**
-   * 크기 variant. 높이, 패딩, 타이포그래피, 아이콘 크기, gap을 제어한다.
-   * @default 'medium'
-   * @see BUTTON_SIZES
-   */
-  size?: ButtonSize
-}
-```
+> JSDoc 전체 템플릿 예시는 기존 컴포넌트(`src/components/Button/Button.tsx`) 참고.
 ### Theme Support
 
-Color theme via `data-theme` attribute on an ancestor element:
+Color theme via `data-theme` attribute on an ancestor element. `light`/`dark` 두 모드 지원. 컴포넌트는 시맨틱 토큰만 사용하며, 테마 이름을 직접 참조하지 않는다.
 
 | Attribute | Values | Controls |
 |-----------|--------|----------|
-| `data-theme` | `brand1`, `brand2` | Primary/success/warning/error color palette |
+| `data-theme` | `light`, `dark` | Surface colors, text contrast, state overlays |
 
-**No theme logic in components** — components NEVER reference theme names (brand1/brand2):
 ```tsx
 // Correct: token-only
 className="bg-semantic-primary-500 rounded-[var(--comp-button-radius-md)]"
 
 // Wrong: theme branching in component
-const color = theme === 'brand1' ? 'bg-purple-500' : 'bg-red-500'
-```
-
-**Usage:**
-```tsx
-<div data-theme="brand1">
-  <Button>Purple button</Button>
-</div>
-<div data-theme="brand2">
-  <Button>Red-orange button</Button>
-</div>
+const color = theme === 'foo' ? 'bg-purple-500' : 'bg-red-500'
 ```
 
 ### Per-Component Shape
@@ -452,7 +393,7 @@ Use this checklist for every component to ensure consistency and quality. Catego
 ### Completed
 - [x] Project setup (Vite + React 19 + TypeScript)
 - [x] Token system (ref, sys, numbers, typography)
-- [x] Multi-theme CSS variables (Align & Edutap)
+- [x] Multi-theme CSS variables
 - [x] Tailwind configuration
 - [x] cn() utility (clsx + tailwind-merge)
 - [x] @radix-ui/react-slot for asChild pattern
@@ -466,43 +407,7 @@ Use this checklist for every component to ensure consistency and quality. Catego
   - States: default, hover, focus, active, disabled, loading
   - Width: fill, hug
   - Icons: left, right, both, icon-only
-### Planned Components
-**Phase 1: Form Inputs**
-- [ ] Input (text, email, password, etc.)
-- [ ] Textarea
-- [ ] Checkbox
-- [ ] Radio
-- [ ] Select/Dropdown
-- [ ] Switch/Toggle
-**Phase 2: Layout & Display**
-- [ ] Card
-- [ ] Badge
-- [ ] Avatar
-- [ ] Divider
-- [ ] Skeleton
-**Phase 3: Feedback & Overlay**
-- [ ] Modal/Dialog
-- [ ] Toast/Notification
-- [ ] Alert
-- [ ] Tooltip
-- [ ] Progress Bar
-**Phase 4: Navigation**
-- [ ] Tabs
-- [ ] Breadcrumb
-- [ ] Pagination
-- [ ] Menu/Dropdown
-**Phase 5: Documentation**
-- [ ] Storybook setup
-- [ ] Component documentation
-- [ ] Token documentation
-- [ ] Theme switching demo
-- [ ] Usage examples
-**Phase 6: Distribution**
-- [ ] npm package configuration
-- [ ] Build optimization
-- [ ] Type definitions export
-- [ ] Comprehensive README
-- [ ] GitHub repository setup
+> 전체 컴포넌트 로드맵은 [ROADMAP.md](./docs/ROADMAP.md) 참고.
 ---
 ## Troubleshooting
 
@@ -511,8 +416,6 @@ Use this checklist for every component to ensure consistency and quality. Catego
 ---
 ## Reference
 ### Figma Design Values
-- **Primary (Align)**: Purple (#5B4FFF area)
-- **Primary (Edutap)**: Red-Orange (#FF5B4F area)
 - **Font Family**: Pretendard Variable
 - **Base Unit**: 4px (Tailwind scale)
 ### Key Files
