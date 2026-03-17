@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react'
 import { Sidebar, TableOfContents } from '@/components/showcase-layout'
 import type { TocEntry } from '@/components/showcase-layout'
-import { HomeShowcase, HOME_TOC, NavigateContext } from '@/showcase/HomeShowcase'
+import { useHashRoute } from '@/hooks/useHashRoute'
+import { NavigateContext } from '@/showcase/NavigateContext'
+import { HomeShowcase, HOME_TOC } from '@/showcase/HomeShowcase'
 import { ButtonShowcase, BUTTON_TOC } from '@/showcase/ButtonShowcase'
 import { IconButtonShowcase, ICON_BUTTON_TOC } from '@/showcase/IconButtonShowcase'
 import { ChipShowcase, CHIP_TOC } from '@/showcase/ChipShowcase'
@@ -18,12 +20,17 @@ import { SideNavShowcase, SIDENAV_TOC } from '@/showcase/SideNavShowcase'
 import { FormFieldShowcase, FORMFIELD_TOC } from '@/showcase/FormFieldShowcase'
 import { TooltipShowcase, TOOLTIP_TOC } from '@/showcase/TooltipShowcase'
 import { CalloutShowcase, CALLOUT_TOC } from '@/showcase/CalloutShowcase'
+import { SwitchShowcase, SWITCH_TOC } from '@/showcase/SwitchShowcase'
+import { TextButtonShowcase, TEXTBUTTON_TOC } from '@/showcase/TextButtonShowcase'
+import { ToastShowcase, TOAST_TOC } from '@/showcase/ToastShowcase'
+import { DialogShowcase, DIALOG_TOC } from '@/showcase/DialogShowcase'
+import { DrawerShowcase, DRAWER_TOC } from '@/showcase/DrawerShowcase'
+import { TableShowcase, TABLE_TOC } from '@/showcase/TableShowcase'
+import { Toaster } from '@/components/Toast'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
 
-type ComponentId = 'home' | 'button' | 'icon-button' | 'chip' | 'textfield' | 'textarea' | 'taginput' | 'searchfield' | 'tab' | 'dropdown-menu' | 'select' | 'badge' | 'segment-bar' | 'sidenav' | 'formfield' | 'tooltip' | 'callout'
-
-const SHOWCASE_MAP: Record<ComponentId, { component: React.ComponentType; toc: TocEntry[] }> = {
+const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEntry[] }> = {
   'home':        { component: HomeShowcase,        toc: HOME_TOC        },
   'button':      { component: ButtonShowcase,      toc: BUTTON_TOC      },
   'icon-button': { component: IconButtonShowcase,  toc: ICON_BUTTON_TOC },
@@ -41,29 +48,34 @@ const SHOWCASE_MAP: Record<ComponentId, { component: React.ComponentType; toc: T
   'formfield':   { component: FormFieldShowcase, toc: FORMFIELD_TOC   },
   'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
   'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
+  'switch':      { component: SwitchShowcase,   toc: SWITCH_TOC      },
+  'text-button': { component: TextButtonShowcase, toc: TEXTBUTTON_TOC },
+  'toast':       { component: ToastShowcase,      toc: TOAST_TOC       },
+  'dialog':      { component: DialogShowcase,     toc: DIALOG_TOC      },
+  'drawer':      { component: DrawerShowcase,     toc: DRAWER_TOC      },
+  'table':       { component: TableShowcase,      toc: TABLE_TOC       },
 }
 
 /* ─── App ─────────────────────────────────────────────────────────────────── */
 
 export default function App() {
-  const [activeId, setActiveId] = useState<ComponentId>('home')
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const mainRef = useRef<HTMLDivElement>(null)
+  const { activeId, navigate } = useHashRoute(mainRef)
 
-  const handleSelect = (id: string) => {
-    setActiveId(id as ComponentId)
-    if (mainRef.current) mainRef.current.scrollTop = 0
-  }
-
-  const { component: ActiveShowcase, toc } = SHOWCASE_MAP[activeId]
+  const entry = SHOWCASE_MAP[activeId] ?? SHOWCASE_MAP['home']
+  const { component: ActiveShowcase, toc } = entry
 
   return (
     <div
-      data-theme="brand1"
+      data-theme={theme}
       className="flex h-screen overflow-hidden bg-semantic-background-0 font-pretendard"
     >
       <Sidebar
         active={activeId}
-        onSelect={handleSelect}
+        onSelect={navigate}
+        theme={theme}
+        onThemeChange={setTheme}
       />
 
       <main
@@ -72,7 +84,7 @@ export default function App() {
       >
         <div className="max-w-[1120px] mx-auto px-10 py-10 flex gap-10">
           <div className="flex-1 min-w-0">
-            <NavigateContext.Provider value={handleSelect}>
+            <NavigateContext.Provider value={navigate}>
               <ActiveShowcase />
             </NavigateContext.Provider>
           </div>
@@ -85,6 +97,8 @@ export default function App() {
           )}
         </div>
       </main>
+
+      <Toaster position="bottom-center" />
     </div>
   )
 }
