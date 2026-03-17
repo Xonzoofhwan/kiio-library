@@ -72,7 +72,7 @@ argument-hint: "[ComponentName]"
 - With Icons — leading, trailing, both, icon-only 조합
 - States — default, hover, active, focused, disabled, loading
 - Full Width — fill 모드 데모
-- 테마 비교 — brand1 vs brand2 나란히
+- 테마 비교 — 필요 시 data-theme 전환 데모
 ```
 
 ### 디스플레이 컴포넌트 (Badge, Avatar, Divider 등)

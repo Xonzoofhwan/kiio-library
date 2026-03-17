@@ -80,8 +80,8 @@ export interface SemanticTheme {
 }
 
 export interface SemanticTokens {
-  brand1: SemanticTheme;
-  brand2: SemanticTheme;
+  light: SemanticTheme;
+  dark: SemanticTheme;
 }
 
 const neutralSolid: SemanticNeutralScale = {
@@ -174,7 +174,7 @@ const stateOnDim: SemanticStateScale = {
 };
 
 export const semantic: SemanticTokens = {
-  brand1: {
+  light: {
     Primary: {
       50:  primitive.Purple[50],
       100: primitive.Purple[100],
@@ -230,59 +230,95 @@ export const semantic: SemanticTokens = {
     State:      { OnBright: stateOnBright, OnDim: stateOnDim },
   },
 
-  brand2: {
+  dark: {
+    // Accent colors — same as light
     Primary: {
-      50:  primitive.RedOrange[50],
-      100: primitive.RedOrange[100],
-      200: primitive.RedOrange[200],
-      300: primitive.RedOrange[300],
-      400: primitive.RedOrange[400],
-      500: primitive.RedOrange[500],
-      600: primitive.RedOrange[600],
-      700: primitive.RedOrange[700],
-      800: primitive.RedOrange[800],
-      900: primitive.RedOrange[900],
+      50:  primitive.Purple[50],
+      100: primitive.Purple[100],
+      200: primitive.Purple[200],
+      300: primitive.Purple[300],
+      400: primitive.Purple[400],
+      500: primitive.Purple[500],
+      600: primitive.Purple[600],
+      700: primitive.Purple[700],
+      800: primitive.Purple[800],
+      900: primitive.Purple[900],
     },
     Success: {
-      50:  primitive.Green[50],
-      100: primitive.Green[100],
-      200: primitive.Green[200],
-      300: primitive.Green[300],
-      400: primitive.Green[400],
-      500: primitive.Green[500],
-      600: primitive.Green[600],
-      700: primitive.Green[700],
-      800: primitive.Green[800],
-      900: primitive.Green[950], // offset: 900 → Green.950
+      50:  primitive.Forest[50],
+      100: primitive.Forest[100],
+      200: primitive.Forest[200],
+      300: primitive.Forest[300],
+      400: primitive.Forest[400],
+      500: primitive.Forest[500],
+      600: primitive.Forest[600],
+      700: primitive.Forest[700],
+      800: primitive.Forest[800],
+      900: primitive.Forest[900],
     },
     Warning: {
-      50:  primitive.Yellow[50],
-      100: primitive.Yellow[100],
-      200: primitive.Yellow[200],
-      300: primitive.Yellow[300],
-      400: primitive.Yellow[400],
-      500: primitive.Yellow[500],
-      600: primitive.Yellow[700], // offset: 600 → Yellow.700
-      700: primitive.Yellow[800],
-      800: primitive.Yellow[900],
-      900: primitive.Yellow[950],
+      50:  primitive.Amber[50],
+      100: primitive.Amber[100],
+      200: primitive.Amber[200],
+      300: primitive.Amber[300],
+      400: primitive.Amber[400],
+      500: primitive.Amber[500],
+      600: primitive.Amber[700], // offset: 600 → Amber.700
+      700: primitive.Amber[800],
+      800: primitive.Amber[900],
+      900: primitive.Amber[950],
     },
     Error: {
-      50:  primitive.RedDark[50],
-      100: primitive.RedDark[100],
-      200: primitive.RedDark[200],
-      300: primitive.RedDark[300],
-      400: primitive.RedDark[400],
-      500: primitive.RedDark[500],
-      600: primitive.RedDark[600],
-      700: primitive.RedDark[700],
-      800: primitive.RedDark[800],
-      900: primitive.RedDark[950], // offset: 900 → RedDark.950
+      50:  primitive.RedBright[50],
+      100: primitive.RedBright[100],
+      200: primitive.RedBright[200],
+      300: primitive.RedBright[300],
+      400: primitive.RedBright[400],
+      500: primitive.RedBright[500],
+      600: primitive.RedBright[600],
+      700: primitive.RedBright[700],
+      800: primitive.RedBright[800],
+      900: primitive.RedBright[950], // offset: 900 → RedBright.950
     },
-    Neutral:    { Solid: neutralSolid, BlackAlpha: neutralBlackAlpha, WhiteAlpha: neutralWhiteAlpha },
-    Background: background,
-    Divider:    { Solid: dividerSolid, Alpha: dividerAlpha },
-    Text:       { OnBright: textOnBright, OnDim: textOnDim },
-    State:      { OnBright: stateOnBright, OnDim: stateOnDim },
+    // Dark surfaces — reversed gray, swapped alpha
+    Neutral: {
+      Solid: {
+        0:   primitive.Gray[950],
+        50:  primitive.Gray[900],
+        70:  primitive.Gray[800],
+        100: primitive.Gray[700],
+        200: primitive.Gray[600],
+        300: primitive.Gray[500],
+        400: primitive.Gray[400],
+        600: primitive.Gray[200],
+        800: primitive.Gray[70],
+        950: primitive.Gray[0],
+      },
+      BlackAlpha: neutralWhiteAlpha,  // swap: light-on-dark
+      WhiteAlpha: neutralBlackAlpha,  // swap: dark-on-dark
+    },
+    Background: {
+      0:  primitive.Gray[950],
+      50: primitive.Gray[900],
+      70: primitive.Gray[800],
+    },
+    Divider: {
+      Solid: {
+        50:  primitive.Gray[800],
+        70:  primitive.Gray[700],
+        100: primitive.Gray[600],
+        200: primitive.Gray[500],
+        300: primitive.Gray[400],
+      },
+      Alpha: dividerAlpha, // white-alpha handled via CSS; TS keeps same structure
+    },
+    Text: {
+      OnBright: textOnDim,   // swap: light text on dark bg
+      OnDim:    textOnBright, // swap: dark text on light accent
+    },
+    State: {
+      OnBright: stateOnDim,   // swap: light hover on dark bg
+      OnDim:    stateOnBright, // swap: dark hover on light accent
+    },
   },
 };

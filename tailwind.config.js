@@ -382,7 +382,7 @@ export default {
         // --------------------------------------------------------
         // SEMANTIC TOKENS — Semantic colors (theme-aware via data-theme)
         // Usage: bg-semantic-primary-500, text-semantic-text-on-bright-800
-        // Requires a [data-theme="brand1"] or [data-theme="brand2"]
+        // Requires a [data-theme="light"] or [data-theme="dark"]
         // ancestor element to resolve correctly.
         // --------------------------------------------------------
         semantic: {

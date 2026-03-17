@@ -48,7 +48,7 @@ argument-hint: "[ComponentName]"
 
 | 토큰 종류 | CSS 스코프 | 값 참조 | 이유 |
 |-----------|-----------|---------|------|
-| 색상 (bg, content, border, state, focus) | `[data-theme="brand1"]`, `[data-theme="brand2"]` | `var(--semantic-*)` | 테마별 색상 전환 |
+| 색상 (bg, content, border, state, focus) | `[data-theme]` 스코프 | `var(--semantic-*)` | 테마별 색상 전환 |
 | 크기 (height, px, gap, icon, radius) | `:root` | `var(--spacing-*)`, `var(--radius-*)` | 테마와 무관 |
 
 **위반 사례**: `:root`에서 `var(--semantic-*)` 참조 → var() 체인이 끊어져 값이 비어짐.
@@ -115,7 +115,7 @@ xLarge → xl, large → lg, medium → md, small → sm, xSmall → xs
 ### 10대 규칙
 
 1. **토큰만** — 색상, 스페이싱, 라디우스, 듀레이션, 이징 절대 하드코딩 금지
-2. **테마 무인식** — brand1/brand2/basic/geo 이름을 컴포넌트 코드에서 참조 금지
+2. **테마 무인식** — 테마 이름을 컴포넌트 코드에서 직접 참조 금지
 3. **CVA + cn** — 모든 multi-variant에 class-variance-authority 사용
 4. **as const 배열** — variant 값을 as const로 내보내고 타입 파생
 5. **State overlay** — `<span aria-hidden>` + `pointer-events-none absolute inset-0 rounded-[inherit]`
