@@ -160,8 +160,8 @@
         "--comp-tooltip-px: var(--spacing-3\\.5) = 14px",
         "--comp-tooltip-py: var(--spacing-3) = 12px",
         "--comp-tooltip-radius: var(--radius-2) = 8px",
-        "--comp-tooltip-arrow-width: 10px",
-        "--comp-tooltip-arrow-height: 5px",
+        "--comp-tooltip-arrow-width: 16px",
+        "--comp-tooltip-arrow-height: 8px",
         "--comp-tooltip-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)"
       ]
     },
@@ -190,7 +190,7 @@
     },
     "arrow": {
       "description": "hasArrow=true(기본값)일 때 RadixTooltip.Arrow로 SVG 화살표 렌더링.",
-      "size": "width=10, height=5",
+      "size": "width=16, height=8",
       "color": "variant별 --comp-tooltip-arrow-{variant} fill 적용."
     },
     "shadow": {

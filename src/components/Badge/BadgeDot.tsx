@@ -5,23 +5,23 @@ import type { BadgeColor } from './BadgeLabel'
 /* ─── Color map — literal strings for Tailwind JIT scanning ────────────────── */
 
 const dotColorMap: Record<BadgeColor, string> = {
-  'gray':       'bg-primitive-gray-300',
-  'indigo':     'bg-primitive-indigo-500',
-  'purple':     'bg-primitive-purple-500',
-  'violet':     'bg-primitive-violet-500',
-  'pink':       'bg-primitive-pink-500',
-  'rose':       'bg-primitive-rose-500',
-  'red-bright': 'bg-primitive-red-bright-500',
-  'orange':     'bg-primitive-orange-500',
-  'amber':      'bg-primitive-amber-500',
-  'yellow':     'bg-primitive-yellow-500',
-  'lime':       'bg-primitive-lime-500',
-  'edamame':    'bg-primitive-edamame-500',
-  'forest':     'bg-primitive-forest-500',
-  'emerald':    'bg-primitive-emerald-500',
-  'cyan':       'bg-primitive-cyan-500',
-  'sky':        'bg-primitive-sky-500',
-  'blue':       'bg-primitive-blue-500',
+  'gray':       'bg-[var(--comp-badge-dot-gray)]',
+  'indigo':     'bg-[var(--comp-badge-dot-indigo)]',
+  'purple':     'bg-[var(--comp-badge-dot-purple)]',
+  'violet':     'bg-[var(--comp-badge-dot-violet)]',
+  'pink':       'bg-[var(--comp-badge-dot-pink)]',
+  'rose':       'bg-[var(--comp-badge-dot-rose)]',
+  'red-bright': 'bg-[var(--comp-badge-dot-red-bright)]',
+  'orange':     'bg-[var(--comp-badge-dot-orange)]',
+  'amber':      'bg-[var(--comp-badge-dot-amber)]',
+  'yellow':     'bg-[var(--comp-badge-dot-yellow)]',
+  'lime':       'bg-[var(--comp-badge-dot-lime)]',
+  'edamame':    'bg-[var(--comp-badge-dot-edamame)]',
+  'forest':     'bg-[var(--comp-badge-dot-forest)]',
+  'emerald':    'bg-[var(--comp-badge-dot-emerald)]',
+  'cyan':       'bg-[var(--comp-badge-dot-cyan)]',
+  'sky':        'bg-[var(--comp-badge-dot-sky)]',
+  'blue':       'bg-[var(--comp-badge-dot-blue)]',
 }
 
 /* ─── Props ────────────────────────────────────────────────────────────────── */
@@ -48,7 +48,7 @@ export const BadgeDot = forwardRef<HTMLSpanElement, BadgeDotProps>(
         ref={ref}
         className={cn(
           'inline-block shrink-0 rounded-full size-[var(--comp-badge-dot-size)]',
-          'shadow-[inset_0_0_0_1px_var(--primitive-gray-0)]',
+          'shadow-[inset_0_0_0_1px_var(--comp-badge-dot-border)]',
           dotColorMap[color],
           className,
         )}

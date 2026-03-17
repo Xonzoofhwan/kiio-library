@@ -7,10 +7,12 @@ import { cn } from '@/lib/utils'
 export const TOOLTIP_VARIANTS = ['black', 'white', 'brand'] as const
 export const TOOLTIP_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const TOOLTIP_ALIGNS = ['start', 'center', 'end'] as const
+export const TOOLTIP_SIZES = ['large', 'medium'] as const
 
 export type TooltipVariant = (typeof TOOLTIP_VARIANTS)[number]
 export type TooltipSide = (typeof TOOLTIP_SIDES)[number]
 export type TooltipAlign = (typeof TOOLTIP_ALIGNS)[number]
+export type TooltipSize = (typeof TOOLTIP_SIZES)[number]
 
 /* ─── Variant style maps ──────────────────────────────────────────────────── */
 
@@ -18,6 +20,11 @@ const variantMap: Record<TooltipVariant, string> = {
   black: 'bg-[var(--comp-tooltip-bg-black)] text-[var(--comp-tooltip-text-black)]',
   white: 'bg-[var(--comp-tooltip-bg-white)] text-[var(--comp-tooltip-text-white)]',
   brand: 'bg-[var(--comp-tooltip-bg-brand)] text-[var(--comp-tooltip-text-brand)]',
+}
+
+const typographyMap: Record<TooltipSize, string> = {
+  large: 'typography-16-medium',
+  medium: 'typography-14-medium',
 }
 
 const arrowColorMap: Record<TooltipVariant, string> = {
@@ -181,6 +188,12 @@ export interface TooltipContentProps {
    */
   variant?: TooltipVariant
   /**
+   * 크기. 타이포그래피를 제어한다.
+   * @default 'large'
+   * @see TOOLTIP_SIZES
+   */
+  size?: TooltipSize
+  /**
    * 배치 방향.
    * @default 'top'
    * @see TOOLTIP_SIDES
@@ -220,6 +233,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
   (
     {
       variant = 'black',
+      size = 'large',
       side = 'top',
       align = 'center',
       hasArrow = true,
@@ -246,9 +260,10 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
             collisionPadding={collisionPadding}
             className={cn(
               'z-50 max-w-[var(--comp-tooltip-max-width)]',
-              'px-[var(--comp-tooltip-px)] py-[var(--comp-tooltip-py)]',
+              size === 'large' ? 'px-[var(--comp-tooltip-px)]' : 'px-2.5',
+              size === 'large' ? 'py-[var(--comp-tooltip-py)]' : 'py-2.5',
               'rounded-[var(--comp-tooltip-radius)]',
-              'typography-16-medium',
+              typographyMap[size],
               variantMap[variant],
               showShadow && '[box-shadow:var(--comp-tooltip-shadow)]',
               'data-[state=delayed-open]:animate-[tooltip-enter_var(--semantic-duration-fast)_var(--semantic-easing-enter)]',
@@ -260,8 +275,8 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
             {children}
             {hasArrow && (
               <RadixTooltip.Arrow
-                width={10}
-                height={5}
+                width={16}
+                height={8}
                 className={arrowColorMap[variant]}
               />
             )}

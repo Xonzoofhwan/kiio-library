@@ -1,6 +1,6 @@
 {
   "component": "Badge",
-  "description": "Non-interactive decorative badge system with 3 sub-components: BadgeLabel (text labels), BadgeCounter (numeric counts), BadgeDot (status indicator). Uses primitive color tokens directly for theme-independent decorative colors. 17 color families × 2 weights.",
+  "description": "Non-interactive decorative badge system with 3 sub-components: BadgeLabel (text labels), BadgeCounter (numeric counts), BadgeDot (status indicator). Theme-aware via component tokens (shade inversion for dark mode). 17 color families × 2 weights.",
   "classification": "Primitive (multi-variant, 3 sub-components)",
 
   "subComponents": [
@@ -161,14 +161,26 @@
       ]
     },
     "color": {
-      "layer": "N/A — uses primitive tokens directly via literal Tailwind class maps (badgeColorMap, dotColorMap). Theme-independent decorative colors."
+      "layer": "[data-theme] — component tokens referencing primitive tokens. Theme-dependent shade inversion for dark mode.",
+      "naming": "--comp-badge-{color}-{weight}-{property} (bg/text), --comp-badge-dot-{color}, --comp-badge-dot-border",
+      "lightWeight": "Light: bg shade-100 + text shade-600~700 → Dark: bg shade-900 + text shade-300 (gray uses 800/300)",
+      "heavyWeight": "Light & Dark same (bg shade-500 + text gray-0). Exceptions: gray (inverted), yellow (400/950 both themes)",
+      "dot": "shade-500 both themes. Exception: gray 300→400 in dark",
+      "dotBorder": "Inset 1px border: gray-0 (light) → gray-950 (dark)"
     },
-    "themeOverrides": {}
+    "themeOverrides": {
+      "dark": {
+        "lightWeight": "All 17 colors: bg ↑900 (gray ↑800), text ↓300",
+        "heavyWeight": "gray only: bg→200, text→900",
+        "dot": "gray only: 300→400",
+        "dotBorder": "gray-0 → gray-950"
+      }
+    }
   },
 
   "implementation": {
     "pattern": "CVA + cn (BadgeLabel), cn only (BadgeCounter, BadgeDot)",
-    "colorStrategy": "Literal Tailwind class lookup maps (badgeColorMap, dotColorMap) instead of CSS custom properties — required for Tailwind JIT scanning of 17 × 2 color combinations.",
+    "colorStrategy": "CSS custom property lookup maps (badgeColorMap, dotColorMap) via --comp-badge-* tokens in [data-theme] scope. Enables automatic light/dark theme switching.",
     "sharedColorMap": "badgeColorMap is exported from BadgeLabel and imported by BadgeCounter.",
     "files": [
       "src/components/Badge/BadgeLabel.tsx",

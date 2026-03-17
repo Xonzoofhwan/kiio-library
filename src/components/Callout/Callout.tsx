@@ -6,9 +6,12 @@ import {
   useEffect,
   useState,
   useCallback,
+  Children,
+  isValidElement,
 } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
 import { cn } from '@/lib/utils'
+import { TextButton } from '@/components/TextButton'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
@@ -16,11 +19,13 @@ export const CALLOUT_VARIANTS = ['black', 'white', 'brand'] as const
 export const CALLOUT_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const CALLOUT_ALIGNS = ['start', 'center', 'end'] as const
 export const CALLOUT_DISMISS_MODES = ['manual', 'auto', 'none'] as const
+export const CALLOUT_SIZES = ['large', 'medium'] as const
 
 export type CalloutVariant = (typeof CALLOUT_VARIANTS)[number]
 export type CalloutSide = (typeof CALLOUT_SIDES)[number]
 export type CalloutAlign = (typeof CALLOUT_ALIGNS)[number]
 export type CalloutDismissMode = (typeof CALLOUT_DISMISS_MODES)[number]
+export type CalloutSize = (typeof CALLOUT_SIZES)[number]
 
 /* ─── Internal icons ──────────────────────────────────────────────────────── */
 
@@ -66,11 +71,6 @@ const closeColorMap: Record<CalloutVariant, string> = {
   brand: 'text-[var(--comp-callout-close-brand)] hover:bg-[var(--comp-callout-close-hover-brand)]',
 }
 
-const actionColorMap: Record<CalloutVariant, string> = {
-  black: 'text-[var(--comp-callout-action-black)]',
-  white: 'text-[var(--comp-callout-action-white)]',
-  brand: 'text-[var(--comp-callout-action-brand)]',
-}
 
 /* ─── Theme context ───────────────────────────────────────────────────────── */
 
@@ -102,6 +102,7 @@ function useThemeAttributes(anchorRef: React.RefObject<HTMLElement | null>) {
 
 interface CalloutContextValue {
   variant: CalloutVariant
+  size: CalloutSize
   dismiss: CalloutDismissMode
   onClose: () => void
 }
@@ -124,6 +125,12 @@ export interface CalloutProps {
    */
   variant?: CalloutVariant
   /**
+   * 크기. 타이포그래피, 내부 패딩을 제어한다.
+   * @default 'large'
+   * @see CALLOUT_SIZES
+   */
+  size?: CalloutSize
+  /**
    * 닫힘 정책. manual=외부 클릭+Esc+Close, auto=manual+타이머, none=Close 전용.
    * @default 'manual'
    * @see CALLOUT_DISMISS_MODES
@@ -145,6 +152,7 @@ export interface CalloutProps {
 
 function CalloutRoot({
   variant = 'black',
+  size = 'large',
   dismiss = 'manual',
   autoDismissDuration = 5000,
   open: openProp,
@@ -177,7 +185,7 @@ function CalloutRoot({
 
   return (
     <CalloutThemeContext.Provider value={{ anchorRef }}>
-      <CalloutContext.Provider value={{ variant, dismiss, onClose }}>
+      <CalloutContext.Provider value={{ variant, size, dismiss, onClose }}>
         <RadixPopover.Root
           open={isOpen}
           onOpenChange={handleOpenChange}
@@ -275,7 +283,24 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
   ) => {
     const { anchorRef } = useContext(CalloutThemeContext)
     const { theme } = useThemeAttributes(anchorRef)
-    const { variant, dismiss } = useCalloutContext()
+    const { variant, size, dismiss } = useCalloutContext()
+
+    /* Categorize children to build Figma's row.upper / row.action layout */
+    const upperChildren: React.ReactNode[] = []
+    const closeChildren: React.ReactNode[] = []
+    const actionChildren: React.ReactNode[] = []
+    const arrowChildren: React.ReactNode[] = []
+
+    Children.forEach(children, (child) => {
+      if (!isValidElement(child)) {
+        upperChildren.push(child)
+        return
+      }
+      if (child.type === CalloutArrow) arrowChildren.push(child)
+      else if (child.type === CalloutClose) closeChildren.push(child)
+      else if (child.type === CalloutAction) actionChildren.push(child)
+      else upperChildren.push(child)
+    })
 
     return (
       <RadixPopover.Portal>
@@ -305,7 +330,18 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
             )}
             {...props}
           >
-            {children}
+            {arrowChildren}
+            {(upperChildren.length > 0 || closeChildren.length > 0) && (
+              <div className={cn('flex items-start', size === 'large' ? 'pr-2' : 'pr-1')}>
+                {upperChildren}
+                {closeChildren.length > 0 && (
+                  <div className={cn('flex items-center pl-0.5', size === 'large' ? 'py-1.5' : 'py-1')}>
+                    {closeChildren}
+                  </div>
+                )}
+              </div>
+            )}
+            {actionChildren}
           </RadixPopover.Content>
         </div>
       </RadixPopover.Portal>
@@ -325,8 +361,8 @@ export function CalloutArrow({ className }: CalloutArrowProps) {
 
   return (
     <RadixPopover.Arrow
-      width={10}
-      height={5}
+      width={16}
+      height={8}
       className={cn(arrowColorMap[variant], className)}
     />
   )
@@ -340,11 +376,16 @@ export interface CalloutTextProps {
 }
 
 export function CalloutText({ children, className }: CalloutTextProps) {
+  const { size } = useCalloutContext()
+
   return (
     <div
       className={cn(
-        'typography-16-medium',
-        'px-[var(--comp-callout-px)] py-[var(--comp-callout-py)]',
+        size === 'large' ? 'typography-16-medium' : 'typography-14-medium',
+        'flex-1 min-w-0',
+        size === 'large' ? 'pl-[var(--comp-callout-px)]' : 'pl-2.5',
+        size === 'large' ? 'py-[var(--comp-callout-py)]' : 'py-2.5',
+        size === 'large' ? 'pr-1.5' : 'pr-0.5',
         className,
       )}
     >
@@ -376,8 +417,7 @@ export function CalloutClose({
       aria-label={ariaLabel}
       onClick={onClose}
       className={cn(
-        'absolute top-2 right-2',
-        'inline-flex items-center justify-center',
+        'inline-flex items-center justify-center flex-shrink-0',
         'size-[var(--comp-callout-close-size)]',
         'rounded-full',
         'transition-colors duration-fast ease-enter',
@@ -413,27 +453,23 @@ export function CalloutAction({
   className,
 }: CalloutActionProps) {
   const { variant, onClose } = useCalloutContext()
+  const surface = variant === 'white' ? 'bright' : 'dim'
 
   return (
     <div className="flex justify-end px-[var(--comp-callout-px)] pb-[var(--comp-callout-py)]">
-      <button
-        type="button"
+      <TextButton
+        intent="systemic"
+        size="small"
+        surface={surface}
+        iconTrailing={<ArrowForwardIcon />}
         onClick={(e) => {
           onClick?.(e)
           if (closeOnClick) onClose()
         }}
-        className={cn(
-          'inline-flex items-center gap-1 typography-14-medium',
-          'transition-opacity duration-fast ease-enter hover:opacity-80',
-          actionColorMap[variant],
-          className,
-        )}
+        className={className}
       >
         {children}
-        <span className="size-[var(--comp-callout-action-icon)]">
-          <ArrowForwardIcon />
-        </span>
-      </button>
+      </TextButton>
     </div>
   )
 }

@@ -50,25 +50,25 @@ const badgeLabelVariants = cva(
 
 type BadgeColorDef = { light: string; heavy: string }
 
-/** Badge/Counter 공용 컬러 맵. primitive 토큰 Tailwind 클래스 리터럴. */
+/** Badge/Counter 공용 컬러 맵. CSS 변수로 테마별 자동 전환. */
 export const badgeColorMap: Record<BadgeColor, BadgeColorDef> = {
-  'gray':       { light: 'bg-primitive-gray-100 text-primitive-gray-700',             heavy: 'bg-primitive-gray-800 text-primitive-gray-0' },
-  'indigo':     { light: 'bg-primitive-indigo-100 text-primitive-indigo-700',         heavy: 'bg-primitive-indigo-500 text-primitive-gray-0' },
-  'purple':     { light: 'bg-primitive-purple-100 text-primitive-purple-700',         heavy: 'bg-primitive-purple-500 text-primitive-gray-0' },
-  'violet':     { light: 'bg-primitive-violet-100 text-primitive-violet-700',         heavy: 'bg-primitive-violet-500 text-primitive-gray-0' },
-  'pink':       { light: 'bg-primitive-pink-100 text-primitive-pink-700',             heavy: 'bg-primitive-pink-500 text-primitive-gray-0' },
-  'rose':       { light: 'bg-primitive-rose-100 text-primitive-rose-700',             heavy: 'bg-primitive-rose-500 text-primitive-gray-0' },
-  'red-bright': { light: 'bg-primitive-red-bright-100 text-primitive-red-bright-600', heavy: 'bg-primitive-red-bright-500 text-primitive-gray-0' },
-  'orange':     { light: 'bg-primitive-orange-100 text-primitive-orange-600',         heavy: 'bg-primitive-orange-500 text-primitive-gray-0' },
-  'amber':      { light: 'bg-primitive-amber-100 text-primitive-amber-600',           heavy: 'bg-primitive-amber-500 text-primitive-gray-0' },
-  'yellow':     { light: 'bg-primitive-yellow-100 text-primitive-yellow-700',         heavy: 'bg-primitive-yellow-400 text-primitive-yellow-950' },
-  'lime':       { light: 'bg-primitive-lime-200 text-primitive-lime-800',             heavy: 'bg-primitive-lime-500 text-primitive-gray-0' },
-  'edamame':    { light: 'bg-primitive-edamame-100 text-primitive-edamame-700',       heavy: 'bg-primitive-edamame-500 text-primitive-gray-0' },
-  'forest':     { light: 'bg-primitive-forest-100 text-primitive-forest-600',         heavy: 'bg-primitive-forest-500 text-primitive-gray-0' },
-  'emerald':    { light: 'bg-primitive-emerald-100 text-primitive-emerald-600',       heavy: 'bg-primitive-emerald-500 text-primitive-gray-0' },
-  'cyan':       { light: 'bg-primitive-cyan-100 text-primitive-cyan-700',             heavy: 'bg-primitive-cyan-500 text-primitive-gray-0' },
-  'sky':        { light: 'bg-primitive-sky-100 text-primitive-sky-700',               heavy: 'bg-primitive-sky-500 text-primitive-gray-0' },
-  'blue':       { light: 'bg-primitive-blue-100 text-primitive-blue-700',             heavy: 'bg-primitive-blue-500 text-primitive-gray-0' },
+  'gray':       { light: 'bg-[var(--comp-badge-gray-light-bg)] text-[var(--comp-badge-gray-light-text)]',             heavy: 'bg-[var(--comp-badge-gray-heavy-bg)] text-[var(--comp-badge-gray-heavy-text)]' },
+  'indigo':     { light: 'bg-[var(--comp-badge-indigo-light-bg)] text-[var(--comp-badge-indigo-light-text)]',         heavy: 'bg-[var(--comp-badge-indigo-heavy-bg)] text-[var(--comp-badge-indigo-heavy-text)]' },
+  'purple':     { light: 'bg-[var(--comp-badge-purple-light-bg)] text-[var(--comp-badge-purple-light-text)]',         heavy: 'bg-[var(--comp-badge-purple-heavy-bg)] text-[var(--comp-badge-purple-heavy-text)]' },
+  'violet':     { light: 'bg-[var(--comp-badge-violet-light-bg)] text-[var(--comp-badge-violet-light-text)]',         heavy: 'bg-[var(--comp-badge-violet-heavy-bg)] text-[var(--comp-badge-violet-heavy-text)]' },
+  'pink':       { light: 'bg-[var(--comp-badge-pink-light-bg)] text-[var(--comp-badge-pink-light-text)]',             heavy: 'bg-[var(--comp-badge-pink-heavy-bg)] text-[var(--comp-badge-pink-heavy-text)]' },
+  'rose':       { light: 'bg-[var(--comp-badge-rose-light-bg)] text-[var(--comp-badge-rose-light-text)]',             heavy: 'bg-[var(--comp-badge-rose-heavy-bg)] text-[var(--comp-badge-rose-heavy-text)]' },
+  'red-bright': { light: 'bg-[var(--comp-badge-red-bright-light-bg)] text-[var(--comp-badge-red-bright-light-text)]', heavy: 'bg-[var(--comp-badge-red-bright-heavy-bg)] text-[var(--comp-badge-red-bright-heavy-text)]' },
+  'orange':     { light: 'bg-[var(--comp-badge-orange-light-bg)] text-[var(--comp-badge-orange-light-text)]',         heavy: 'bg-[var(--comp-badge-orange-heavy-bg)] text-[var(--comp-badge-orange-heavy-text)]' },
+  'amber':      { light: 'bg-[var(--comp-badge-amber-light-bg)] text-[var(--comp-badge-amber-light-text)]',           heavy: 'bg-[var(--comp-badge-amber-heavy-bg)] text-[var(--comp-badge-amber-heavy-text)]' },
+  'yellow':     { light: 'bg-[var(--comp-badge-yellow-light-bg)] text-[var(--comp-badge-yellow-light-text)]',         heavy: 'bg-[var(--comp-badge-yellow-heavy-bg)] text-[var(--comp-badge-yellow-heavy-text)]' },
+  'lime':       { light: 'bg-[var(--comp-badge-lime-light-bg)] text-[var(--comp-badge-lime-light-text)]',             heavy: 'bg-[var(--comp-badge-lime-heavy-bg)] text-[var(--comp-badge-lime-heavy-text)]' },
+  'edamame':    { light: 'bg-[var(--comp-badge-edamame-light-bg)] text-[var(--comp-badge-edamame-light-text)]',       heavy: 'bg-[var(--comp-badge-edamame-heavy-bg)] text-[var(--comp-badge-edamame-heavy-text)]' },
+  'forest':     { light: 'bg-[var(--comp-badge-forest-light-bg)] text-[var(--comp-badge-forest-light-text)]',         heavy: 'bg-[var(--comp-badge-forest-heavy-bg)] text-[var(--comp-badge-forest-heavy-text)]' },
+  'emerald':    { light: 'bg-[var(--comp-badge-emerald-light-bg)] text-[var(--comp-badge-emerald-light-text)]',       heavy: 'bg-[var(--comp-badge-emerald-heavy-bg)] text-[var(--comp-badge-emerald-heavy-text)]' },
+  'cyan':       { light: 'bg-[var(--comp-badge-cyan-light-bg)] text-[var(--comp-badge-cyan-light-text)]',             heavy: 'bg-[var(--comp-badge-cyan-heavy-bg)] text-[var(--comp-badge-cyan-heavy-text)]' },
+  'sky':        { light: 'bg-[var(--comp-badge-sky-light-bg)] text-[var(--comp-badge-sky-light-text)]',               heavy: 'bg-[var(--comp-badge-sky-heavy-bg)] text-[var(--comp-badge-sky-heavy-text)]' },
+  'blue':       { light: 'bg-[var(--comp-badge-blue-light-bg)] text-[var(--comp-badge-blue-light-text)]',             heavy: 'bg-[var(--comp-badge-blue-heavy-bg)] text-[var(--comp-badge-blue-heavy-text)]' },
 }
 
 /* ─── Props ────────────────────────────────────────────────────────────────── */

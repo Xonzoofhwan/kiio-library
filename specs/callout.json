@@ -152,7 +152,7 @@
         "arrow": "--comp-callout-arrow-black → semantic-neutral-solid-950",
         "close": "--comp-callout-close-black → semantic-text-on-dim-600",
         "closeHover": "--comp-callout-close-hover-black → semantic-state-on-dim-50",
-        "action": "--comp-callout-action-black → semantic-text-on-dim-900"
+        "action": "--comp-callout-action-black → semantic-text-on-dim-800"
       },
       "white": {
         "background": "--comp-callout-bg-white → semantic-neutral-solid-50",
@@ -160,7 +160,7 @@
         "arrow": "--comp-callout-arrow-white → semantic-neutral-solid-50",
         "close": "--comp-callout-close-white → semantic-text-on-bright-600",
         "closeHover": "--comp-callout-close-hover-white → semantic-state-on-bright-50",
-        "action": "--comp-callout-action-white → semantic-text-on-bright-900"
+        "action": "--comp-callout-action-white → semantic-text-on-bright-800"
       },
       "brand": {
         "background": "--comp-callout-bg-brand → semantic-primary-500",
@@ -168,7 +168,7 @@
         "arrow": "--comp-callout-arrow-brand → semantic-primary-500",
         "close": "--comp-callout-close-brand → semantic-text-on-dim-800",
         "closeHover": "--comp-callout-close-hover-brand → semantic-state-on-dim-50",
-        "action": "--comp-callout-action-brand → semantic-text-on-dim-950"
+        "action": "--comp-callout-action-brand → semantic-text-on-dim-800"
       }
     },
     "side": {
@@ -229,8 +229,8 @@
         "--comp-callout-px: var(--spacing-3\\.5) = 14px",
         "--comp-callout-py: var(--spacing-3) = 12px",
         "--comp-callout-radius: var(--radius-2) = 8px",
-        "--comp-callout-arrow-width: 10px",
-        "--comp-callout-arrow-height: 5px",
+        "--comp-callout-arrow-width: 16px",
+        "--comp-callout-arrow-height: 8px",
         "--comp-callout-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)",
         "--comp-callout-close-size: 32px",
         "--comp-callout-close-icon: 20px",
@@ -246,19 +246,19 @@
         "--comp-callout-arrow-black: semantic-neutral-solid-950",
         "--comp-callout-close-black: semantic-text-on-dim-600",
         "--comp-callout-close-hover-black: semantic-state-on-dim-50",
-        "--comp-callout-action-black: semantic-text-on-dim-900",
+        "--comp-callout-action-black: semantic-text-on-dim-800",
         "--comp-callout-bg-white: semantic-neutral-solid-50",
         "--comp-callout-text-white: semantic-text-on-bright-900",
         "--comp-callout-arrow-white: semantic-neutral-solid-50",
         "--comp-callout-close-white: semantic-text-on-bright-600",
         "--comp-callout-close-hover-white: semantic-state-on-bright-50",
-        "--comp-callout-action-white: semantic-text-on-bright-900",
+        "--comp-callout-action-white: semantic-text-on-bright-800",
         "--comp-callout-bg-brand: semantic-primary-500",
         "--comp-callout-text-brand: semantic-text-on-dim-950",
         "--comp-callout-arrow-brand: semantic-primary-500",
         "--comp-callout-close-brand: semantic-text-on-dim-800",
         "--comp-callout-close-hover-brand: semantic-state-on-dim-50",
-        "--comp-callout-action-brand: semantic-text-on-dim-950"
+        "--comp-callout-action-brand: semantic-text-on-dim-800"
       ]
     },
     "geoShapeOverrides": []

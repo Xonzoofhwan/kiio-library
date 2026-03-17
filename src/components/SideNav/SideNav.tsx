@@ -69,6 +69,12 @@ const typoGroup: Record<SideNavSize, string> = {
   small:  'typography-10-semibold',
 }
 
+const groupLayout: Record<SideNavSize, string> = {
+  large:  'pl-[var(--comp-sidenav-item-px-lg)] pr-[calc(var(--comp-sidenav-item-px-lg)_-_2px)] rounded-[var(--comp-sidenav-item-radius-lg)]',
+  medium: 'pl-[var(--comp-sidenav-item-px-md)] pr-[calc(var(--comp-sidenav-item-px-md)_-_2px)] rounded-[var(--comp-sidenav-item-radius-md)]',
+  small:  'pl-[var(--comp-sidenav-item-px-sm)] pr-[calc(var(--comp-sidenav-item-px-sm)_-_2px)] rounded-[var(--comp-sidenav-item-radius-sm)]',
+}
+
 const iconSize: Record<SideNavSize, string> = {
   large:  'size-[var(--comp-sidenav-icon-lg)]',
   medium: 'size-[var(--comp-sidenav-icon-md)]',
@@ -206,7 +212,7 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={cn(
-        'w-3.5 h-3.5 flex-shrink-0 text-[var(--comp-sidenav-group-text)] transition-transform duration-fast ease-move',
+        'w-3.5 h-3.5 flex-shrink-0 text-[var(--comp-sidenav-group-chevron)] transition-transform duration-fast ease-move',
         expanded && 'rotate-90',
       )}
     >
@@ -270,7 +276,8 @@ export function SideNavGroup({
         onClick={toggle}
         aria-expanded={collapsible ? expanded : undefined}
         className={cn(
-          'w-full flex items-center justify-between px-3 py-1 rounded-[var(--comp-sidenav-item-radius-md)]',
+          'w-full flex items-center justify-between py-1',
+          groupLayout[size],
           'text-[var(--comp-sidenav-group-text)] uppercase tracking-wider select-none',
           typoGroup[size],
           collapsible && 'hover:bg-[var(--comp-sidenav-hover)] transition-colors duration-fast ease-enter cursor-pointer',
