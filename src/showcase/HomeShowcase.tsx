@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
+import { NavigateContext } from '@/showcase/NavigateContext'
 import { Button } from '@/components/Button'
 import { IconButton } from '@/components/IconButton'
 import { FormField } from '@/components/FormField'
@@ -32,7 +33,7 @@ import {
 
 /* ─── Navigate context ─────────────────────────────────────────────────────── */
 
-export const NavigateContext = createContext<(id: string) => void>(() => {})
+export { NavigateContext } from '@/showcase/NavigateContext'
 
 /* ─── Icons not in shared.tsx ──────────────────────────────────────────────── */
 

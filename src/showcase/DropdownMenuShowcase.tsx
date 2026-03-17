@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Button } from '@/components/Button'
 import {
   DropdownMenu,
@@ -14,25 +14,33 @@ import {
   DropdownMenuGroup,
   DropdownMenuSeparator,
   DropdownMenuLabel,
+  DROPDOWN_MENU_ALIGNS,
 } from '@/components/DropdownMenu'
+import type { DropdownMenuSide, DropdownMenuAlign } from '@/components/DropdownMenu'
 import { cn } from '@/lib/utils'
 import type { TocEntry } from '@/components/showcase-layout/TableOfContents'
+import { NavigateContext } from '@/showcase/NavigateContext'
 import { SectionTitle, SpecLabel, TrashIcon, MailIcon, PlusIcon } from './shared'
+import {
+  ShowcaseHeader,
+  ShowcaseSection,
+  Playground,
+  PropsTable,
+  UsageGuidelines,
+  CodeBlock,
+  TokensReference,
+  type PlaygroundConfig,
+  type UsageGuidelineData,
+  type CodeExampleData,
+  type TokenGroupData,
+} from './showcase-blocks'
+import { extractHeader, extractSubComponentProps } from './spec-utils'
+import dropdownMenuSpec from '../../specs/dropdown-menu.json'
 
-/* ─── ToC ─────────────────────────────────────────────────────────────────── */
+/* ─── Spec data ───────────────────────────────────────────────────────────── */
 
-export const DROPDOWN_MENU_TOC: TocEntry[] = [
-  { id: 'component-dropdown-menu', label: 'DropdownMenu', level: 1 },
-  { id: 'dropdown-playground', label: 'Playground' },
-  { id: 'dropdown-basic',     label: 'Basic' },
-  { id: 'dropdown-icons',     label: 'With Icons' },
-  { id: 'dropdown-checkbox',  label: 'Checkbox Items' },
-  { id: 'dropdown-radio',     label: 'Radio Items' },
-  { id: 'dropdown-submenu',   label: 'Submenu' },
-  { id: 'dropdown-groups',    label: 'Groups & Labels' },
-  { id: 'dropdown-disabled',  label: 'Disabled Items' },
-  { id: 'dropdown-header',    label: 'With Search Header' },
-]
+const header = extractHeader(dropdownMenuSpec)
+const subComponentProps = extractSubComponentProps(dropdownMenuSpec)
 
 /* ─── Showcase icons (24px viewBox) ───────────────────────────────────────── */
 
@@ -224,10 +232,270 @@ function ControlCheckbox({
   )
 }
 
+/* ─── Playground config (Playground block) ─────────────────────────────────── */
+
+function PlaygroundDropdown({
+  align,
+  side,
+}: {
+  align: DropdownMenuAlign
+  side: DropdownMenuSide
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <TriggerButton>Options</TriggerButton>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align={align} side={side}>
+        <DropdownMenuItem iconLeading={<EditIcon />}>Edit</DropdownMenuItem>
+        <DropdownMenuItem iconLeading={<CopyIcon />}>Duplicate</DropdownMenuItem>
+        <DropdownMenuItem iconLeading={<ShareIcon />}>Share</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem iconLeading={<DownloadIcon />}>Download</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem iconLeading={<TrashIcon />}>Delete</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+const playgroundConfig: PlaygroundConfig = {
+  controls: {
+    align: { kind: 'select', options: DROPDOWN_MENU_ALIGNS },
+    side:  { kind: 'select', options: ['top', 'bottom'] as const },
+  },
+  defaults: {
+    align: 'start',
+    side: 'bottom',
+  },
+  render: (props) => (
+    <PlaygroundDropdown
+      key={`${props.align}-${props.side}`}
+      align={props.align as DropdownMenuAlign}
+      side={props.side as DropdownMenuSide}
+    />
+  ),
+}
+
+/* ─── Usage guidelines ────────────────────────────────────────────────────── */
+
+const usageData: UsageGuidelineData = {
+  doUse: [
+    'Context-dependent action lists (right-click menus, more options)',
+    'Menu with checkable items or grouped actions',
+    'Compact action list triggered by a button',
+  ],
+  dontUse: [
+    { text: 'Selecting a single value for a form', alternative: 'select', alternativeLabel: 'Select' },
+    { text: 'Navigation between pages', alternative: 'sidenav', alternativeLabel: 'SideNav' },
+    { text: 'Simple on/off toggle', alternative: 'switch', alternativeLabel: 'Switch' },
+  ],
+  related: [
+    { id: 'select', label: 'Select' },
+  ],
+}
+
+/* ─── Code examples ───────────────────────────────────────────────────────── */
+
+const codeExamples: CodeExampleData[] = [
+  {
+    title: 'Basic',
+    code: `<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="outlined" iconTrailing={<ChevronDownIcon />}>
+      Actions
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onSelect={() => {}}>New File</DropdownMenuItem>
+    <DropdownMenuItem onSelect={() => {}}>Open...</DropdownMenuItem>
+    <DropdownMenuItem onSelect={() => {}}>Save</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem onSelect={() => {}}>Close</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  },
+  {
+    title: 'With checkbox items',
+    code: `const [showGrid, setShowGrid] = useState(true)
+const [showSidebar, setShowSidebar] = useState(false)
+
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="outlined">View</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Panels</DropdownMenuLabel>
+    <DropdownMenuCheckboxItem
+      checked={showGrid}
+      onCheckedChange={setShowGrid}
+    >
+      Grid
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem
+      checked={showSidebar}
+      onCheckedChange={setShowSidebar}
+    >
+      Sidebar
+    </DropdownMenuCheckboxItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+    description: 'CheckboxItem stays open on select (e.preventDefault). Use for multi-toggle patterns.',
+  },
+  {
+    title: 'With labels and separators',
+    code: `<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="outlined">Menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>File</DropdownMenuLabel>
+      <DropdownMenuItem>New</DropdownMenuItem>
+      <DropdownMenuItem>Open</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>Edit</DropdownMenuLabel>
+      <DropdownMenuItem>Undo</DropdownMenuItem>
+      <DropdownMenuItem>Redo</DropdownMenuItem>
+    </DropdownMenuGroup>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+  },
+  {
+    title: 'Controlled',
+    code: `const [open, setOpen] = useState(false)
+
+<DropdownMenu open={open} onOpenChange={setOpen}>
+  <DropdownMenuTrigger>
+    <Button variant="outlined">Controlled</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onSelect={() => setOpen(false)}>
+      Close manually
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>`,
+    description: 'Use open and onOpenChange props to control the dropdown externally.',
+  },
+]
+
+/* ─── Token data ──────────────────────────────────────────────────────────── */
+
+const sizeTokenGroups: TokenGroupData[] = [
+  {
+    title: 'Container',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-dropdown-min-width', value: '200px' },
+      { name: '--comp-dropdown-max-width', value: '320px' },
+      { name: '--comp-dropdown-max-height', value: '480px' },
+      { name: '--comp-dropdown-padding-y', value: '8px' },
+      { name: '--comp-dropdown-padding-x', value: '6px' },
+      { name: '--comp-dropdown-radius', value: '12px' },
+      { name: '--comp-dropdown-shadow', value: '0px 1px 4px rgba(0,0,0,0.04), 0px 4px 24px rgba(0,0,0,0.12)' },
+    ],
+  },
+  {
+    title: 'Item',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-dropdown-item-height', value: '32px' },
+      { name: '--comp-dropdown-item-padding-x', value: '8px' },
+      { name: '--comp-dropdown-item-gap', value: '4px' },
+      { name: '--comp-dropdown-item-radius', value: '8px' },
+    ],
+  },
+  {
+    title: 'Icons',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-dropdown-icon-leading', value: '20px' },
+      { name: '--comp-dropdown-icon-trailing', value: '18px' },
+      { name: '--comp-dropdown-icon-check', value: '18px' },
+      { name: '--comp-dropdown-icon-back', value: '20px' },
+    ],
+  },
+  {
+    title: 'Title & Subtitle',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-dropdown-title-height', value: '36px' },
+      { name: '--comp-dropdown-title-padding-x', value: '12px' },
+      { name: '--comp-dropdown-title-gap', value: '8px' },
+      { name: '--comp-dropdown-subtitle-height', value: '22px' },
+      { name: '--comp-dropdown-subtitle-padding-x', value: '8px' },
+    ],
+  },
+  {
+    title: 'Divider & Spacing',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-dropdown-divider-margin-y', value: '4px' },
+      { name: '--comp-dropdown-divider-margin-x', value: '4px' },
+      { name: '--comp-dropdown-header-padding', value: '8px' },
+      { name: '--comp-dropdown-trigger-offset', value: '4px' },
+      { name: '--comp-dropdown-submenu-offset', value: '6px' },
+      { name: '--comp-dropdown-collision-padding', value: '8px' },
+    ],
+  },
+  {
+    title: 'Color Tokens',
+    scope: '[data-theme]',
+    tokens: [
+      { name: '--comp-dropdown-bg', value: 'neutral-solid-0' },
+      { name: '--comp-dropdown-border', value: 'neutral-white-alpha-100' },
+      { name: '--comp-dropdown-divider', value: 'neutral-solid-70' },
+      { name: '--comp-dropdown-item-label', value: 'neutral-black-alpha-800' },
+      { name: '--comp-dropdown-item-icon', value: 'neutral-black-alpha-800' },
+      { name: '--comp-dropdown-item-chevron', value: 'neutral-black-alpha-400' },
+      { name: '--comp-dropdown-item-hover', value: 'state-on-bright-50' },
+      { name: '--comp-dropdown-item-pressed', value: 'state-on-bright-70' },
+      { name: '--comp-dropdown-item-label-disabled', value: 'neutral-black-alpha-300' },
+      { name: '--comp-dropdown-item-icon-disabled', value: 'neutral-black-alpha-300' },
+      { name: '--comp-dropdown-item-chevron-disabled', value: 'neutral-black-alpha-100' },
+      { name: '--comp-dropdown-check-checked', value: 'success-500' },
+      { name: '--comp-dropdown-check-unchecked', value: 'neutral-black-alpha-200' },
+      { name: '--comp-dropdown-check-checked-disabled', value: 'success-200' },
+      { name: '--comp-dropdown-check-unchecked-disabled', value: 'neutral-black-alpha-100' },
+      { name: '--comp-dropdown-focus-ring', value: 'primary-300' },
+      { name: '--comp-dropdown-subtitle', value: 'neutral-black-alpha-400' },
+      { name: '--comp-dropdown-title-label', value: 'neutral-black-alpha-800' },
+      { name: '--comp-dropdown-title-icon', value: 'neutral-black-alpha-800' },
+      { name: '--comp-dropdown-title-border', value: 'divider-solid-100' },
+      { name: '--comp-dropdown-header-border', value: 'neutral-solid-70' },
+    ],
+  },
+]
+
+/* ─── ToC ─────────────────────────────────────────────────────────────────── */
+
+export const DROPDOWN_MENU_TOC: TocEntry[] = [
+  { id: 'component-dropdown-menu', label: 'DropdownMenu', level: 1 },
+  { id: 'dropdown-playground',     label: 'Playground' },
+  { id: 'dropdown-anatomy',        label: 'Anatomy' },
+  { id: 'dropdown-basic',          label: 'Basic' },
+  { id: 'dropdown-icons',          label: 'With Icons' },
+  { id: 'dropdown-checkbox',       label: 'Checkbox Items' },
+  { id: 'dropdown-radio',          label: 'Radio Items' },
+  { id: 'dropdown-submenu',        label: 'Submenu' },
+  { id: 'dropdown-groups',         label: 'Groups & Labels' },
+  { id: 'dropdown-disabled',       label: 'Disabled Items' },
+  { id: 'dropdown-header',         label: 'With Search Header' },
+  { id: 'dropdown-visual-pg',      label: 'Visual Playground' },
+  { id: 'dropdown-usage',          label: 'Usage Guidelines' },
+  { id: 'dropdown-props',          label: 'Props' },
+  { id: 'dropdown-code',           label: 'Code Examples' },
+  { id: 'dropdown-tokens',         label: 'Design Tokens' },
+]
+
 /* ─── Showcase ────────────────────────────────────────────────────────────── */
 
 export function DropdownMenuShowcase() {
-  /* playground state */
+  const navigate = useContext(NavigateContext)
+
+  /* visual playground state */
   const [pgBasic, setPgBasic] = useState(true)
   const [pgCheckbox, setPgCheckbox] = useState(true)
   const [pgRadio, setPgRadio] = useState(true)
@@ -262,7 +530,7 @@ export function DropdownMenuShowcase() {
   const allFruits = ['Apple', 'Banana', 'Cherry', 'Dragon Fruit', 'Elderberry', 'Fig', 'Grape', 'Honeydew', 'Kiwi', 'Lemon', 'Mango', 'Nectarine']
   const filtered = allFruits.filter(f => f.toLowerCase().includes(search.toLowerCase()))
 
-  /* playground panel sections */
+  /* visual playground panel sections */
   const renderPgSections = () => {
     const sections: React.ReactNode[] = []
 
@@ -376,63 +644,43 @@ export function DropdownMenuShowcase() {
 
   return (
     <>
-      <h1
+      {/* 1. Header */}
+      <ShowcaseHeader
         id="component-dropdown-menu"
-        className="typography-24-bold text-semantic-text-on-bright-900 mb-6 scroll-mt-6"
+        name={header.name}
+        description={header.description}
+        classification={header.classification}
+      />
+
+      {/* 2. Playground */}
+      <ShowcaseSection id="dropdown-playground" title="Playground">
+        <Playground config={playgroundConfig} />
+      </ShowcaseSection>
+
+      {/* 3. Anatomy */}
+      <ShowcaseSection
+        id="dropdown-anatomy"
+        title="Anatomy"
+        description="DropdownMenu's compound component structure with trigger, content panel, and item variants."
       >
-        DropdownMenu
-      </h1>
+        <pre className="typography-14-regular text-semantic-text-on-bright-700 leading-relaxed">
+{`DropdownMenu (root — context: triggerRef for theme inheritance)
+\u251C\u2500\u2500 DropdownMenuTrigger   \u2014 Radix trigger, asChild
+\u2514\u2500\u2500 DropdownMenuContent   \u2014 Portal + theme wrapper + scrollable panel
+    \u251C\u2500\u2500 [header slot]            \u2014 optional sticky header (e.g. search input)
+    \u251C\u2500\u2500 DropdownMenuLabel        \u2014 group heading, sticky
+    \u251C\u2500\u2500 DropdownMenuGroup        \u2014 logical grouping (a11y)
+    \u2502   \u251C\u2500\u2500 DropdownMenuItem       \u2014 basic action item
+    \u2502   \u251C\u2500\u2500 CheckboxItem           \u2014 multi-select toggle
+    \u2502   \u2514\u2500\u2500 RadioGroup / RadioItem \u2014 single-select
+    \u251C\u2500\u2500 DropdownMenuSeparator    \u2014 visual divider
+    \u2514\u2500\u2500 DropdownMenuSub          \u2014 nested submenu
+        \u251C\u2500\u2500 SubTrigger             \u2014 item + chevron right
+        \u2514\u2500\u2500 SubContent             \u2014 Portal + theme wrapper`}
+        </pre>
+      </ShowcaseSection>
 
-      {/* Playground */}
-      <section id="dropdown-playground" className="mb-12 scroll-mt-6">
-        <SectionTitle>Playground</SectionTitle>
-        <SpecLabel>Interactive preview — toggle sections and options</SpecLabel>
-
-        <div className="mt-4 flex gap-8 items-start">
-          {/* Static dropdown panel */}
-          <div
-            className={cn(
-              'inline-flex flex-col overflow-hidden w-[240px] shrink-0',
-              'bg-[var(--comp-dropdown-bg)]',
-              'border border-[var(--comp-dropdown-border)]',
-              'rounded-[var(--comp-dropdown-radius)]',
-              '[box-shadow:var(--comp-dropdown-shadow)]',
-            )}
-          >
-            <div className="py-[var(--comp-dropdown-padding-y)] px-[var(--comp-dropdown-padding-x)]">
-              {visibleCount > 0 ? (
-                renderPgSections()
-              ) : (
-                <div className="flex items-center justify-center h-20 typography-13-medium text-semantic-neutral-solid-400">
-                  No sections visible
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Controls */}
-          <div className="flex flex-col gap-5 pt-1">
-            <div className="flex flex-col gap-2">
-              <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider">Sections</p>
-              <div className="flex flex-col gap-1.5">
-                <ControlCheckbox checked={pgBasic} onChange={setPgBasic}>Basic items</ControlCheckbox>
-                <ControlCheckbox checked={pgCheckbox} onChange={setPgCheckbox}>Checkbox group</ControlCheckbox>
-                <ControlCheckbox checked={pgRadio} onChange={setPgRadio}>Radio group</ControlCheckbox>
-                <ControlCheckbox checked={pgSubmenu} onChange={setPgSubmenu}>Submenu item</ControlCheckbox>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider">Options</p>
-              <div className="flex flex-col gap-1.5">
-                <ControlCheckbox checked={pgIcons} onChange={setPgIcons}>Show icons</ControlCheckbox>
-                <ControlCheckbox checked={pgLabels} onChange={setPgLabels}>Show labels</ControlCheckbox>
-                <ControlCheckbox checked={pgDividers} onChange={setPgDividers}>Show dividers</ControlCheckbox>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 4. Existing visual sections (preserved) */}
 
       {/* Basic */}
       <section id="dropdown-basic" className="mb-12 scroll-mt-6">
@@ -659,6 +907,85 @@ export function DropdownMenuShowcase() {
           </DropdownMenu>
         </div>
       </section>
+
+      {/* Visual Playground (original static panel playground) */}
+      <section id="dropdown-visual-pg" className="mb-12 scroll-mt-6">
+        <SectionTitle>Visual Playground</SectionTitle>
+        <SpecLabel>Interactive preview — toggle sections and options</SpecLabel>
+
+        <div className="mt-4 flex gap-8 items-start">
+          {/* Static dropdown panel */}
+          <div
+            className={cn(
+              'inline-flex flex-col overflow-hidden w-[240px] shrink-0',
+              'bg-[var(--comp-dropdown-bg)]',
+              'border border-[var(--comp-dropdown-border)]',
+              'rounded-[var(--comp-dropdown-radius)]',
+              '[box-shadow:var(--comp-dropdown-shadow)]',
+            )}
+          >
+            <div className="py-[var(--comp-dropdown-padding-y)] px-[var(--comp-dropdown-padding-x)]">
+              {visibleCount > 0 ? (
+                renderPgSections()
+              ) : (
+                <div className="flex items-center justify-center h-20 typography-13-medium text-semantic-neutral-solid-400">
+                  No sections visible
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Controls */}
+          <div className="flex flex-col gap-5 pt-1">
+            <div className="flex flex-col gap-2">
+              <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider">Sections</p>
+              <div className="flex flex-col gap-1.5">
+                <ControlCheckbox checked={pgBasic} onChange={setPgBasic}>Basic items</ControlCheckbox>
+                <ControlCheckbox checked={pgCheckbox} onChange={setPgCheckbox}>Checkbox group</ControlCheckbox>
+                <ControlCheckbox checked={pgRadio} onChange={setPgRadio}>Radio group</ControlCheckbox>
+                <ControlCheckbox checked={pgSubmenu} onChange={setPgSubmenu}>Submenu item</ControlCheckbox>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider">Options</p>
+              <div className="flex flex-col gap-1.5">
+                <ControlCheckbox checked={pgIcons} onChange={setPgIcons}>Show icons</ControlCheckbox>
+                <ControlCheckbox checked={pgLabels} onChange={setPgLabels}>Show labels</ControlCheckbox>
+                <ControlCheckbox checked={pgDividers} onChange={setPgDividers}>Show dividers</ControlCheckbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Usage Guidelines */}
+      <ShowcaseSection id="dropdown-usage" title="Usage Guidelines">
+        <UsageGuidelines data={usageData} onNavigate={navigate} />
+      </ShowcaseSection>
+
+      {/* 6. Props Table (sub-component props) */}
+      <ShowcaseSection id="dropdown-props" title="Props">
+        {subComponentProps.map(sub => (
+          <PropsTable key={sub.name} props={sub.props} title={sub.name} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 7. Code Examples */}
+      <ShowcaseSection id="dropdown-code" title="Code Examples">
+        {codeExamples.map(ex => (
+          <CodeBlock key={ex.title} code={ex.code} title={ex.title} description={ex.description} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 8. Design Tokens */}
+      <ShowcaseSection
+        id="dropdown-tokens"
+        title="Design Tokens"
+        description="Component-level CSS custom properties for DropdownMenu sizing, spacing, and colors. Size tokens live in :root, color tokens switch by theme via [data-theme] scope."
+      >
+        <TokensReference groups={sizeTokenGroups} />
+      </ShowcaseSection>
     </>
   )
 }

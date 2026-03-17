@@ -1,39 +1,238 @@
-import type { TocEntry } from '@/components/showcase-layout'
-import { SectionTitle } from '@/showcase/shared'
-import { Callout, CALLOUT_VARIANTS, CALLOUT_SIDES } from '@/components/Callout'
+import { useState, useContext } from 'react'
+import {
+  Callout,
+  CALLOUT_VARIANTS,
+  CALLOUT_SIDES,
+  CALLOUT_DISMISS_MODES,
+  CALLOUT_SIZES,
+} from '@/components/Callout'
+import type { CalloutVariant, CalloutSide, CalloutDismissMode, CalloutSize } from '@/components/Callout'
 import { Button } from '@/components/Button'
-import { useState } from 'react'
+import type { TocEntry } from '@/components/showcase-layout'
+import { NavigateContext } from '@/showcase/NavigateContext'
+import { SectionTitle } from '@/showcase/shared'
+import {
+  ShowcaseHeader,
+  ShowcaseSection,
+  Playground,
+  PropsTable,
+  UsageGuidelines,
+  CodeBlock,
+  TokensReference,
+  type PlaygroundConfig,
+  type UsageGuidelineData,
+  type CodeExampleData,
+  type TokenGroupData,
+} from './showcase-blocks'
+import { extractHeader, extractSubComponentProps } from './spec-utils'
+import calloutSpec from '../../specs/callout.json'
+
+/* ─── Spec data ───────────────────────────────────────────────────────────── */
+
+const header = extractHeader(calloutSpec)
+const subComponentProps = extractSubComponentProps(calloutSpec)
+
+/* ─── Playground config ───────────────────────────────────────────────────── */
+
+const playgroundConfig: PlaygroundConfig = {
+  controls: {
+    variant:     { kind: 'select', options: CALLOUT_VARIANTS },
+    side:        { kind: 'select', options: CALLOUT_SIDES },
+    size:        { kind: 'select', options: CALLOUT_SIZES },
+    dismissMode: { kind: 'select', options: CALLOUT_DISMISS_MODES },
+  },
+  defaults: {
+    variant: 'black',
+    side: 'top',
+    size: 'medium',
+    dismissMode: 'manual',
+  },
+  render: (props) => (
+    <Callout
+      variant={props.variant as CalloutVariant}
+      size={props.size as CalloutSize}
+      dismiss={props.dismissMode as CalloutDismissMode}
+      defaultOpen
+    >
+      <Callout.Anchor>
+        <Button variant="outlined" size="medium">
+          Anchor
+        </Button>
+      </Callout.Anchor>
+      <Callout.Content side={props.side as CalloutSide} sideOffset={8}>
+        <Callout.Arrow />
+        <Callout.Text>
+          Callout content with contextual guidance.
+        </Callout.Text>
+        <Callout.Close />
+      </Callout.Content>
+    </Callout>
+  ),
+}
+
+/* ─── Usage guidelines ────────────────────────────────────────────────────── */
+
+const usageData: UsageGuidelineData = {
+  doUse: [
+    'Contextual guidance anchored to a specific UI element',
+    'Onboarding tips or feature discovery popovers',
+    'Non-modal notifications with dismiss/action capability',
+  ],
+  dontUse: [
+    { text: 'Brief hover-only information', alternative: 'tooltip', alternativeLabel: 'Tooltip' },
+    { text: 'Blocking user flow for confirmation', alternative: 'dialog', alternativeLabel: 'Dialog' },
+    { text: 'Global notifications or toasts', alternative: 'toast', alternativeLabel: 'Toast' },
+  ],
+  related: [
+    { id: 'tooltip', label: 'Tooltip' },
+    { id: 'dialog', label: 'Dialog' },
+    { id: 'toast', label: 'Toast' },
+  ],
+}
+
+/* ─── Code examples ───────────────────────────────────────────────────────── */
+
+const codeExamples: CodeExampleData[] = [
+  {
+    title: 'Basic',
+    code: `<Callout>
+  <Callout.Anchor>
+    <Button variant="outlined">Trigger</Button>
+  </Callout.Anchor>
+  <Callout.Content>
+    <Callout.Arrow />
+    <Callout.Text>Contextual guidance here.</Callout.Text>
+    <Callout.Close />
+  </Callout.Content>
+</Callout>`,
+  },
+  {
+    title: 'Auto dismiss',
+    code: `<Callout dismissMode="auto" autoCloseDelay={3000}>
+  <Callout.Anchor>
+    <Button>Trigger</Button>
+  </Callout.Anchor>
+  <Callout.Content>
+    <Callout.Arrow />
+    <Callout.Text>Closes automatically after 3 seconds.</Callout.Text>
+    <Callout.Close />
+  </Callout.Content>
+</Callout>`,
+    description: 'Auto dismiss mode closes the callout after the specified delay. Manual close is still available.',
+  },
+  {
+    title: 'With action',
+    code: `<Callout>
+  <Callout.Anchor>
+    <Button>Trigger</Button>
+  </Callout.Anchor>
+  <Callout.Content>
+    <Callout.Arrow />
+    <Callout.Text>New feature available!</Callout.Text>
+    <Callout.Action onClick={() => console.log('clicked')} closeOnClick>
+      Learn more
+    </Callout.Action>
+    <Callout.Close />
+  </Callout.Content>
+</Callout>`,
+    description: 'CalloutAction renders a trailing arrow button. closeOnClick automatically closes the callout after the click handler runs.',
+  },
+  {
+    title: 'Controlled',
+    code: `const [open, setOpen] = useState(false)
+
+<Callout open={open} onOpenChange={setOpen}>
+  <Callout.Anchor>
+    <Button>Trigger</Button>
+  </Callout.Anchor>
+  <Callout.Content>
+    <Callout.Arrow />
+    <Callout.Text>Controlled callout.</Callout.Text>
+    <Callout.Close />
+  </Callout.Content>
+</Callout>`,
+    description: 'Pass open and onOpenChange for full control over open state.',
+  },
+]
+
+/* ─── Token data ──────────────────────────────────────────────────────────── */
+
+const tokenGroups: TokenGroupData[] = [
+  {
+    title: 'Layout',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-callout-max-w', value: '320px' },
+      { name: '--comp-callout-px', value: '14px' },
+      { name: '--comp-callout-py', value: '12px' },
+      { name: '--comp-callout-radius', value: '8px' },
+      { name: '--comp-callout-arrow-w', value: '16px' },
+      { name: '--comp-callout-arrow-h', value: '8px' },
+      { name: '--comp-callout-close-size', value: '32px' },
+      { name: '--comp-callout-close-icon', value: '20px' },
+      { name: '--comp-callout-action-icon', value: '20px' },
+    ],
+  },
+]
 
 /* ─── TOC ─────────────────────────────────────────────────────────────────── */
 
 export const CALLOUT_TOC: TocEntry[] = [
-  { id: 'component-callout', label: 'Callout', level: 1 },
-  { id: 'callout-variants', label: 'Variants' },
-  { id: 'callout-sides', label: 'Sides' },
-  { id: 'callout-dismiss', label: 'Dismiss Modes' },
-  { id: 'callout-action', label: 'With Action' },
-  { id: 'callout-controlled', label: 'Controlled' },
+  { id: 'component-callout',   label: 'Callout',           level: 1 },
+  { id: 'callout-playground',  label: 'Playground'                   },
+  { id: 'callout-anatomy',     label: 'Anatomy'                      },
+  { id: 'callout-variants',    label: 'Variants'                     },
+  { id: 'callout-sizes',       label: 'Sizes'                        },
+  { id: 'callout-sides',       label: 'Sides'                        },
+  { id: 'callout-dismiss',     label: 'Dismiss Modes'                },
+  { id: 'callout-action',      label: 'With Action'                  },
+  { id: 'callout-controlled',  label: 'Controlled'                   },
+  { id: 'callout-usage',       label: 'Usage Guidelines'             },
+  { id: 'callout-props',       label: 'Props'                        },
+  { id: 'callout-code',        label: 'Code Examples'                },
+  { id: 'callout-tokens',      label: 'Design Tokens'                },
 ]
 
 /* ─── Showcase ────────────────────────────────────────────────────────────── */
 
 export function CalloutShowcase() {
+  const navigate = useContext(NavigateContext)
   const [controlledOpen, setControlledOpen] = useState(false)
 
   return (
-    <div>
-      {/* ── Title ── */}
-      <section id="component-callout" className="mb-6">
-        <h1 className="typography-24-bold text-semantic-text-on-bright-900 mb-1">
-          Callout
-        </h1>
-        <p className="typography-14-regular text-semantic-text-on-bright-500">
-          특정 요소에 부가 정보나 안내를 표시하는 팝오버 컴포넌트.
-          black, white, brand 3가지 variant와 manual/auto/none dismiss 모드를 지원한다.
-        </p>
-      </section>
+    <>
+      {/* 1. Header */}
+      <ShowcaseHeader
+        id="component-callout"
+        name={header.name}
+        description={header.description}
+        classification={header.classification}
+      />
 
-      {/* ── Variants ── */}
+      {/* 2. Playground */}
+      <ShowcaseSection id="callout-playground" title="Playground">
+        <Playground config={playgroundConfig} />
+      </ShowcaseSection>
+
+      {/* 3. Anatomy */}
+      <ShowcaseSection
+        id="callout-anatomy"
+        title="Anatomy"
+        description="Callout's compound component structure with anchor, content, arrow, text, close, and action sub-components."
+      >
+        <pre className="typography-14-regular text-semantic-text-on-bright-700 leading-relaxed">
+{`Callout (root)
+├── CalloutAnchor     — Radix Popover.Trigger, asChild
+└── CalloutContent    — Portal + theme inheritance
+    ├── CalloutArrow  — Radix Popover.Arrow, variant fill
+    ├── row.upper
+    │   ├── CalloutText   — typography + padding
+    │   └── CalloutClose  — absolute close button, variant color
+    └── CalloutAction     — trailing arrow button, closeOnClick`}
+        </pre>
+      </ShowcaseSection>
+
+      {/* 4a. Variants */}
       <section id="callout-variants" className="mb-12 scroll-mt-6">
         <SectionTitle>Variants</SectionTitle>
         <div className="flex gap-6 items-center">
@@ -59,7 +258,33 @@ export function CalloutShowcase() {
         </p>
       </section>
 
-      {/* ── Sides ── */}
+      {/* 4b. Sizes */}
+      <section id="callout-sizes" className="mb-12 scroll-mt-6">
+        <SectionTitle>Sizes</SectionTitle>
+        <div className="flex gap-6 items-center">
+          {CALLOUT_SIZES.map((size) => (
+            <Callout key={size} size={size} defaultOpen>
+              <Callout.Anchor>
+                <Button variant="outlined" size="medium">
+                  {size}
+                </Button>
+              </Callout.Anchor>
+              <Callout.Content side="bottom" sideOffset={8}>
+                <Callout.Arrow />
+                <Callout.Text>
+                  {size} 크기의 Callout입니다.
+                </Callout.Text>
+                <Callout.Close />
+              </Callout.Content>
+            </Callout>
+          ))}
+        </div>
+        <p className="mt-3 typography-12-medium text-semantic-text-on-bright-400">
+          large: typography-16 / medium: typography-14 + 축소된 내부 패딩
+        </p>
+      </section>
+
+      {/* 4c. Sides */}
       <section id="callout-sides" className="mb-12 scroll-mt-6">
         <SectionTitle>Sides</SectionTitle>
         <div className="flex gap-6 items-center justify-center py-12">
@@ -80,7 +305,7 @@ export function CalloutShowcase() {
         </div>
       </section>
 
-      {/* ── Dismiss Modes ── */}
+      {/* 4d. Dismiss Modes */}
       <section id="callout-dismiss" className="mb-12 scroll-mt-6">
         <SectionTitle>Dismiss Modes</SectionTitle>
         <div className="flex gap-6 items-center">
@@ -131,7 +356,7 @@ export function CalloutShowcase() {
         </div>
       </section>
 
-      {/* ── With Action ── */}
+      {/* 4e. With Action */}
       <section id="callout-action" className="mb-12 scroll-mt-6">
         <SectionTitle>With Action</SectionTitle>
         <div className="flex gap-6 items-center">
@@ -173,7 +398,7 @@ export function CalloutShowcase() {
         </div>
       </section>
 
-      {/* ── Controlled ── */}
+      {/* 4f. Controlled */}
       <section id="callout-controlled" className="mb-12 scroll-mt-6">
         <SectionTitle>Controlled</SectionTitle>
         <div className="flex gap-4 items-center">
@@ -204,6 +429,34 @@ export function CalloutShowcase() {
           open: {String(controlledOpen)}
         </p>
       </section>
-    </div>
+
+      {/* 5. Usage Guidelines */}
+      <ShowcaseSection id="callout-usage" title="Usage Guidelines">
+        <UsageGuidelines data={usageData} onNavigate={navigate} />
+      </ShowcaseSection>
+
+      {/* 6. Props Table (sub-component props) */}
+      <ShowcaseSection id="callout-props" title="Props">
+        {subComponentProps.map((sub) => (
+          <PropsTable key={sub.name} props={sub.props} title={sub.name} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 7. Code Examples */}
+      <ShowcaseSection id="callout-code" title="Code Examples">
+        {codeExamples.map((ex) => (
+          <CodeBlock key={ex.title} code={ex.code} title={ex.title} description={ex.description} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 8. Design Tokens */}
+      <ShowcaseSection
+        id="callout-tokens"
+        title="Design Tokens"
+        description="Layout tokens defined at :root scope. Color tokens are variant-specific and switch by theme."
+      >
+        <TokensReference groups={tokenGroups} />
+      </ShowcaseSection>
+    </>
   )
 }

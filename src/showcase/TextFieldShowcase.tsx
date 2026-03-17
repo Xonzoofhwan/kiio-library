@@ -1,24 +1,157 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { TextField, TEXTFIELD_SIZES, TEXTFIELD_SHAPES } from '@/components/TextField'
+import type { TextFieldSize, TextFieldShape } from '@/components/TextField'
 import { FormField } from '@/components/FormField'
-import { TextField, TEXTFIELD_SIZES } from '@/components/TextField'
 import type { TocEntry } from '@/components/showcase-layout/TableOfContents'
+import { NavigateContext } from '@/showcase/NavigateContext'
 import { SectionTitle, ColHeader, SpecLabel, SpecValue, SearchIcon, MailIcon } from './shared'
+import {
+  ShowcaseHeader,
+  ShowcaseSection,
+  Playground,
+  PropsTable,
+  UsageGuidelines,
+  CodeBlock,
+  TokensReference,
+  type PlaygroundConfig,
+  type UsageGuidelineData,
+  type CodeExampleData,
+  type TokenGroupData,
+} from './showcase-blocks'
+import { extractProps, extractHeader } from './spec-utils'
+import textfieldSpec from '../../specs/textfield.json'
+
+/* ─── Spec data ───────────────────────────────────────────────────────────── */
+
+const header = extractHeader(textfieldSpec)
+const propRows = extractProps(textfieldSpec)
+
+/* ─── Playground config ───────────────────────────────────────────────────── */
+
+const playgroundConfig: PlaygroundConfig = {
+  controls: {
+    size:        { kind: 'select', options: TEXTFIELD_SIZES },
+    shape:       { kind: 'select', options: TEXTFIELD_SHAPES },
+    disabled:    { kind: 'boolean' },
+    clearable:   { kind: 'boolean' },
+    placeholder: { kind: 'text' },
+  },
+  defaults: {
+    size: 'medium',
+    shape: 'default',
+    disabled: false,
+    clearable: false,
+    placeholder: 'Enter text...',
+  },
+  render: (props) => (
+    <TextField
+      size={props.size as TextFieldSize}
+      shape={props.shape as TextFieldShape}
+      disabled={props.disabled as boolean}
+      clearable={props.clearable as boolean}
+      placeholder={props.placeholder as string}
+    />
+  ),
+}
+
+/* ─── Usage guidelines ────────────────────────────────────────────────────── */
+
+const usageData: UsageGuidelineData = {
+  doUse: [
+    'Single-line text input in forms (name, email, search)',
+    'Input with prefix/suffix enhancers (currency, URL, units)',
+    'Password input with visibility toggle',
+  ],
+  dontUse: [
+    { text: 'Multi-line text input', alternative: 'textarea', alternativeLabel: 'Textarea' },
+    { text: 'Search with dedicated layout', alternative: 'searchfield', alternativeLabel: 'SearchField' },
+    { text: 'Tag/chip-based multi-value input', alternative: 'taginput', alternativeLabel: 'TagInput' },
+  ],
+  related: [
+    { id: 'textarea', label: 'Textarea' },
+    { id: 'searchfield', label: 'SearchField' },
+    { id: 'formfield', label: 'FormField' },
+  ],
+}
+
+/* ─── Code examples ───────────────────────────────────────────────────────── */
+
+const codeExamples: CodeExampleData[] = [
+  {
+    title: 'Basic',
+    code: `<TextField placeholder="Enter your name" />`,
+  },
+  {
+    title: 'With FormField',
+    code: `<FormField label="Email" required>
+  <TextField type="email" placeholder="email@example.com" />
+</FormField>`,
+  },
+  {
+    title: 'Password',
+    code: `<TextField type="password" placeholder="Password" />`,
+  },
+  {
+    title: 'Clearable',
+    code: `<TextField clearable placeholder="Search..." />`,
+  },
+]
+
+/* ─── Token data ──────────────────────────────────────────────────────────── */
+
+const sizeTokenGroups: TokenGroupData[] = [
+  {
+    title: 'Size & Spacing',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-textfield-px-xs', value: '8px' },
+      { name: '--comp-textfield-px-sm', value: '8px' },
+      { name: '--comp-textfield-px-md', value: '12px' },
+      { name: '--comp-textfield-px-lg', value: '14px' },
+      { name: '--comp-textfield-px-xl', value: '16px' },
+      { name: '--comp-textfield-gap-xs', value: '4px' },
+      { name: '--comp-textfield-gap-sm', value: '4px' },
+      { name: '--comp-textfield-gap-md', value: '6px' },
+      { name: '--comp-textfield-gap-lg', value: '8px' },
+      { name: '--comp-textfield-gap-xl', value: '10px' },
+    ],
+  },
+  {
+    title: 'Shared with Button (height, icon, radius)',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-button-height-xs', value: '24px' },
+      { name: '--comp-button-height-sm', value: '32px' },
+      { name: '--comp-button-height-md', value: '40px' },
+      { name: '--comp-button-height-lg', value: '48px' },
+      { name: '--comp-button-height-xl', value: '56px' },
+    ],
+  },
+]
 
 /* ─── ToC ─────────────────────────────────────────────────────────────────── */
 
 export const TEXTFIELD_TOC: TocEntry[] = [
-  { id: 'component-textfield',    label: 'TextField',                   level: 1 },
-  { id: 'textfield-states',       label: 'States (with FormField)'               },
-  { id: 'textfield-sizes',        label: 'Sizes'                                 },
-  { id: 'textfield-patterns',     label: 'Patterns'                              },
-  { id: 'textfield-layout-left',  label: 'Layout: Left'                          },
-  { id: 'textfield-pill',         label: 'Pill'                                  },
-  { id: 'textfield-standalone',   label: 'Standalone'                            },
+  { id: 'component-textfield',    label: 'TextField',              level: 1 },
+  { id: 'textfield-playground',   label: 'Playground'                       },
+  { id: 'textfield-anatomy',      label: 'Anatomy'                          },
+  { id: 'textfield-states',       label: 'States (with FormField)'          },
+  { id: 'textfield-sizes',        label: 'Sizes'                            },
+  { id: 'textfield-patterns',     label: 'Patterns'                         },
+  { id: 'textfield-layout-left',  label: 'Layout: Left'                     },
+  { id: 'textfield-pill',         label: 'Pill'                             },
+  { id: 'textfield-standalone',   label: 'Standalone'                       },
+  { id: 'textfield-usage',        label: 'Usage Guidelines'                 },
+  { id: 'textfield-props',        label: 'Props'                            },
+  { id: 'textfield-code',         label: 'Code Examples'                    },
+  { id: 'textfield-tokens',       label: 'Design Tokens'                    },
 ]
 
 /* ─── Showcase ────────────────────────────────────────────────────────────── */
 
 export function TextFieldShowcase() {
+  const navigate = useContext(NavigateContext)
+
   const [nameValue, setNameValue] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [pwValue, setPwValue] = useState('MyPassword123')
@@ -28,11 +161,40 @@ export function TextFieldShowcase() {
 
   return (
     <>
-      <h1 id="component-textfield" className="typography-24-bold text-semantic-text-on-bright-900 mb-6 scroll-mt-6">
-        TextField
-      </h1>
+      {/* 1. Header */}
+      <ShowcaseHeader
+        id="component-textfield"
+        name={header.name}
+        description={header.description}
+        classification={header.classification}
+      />
 
-      {/* States */}
+      {/* 2. Playground */}
+      <ShowcaseSection id="textfield-playground" title="Playground">
+        <Playground config={playgroundConfig} />
+      </ShowcaseSection>
+
+      {/* 3. Anatomy */}
+      <ShowcaseSection
+        id="textfield-anatomy"
+        title="Anatomy"
+        description="TextField's internal structure with enhancer slots, validation icons, and state overlay."
+      >
+        <pre className="typography-14-regular text-semantic-text-on-bright-700 leading-relaxed">
+{`TextField (root container, group)
+├── startEnhancer   — ReactNode | string, flex-shrink-0
+├── <input>         — native input element
+├── validationIcon  — AlertIcon (error) / CheckIcon (positive)
+├── passwordToggle  — EyeIcon / EyeOffIcon (type="password")
+├── clearButton     — XIcon (clearable && hasValue)
+├── endEnhancer     — ReactNode | string, flex-shrink-0
+└── state overlay   — sibling <span>, group-hover / group-active`}
+        </pre>
+      </ShowcaseSection>
+
+      {/* 4. Visual sections */}
+
+      {/* 4a. States */}
       <section id="textfield-states" className="mb-12 scroll-mt-6">
         <SectionTitle>States (with FormField)</SectionTitle>
         <div className="grid grid-cols-2 gap-6 max-w-2xl">
@@ -68,7 +230,7 @@ export function TextFieldShowcase() {
         </div>
       </section>
 
-      {/* Sizes */}
+      {/* 4b. Sizes */}
       <section id="textfield-sizes" className="mb-12 scroll-mt-6">
         <SectionTitle>Sizes</SectionTitle>
         <div className="grid grid-cols-[80px_repeat(5,1fr)] gap-x-4 gap-y-2 max-w-4xl items-center">
@@ -94,7 +256,7 @@ export function TextFieldShowcase() {
         </div>
       </section>
 
-      {/* Patterns */}
+      {/* 4c. Patterns */}
       <section id="textfield-patterns" className="mb-12 scroll-mt-6">
         <SectionTitle>Patterns</SectionTitle>
         <div className="grid grid-cols-2 gap-6 max-w-2xl">
@@ -154,7 +316,7 @@ export function TextFieldShowcase() {
         </div>
       </section>
 
-      {/* Layout: Left */}
+      {/* 4d. Layout: Left */}
       <section id="textfield-layout-left" className="mb-12 scroll-mt-6">
         <SectionTitle>Layout: Left</SectionTitle>
         <div className="flex flex-col gap-3 max-w-lg">
@@ -170,7 +332,7 @@ export function TextFieldShowcase() {
         </div>
       </section>
 
-      {/* Pill */}
+      {/* 4e. Pill */}
       <section id="textfield-pill" className="mb-12 scroll-mt-6">
         <SectionTitle>Pill</SectionTitle>
         <p className="typography-13-regular text-semantic-text-on-bright-400 mb-4">
@@ -184,7 +346,7 @@ export function TextFieldShowcase() {
         </div>
       </section>
 
-      {/* Standalone */}
+      {/* 4f. Standalone */}
       <section id="textfield-standalone" className="mb-12 scroll-mt-6">
         <SectionTitle>Standalone (without FormField)</SectionTitle>
         <div className="flex flex-col gap-3 max-w-xs">
@@ -195,6 +357,32 @@ export function TextFieldShowcase() {
           <TextField placeholder="읽기 전용" readOnly defaultValue="읽기 전용 값" />
         </div>
       </section>
+
+      {/* 5. Usage Guidelines */}
+      <ShowcaseSection id="textfield-usage" title="Usage Guidelines">
+        <UsageGuidelines data={usageData} onNavigate={navigate} />
+      </ShowcaseSection>
+
+      {/* 6. Props Table */}
+      <ShowcaseSection id="textfield-props" title="Props">
+        <PropsTable props={propRows} />
+      </ShowcaseSection>
+
+      {/* 7. Code Examples */}
+      <ShowcaseSection id="textfield-code" title="Code Examples">
+        {codeExamples.map(ex => (
+          <CodeBlock key={ex.title} code={ex.code} title={ex.title} description={ex.description} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 8. Design Tokens */}
+      <ShowcaseSection
+        id="textfield-tokens"
+        title="Design Tokens"
+        description="TextField-specific size/spacing tokens and shared Button tokens for height, icon size, and border-radius."
+      >
+        <TokensReference groups={sizeTokenGroups} />
+      </ShowcaseSection>
     </>
   )
 }

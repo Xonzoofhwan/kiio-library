@@ -1,28 +1,192 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { ChipTag, ChipFilter, ChipDropdown } from '@/components/Chip'
 import { CHIP_SIZES, CHIP_TAG_INTENTS, CHIP_FILTER_INTENTS, CHIP_DROPDOWN_INTENTS } from '@/components/Chip'
-import type { ChipTagIntent, ChipFilterIntent, ChipDropdownIntent } from '@/components/Chip'
+import type { ChipTagIntent, ChipFilterIntent, ChipDropdownIntent, ChipSize } from '@/components/Chip'
 import type { TocEntry } from '@/components/showcase-layout/TableOfContents'
+import { NavigateContext } from '@/showcase/NavigateContext'
 import { SectionTitle, ColHeader, RowHeader, FilterIcon, CategoryIcon } from './shared'
+import {
+  ShowcaseHeader,
+  ShowcaseSection,
+  Playground,
+  PropsTable,
+  UsageGuidelines,
+  CodeBlock,
+  TokensReference,
+  type PlaygroundConfig,
+  type UsageGuidelineData,
+  type CodeExampleData,
+  type TokenGroupData,
+} from './showcase-blocks'
+import { extractHeader, extractSubComponentProps } from './spec-utils'
+import chipSpec from '../../specs/chip.json'
+
+/* ─── Spec data ───────────────────────────────────────────────────────────── */
+
+const header = extractHeader(chipSpec)
+const subComponentProps = extractSubComponentProps(chipSpec)
+
+/* ─── Playground config ───────────────────────────────────────────────────── */
+
+const playgroundConfig: PlaygroundConfig = {
+  controls: {
+    intent:   { kind: 'select', options: CHIP_FILTER_INTENTS },
+    size:     { kind: 'select', options: CHIP_SIZES },
+    selected: { kind: 'boolean' },
+    disabled: { kind: 'boolean' },
+  },
+  defaults: {
+    intent: 'grayscale',
+    size: 'medium',
+    selected: false,
+    disabled: false,
+  },
+  render: (props) => (
+    <ChipFilter
+      label="Filter"
+      intent={props.intent as ChipFilterIntent}
+      size={props.size as ChipSize}
+      selected={props.selected as boolean}
+      disabled={props.disabled as boolean}
+      onToggle={() => {}}
+    />
+  ),
+}
+
+/* ─── Usage guidelines ────────────────────────────────────────────────────── */
+
+const usageData: UsageGuidelineData = {
+  doUse: [
+    'Displaying categorical tags or labels (ChipTag)',
+    'Multi-select filtering from predefined options (ChipFilter)',
+    'Dropdown-triggered filter selection (ChipDropdown)',
+  ],
+  dontUse: [
+    { text: 'Primary action trigger', alternative: 'button', alternativeLabel: 'Button' },
+    { text: 'Binary toggle state', alternative: 'switch', alternativeLabel: 'Switch' },
+    { text: 'Status indication without interaction', alternative: 'badge', alternativeLabel: 'Badge' },
+  ],
+  related: [
+    { id: 'badge', label: 'Badge' },
+    { id: 'switch', label: 'Switch' },
+  ],
+}
+
+/* ─── Code examples ───────────────────────────────────────────────────────── */
+
+const codeExamples: CodeExampleData[] = [
+  {
+    title: 'ChipTag usage',
+    code: `<ChipTag
+  label="React"
+  intent="grayscale"
+  size="medium"
+  onRemove={() => removeTag('React')}
+/>
+
+<ChipTag label="Error" intent="error" onRemove={handleRemove} />`,
+  },
+  {
+    title: 'ChipFilter (selected state)',
+    code: `const [selected, setSelected] = useState(false)
+
+<ChipFilter
+  label="Active"
+  intent="brand"
+  selected={selected}
+  onToggle={setSelected}
+/>`,
+    description: 'ChipFilter is a controlled toggle button with aria-pressed. Off state uses neutral background, on state uses intent-specific container.',
+  },
+  {
+    title: 'ChipDropdown',
+    code: `const [open, setOpen] = useState(false)
+const [count, setCount] = useState(0)
+
+<ChipDropdown
+  label="Category"
+  open={open}
+  onOpenChange={setOpen}
+  badgeCount={count}
+  leadingIcon={<CategoryIcon />}
+/>`,
+    description: 'ChipDropdown shows a badge counter when badgeCount >= 1. Pair with a Popover or Menu for the dropdown content.',
+  },
+  {
+    title: 'Chip group pattern',
+    code: `const [filters, setFilters] = useState<Set<string>>(new Set())
+
+const toggle = (key: string) =>
+  setFilters(prev => {
+    const next = new Set(prev)
+    next.has(key) ? next.delete(key) : next.add(key)
+    return next
+  })
+
+<div className="flex flex-wrap gap-2">
+  {['Design', 'Dev', 'QA'].map(label => (
+    <ChipFilter
+      key={label}
+      label={label}
+      selected={filters.has(label)}
+      onToggle={() => toggle(label)}
+    />
+  ))}
+</div>`,
+  },
+]
+
+/* ─── Token data ──────────────────────────────────────────────────────────── */
+
+const sizeTokenGroups: TokenGroupData[] = [
+  {
+    title: 'Size & Spacing',
+    scope: ':root',
+    tokens: [
+      { name: '--comp-chip-height-sm', value: '24px' },
+      { name: '--comp-chip-height-md', value: '32px' },
+      { name: '--comp-chip-height-lg', value: '40px' },
+      { name: '--comp-chip-padding-h-sm', value: '6px' },
+      { name: '--comp-chip-padding-h-md', value: '8px' },
+      { name: '--comp-chip-padding-h-lg', value: '10px' },
+      { name: '--comp-chip-gap-sm', value: '2px' },
+      { name: '--comp-chip-gap-md', value: '2px' },
+      { name: '--comp-chip-gap-lg', value: '4px' },
+      { name: '--comp-chip-icon-sm', value: '16px' },
+      { name: '--comp-chip-icon-md', value: '18px' },
+      { name: '--comp-chip-icon-lg', value: '20px' },
+      { name: '--comp-chip-label-px-sm', value: '2px' },
+      { name: '--comp-chip-label-px-md', value: '4px' },
+      { name: '--comp-chip-label-px-lg', value: '4px' },
+    ],
+  },
+]
 
 /* ─── ToC ─────────────────────────────────────────────────────────────────── */
 
 export const CHIP_TOC: TocEntry[] = [
-  { id: 'component-chip',             label: 'Chip',                     level: 1 },
-  { id: 'chip-tag',                   label: 'ChipTag'                            },
-  { id: 'chip-tag-intent-size',       label: 'Intent × Size'                      },
-  { id: 'chip-tag-interactive',       label: 'Interactive'                        },
-  { id: 'chip-filter',                label: 'ChipFilter'                         },
-  { id: 'chip-filter-intent-size',    label: 'Intent × Size'                      },
-  { id: 'chip-filter-leading-icon',   label: 'With Leading Icon'                  },
-  { id: 'chip-dropdown',              label: 'ChipDropdown'                       },
-  { id: 'chip-dropdown-selection',    label: 'Selection state × Intent × Size'    },
-  { id: 'chip-dropdown-interactive',  label: 'Interactive'                        },
+  { id: 'component-chip',             label: 'Chip',                           level: 1 },
+  { id: 'chip-playground',            label: 'Playground'                               },
+  { id: 'chip-anatomy',               label: 'Anatomy'                                  },
+  { id: 'chip-tag',                   label: 'ChipTag'                                  },
+  { id: 'chip-tag-intent-size',       label: 'Intent \u00d7 Size'                       },
+  { id: 'chip-tag-interactive',       label: 'Interactive'                               },
+  { id: 'chip-filter',                label: 'ChipFilter'                               },
+  { id: 'chip-filter-intent-size',    label: 'Intent \u00d7 Size'                       },
+  { id: 'chip-filter-leading-icon',   label: 'With Leading Icon'                        },
+  { id: 'chip-dropdown',              label: 'ChipDropdown'                             },
+  { id: 'chip-dropdown-selection',    label: 'Selection state \u00d7 Intent \u00d7 Size' },
+  { id: 'chip-dropdown-interactive',  label: 'Interactive'                               },
+  { id: 'chip-usage',                 label: 'Usage Guidelines'                          },
+  { id: 'chip-props',                 label: 'Props'                                     },
+  { id: 'chip-code',                  label: 'Code Examples'                             },
+  { id: 'chip-tokens',                label: 'Design Tokens'                             },
 ]
 
 /* ─── Showcase ────────────────────────────────────────────────────────────── */
 
 export function ChipShowcase() {
+  const navigate = useContext(NavigateContext)
   const [filterStates, setFilterStates] = useState<Record<string, boolean>>({})
   const [ddOpen, setDdOpen] = useState<Record<string, boolean>>({})
   const [ddSelections, setDdSelections] = useState<Record<string, number>>({})
@@ -39,9 +203,44 @@ export function ChipShowcase() {
 
   return (
     <>
-      <h1 id="component-chip" className="typography-24-bold text-semantic-text-on-bright-900 mb-6 scroll-mt-6">
-        Chip
-      </h1>
+      {/* 1. Header */}
+      <ShowcaseHeader
+        id="component-chip"
+        name={header.name}
+        description={header.description}
+        classification={header.classification}
+      />
+
+      {/* 2. Playground (ChipFilter) */}
+      <ShowcaseSection id="chip-playground" title="Playground">
+        <Playground config={playgroundConfig} />
+      </ShowcaseSection>
+
+      {/* 3. Anatomy */}
+      <ShowcaseSection
+        id="chip-anatomy"
+        title="Anatomy"
+        description="Chip system has 3 sub-components sharing common size tokens. Each has its own color maps and interaction model."
+      >
+        <pre className="typography-14-regular text-semantic-text-on-bright-700 leading-relaxed">
+{`ChipTag (div role="group")
+\u251c\u2500\u2500 label          \u2014 text content
+\u251c\u2500\u2500 removeButton   \u2014 close icon button
+\u2514\u2500\u2500 state overlay  \u2014 sibling <span>, group-hover / group-active
+
+ChipFilter (button type="button")
+\u251c\u2500\u2500 leadingIcon?   \u2014 ReactNode, sized by chip size
+\u251c\u2500\u2500 label          \u2014 text content
+\u2514\u2500\u2500 state overlay  \u2014 on-bright (off) / on-dim (on)
+
+ChipDropdown (button type="button")
+\u251c\u2500\u2500 leadingIcon?   \u2014 ReactNode, sized by chip size
+\u251c\u2500\u2500 label          \u2014 text content
+\u251c\u2500\u2500 chevron        \u2014 trailing dropdown indicator
+\u251c\u2500\u2500 badgeCounter   \u2014 absolute positioned, shows count
+\u2514\u2500\u2500 state overlay  \u2014 on-bright (off) / on-dim (on)`}
+        </pre>
+      </ShowcaseSection>
 
       {/* ══════════════════ ChipTag ══════════════════ */}
       <h2 id="chip-tag" className="typography-20-semibold text-semantic-text-on-bright-800 mb-4 scroll-mt-6">
@@ -234,6 +433,34 @@ export function ChipShowcase() {
           })}
         </div>
       </section>
+
+      {/* 5. Usage Guidelines */}
+      <ShowcaseSection id="chip-usage" title="Usage Guidelines">
+        <UsageGuidelines data={usageData} onNavigate={navigate} />
+      </ShowcaseSection>
+
+      {/* 6. Props Table (sub-component props) */}
+      <ShowcaseSection id="chip-props" title="Props">
+        {subComponentProps.map(sub => (
+          <PropsTable key={sub.name} props={sub.props} title={sub.name} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 7. Code Examples */}
+      <ShowcaseSection id="chip-code" title="Code Examples">
+        {codeExamples.map(ex => (
+          <CodeBlock key={ex.title} code={ex.code} title={ex.title} description={ex.description} />
+        ))}
+      </ShowcaseSection>
+
+      {/* 8. Design Tokens */}
+      <ShowcaseSection
+        id="chip-tokens"
+        title="Design Tokens"
+        description="Size and spacing tokens are theme-agnostic (:root). Color tokens switch by theme via [data-theme]."
+      >
+        <TokensReference groups={sizeTokenGroups} />
+      </ShowcaseSection>
     </>
   )
 }
