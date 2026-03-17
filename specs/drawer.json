@@ -1,0 +1,250 @@
+{
+  "component": "Drawer",
+  "description": "Radix UI Dialog 기반의 사이드 드로어 컴포넌트. 화면 오른쪽에서 슬라이드하여 열리며, 4가지 사이즈와 선택적 오버레이를 지원한다. 커스터마이징 가능한 상단바, 스크롤 가능한 본문, 선택적 하단 버튼 영역을 제공한다.",
+  "classification": "Compound",
+  "figmaNode": "7346:52020",
+
+  "subComponents": [
+    {
+      "name": "Drawer",
+      "role": "Root. Radix Dialog.Root를 감싸고 DrawerContext와 ThemeContext를 제공.",
+      "element": "RadixDialog.Root",
+      "props": {
+        "open": { "type": "boolean", "description": "열림 상태 (controlled)." },
+        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태 (uncontrolled)." },
+        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백." },
+        "size": {
+          "type": "'xSmall' | 'small' | 'medium' | 'large'",
+          "default": "small",
+          "description": "드로어 너비 사이즈."
+        },
+        "hasOverlay": {
+          "type": "boolean",
+          "default": true,
+          "description": "배경 오버레이 표시 여부. 의사결정 콘텐츠=true, 정보 보기=false."
+        },
+        "modal": {
+          "type": "boolean",
+          "default": true,
+          "description": "모달 모드. false면 배경 콘텐츠가 상호작용 가능."
+        },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "DrawerTrigger",
+      "role": "트리거 요소. asChild로 자식 요소에 trigger props 전달. 내부적으로 triggerRef를 ThemeContext에 등록.",
+      "element": "RadixDialog.Trigger",
+      "props": {
+        "asChild": { "type": "boolean", "default": true },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DrawerContent",
+      "role": "드로어 콘텐츠 패널. Portal + 선택적 Overlay + 오른쪽 고정 패널. 테마 속성 자동 전파.",
+      "element": "RadixDialog.Portal + RadixDialog.Content",
+      "props": {
+        "width": {
+          "type": "number",
+          "description": "large 사이즈의 커스텀 너비 (px). 800 초과, 화면-40px 이하. 다른 사이즈에서는 무시됨."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DrawerTopBar",
+      "role": "필수 상단바. 44px 고정 높이, 하단 border. 좌측 닫기 버튼 + 우측 액션 슬롯.",
+      "element": "div",
+      "props": {
+        "actions": {
+          "type": "ReactNode",
+          "description": "우측에 표시할 추가 액션 버튼/아이콘."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DrawerBody",
+      "role": "스크롤 가능한 콘텐츠 영역.",
+      "element": "div",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DrawerFooter",
+      "role": "선택적 하단 버튼 영역.",
+      "element": "div",
+      "props": {
+        "layout": {
+          "type": "'horizontal-hug' | 'horizontal-fill' | 'vertical-fill'",
+          "default": "horizontal-hug",
+          "description": "버튼 레이아웃."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "DrawerClose",
+      "role": "닫기 액션 래퍼. Radix Dialog.Close.",
+      "element": "RadixDialog.Close",
+      "props": {
+        "asChild": { "type": "boolean", "default": true },
+        "children": { "type": "ReactNode" }
+      }
+    }
+  ],
+
+  "context": {
+    "themeContext": {
+      "name": "DrawerThemeContext",
+      "sharedState": {
+        "triggerRef": "트리거 DOM element 참조. Portal 내부에서 조상 테마 속성을 읽기 위해 사용."
+      },
+      "themeInheritance": "triggerRef.closest('[data-theme]')에서 data-theme를 읽어 Portal 내부 wrapper에 전파."
+    },
+    "drawerContext": {
+      "name": "DrawerContext",
+      "sharedState": {
+        "size": "현재 드로어 사이즈.",
+        "hasOverlay": "오버레이 표시 여부."
+      }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xSmall": {
+        "width": "480px",
+        "description": "좁은 드로어. 간단한 정보 표시."
+      },
+      "small": {
+        "width": "640px",
+        "description": "기본 드로어. 중간 복잡도 콘텐츠."
+      },
+      "medium": {
+        "width": "800px",
+        "description": "넓은 드로어. 복잡한 폼/목록."
+      },
+      "large": {
+        "width": "custom (>800px, max: viewport - 40px)",
+        "description": "커스텀 너비 드로어."
+      }
+    }
+  },
+
+  "states": {
+    "open": {
+      "overlay": "drawer-overlay-enter, duration-slow, ease-enter",
+      "content": "drawer-content-enter, duration-slow, ease-move",
+      "selector": "data-[state=open]"
+    },
+    "closed": {
+      "overlay": "drawer-overlay-exit, duration-slow, ease-exit",
+      "content": "drawer-content-exit, duration-slow, ease-move, forwards",
+      "selector": "data-[state=closed]"
+    }
+  },
+
+  "tokens": {
+    "sizeTokens": {
+      "scope": ":root",
+      "pattern": "--comp-drawer-{property}[-{size}]",
+      "list": [
+        "--comp-drawer-width-xs: 480px",
+        "--comp-drawer-width-sm: 640px",
+        "--comp-drawer-width-md: 800px",
+        "--comp-drawer-margin: var(--spacing-10) = 40px",
+        "--comp-drawer-topbar-height: 44px",
+        "--comp-drawer-topbar-px: var(--spacing-4) = 16px",
+        "--comp-drawer-px: var(--spacing-6) = 24px",
+        "--comp-drawer-footer-px: var(--spacing-6) = 24px",
+        "--comp-drawer-footer-py: var(--spacing-4) = 16px",
+        "--comp-drawer-footer-gap: var(--spacing-2) = 8px",
+        "--comp-drawer-shadow: -4px 0px 32px rgba(0,0,0,0.12), -1px 0px 4px rgba(0,0,0,0.04)"
+      ]
+    },
+    "colorTokens": {
+      "scope": "[data-theme]",
+      "pattern": "--comp-drawer-{property}[-{state}]",
+      "list": [
+        "--comp-drawer-bg: semantic-neutral-solid-0",
+        "--comp-drawer-overlay: semantic-neutral-black-alpha-400",
+        "--comp-drawer-topbar-border: semantic-neutral-solid-100",
+        "--comp-drawer-topbar-icon: semantic-neutral-black-alpha-800",
+        "--comp-drawer-footer-border: semantic-divider-solid-100"
+      ]
+    }
+  },
+
+  "features": {
+    "themeInheritance": {
+      "mechanism": "useThemeAttributes hook. triggerRef에서 closest('[data-theme]')를 찾아 Portal wrapper에 data-theme 전파.",
+      "components": ["DrawerContent"]
+    },
+    "optionalOverlay": {
+      "description": "hasOverlay prop으로 배경 오버레이 on/off. 의사결정 콘텐츠(dialog-like) → 오버레이 사용, 정보/상세 보기 → 오버레이 미사용.",
+      "noOverlay": "오버레이 없을 때 드로어 자체 shadow 적용."
+    },
+    "topBar": {
+      "description": "44px 고정 높이 상단바. 하단 1px border. 좌측에 닫기 버튼, 우측에 커스텀 액션.",
+      "height": "44px",
+      "border": "bottom 1px, Gray/100",
+      "customization": "버튼과 아이콘 자유 커스터마이징. 요소 최대 높이 44px."
+    },
+    "slideAnimation": {
+      "enter": "drawer-content-enter: translateX(100%) → translateX(0), duration-slow, ease-move",
+      "exit": "drawer-content-exit: translateX(0) → translateX(100%), duration-slow, ease-move",
+      "direction": "오른쪽에서 슬라이드 인/아웃"
+    },
+    "maxWidth": {
+      "description": "드로어 최대 너비 = 화면 너비 - 40px. max-w-[calc(100vw-40px)].",
+      "margin": "40px"
+    },
+    "scrollableBody": {
+      "description": "Body 영역이 overflow 시 스크롤. flex-1 overflow-y-auto min-h-0.",
+      "behavior": "TopBar과 Footer는 스크롤 영향 없음."
+    }
+  },
+
+  "accessibility": {
+    "roles": "Radix Dialog이 자동 관리 (dialog role, aria-labelledby 연결)",
+    "keyboard": "Radix 내장 — Escape로 닫힘, focus trap (modal=true일 때)",
+    "scrollLock": "Radix 내장 — modal=true일 때 body 스크롤 잠금",
+    "focusReturn": "Radix 내장 — 닫힘 시 트리거로 포커스 복귀"
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Radix UI Dialog + Context (theme + drawer) + cn",
+    "compoundExport": "Object.assign(DrawerRoot, { Trigger, Content, TopBar, Body, Footer, Close })",
+    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-pretendard'> wrapper.",
+    "files": [
+      "src/components/Drawer/Drawer.tsx",
+      "src/components/Drawer/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-dialog"
+    ],
+    "variantMetadata": {
+      "DRAWER_SIZES": ["xSmall", "small", "medium", "large"],
+      "DRAWER_FOOTER_LAYOUTS": ["horizontal-hug", "horizontal-fill", "vertical-fill"]
+    },
+    "exportedTypes": [
+      "DrawerProps",
+      "DrawerTriggerProps",
+      "DrawerContentProps",
+      "DrawerTopBarProps",
+      "DrawerBodyProps",
+      "DrawerFooterProps",
+      "DrawerCloseProps",
+      "DrawerSize",
+      "DrawerFooterLayout"
+    ]
+  }
+}
