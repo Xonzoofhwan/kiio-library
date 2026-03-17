@@ -1,0 +1,142 @@
+{
+  "component": "Switch",
+  "description": "Toggle control for binary on/off states. Wraps @radix-ui/react-switch for accessibility (role=switch, aria-checked). No built-in label — consumers connect labels externally. Thumb size varies by state: smaller when unchecked, grows on hover, full size when checked.",
+  "classification": "Primitive",
+
+  "props": {
+    "checked": {
+      "type": "boolean",
+      "description": "Controlled checked state."
+    },
+    "defaultChecked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Uncontrolled initial checked state."
+    },
+    "onCheckedChange": {
+      "type": "(checked: boolean) => void",
+      "description": "Callback fired when checked state changes."
+    },
+    "size": {
+      "type": "'small' | 'medium' | 'large' | 'xLarge'",
+      "default": "medium",
+      "description": "Size variant. Controls track dimensions and thumb size."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Prevents interaction. Applies muted colors."
+    },
+    "name": {
+      "type": "string",
+      "description": "Form field name. Radix renders a hidden input internally."
+    },
+    "value": {
+      "type": "string",
+      "default": "on",
+      "description": "Value submitted with form when checked."
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Marks the field as required for form validation."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "small": {
+        "trackHeight": "16px",
+        "trackWidth": "28px",
+        "thumbUnchecked": "8px",
+        "thumbHover": "10px (+2)",
+        "thumbChecked": "12px",
+        "padding": "2px",
+        "translate": "12px",
+        "touchInset": "-4px"
+      },
+      "medium": {
+        "trackHeight": "24px",
+        "trackWidth": "44px",
+        "thumbUnchecked": "14px",
+        "thumbHover": "16px (+2)",
+        "thumbChecked": "20px",
+        "padding": "2px",
+        "translate": "20px",
+        "touchInset": "-4px"
+      },
+      "large": {
+        "trackHeight": "32px",
+        "trackWidth": "56px",
+        "thumbUnchecked": "18px",
+        "thumbHover": "22px (+4)",
+        "thumbChecked": "26px",
+        "padding": "3px",
+        "translate": "24px",
+        "touchInset": "0"
+      },
+      "xLarge": {
+        "trackHeight": "40px",
+        "trackWidth": "72px",
+        "thumbUnchecked": "24px",
+        "thumbHover": "28px (+4)",
+        "thumbChecked": "34px",
+        "padding": "3px",
+        "translate": "32px",
+        "touchInset": "0"
+      }
+    }
+  },
+
+  "states": {
+    "unchecked": {
+      "track": "bg: semantic-neutral-solid-200 (on-bright surface)",
+      "thumb": "smaller size (thumbUnchecked), white"
+    },
+    "uncheckedHover": {
+      "track": "state overlay: semantic-state-on-bright-50",
+      "thumb": "grows +2~4px (thumbHover)"
+    },
+    "uncheckedActive": {
+      "track": "state overlay: semantic-state-on-bright-70"
+    },
+    "checked": {
+      "track": "bg: semantic-primary-500 (on-dim surface)",
+      "thumb": "full size (thumbChecked), white, translate-x to right"
+    },
+    "checkedHover": {
+      "track": "state overlay: semantic-state-on-dim-50"
+    },
+    "checkedActive": {
+      "track": "state overlay: semantic-state-on-dim-70"
+    },
+    "focused": {
+      "all": "ring-2 ring-semantic-primary-300 ring-offset-2 (focus-visible only)"
+    },
+    "disabled": {
+      "unchecked": {
+        "track": "bg: semantic-neutral-solid-100",
+        "thumb": "bg: semantic-neutral-solid-50"
+      },
+      "checked": {
+        "track": "bg: semantic-primary-200",
+        "thumb": "bg: semantic-neutral-solid-50"
+      }
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-switch",
+    "stateOverlay": "Absolute <span> inside Root with group-data-[state=...]:group-hover/group-active classes. Switches between on-bright (unchecked) and on-dim (checked) overlays.",
+    "thumbAnimation": "transition-[width,height,transform] duration-fast ease-enter. Thumb size animates between 3 states (unchecked → hover → checked) and slides via translate-x.",
+    "touchTarget": "Small/medium sizes use ::after pseudo-element with inset: -4px to expand clickable area beyond visual boundary.",
+    "files": [
+      "src/components/Switch/Switch.tsx",
+      "src/components/Switch/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-switch"
+    ],
+    "tokens": "src/tokens/tokens.css — :root (size) + [data-theme] (color)"
+  }
+}
