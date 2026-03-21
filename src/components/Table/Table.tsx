@@ -41,23 +41,7 @@ function useTableContext() {
 /* ─── CVA ───────────────────────────────────────────────────────────────────── */
 
 const tableCellVariants = cva(
-  'h-[var(--comp-table-row-height)] px-[var(--comp-table-cell-px)] py-[var(--comp-table-cell-py)]',
-  {
-    variants: {
-      align: {
-        left:   'text-left',
-        center: 'text-center',
-        right:  'text-right',
-      },
-    },
-    defaultVariants: {
-      align: 'left',
-    },
-  },
-)
-
-const tableHeadVariants = cva(
-  'h-[var(--comp-table-row-height)] px-[var(--comp-table-cell-px)] py-[var(--comp-table-cell-py)]',
+  'h-[var(--comp-table-row-height)] px-[var(--comp-table-cell-px)] py-[var(--comp-table-cell-py)] align-middle',
   {
     variants: {
       align: {
@@ -93,9 +77,9 @@ const cellTypographyMap: Record<TableDensity, Record<TableCellEmphasize, string>
 }
 
 const headTypographyMap: Record<TableDensity, string> = {
-  compact:     'typography-13-medium text-[var(--comp-table-header-text)]',
-  default:     'typography-14-medium text-[var(--comp-table-header-text)]',
-  comfortable: 'typography-14-medium text-[var(--comp-table-header-text)]',
+  compact:     'typography-13-semibold text-[var(--comp-table-header-text)]',
+  default:     'typography-15-semibold text-[var(--comp-table-header-text)]',
+  comfortable: 'typography-15-semibold text-[var(--comp-table-header-text)]',
 }
 
 /* ─── Density style map ────────────────────────────────────────────────────── */
@@ -148,8 +132,8 @@ function SortIcon({ direction }: { direction: 'ascending' | 'descending' | false
 function CheckboxCheckedIcon() {
   return (
     <svg viewBox="0 0 18 18" fill="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="16" height="16" rx="3" fill="currentColor" />
-      <path d="M5 9L8 12L13 6" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="9" cy="9" r="8" fill="currentColor" />
+      <path d="M5.5 9L8 11.5L12.5 6.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -157,7 +141,7 @@ function CheckboxCheckedIcon() {
 function CheckboxUncheckedIcon() {
   return (
     <svg viewBox="0 0 18 18" fill="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1.5" y="1.5" width="15" height="15" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="9" cy="9" r="7.25" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   )
 }
@@ -165,8 +149,8 @@ function CheckboxUncheckedIcon() {
 function CheckboxIndeterminateIcon() {
   return (
     <svg viewBox="0 0 18 18" fill="none" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="16" height="16" rx="3" fill="currentColor" />
-      <path d="M5 9H13" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="9" cy="9" r="8" fill="currentColor" />
+      <path d="M5.5 9H12.5" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   )
 }
@@ -226,7 +210,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
             className={cn(
               'w-full border-collapse text-left',
               '[&_thead_th]:border-t [&_thead_th]:border-t-[var(--comp-table-border-row)]',
-              '[&_tbody>tr:not([aria-selected])]:hover:bg-[var(--comp-table-row-hover)] [&_tbody>tr:not([aria-selected])]:active:bg-[var(--comp-table-row-active)]',
+              '[&_tbody>tr:not([aria-selected]):hover]:bg-[var(--comp-table-row-hover)] [&_tbody>tr:not([aria-selected]):active]:bg-[var(--comp-table-row-active)]',
               '[&_th:not(:last-child)]:border-r [&_th:not(:last-child)]:border-r-[var(--comp-table-border-side)] [&_td:not(:last-child)]:border-r [&_td:not(:last-child)]:border-r-[var(--comp-table-border-side)]',
               divider === 'border'
                 ? '[&_th]:border-b [&_th]:border-b-[var(--comp-table-border-row)] [&_td]:border-b [&_td]:border-b-[var(--comp-table-border-row)]'
@@ -345,10 +329,22 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
     const internalRef = useRef<HTMLTableCellElement>(null)
     const resolvedRef = (ref as React.RefObject<HTMLTableCellElement>) || internalRef
     const ctx = useTableContext()
-    const { handleMouseEnter, handleMouseLeave, isHighlighted } = useColumnHighlight(
+    const { handleMouseEnter: colHighlightEnter, handleMouseLeave: colHighlightLeave, isHighlighted } = useColumnHighlight(
       resolvedRef as React.RefObject<HTMLTableCellElement | null>,
       ctx,
     )
+
+    const [isHovered, setIsHovered] = useState(false)
+
+    const handleMouseEnter = useCallback(() => {
+      setIsHovered(true)
+      colHighlightEnter()
+    }, [colHighlightEnter])
+
+    const handleMouseLeave = useCallback(() => {
+      setIsHovered(false)
+      colHighlightLeave()
+    }, [colHighlightLeave])
 
     const isSortable = sortDirection !== undefined
     const isSorted = sortDirection === 'ascending' || sortDirection === 'descending'
@@ -365,10 +361,11 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={cn(
-          tableHeadVariants({ align }),
+          tableCellVariants({ align }),
           headTypographyMap[ctx.density],
-          'group/head relative',
-          'hover:bg-[var(--comp-table-header-hover)] transition-colors duration-fast ease-enter',
+          'relative transition-colors duration-fast ease-enter',
+          isHovered && 'bg-[var(--comp-table-header-hover)]',
+          isSorted && 'bg-[var(--comp-table-header-bg-sorted)]',
           isHighlighted && 'bg-[var(--comp-table-col-highlight)]',
           sticky && 'sticky left-0 z-10 bg-[var(--comp-table-header-bg)] border-r border-r-[var(--comp-table-border-sticky)]',
           className,
@@ -393,18 +390,15 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           children
         )}
 
-        {/* Sort indicator — hover reveal with gradient text fade */}
+        {/* Sort indicator — hover-reveal via React state (Tailwind named group not reliable in JIT) */}
         {isSortable && (
           <span
             className={cn(
-              'absolute right-[var(--comp-table-cell-px)] top-1/2 -translate-y-1/2 flex items-center pointer-events-none',
-              'before:content-[""] before:absolute before:right-full before:top-0 before:h-full before:w-8',
-              'before:bg-gradient-to-r before:from-transparent before:to-[var(--comp-table-header-bg)]',
-              'group-hover/head:before:to-[var(--comp-table-header-hover)]',
-              'transition-opacity duration-fast ease-enter',
-              isSorted
-                ? ''
-                : 'opacity-0 group-hover/head:opacity-100',
+              'absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center',
+              'size-8 rounded-full pointer-events-none',
+              'transition-[opacity,background-color] duration-fast ease-enter',
+              isHovered && 'bg-[var(--comp-table-header-hover)]',
+              (isSorted || isHovered) ? 'opacity-100' : 'opacity-0',
             )}
           >
             <SortIcon direction={sortDirection} />
@@ -477,7 +471,7 @@ export const TableHeadSelect = React.forwardRef<HTMLTableCellElement, TableHeadS
       ref={ref}
       scope="col"
       className={cn(
-        'h-[var(--comp-table-row-height)] w-[var(--comp-table-select-width)] px-[var(--comp-table-cell-px)] py-[var(--comp-table-cell-py)] text-center',
+        'h-[var(--comp-table-row-height)] w-[var(--comp-table-select-width)] align-middle text-center',
         className,
       )}
       {...props}
@@ -489,11 +483,16 @@ export const TableHeadSelect = React.forwardRef<HTMLTableCellElement, TableHeadS
         aria-label={checked ? 'Deselect all rows' : 'Select all rows'}
         onClick={onChange}
         className={cn(
-          'inline-flex items-center justify-center cursor-pointer bg-transparent border-none p-0 m-0 outline-none size-[var(--comp-table-select-size)] transition-colors duration-fast ease-enter',
+          'inline-flex items-center justify-center cursor-pointer bg-transparent border-none p-0 m-0 outline-none',
+          'size-8 rounded-full',
+          'transition-colors duration-fast ease-enter',
+          'hover:bg-semantic-state-on-bright-70',
           checked || indeterminate ? 'text-semantic-primary-500' : 'text-semantic-neutral-solid-400',
         )}
       >
-        {checked ? <CheckboxCheckedIcon /> : indeterminate ? <CheckboxIndeterminateIcon /> : <CheckboxUncheckedIcon />}
+        <span className="size-[var(--comp-table-select-size)]">
+          {checked ? <CheckboxCheckedIcon /> : indeterminate ? <CheckboxIndeterminateIcon /> : <CheckboxUncheckedIcon />}
+        </span>
       </button>
     </th>
   ),
@@ -516,7 +515,7 @@ export const TableCellSelect = React.forwardRef<HTMLTableCellElement, TableCellS
     <td
       ref={ref}
       className={cn(
-        'h-[var(--comp-table-row-height)] w-[var(--comp-table-select-width)] px-[var(--comp-table-cell-px)] py-[var(--comp-table-cell-py)] text-center',
+        'h-[var(--comp-table-row-height)] w-[var(--comp-table-select-width)] align-middle text-center',
         className,
       )}
       {...props}
@@ -528,11 +527,16 @@ export const TableCellSelect = React.forwardRef<HTMLTableCellElement, TableCellS
         aria-label={checked ? 'Deselect row' : 'Select row'}
         onClick={onChange}
         className={cn(
-          'inline-flex items-center justify-center cursor-pointer bg-transparent border-none p-0 m-0 outline-none size-[var(--comp-table-select-size)] transition-colors duration-fast ease-enter',
+          'inline-flex items-center justify-center cursor-pointer bg-transparent border-none p-0 m-0 outline-none',
+          'size-8 rounded-full',
+          'transition-colors duration-fast ease-enter',
+          'hover:bg-semantic-state-on-bright-70',
           checked ? 'text-semantic-primary-500' : 'text-semantic-neutral-solid-400',
         )}
       >
-        {checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />}
+        <span className="size-[var(--comp-table-select-size)]">
+          {checked ? <CheckboxCheckedIcon /> : <CheckboxUncheckedIcon />}
+        </span>
       </button>
     </td>
   ),
