@@ -1,6 +1,16 @@
 import { useContext } from 'react'
 import { Tooltip, TOOLTIP_VARIANTS, TOOLTIP_SIDES, TOOLTIP_SIZES } from '@/components/Tooltip'
-import { Button } from '@/components/Button'
+/* Lightweight trigger button — replaces deleted Button component */
+function Button({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string }) {
+  return (
+    <button
+      className="inline-flex items-center justify-center px-4 py-2 rounded-2 typography-14-medium border border-semantic-divider-solid-200 text-semantic-text-on-bright-900 bg-semantic-background-0 hover:bg-semantic-state-on-bright-70 transition-colors duration-fast ease-enter cursor-pointer"
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 import type { TocEntry } from '@/components/showcase-layout'
 import { NavigateContext } from '@/showcase/NavigateContext'
 import { SectionTitle } from '@/showcase/shared'

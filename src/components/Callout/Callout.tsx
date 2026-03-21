@@ -11,7 +11,6 @@ import {
 } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
 import { cn } from '@/lib/utils'
-import { TextButton } from '@/components/TextButton'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
@@ -384,7 +383,7 @@ export function CalloutText({ children, className }: CalloutTextProps) {
         size === 'large' ? 'typography-16-medium' : 'typography-14-medium',
         'flex-1 min-w-0',
         size === 'large' ? 'pl-[var(--comp-callout-px)]' : 'pl-2.5',
-        size === 'large' ? 'py-[var(--comp-callout-py)]' : 'py-2.5',
+        size === 'large' ? 'py-[var(--comp-callout-py-lg)]' : 'py-[var(--comp-callout-py-md)]',
         size === 'large' ? 'pr-1.5' : 'pr-0.5',
         className,
       )}
@@ -452,24 +451,28 @@ export function CalloutAction({
   children,
   className,
 }: CalloutActionProps) {
-  const { variant, onClose } = useCalloutContext()
+  const { variant, size, onClose } = useCalloutContext()
   const surface = variant === 'white' ? 'bright' : 'dim'
 
   return (
-    <div className="flex justify-end px-[var(--comp-callout-px)] pb-[var(--comp-callout-py)]">
-      <TextButton
-        intent="systemic"
-        size="small"
-        surface={surface}
-        iconTrailing={<ArrowForwardIcon />}
+    <div className={cn('flex justify-end px-[var(--comp-callout-px)]', size === 'large' ? 'pb-[var(--comp-callout-py-lg)]' : 'pb-[var(--comp-callout-py-md)]')}>
+      <button
+        type="button"
         onClick={(e) => {
           onClick?.(e)
           if (closeOnClick) onClose()
         }}
-        className={className}
+        className={cn(
+          'inline-flex items-center gap-1 typography-14-medium cursor-pointer bg-transparent border-none p-0 transition-opacity duration-fast ease-enter hover:opacity-80',
+          surface === 'bright'
+            ? 'text-[var(--comp-callout-action-white)]'
+            : 'text-[var(--comp-callout-action-black)]',
+          className,
+        )}
       >
         {children}
-      </TextButton>
+        <ArrowForwardIcon className="w-4 h-4 flex-shrink-0" />
+      </button>
     </div>
   )
 }

@@ -40,26 +40,6 @@ body {
 }
 
 /* ----------------------------------------------------------
-   DROPDOWN MENU — Enter / Exit Animations
-   ---------------------------------------------------------- */
-@keyframes dropdown-enter {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes dropdown-exit {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-4px); }
-}
-@keyframes dropdown-sub-enter {
-  from { opacity: 0; transform: translateX(-4px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes dropdown-sub-exit {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(-4px); }
-}
-
-/* ----------------------------------------------------------
    TOOLTIP / CALLOUT — Enter / Exit Animations
    ---------------------------------------------------------- */
 @keyframes tooltip-enter {
@@ -69,64 +49,4 @@ body {
 @keyframes tooltip-exit {
   from { opacity: 1; transform: scale(1); }
   to   { opacity: 0; transform: scale(0.96); }
-}
-
-/* ----------------------------------------------------------
-   TOAST — Enter / Exit Animations
-   ---------------------------------------------------------- */
-@keyframes toast-enter-bottom {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes toast-exit-bottom {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(8px); }
-}
-@keyframes toast-enter-top {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes toast-exit-top {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-8px); }
-}
-
-/* ----------------------------------------------------------
-   DIALOG — Enter / Exit Animations
-   ---------------------------------------------------------- */
-@keyframes dialog-overlay-enter {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes dialog-overlay-exit {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-@keyframes dialog-content-enter {
-  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-@keyframes dialog-content-exit {
-  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  to   { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-}
-
-/* ----------------------------------------------------------
-   DRAWER — Enter / Exit Animations
-   ---------------------------------------------------------- */
-@keyframes drawer-overlay-enter {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes drawer-overlay-exit {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-@keyframes drawer-content-enter {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
-}
-@keyframes drawer-content-exit {
-  from { transform: translateX(0); }
-  to   { transform: translateX(100%); }
 }

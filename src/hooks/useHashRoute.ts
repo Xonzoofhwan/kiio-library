@@ -1,12 +1,7 @@
 import { useState, useEffect, useCallback, useRef, type MutableRefObject } from 'react'
 
 const VALID_IDS = new Set([
-  'home', 'button', 'icon-button', 'text-button', 'chip', 'textfield',
-  'textarea', 'taginput', 'searchfield', 'tab', 'dropdown-menu', 'select',
-  'badge', 'segment-bar', 'sidenav', 'formfield', 'tooltip', 'callout',
-  'switch', 'toast', 'dialog', 'drawer', 'table', 'data-table', 'pagination',
-  'divider', 'skeleton', 'breadcrumb', 'progress', 'radio-group',
-  'accordion', 'slider', 'stepper', 'popover',
+  'home', 'tooltip', 'callout',
 ])
 
 function parseHash(): string {

@@ -1,6 +1,5 @@
 import { useState, useMemo, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
-import { Switch } from '@/components/Switch'
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Types
@@ -159,7 +158,21 @@ function PlaygroundControl({
       </span>
 
       {control.kind === 'boolean' && (
-        <Switch size="small" checked={value as boolean} onCheckedChange={onChange} />
+        <button
+          type="button"
+          role="switch"
+          aria-checked={value as boolean}
+          onClick={() => onChange(!(value as boolean))}
+          className={cn(
+            'relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-fast ease-enter cursor-pointer',
+            (value as boolean) ? 'bg-semantic-primary-500' : 'bg-semantic-neutral-solid-300',
+          )}
+        >
+          <span className={cn(
+            'inline-block h-4 w-4 rounded-full bg-white transition-transform duration-fast ease-enter',
+            (value as boolean) ? 'translate-x-[18px]' : 'translate-x-[2px]',
+          )} />
+        </button>
       )}
 
       {control.kind === 'select' && (

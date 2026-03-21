@@ -7,7 +7,17 @@ import {
   CALLOUT_SIZES,
 } from '@/components/Callout'
 import type { CalloutVariant, CalloutSide, CalloutDismissMode, CalloutSize } from '@/components/Callout'
-import { Button } from '@/components/Button'
+/* Lightweight trigger button — replaces deleted Button component */
+function Button({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string }) {
+  return (
+    <button
+      className="inline-flex items-center justify-center px-4 py-2 rounded-2 typography-14-medium border border-semantic-divider-solid-200 text-semantic-text-on-bright-900 bg-semantic-background-0 hover:bg-semantic-state-on-bright-70 transition-colors duration-fast ease-enter cursor-pointer"
+      {...props}
+    >
+      {children}
+    </button>
+  )
+}
 import type { TocEntry } from '@/components/showcase-layout'
 import { NavigateContext } from '@/showcase/NavigateContext'
 import { SectionTitle } from '@/showcase/shared'
@@ -164,7 +174,8 @@ const tokenGroups: TokenGroupData[] = [
     tokens: [
       { name: '--comp-callout-max-w', value: '320px' },
       { name: '--comp-callout-px', value: '14px' },
-      { name: '--comp-callout-py', value: '12px' },
+      { name: '--comp-callout-py-md', value: '12px' },
+      { name: '--comp-callout-py-lg', value: '14px' },
       { name: '--comp-callout-radius', value: '8px' },
       { name: '--comp-callout-arrow-w', value: '16px' },
       { name: '--comp-callout-arrow-h', value: '8px' },
