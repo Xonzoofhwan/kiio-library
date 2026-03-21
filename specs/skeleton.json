@@ -1,0 +1,122 @@
+{
+  "component": "Skeleton",
+  "description": "콘텐츠 로딩 중 레이아웃을 유지하는 플레이스홀더 컴포넌트. text(줄), circular(원형), rectangular(사각형) 3가지 형태와 pulse/wave/none 애니메이션을 지원한다.",
+  "classification": "Primitive (non-interactive, display-only)",
+
+  "props": {
+    "variant": {
+      "type": "'text' | 'circular' | 'rectangular'",
+      "default": "text",
+      "description": "플레이스홀더 형태. text=줄 형태, circular=원형(아바타), rectangular=사각형(이미지/카드).",
+      "metadataArray": "SKELETON_VARIANTS"
+    },
+    "animation": {
+      "type": "'pulse' | 'wave' | 'none'",
+      "default": "pulse",
+      "description": "애니메이션 타입. pulse=투명도 반복, wave=shimmer gradient, none=정적.",
+      "metadataArray": "SKELETON_ANIMATIONS"
+    },
+    "width": {
+      "type": "string | number",
+      "default": null,
+      "description": "커스텀 너비. 숫자=px, 문자열=CSS 단위. 미지정 시 variant 기본값 적용."
+    },
+    "height": {
+      "type": "string | number",
+      "default": null,
+      "description": "커스텀 높이. 숫자=px, 문자열=CSS 단위. 미지정 시 variant 기본값 적용."
+    },
+    "lines": {
+      "type": "number",
+      "default": 1,
+      "description": "text variant 전용. 여러 줄 렌더링. 마지막 줄은 80% 너비."
+    },
+    "className": {
+      "type": "string",
+      "default": null,
+      "description": "추가 CSS 클래스."
+    }
+  },
+
+  "variants": {
+    "variant": {
+      "text": {
+        "defaultSize": "height: 16px, width: 100%",
+        "radius": "4px (radius-1)"
+      },
+      "circular": {
+        "defaultSize": "40×40px",
+        "radius": "9999px (rounded-full)"
+      },
+      "rectangular": {
+        "defaultSize": "width: 100%, height: 200px",
+        "radius": "8px (radius-2)"
+      }
+    },
+    "animation": {
+      "pulse": {
+        "type": "opacity animation",
+        "keyframes": "opacity 1.0 → 0.4 → 1.0",
+        "duration": "1.5s",
+        "easing": "ease-in-out",
+        "iteration": "infinite"
+      },
+      "wave": {
+        "type": "shimmer gradient sweep",
+        "keyframes": "background-position -200% → 200%",
+        "gradient": "linear-gradient(90deg, transparent 0%, highlight 50%, transparent 100%)",
+        "duration": "1.5s",
+        "easing": "linear",
+        "iteration": "infinite"
+      },
+      "none": {
+        "type": "static, no animation"
+      }
+    }
+  },
+
+  "states": {
+    "note": "Skeleton은 non-interactive 컴포넌트. hover, focus, pressed, disabled, loading 상태 없음."
+  },
+
+  "tokens": {
+    "sizeSpacing": {
+      "layer": ":root",
+      "naming": "--comp-skeleton-{property}[-{variant}]",
+      "list": [
+        "--comp-skeleton-height-text: 16px",
+        "--comp-skeleton-size-circular: 40px",
+        "--comp-skeleton-height-rect: 200px",
+        "--comp-skeleton-radius-text: var(--radius-1)",
+        "--comp-skeleton-radius-rect: var(--radius-2)",
+        "--comp-skeleton-line-gap: var(--spacing-2)"
+      ]
+    },
+    "color": {
+      "layer": "[data-theme]",
+      "naming": "--comp-skeleton-{property}",
+      "list": [
+        "--comp-skeleton-bg: var(--semantic-neutral-solid-100)",
+        "--comp-skeleton-highlight: var(--semantic-neutral-solid-200)"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn",
+    "element": "div (aria-hidden=true, no semantic role needed)",
+    "animations": "CSS @keyframes in tokens.css or inline via Tailwind animate-* + tailwind.config.js",
+    "multiLine": "lines prop renders multiple div elements in a flex column with gap. Last line gets w-4/5.",
+    "customSize": "width/height props applied via inline style for flexibility",
+    "files": [
+      "src/components/Skeleton/Skeleton.tsx",
+      "src/components/Skeleton/index.ts"
+    ],
+    "dependencies": [],
+    "exports": {
+      "components": ["Skeleton"],
+      "types": ["SkeletonProps", "SkeletonVariant", "SkeletonAnimation"],
+      "metadata": ["SKELETON_VARIANTS", "SKELETON_ANIMATIONS"]
+    }
+  }
+}

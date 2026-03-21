@@ -645,6 +645,45 @@ export default {
         move:   'var(--semantic-easing-move)',
         linear: 'var(--semantic-easing-linear)',
       },
+
+      // --------------------------------------------------------
+      // SKELETON ANIMATIONS
+      // --------------------------------------------------------
+      keyframes: {
+        'skeleton-pulse': {
+          '0%, 100%': { opacity: '1' },
+          '50%':      { opacity: '0.4' },
+        },
+        'skeleton-wave': {
+          '0%':   { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+        'progress-indeterminate': {
+          '0%':   { transform: 'translateX(-100%)' },
+          '50%':  { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(200%)' },
+        },
+        'progress-spin': {
+          '0%':   { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'accordion-down': {
+          from: { height: '0' },
+          to:   { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to:   { height: '0' },
+        },
+      },
+      animation: {
+        'skeleton-pulse': 'skeleton-pulse 1.5s ease-in-out infinite',
+        'skeleton-wave':  'skeleton-wave 1.5s linear infinite',
+        'progress-indeterminate': 'progress-indeterminate 1.5s ease-in-out infinite',
+        'progress-spin': 'progress-spin 1.4s linear infinite',
+        'accordion-down': 'accordion-down 200ms ease-out',
+        'accordion-up':   'accordion-up 200ms ease-out',
+      },
     },
   },
   plugins: [

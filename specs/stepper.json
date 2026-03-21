@@ -1,0 +1,155 @@
+{
+  "component": "Stepper",
+  "description": "멀티스텝 프로세스의 진행 상황을 시각적으로 표시하는 컴포넌트. 인디케이터(번호/dot) + 커넥터 라인 + 라벨/설명으로 구성. navigable 옵션으로 완료 스텝 클릭 이동 on/off.",
+  "classification": "Compound (feedback, interactive optional)",
+
+  "subComponents": [
+    {
+      "name": "Stepper",
+      "description": "Root wrapper. Context(currentStep, size, orientation, variant, navigable, onStepClick) 제공.",
+      "element": "div[role=list]"
+    },
+    {
+      "name": "StepItem",
+      "description": "개별 스텝. 인디케이터 원 + 커넥터 + 라벨 + 설명. 상태는 currentStep 기준 자동 계산, status prop으로 override 가능.",
+      "element": "div[role=listitem]"
+    }
+  ],
+
+  "props": {
+    "Stepper": {
+      "currentStep": { "type": "number", "description": "0-based 현재 스텝 인덱스." },
+      "size": {
+        "type": "'small' | 'medium' | 'large'",
+        "default": "medium",
+        "metadataArray": "STEPPER_SIZES"
+      },
+      "orientation": {
+        "type": "'horizontal' | 'vertical'",
+        "default": "horizontal",
+        "metadataArray": "STEPPER_ORIENTATIONS"
+      },
+      "variant": {
+        "type": "'numbered' | 'dot'",
+        "default": "numbered",
+        "description": "인디케이터 표시 형태. numbered=숫자, dot=점.",
+        "metadataArray": "STEPPER_VARIANTS"
+      },
+      "navigable": {
+        "type": "boolean",
+        "default": false,
+        "description": "완료 스텝 클릭 이동 on/off."
+      },
+      "onStepClick": { "type": "(index: number) => void", "description": "navigable 시 스텝 클릭 콜백." }
+    },
+    "StepItem": {
+      "label": { "type": "string", "description": "스텝 라벨." },
+      "description": { "type": "string", "description": "보조 설명." },
+      "status": {
+        "type": "'completed' | 'current' | 'upcoming' | 'error'",
+        "default": null,
+        "description": "수동 상태 override. null이면 currentStep 기준 자동."
+      },
+      "icon": { "type": "ReactNode", "description": "커스텀 아이콘. completed 기본=체크." }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "small": {
+        "indicator": "24px",
+        "connectorWidth": "2px",
+        "gap": "8px",
+        "connectorGap": "4px",
+        "labelTypography": "typography-13-medium",
+        "descriptionTypography": "typography-12-regular",
+        "indicatorTypography": "typography-12-semibold",
+        "dotSize": "8px"
+      },
+      "medium": {
+        "indicator": "32px",
+        "connectorWidth": "2px",
+        "gap": "12px",
+        "connectorGap": "4px",
+        "labelTypography": "typography-14-medium",
+        "descriptionTypography": "typography-13-regular",
+        "indicatorTypography": "typography-13-semibold",
+        "dotSize": "10px"
+      },
+      "large": {
+        "indicator": "40px",
+        "connectorWidth": "2px",
+        "gap": "16px",
+        "connectorGap": "4px",
+        "labelTypography": "typography-16-medium",
+        "descriptionTypography": "typography-14-regular",
+        "indicatorTypography": "typography-14-semibold",
+        "dotSize": "12px"
+      }
+    }
+  },
+
+  "states": {
+    "completed": { "bg": "primary-500", "content": "neutral-0 (check icon)", "connector": "primary-500" },
+    "current":   { "bg": "transparent", "border": "primary-500 (2px)", "content": "primary-500", "connector": "neutral-solid-200" },
+    "upcoming":  { "bg": "neutral-solid-100", "content": "neutral-solid-400", "connector": "neutral-solid-200" },
+    "error":     { "bg": "error-500", "content": "neutral-0 (X icon)", "connector": "unchanged" }
+  },
+
+  "tokens": {
+    "sizeSpacing": {
+      "layer": ":root",
+      "list": [
+        "--comp-stepper-indicator-sm: 24px",
+        "--comp-stepper-indicator-md: 32px",
+        "--comp-stepper-indicator-lg: 40px",
+        "--comp-stepper-connector-width: 2px",
+        "--comp-stepper-gap-sm: var(--spacing-2)",
+        "--comp-stepper-gap-md: var(--spacing-3)",
+        "--comp-stepper-gap-lg: var(--spacing-4)",
+        "--comp-stepper-connector-gap: var(--spacing-1)",
+        "--comp-stepper-dot-sm: 8px",
+        "--comp-stepper-dot-md: 10px",
+        "--comp-stepper-dot-lg: 12px"
+      ]
+    },
+    "color": {
+      "layer": "[data-theme]",
+      "list": [
+        "--comp-stepper-completed-bg: var(--semantic-primary-500)",
+        "--comp-stepper-completed-content: var(--semantic-neutral-solid-0)",
+        "--comp-stepper-current-border: var(--semantic-primary-500)",
+        "--comp-stepper-current-content: var(--semantic-primary-500)",
+        "--comp-stepper-upcoming-bg: var(--semantic-neutral-solid-100)",
+        "--comp-stepper-upcoming-content: var(--semantic-neutral-solid-400)",
+        "--comp-stepper-connector-active: var(--semantic-primary-500)",
+        "--comp-stepper-connector-inactive: var(--semantic-neutral-solid-200)",
+        "--comp-stepper-error-bg: var(--semantic-error-500)",
+        "--comp-stepper-error-content: var(--semantic-neutral-solid-0)",
+        "--comp-stepper-label: var(--semantic-text-on-bright-900)",
+        "--comp-stepper-description: var(--semantic-text-on-bright-600)",
+        "--comp-stepper-label-upcoming: var(--semantic-text-on-bright-400)",
+        "--comp-stepper-focus-ring: var(--semantic-primary-300)"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "Compound + Context + cn",
+    "context": "StepperContext: { currentStep, size, orientation, variant, navigable, onStepClick, totalSteps }",
+    "autoStatus": "StepItem index derived from React.Children.toArray position. If status prop not set: index < currentStep → completed, === → current, > → upcoming.",
+    "navigation": "navigable + completed → button role, onClick, cursor-pointer, focus-visible ring. Otherwise div.",
+    "connector": "Rendered inside StepItem. Not shown on last item. Horizontal: flex-1 height connector-width. Vertical: width connector-width flex-1.",
+    "icons": "Check (completed): inline SVG. X (error): inline SVG. Numbered: text. Dot: circle div.",
+    "files": [
+      "src/components/Stepper/Stepper.tsx",
+      "src/components/Stepper/index.ts"
+    ],
+    "dependencies": [],
+    "exports": {
+      "components": ["Stepper", "StepItem"],
+      "types": ["StepperProps", "StepItemProps", "StepperSize", "StepperOrientation", "StepperVariant"],
+      "metadata": ["STEPPER_SIZES", "STEPPER_ORIENTATIONS", "STEPPER_VARIANTS"]
+    }
+  }
+}

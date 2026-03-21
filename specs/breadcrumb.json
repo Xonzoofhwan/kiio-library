@@ -1,0 +1,140 @@
+{
+  "component": "Breadcrumb",
+  "description": "계층 내비게이션 경로를 표시하는 컴포넌트. 크기 변형, 구분자 커스터마이즈, maxItems 초과 시 ellipsis 축소를 지원한다.",
+  "classification": "Compound (navigation, interactive links)",
+
+  "subComponents": [
+    {
+      "name": "Breadcrumb",
+      "description": "Root wrapper. nav[aria-label=breadcrumb] > ol.",
+      "element": "nav"
+    },
+    {
+      "name": "BreadcrumbItem",
+      "description": "개별 경로 항목. 링크 또는 현재 페이지.",
+      "element": "li"
+    },
+    {
+      "name": "BreadcrumbLink",
+      "description": "클릭 가능한 링크. href 또는 onClick.",
+      "element": "a"
+    },
+    {
+      "name": "BreadcrumbPage",
+      "description": "현재 페이지 (비활성, aria-current=page).",
+      "element": "span"
+    },
+    {
+      "name": "BreadcrumbSeparator",
+      "description": "항목 사이 구분자. 기본 '/' 또는 chevron. children으로 커스텀 가능.",
+      "element": "li[role=presentation]"
+    },
+    {
+      "name": "BreadcrumbEllipsis",
+      "description": "축소된 항목 대체 표시. 클릭 시 숨겨진 항목 드롭다운.",
+      "element": "span"
+    }
+  ],
+
+  "props": {
+    "size": {
+      "type": "'small' | 'medium' | 'large'",
+      "default": "medium",
+      "description": "텍스트 + 구분자 + 아이콘 크기.",
+      "metadataArray": "BREADCRUMB_SIZES"
+    },
+    "separator": {
+      "type": "ReactNode",
+      "default": "'/'",
+      "description": "커스텀 구분자. 문자열, 아이콘, 또는 ReactNode."
+    },
+    "maxItems": {
+      "type": "number",
+      "default": null,
+      "description": "표시할 최대 항목 수. 초과 시 중간 항목을 ellipsis로 축소. null=모두 표시."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "small": {
+        "typography-link": "typography-13-regular",
+        "typography-page": "typography-13-medium",
+        "separator-size": "14px (typography-13-regular)",
+        "gap": "4px (spacing-1)"
+      },
+      "medium": {
+        "typography-link": "typography-14-regular",
+        "typography-page": "typography-14-medium",
+        "separator-size": "16px",
+        "gap": "6px (spacing-1.5)"
+      },
+      "large": {
+        "typography-link": "typography-16-regular",
+        "typography-page": "typography-16-medium",
+        "separator-size": "18px",
+        "gap": "8px (spacing-2)"
+      }
+    }
+  },
+
+  "states": {
+    "link": {
+      "default": "text-on-bright-600",
+      "hover": "text-on-bright-900, underline",
+      "focused": "focus-visible ring",
+      "disabled": "text-on-bright-400, pointer-events-none"
+    },
+    "page": {
+      "default": "text-on-bright-900, font-weight medium, aria-current=page"
+    },
+    "separator": {
+      "default": "text-on-bright-400, non-interactive"
+    },
+    "ellipsis": {
+      "default": "text-on-bright-400",
+      "hover": "text-on-bright-600"
+    }
+  },
+
+  "tokens": {
+    "sizeSpacing": {
+      "layer": ":root",
+      "naming": "--comp-breadcrumb-{property}[-{size}]",
+      "list": [
+        "--comp-breadcrumb-gap-sm: var(--spacing-1)",
+        "--comp-breadcrumb-gap-md: var(--spacing-1.5)",
+        "--comp-breadcrumb-gap-lg: var(--spacing-2)"
+      ]
+    },
+    "color": {
+      "layer": "[data-theme]",
+      "naming": "--comp-breadcrumb-{property}",
+      "list": [
+        "--comp-breadcrumb-link: var(--semantic-text-on-bright-600)",
+        "--comp-breadcrumb-link-hover: var(--semantic-text-on-bright-900)",
+        "--comp-breadcrumb-page: var(--semantic-text-on-bright-900)",
+        "--comp-breadcrumb-separator: var(--semantic-text-on-bright-400)",
+        "--comp-breadcrumb-disabled: var(--semantic-text-on-bright-400)",
+        "--comp-breadcrumb-focus-ring: var(--semantic-primary-300)"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "Compound + CVA + cn",
+    "accessibility": "nav[aria-label=breadcrumb], ol > li structure, aria-current=page on current item",
+    "ellipsis": "maxItems prop triggers collapsing: first item + ellipsis + last (maxItems-1) items. Ellipsis can optionally integrate with DropdownMenu.",
+    "separator": "Auto-inserted between items via React.Children mapping or explicit BreadcrumbSeparator",
+    "files": [
+      "src/components/Breadcrumb/Breadcrumb.tsx",
+      "src/components/Breadcrumb/index.ts"
+    ],
+    "dependencies": [],
+    "exports": {
+      "components": ["Breadcrumb", "BreadcrumbItem", "BreadcrumbLink", "BreadcrumbPage", "BreadcrumbSeparator", "BreadcrumbEllipsis"],
+      "types": ["BreadcrumbProps", "BreadcrumbSize"],
+      "metadata": ["BREADCRUMB_SIZES"]
+    }
+  }
+}

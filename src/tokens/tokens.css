@@ -898,6 +898,142 @@
   --comp-badge-dot-size: 8px;
 
   /* ----------------------------------------------------------
+     COMPONENT TOKENS — Divider (size/spacing layer)
+     Naming: --comp-divider-{property}[-{variant}]
+     Divider is display-only. Orientation × spacing × weight.
+     ---------------------------------------------------------- */
+
+  /* ─── Weight (thickness) ─── */
+  --comp-divider-weight-thin:  1px;
+  --comp-divider-weight-thick: 2px;
+
+  /* ─── Spacing presets (margin on both sides) ─── */
+  --comp-divider-spacing-none:     0px;
+  --comp-divider-spacing-compact:  var(--spacing-1);     /* 4px */
+  --comp-divider-spacing-default:  var(--spacing-2);     /* 8px */
+  --comp-divider-spacing-spacious: var(--spacing-4);     /* 16px */
+
+  /* ─── Label gap ─── */
+  --comp-divider-label-gap: var(--spacing-2);            /* 8px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Popover (size/spacing layer)
+     Naming: --comp-popover-{property}
+     ---------------------------------------------------------- */
+  --comp-popover-radius:       var(--radius-3);        /* 12px */
+  --comp-popover-padding-x:    var(--spacing-4);       /* 16px */
+  --comp-popover-padding-y:    var(--spacing-3);       /* 12px */
+  --comp-popover-arrow-width:  16px;
+  --comp-popover-arrow-height: 8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Stepper (size/spacing layer)
+     Naming: --comp-stepper-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-stepper-indicator-sm:   24px;
+  --comp-stepper-indicator-md:   32px;
+  --comp-stepper-indicator-lg:   40px;
+  --comp-stepper-connector-width: 2px;
+  --comp-stepper-gap-sm:         var(--spacing-2);       /* 8px */
+  --comp-stepper-gap-md:         var(--spacing-3);       /* 12px */
+  --comp-stepper-gap-lg:         var(--spacing-4);       /* 16px */
+  --comp-stepper-connector-gap:  var(--spacing-1);       /* 4px */
+  --comp-stepper-dot-sm:         8px;
+  --comp-stepper-dot-md:         10px;
+  --comp-stepper-dot-lg:         12px;
+  --comp-stepper-connector-min-h: 24px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Slider (size/spacing layer)
+     Naming: --comp-slider-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-slider-track-height-sm: 4px;
+  --comp-slider-track-height-md: 6px;
+  --comp-slider-track-height-lg: 8px;
+  --comp-slider-thumb-sm:        16px;
+  --comp-slider-thumb-md:        20px;
+  --comp-slider-thumb-lg:        24px;
+  --comp-slider-mark-size:       6px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Accordion (size/spacing layer)
+     Naming: --comp-accordion-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-accordion-trigger-py-sm:      10px;
+  --comp-accordion-trigger-py-md:      14px;
+  --comp-accordion-trigger-py-lg:      18px;
+  --comp-accordion-trigger-px-sm:      var(--spacing-3);        /* 12px */
+  --comp-accordion-trigger-px-md:      var(--spacing-4);        /* 16px */
+  --comp-accordion-trigger-px-lg:      var(--spacing-5);        /* 20px */
+  --comp-accordion-content-padding-sm: var(--spacing-3);        /* 12px */
+  --comp-accordion-content-padding-md: var(--spacing-4);        /* 16px */
+  --comp-accordion-content-padding-lg: var(--spacing-5);        /* 20px */
+  --comp-accordion-chevron-sm:         16px;
+  --comp-accordion-chevron-md:         18px;
+  --comp-accordion-chevron-lg:         20px;
+  --comp-accordion-radius:             var(--radius-2);         /* 8px */
+  --comp-accordion-separated-gap:      var(--spacing-2);        /* 8px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — RadioGroup (size/spacing layer)
+     Naming: --comp-radio-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-radio-size-md:      20px;
+  --comp-radio-size-lg:      24px;
+  --comp-radio-dot-md:       8px;
+  --comp-radio-dot-lg:       10px;
+  --comp-radio-gap-md:       var(--spacing-2);       /* 8px */
+  --comp-radio-gap-lg:       var(--spacing-2\.5);    /* 10px */
+  --comp-radio-item-gap-md:  var(--spacing-3);       /* 12px */
+  --comp-radio-item-gap-lg:  var(--spacing-4);       /* 16px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Progress (size/spacing layer)
+     Naming: --comp-progress-{sub}-{property}[-{size}]
+     ---------------------------------------------------------- */
+
+  /* ─── ProgressBar ─── */
+  --comp-progress-bar-height-sm: 4px;
+  --comp-progress-bar-height-md: 8px;
+  --comp-progress-bar-height-lg: 12px;
+  --comp-progress-bar-radius-sm: 2px;
+  --comp-progress-bar-radius-md: var(--radius-1);     /* 4px */
+  --comp-progress-bar-radius-lg: var(--radius-1\.5);   /* 6px */
+
+  /* ─── ProgressCircle ─── */
+  --comp-progress-circle-size-sm: 32px;
+  --comp-progress-circle-size-md: 48px;
+  --comp-progress-circle-size-lg: 64px;
+  --comp-progress-circle-stroke-sm: 3px;
+  --comp-progress-circle-stroke-md: 4px;
+  --comp-progress-circle-stroke-lg: 5px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Breadcrumb (size/spacing layer)
+     Naming: --comp-breadcrumb-{property}[-{size}]
+     ---------------------------------------------------------- */
+  --comp-breadcrumb-gap-sm: var(--spacing-1);        /* 4px */
+  --comp-breadcrumb-gap-md: var(--spacing-1\.5);     /* 6px */
+  --comp-breadcrumb-gap-lg: var(--spacing-2);        /* 8px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Skeleton (size/spacing layer)
+     Naming: --comp-skeleton-{property}[-{variant}]
+     ---------------------------------------------------------- */
+
+  /* ─── Default dimensions per variant ─── */
+  --comp-skeleton-height-text:    16px;
+  --comp-skeleton-size-circular:  40px;
+  --comp-skeleton-height-rect:    200px;
+
+  /* ─── Border radius ─── */
+  --comp-skeleton-radius-text: var(--radius-1);    /* 4px */
+  --comp-skeleton-radius-rect: var(--radius-2);    /* 8px */
+
+  /* ─── Multi-line gap ─── */
+  --comp-skeleton-line-gap: var(--spacing-2);      /* 8px */
+
+  /* ----------------------------------------------------------
      COMPONENT TOKENS — Tooltip (size/spacing layer)
      Naming: --comp-tooltip-{property}
      ---------------------------------------------------------- */
@@ -2174,7 +2310,8 @@
 
   /* ─── Header text ─── */
   --comp-table-header-text:           var(--semantic-text-on-bright-600);
-  --comp-table-header-text-sorted:    var(--semantic-text-on-bright-900);
+  --comp-table-header-text-sorted:    var(--semantic-primary-800);
+  --comp-table-header-bg-sorted:      var(--semantic-primary-50);
 
   /* ─── Borders ─── */
   --comp-table-border-row:            var(--semantic-divider-solid-100);
@@ -2204,4 +2341,151 @@
   --comp-table-btn-brand-hover:       var(--semantic-primary-50);
   --comp-table-btn-error:             var(--semantic-error-500);
   --comp-table-btn-error-hover:       var(--semantic-error-50);
+}
+
+/* ============================================================
+   COMPONENT TOKENS — Pagination
+   Naming: --comp-pagination-{property}[-{variant}]
+   ============================================================ */
+
+:root {
+  --comp-pagination-btn-size:         var(--spacing-8);   /* 32px */
+  --comp-pagination-btn-radius:       var(--spacing-2);   /* 8px  */
+  --comp-pagination-icon-size:        var(--spacing-5);   /* 20px */
+  --comp-pagination-gap:              var(--spacing-2);   /* 8px  */
+}
+
+[data-theme="light"],
+[data-theme="dark"] {
+  /* ─── Page number buttons ─── */
+  --comp-pagination-page-text:             var(--semantic-neutral-black-alpha-500);
+  --comp-pagination-page-active-bg:        var(--semantic-neutral-black-alpha-800);
+  --comp-pagination-page-active-bg-hover:  var(--semantic-neutral-black-alpha-700);
+  --comp-pagination-page-active-text:      var(--semantic-neutral-white-alpha-950);
+
+  /* ─── Nav buttons (prev/next/jump) ─── */
+  --comp-pagination-nav-text:              var(--semantic-neutral-black-alpha-700);
+  --comp-pagination-nav-disabled:          var(--semantic-neutral-black-alpha-300);
+
+  /* ─── Ellipsis & label ─── */
+  --comp-pagination-ellipsis-text:         var(--semantic-neutral-black-alpha-300);
+  --comp-pagination-label-text:            var(--semantic-neutral-black-alpha-700);
+
+  /* ─── Per-page / overflow select bg ─── */
+  --comp-pagination-select-bg:             var(--semantic-neutral-black-alpha-70);
+
+  /* ─── Minimal dots ─── */
+  --comp-pagination-dot-active:            var(--semantic-neutral-black-alpha-700);
+  --comp-pagination-dot-inactive:          var(--semantic-neutral-black-alpha-200);
+  --comp-pagination-dot-bg:               var(--semantic-neutral-black-alpha-100);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Divider (color layer)
+     ---------------------------------------------------------- */
+  --comp-divider-color:       var(--semantic-divider-solid-100);
+  --comp-divider-label-color: var(--semantic-text-on-bright-500);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Popover (color layer)
+     ---------------------------------------------------------- */
+  --comp-popover-bg:     var(--semantic-background-0);
+  --comp-popover-border: var(--semantic-divider-solid-100);
+  --comp-popover-shadow: 0px 1px 4px rgba(0,0,0,0.04), 0px 4px 24px rgba(0,0,0,0.12);
+  --comp-popover-arrow:  var(--semantic-background-0);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Stepper (color layer)
+     ---------------------------------------------------------- */
+  --comp-stepper-completed-bg:      var(--semantic-primary-500);
+  --comp-stepper-completed-content: var(--semantic-neutral-solid-0);
+  --comp-stepper-current-border:    var(--semantic-primary-500);
+  --comp-stepper-current-content:   var(--semantic-primary-500);
+  --comp-stepper-upcoming-bg:       var(--semantic-neutral-solid-100);
+  --comp-stepper-upcoming-content:  var(--semantic-neutral-solid-400);
+  --comp-stepper-connector-active:  var(--semantic-primary-500);
+  --comp-stepper-connector-inactive: var(--semantic-neutral-solid-200);
+  --comp-stepper-error-bg:          var(--semantic-error-500);
+  --comp-stepper-error-content:     var(--semantic-neutral-solid-0);
+  --comp-stepper-label:             var(--semantic-text-on-bright-900);
+  --comp-stepper-description:       var(--semantic-text-on-bright-600);
+  --comp-stepper-label-upcoming:    var(--semantic-text-on-bright-400);
+  --comp-stepper-focus-ring:        var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Slider (color layer)
+     ---------------------------------------------------------- */
+  --comp-slider-track:                 var(--semantic-neutral-solid-200);
+  --comp-slider-range-systemic:        var(--semantic-neutral-solid-600);
+  --comp-slider-range-brand:           var(--semantic-primary-500);
+  --comp-slider-thumb-bg:              var(--semantic-neutral-solid-0);
+  --comp-slider-thumb-border-systemic: var(--semantic-neutral-solid-600);
+  --comp-slider-thumb-border-brand:    var(--semantic-primary-500);
+  --comp-slider-thumb-shadow:          0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --comp-slider-track-disabled:        var(--semantic-neutral-solid-100);
+  --comp-slider-range-disabled:        var(--semantic-neutral-solid-300);
+  --comp-slider-thumb-disabled:        var(--semantic-neutral-solid-200);
+  --comp-slider-thumb-border-disabled: var(--semantic-neutral-solid-300);
+  --comp-slider-focus-ring:            var(--semantic-primary-300);
+  --comp-slider-mark:                  var(--semantic-neutral-solid-400);
+  --comp-slider-mark-label:            var(--semantic-text-on-bright-500);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Accordion (color layer)
+     ---------------------------------------------------------- */
+  --comp-accordion-border:         var(--semantic-divider-solid-100);
+  --comp-accordion-trigger-text:   var(--semantic-text-on-bright-900);
+  --comp-accordion-trigger-hover:  var(--semantic-state-on-bright-50);
+  --comp-accordion-chevron:        var(--semantic-text-on-bright-500);
+  --comp-accordion-content-text:   var(--semantic-text-on-bright-700);
+  --comp-accordion-disabled-text:  var(--semantic-text-on-bright-400);
+  --comp-accordion-focus-ring:     var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — RadioGroup (color layer)
+     ---------------------------------------------------------- */
+  --comp-radio-border:                var(--semantic-neutral-solid-300);
+  --comp-radio-border-hover:          var(--semantic-neutral-solid-400);
+  --comp-radio-border-checked:        var(--semantic-primary-500);
+  --comp-radio-border-checked-hover:  var(--semantic-primary-600);
+  --comp-radio-bg-checked:            var(--semantic-primary-500);
+  --comp-radio-dot:                   var(--semantic-neutral-solid-0);
+  --comp-radio-border-disabled:       var(--semantic-neutral-solid-200);
+  --comp-radio-bg-disabled:           var(--semantic-neutral-solid-50);
+  --comp-radio-bg-checked-disabled:   var(--semantic-neutral-solid-300);
+  --comp-radio-label:                 var(--semantic-text-on-bright-900);
+  --comp-radio-description:           var(--semantic-text-on-bright-600);
+  --comp-radio-label-disabled:        var(--semantic-text-on-bright-400);
+  --comp-radio-focus-ring:            var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Progress (color layer)
+     ---------------------------------------------------------- */
+  --comp-progress-track-systemic: var(--semantic-neutral-solid-100);
+  --comp-progress-fill-systemic:  var(--semantic-neutral-solid-600);
+  --comp-progress-track-brand:    var(--semantic-primary-100);
+  --comp-progress-fill-brand:     var(--semantic-primary-500);
+  --comp-progress-track-success:  var(--semantic-success-100);
+  --comp-progress-fill-success:   var(--semantic-success-500);
+  --comp-progress-track-warning:  var(--semantic-warning-100);
+  --comp-progress-fill-warning:   var(--semantic-warning-500);
+  --comp-progress-track-error:    var(--semantic-error-100);
+  --comp-progress-fill-error:     var(--semantic-error-500);
+  --comp-progress-label:          var(--semantic-text-on-bright-600);
+  --comp-progress-value:          var(--semantic-text-on-bright-900);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Breadcrumb (color layer)
+     ---------------------------------------------------------- */
+  --comp-breadcrumb-link:       var(--semantic-text-on-bright-600);
+  --comp-breadcrumb-link-hover: var(--semantic-text-on-bright-900);
+  --comp-breadcrumb-page:       var(--semantic-text-on-bright-900);
+  --comp-breadcrumb-separator:  var(--semantic-text-on-bright-400);
+  --comp-breadcrumb-disabled:   var(--semantic-text-on-bright-400);
+  --comp-breadcrumb-focus-ring: var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Skeleton (color layer)
+     ---------------------------------------------------------- */
+  --comp-skeleton-bg:        var(--semantic-neutral-solid-100);
+  --comp-skeleton-highlight: var(--semantic-neutral-solid-200);
 }

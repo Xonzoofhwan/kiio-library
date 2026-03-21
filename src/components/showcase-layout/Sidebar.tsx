@@ -33,6 +33,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'searchfield', label: 'SearchField' },
       { id: 'select', label: 'Select' },
       { id: 'formfield', label: 'FormField' },
+      { id: 'slider',    label: 'Slider' },
     ],
   },
   {
@@ -41,6 +42,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'chip', label: 'Chip' },
       { id: 'segment-bar', label: 'SegmentBar' },
       { id: 'switch', label: 'Switch' },
+      { id: 'radio-group', label: 'RadioGroup' },
     ],
   },
   {
@@ -48,6 +50,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: 'tab', label: 'Tab' },
       { id: 'sidenav', label: 'SideNav' },
+      { id: 'breadcrumb', label: 'Breadcrumb' },
     ],
   },
   {
@@ -58,19 +61,32 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'callout', label: 'Callout' },
       { id: 'dialog', label: 'Dialog' },
       { id: 'drawer', label: 'Drawer' },
+      { id: 'popover', label: 'Popover' },
     ],
   },
   {
     label: 'Feedback',
     items: [
       { id: 'toast', label: 'Toast / Snackbar' },
+      { id: 'progress', label: 'Progress' },
+      { id: 'stepper',  label: 'Stepper' },
+    ],
+  },
+  {
+    label: 'Layout',
+    items: [
+      { id: 'divider',     label: 'Divider'    },
+      { id: 'skeleton',    label: 'Skeleton'   },
+      { id: 'accordion',   label: 'Accordion'  },
     ],
   },
   {
     label: 'Display',
     items: [
-      { id: 'badge', label: 'Badge' },
-      { id: 'table', label: 'Table' },
+      { id: 'badge',       label: 'Badge'      },
+      { id: 'table',       label: 'Table'      },
+      { id: 'data-table',  label: 'DataTable'  },
+      { id: 'pagination',  label: 'Pagination' },
     ],
   },
 ]

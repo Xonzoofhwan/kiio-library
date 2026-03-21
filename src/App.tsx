@@ -26,6 +26,17 @@ import { ToastShowcase, TOAST_TOC } from '@/showcase/ToastShowcase'
 import { DialogShowcase, DIALOG_TOC } from '@/showcase/DialogShowcase'
 import { DrawerShowcase, DRAWER_TOC } from '@/showcase/DrawerShowcase'
 import { TableShowcase, TABLE_TOC } from '@/showcase/TableShowcase'
+import { DataTableShowcase, DATA_TABLE_TOC } from '@/showcase/DataTableShowcase'
+import { PaginationShowcase, PAGINATION_TOC } from '@/showcase/PaginationShowcase'
+import { DividerShowcase, DIVIDER_TOC } from '@/showcase/DividerShowcase'
+import { SkeletonShowcase, SKELETON_TOC } from '@/showcase/SkeletonShowcase'
+import { BreadcrumbShowcase, BREADCRUMB_TOC } from '@/showcase/BreadcrumbShowcase'
+import { ProgressShowcase, PROGRESS_TOC } from '@/showcase/ProgressShowcase'
+import { RadioGroupShowcase, RADIOGROUP_TOC } from '@/showcase/RadioGroupShowcase'
+import { AccordionShowcase, ACCORDION_TOC } from '@/showcase/AccordionShowcase'
+import { SliderShowcase, SLIDER_TOC } from '@/showcase/SliderShowcase'
+import { StepperShowcase, STEPPER_TOC } from '@/showcase/StepperShowcase'
+import { PopoverShowcase, POPOVER_TOC } from '@/showcase/PopoverShowcase'
 import { Toaster } from '@/components/Toast'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
@@ -54,6 +65,17 @@ const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEnt
   'dialog':      { component: DialogShowcase,     toc: DIALOG_TOC      },
   'drawer':      { component: DrawerShowcase,     toc: DRAWER_TOC      },
   'table':       { component: TableShowcase,      toc: TABLE_TOC       },
+  'data-table':  { component: DataTableShowcase,  toc: DATA_TABLE_TOC  },
+  'pagination':  { component: PaginationShowcase, toc: PAGINATION_TOC  },
+  'divider':     { component: DividerShowcase,   toc: DIVIDER_TOC     },
+  'skeleton':    { component: SkeletonShowcase,  toc: SKELETON_TOC    },
+  'breadcrumb':  { component: BreadcrumbShowcase, toc: BREADCRUMB_TOC },
+  'progress':    { component: ProgressShowcase,  toc: PROGRESS_TOC   },
+  'radio-group': { component: RadioGroupShowcase, toc: RADIOGROUP_TOC },
+  'accordion':   { component: AccordionShowcase,  toc: ACCORDION_TOC  },
+  'slider':      { component: SliderShowcase,     toc: SLIDER_TOC     },
+  'stepper':     { component: StepperShowcase,    toc: STEPPER_TOC    },
+  'popover':     { component: PopoverShowcase,    toc: POPOVER_TOC    },
 }
 
 /* ─── App ─────────────────────────────────────────────────────────────────── */

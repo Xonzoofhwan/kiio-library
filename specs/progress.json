@@ -1,0 +1,169 @@
+{
+  "component": "Progress",
+  "description": "진행 상태 표시 컴포넌트 패밀리. ProgressBar(선형)와 ProgressCircle(원형) 두 서브컴포넌트를 제공한다. 5개 intent 색상, 3가지 크기, indeterminate 모드를 지원.",
+  "classification": "Primitive (display, 2 sub-components)",
+
+  "subComponents": [
+    {
+      "name": "ProgressBar",
+      "description": "선형 진행 바. Track + Fill 구조. 라벨 및 퍼센트 값 표시 옵션.",
+      "element": "div[role=progressbar]",
+      "props": {
+        "value": {
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "0-100 진행률. undefined = indeterminate 모드."
+        },
+        "size": {
+          "type": "'small' | 'medium' | 'large'",
+          "default": "medium",
+          "description": "바 높이.",
+          "metadataArray": "PROGRESS_BAR_SIZES"
+        },
+        "intent": {
+          "type": "'systemic' | 'brand' | 'success' | 'warning' | 'error'",
+          "default": "brand",
+          "description": "색상 계열.",
+          "metadataArray": "PROGRESS_BAR_INTENTS"
+        },
+        "label": {
+          "type": "string",
+          "default": null,
+          "description": "상단 라벨 텍스트."
+        },
+        "showValue": {
+          "type": "boolean",
+          "default": false,
+          "description": "퍼센트 값 표시."
+        }
+      },
+      "variants": {
+        "size": {
+          "small": {
+            "trackHeight": "4px",
+            "radius": "2px",
+            "labelTypography": "typography-12-regular"
+          },
+          "medium": {
+            "trackHeight": "8px",
+            "radius": "4px",
+            "labelTypography": "typography-13-regular"
+          },
+          "large": {
+            "trackHeight": "12px",
+            "radius": "6px",
+            "labelTypography": "typography-14-regular"
+          }
+        },
+        "intent": {
+          "systemic": { "track": "neutral-solid-100", "fill": "neutral-solid-600" },
+          "brand":    { "track": "primary-100",       "fill": "primary-500" },
+          "success":  { "track": "success-100",       "fill": "success-500" },
+          "warning":  { "track": "warning-100",       "fill": "warning-500" },
+          "error":    { "track": "error-100",         "fill": "error-500" }
+        }
+      }
+    },
+    {
+      "name": "ProgressCircle",
+      "description": "원형 진행 표시. SVG circle + stroke-dashoffset. 중앙 퍼센트 텍스트 옵션.",
+      "element": "div[role=progressbar] > svg",
+      "props": {
+        "value": {
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "0-100 진행률. undefined = indeterminate 회전."
+        },
+        "size": {
+          "type": "'small' | 'medium' | 'large'",
+          "default": "medium",
+          "description": "원 크기.",
+          "metadataArray": "PROGRESS_CIRCLE_SIZES"
+        },
+        "intent": {
+          "type": "'systemic' | 'brand' | 'success' | 'warning' | 'error'",
+          "default": "brand",
+          "description": "색상 계열.",
+          "metadataArray": "PROGRESS_CIRCLE_INTENTS"
+        },
+        "showValue": {
+          "type": "boolean",
+          "default": false,
+          "description": "중앙 퍼센트 텍스트."
+        }
+      },
+      "variants": {
+        "size": {
+          "small":  { "diameter": "32px", "strokeWidth": "3px", "valueTypography": "typography-12-semibold" },
+          "medium": { "diameter": "48px", "strokeWidth": "4px", "valueTypography": "typography-13-semibold" },
+          "large":  { "diameter": "64px", "strokeWidth": "5px", "valueTypography": "typography-16-semibold" }
+        }
+      }
+    }
+  ],
+
+  "states": {
+    "determinate": "value is 0-100 → fill width/dashoffset proportional",
+    "indeterminate": "value is undefined → animated looping animation"
+  },
+
+  "tokens": {
+    "sizeSpacing": {
+      "layer": ":root",
+      "naming": "--comp-progress-{sub}-{property}[-{size}]",
+      "list": [
+        "--comp-progress-bar-height-sm: 4px",
+        "--comp-progress-bar-height-md: 8px",
+        "--comp-progress-bar-height-lg: 12px",
+        "--comp-progress-bar-radius-sm: 2px",
+        "--comp-progress-bar-radius-md: var(--radius-1)",
+        "--comp-progress-bar-radius-lg: var(--radius-1.5)",
+        "--comp-progress-circle-size-sm: 32px",
+        "--comp-progress-circle-size-md: 48px",
+        "--comp-progress-circle-size-lg: 64px",
+        "--comp-progress-circle-stroke-sm: 3px",
+        "--comp-progress-circle-stroke-md: 4px",
+        "--comp-progress-circle-stroke-lg: 5px"
+      ]
+    },
+    "color": {
+      "layer": "[data-theme]",
+      "naming": "--comp-progress-{property}-{intent}",
+      "list": [
+        "--comp-progress-track-systemic: var(--semantic-neutral-solid-100)",
+        "--comp-progress-fill-systemic: var(--semantic-neutral-solid-600)",
+        "--comp-progress-track-brand: var(--semantic-primary-100)",
+        "--comp-progress-fill-brand: var(--semantic-primary-500)",
+        "--comp-progress-track-success: var(--semantic-success-100)",
+        "--comp-progress-fill-success: var(--semantic-success-500)",
+        "--comp-progress-track-warning: var(--semantic-warning-100)",
+        "--comp-progress-fill-warning: var(--semantic-warning-500)",
+        "--comp-progress-track-error: var(--semantic-error-100)",
+        "--comp-progress-fill-error: var(--semantic-error-500)",
+        "--comp-progress-label: var(--semantic-text-on-bright-600)",
+        "--comp-progress-value: var(--semantic-text-on-bright-900)"
+      ]
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (ProgressBar), cn + SVG (ProgressCircle)",
+    "indeterminate": {
+      "bar": "CSS @keyframes: translateX(-100% → 100%) on fill element, width 40%",
+      "circle": "CSS @keyframes: rotate(0 → 360deg) on SVG, stroke-dasharray 75% circumference"
+    },
+    "accessibility": "role=progressbar, aria-valuenow, aria-valuemin=0, aria-valuemax=100. Indeterminate: no aria-valuenow.",
+    "motion": "Fill transition: transition-[width] duration-normal ease-move. Circle: transition-[stroke-dashoffset] duration-normal ease-move.",
+    "files": [
+      "src/components/Progress/ProgressBar.tsx",
+      "src/components/Progress/ProgressCircle.tsx",
+      "src/components/Progress/index.ts"
+    ],
+    "dependencies": [],
+    "exports": {
+      "components": ["ProgressBar", "ProgressCircle"],
+      "types": ["ProgressBarProps", "ProgressCircleProps", "ProgressBarSize", "ProgressBarIntent", "ProgressCircleSize", "ProgressCircleIntent"],
+      "metadata": ["PROGRESS_BAR_SIZES", "PROGRESS_BAR_INTENTS", "PROGRESS_CIRCLE_SIZES", "PROGRESS_CIRCLE_INTENTS"]
+    }
+  }
+}
