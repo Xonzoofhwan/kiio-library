@@ -507,7 +507,7 @@ CSS: `--primitive-{family}-{shade}` / Tailwind: `bg-primitive-{family}-{shade}` 
 
 ### Primitive Spacing
 
-CSS: `--spacing-{key}` / Tailwind: `p-4`, `gap-6`, `m-0.5` 등
+CSS: `--primitive-spacing-{key}` / Tailwind: `p-4`, `gap-6`, `m-0.5` 등
 
 | Key | Value | Key | Value | Key | Value |
 |-----|-------|-----|-------|-----|-------|
@@ -528,7 +528,7 @@ CSS: `--spacing-{key}` / Tailwind: `p-4`, `gap-6`, `m-0.5` 등
 
 ### Primitive Radius
 
-CSS: `--radius-{key}` / Tailwind: `rounded-2` (8px), `rounded-3` (12px) 등
+CSS: `--primitive-radius-{key}` / Tailwind: `rounded-2` (8px), `rounded-3` (12px) 등
 
 | Key | Value | Key | Value | Key | Value |
 |-----|-------|-----|-------|-----|-------|
@@ -910,46 +910,46 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 
 | Token | Spacing Reference | Resolved |
 |-------|------------------|----------|
-| `--comp-button-height-xl` | `--spacing-14` | 56px |
-| `--comp-button-height-lg` | `--spacing-12` | 48px |
-| `--comp-button-height-md` | `--spacing-10` | 40px |
-| `--comp-button-height-sm` | `--spacing-8` | 32px |
+| `--comp-button-height-xl` | `--primitive-spacing-14` | 56px |
+| `--comp-button-height-lg` | `--primitive-spacing-12` | 48px |
+| `--comp-button-height-md` | `--primitive-spacing-10` | 40px |
+| `--comp-button-height-sm` | `--primitive-spacing-8` | 32px |
 
 #### Padding-X (size)
 
 | Token | Spacing Reference | Resolved |
 |-------|------------------|----------|
-| `--comp-button-px-xl` | `--spacing-4` | 16px |
-| `--comp-button-px-lg` | `--spacing-3` | 12px |
-| `--comp-button-px-md` | `--spacing-2.5` | 10px |
-| `--comp-button-px-sm` | `--spacing-2` | 8px |
+| `--comp-button-px-xl` | `--primitive-spacing-4` | 16px |
+| `--comp-button-px-lg` | `--primitive-spacing-3` | 12px |
+| `--comp-button-px-md` | `--primitive-spacing-2.5` | 10px |
+| `--comp-button-px-sm` | `--primitive-spacing-2` | 8px |
 
 #### Gap (size)
 
 | Token | Spacing Reference | Resolved |
 |-------|------------------|----------|
-| `--comp-button-gap-xl` | `--spacing-2` | 8px |
-| `--comp-button-gap-lg` | `--spacing-1.5` | 6px |
-| `--comp-button-gap-md` | `--spacing-1.5` | 6px |
-| `--comp-button-gap-sm` | `--spacing-1` | 4px |
+| `--comp-button-gap-xl` | `--primitive-spacing-2` | 8px |
+| `--comp-button-gap-lg` | `--primitive-spacing-1.5` | 6px |
+| `--comp-button-gap-md` | `--primitive-spacing-1.5` | 6px |
+| `--comp-button-gap-sm` | `--primitive-spacing-1` | 4px |
 
 #### Radius (size)
 
 | Token | Radius Reference | Resolved |
 |-------|-----------------|----------|
-| `--comp-button-radius-xl` | `--radius-3` | 12px |
-| `--comp-button-radius-lg` | `--radius-3` | 12px |
-| `--comp-button-radius-md` | `--radius-3` | 12px |
-| `--comp-button-radius-sm` | `--radius-2` | 8px |
+| `--comp-button-radius-xl` | `--primitive-radius-3` | 12px |
+| `--comp-button-radius-lg` | `--primitive-radius-3` | 12px |
+| `--comp-button-radius-md` | `--primitive-radius-3` | 12px |
+| `--comp-button-radius-sm` | `--primitive-radius-2` | 8px |
 
 #### Icon Size (size)
 
 | Token | Spacing Reference | Resolved |
 |-------|------------------|----------|
-| `--comp-button-icon-xl` | `--spacing-6` | 24px |
-| `--comp-button-icon-lg` | `--spacing-6` | 24px |
-| `--comp-button-icon-md` | `--spacing-5` | 20px |
-| `--comp-button-icon-sm` | `--spacing-5` | 20px |
+| `--comp-button-icon-xl` | `--primitive-spacing-6` | 24px |
+| `--comp-button-icon-lg` | `--primitive-spacing-6` | 24px |
+| `--comp-button-icon-md` | `--primitive-spacing-5` | 20px |
+| `--comp-button-icon-sm` | `--primitive-spacing-5` | 20px |
 
 ---
 
@@ -980,8 +980,8 @@ Primitive (:root)                Semantic ([data-theme])           Component ([d
 ```
 Primitive (:root)                Component (:root)                 Tailwind (CVA)
 ─────────────────                ──────────────────                ──────────────
---spacing-10                     --comp-button-height-md           h-[var(--comp-button-height-md)]
-  40px                ──────────►  var(--spacing-10)
+--primitive-spacing-10                     --comp-button-height-md           h-[var(--comp-button-height-md)]
+  40px                ──────────►  var(--primitive-spacing-10)
 ```
 
 ### Typography (component layer 없음)

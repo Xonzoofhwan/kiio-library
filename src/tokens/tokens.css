@@ -384,77 +384,72 @@
      SPACING TOKENS
      Source: token_numbers.json → Numbers → Spacing
      ---------------------------------------------------------- */
-  --spacing-px:   1px;
-  --spacing-0:    0px;
-  --spacing-0\.5: 2px;
-  --spacing-1:    4px;
-  --spacing-1\.5: 6px;
-  --spacing-2:    8px;
-  --spacing-2\.5: 10px;
-  --spacing-3:    12px;
-  --spacing-3\.5: 14px;
-  --spacing-4:    16px;
-  --spacing-5:    20px;
-  --spacing-6:    24px;
-  --spacing-7:    28px;
-  --spacing-8:    32px;
-  --spacing-9:    36px;
-  --spacing-10:   40px;
-  --spacing-11:   44px;
-  --spacing-12:   48px;
-  --spacing-14:   56px;
-  --spacing-16:   64px;
-  --spacing-18:   72px;
-  --spacing-20:   80px;
-  --spacing-24:   96px;
-  --spacing-28:   112px;
-  --spacing-32:   128px;
-  --spacing-36:   144px;
-  --spacing-40:   160px;
-  --spacing-44:   176px;
-  --spacing-48:   192px;
-  --spacing-52:   208px;
-  --spacing-56:   224px;
-  --spacing-60:   240px;
-  --spacing-64:   256px;
-  --spacing-72:   288px;
-  --spacing-80:   320px;
-  --spacing-96:   384px;
+  --primitive-spacing-px:   1px;
+  --primitive-spacing-0:    0px;
+  --primitive-spacing-0\.5: 2px;
+  --primitive-spacing-1:    4px;
+  --primitive-spacing-1\.5: 6px;
+  --primitive-spacing-2:    8px;
+  --primitive-spacing-2\.5: 10px;
+  --primitive-spacing-3:    12px;
+  --primitive-spacing-3\.5: 14px;
+  --primitive-spacing-4:    16px;
+  --primitive-spacing-5:    20px;
+  --primitive-spacing-6:    24px;
+  --primitive-spacing-7:    28px;
+  --primitive-spacing-8:    32px;
+  --primitive-spacing-9:    36px;
+  --primitive-spacing-10:   40px;
+  --primitive-spacing-11:   44px;
+  --primitive-spacing-12:   48px;
+  --primitive-spacing-14:   56px;
+  --primitive-spacing-16:   64px;
+  --primitive-spacing-18:   72px;
+  --primitive-spacing-20:   80px;
+  --primitive-spacing-24:   96px;
+  --primitive-spacing-28:   112px;
+  --primitive-spacing-32:   128px;
+  --primitive-spacing-36:   144px;
+  --primitive-spacing-40:   160px;
+  --primitive-spacing-44:   176px;
+  --primitive-spacing-48:   192px;
+  --primitive-spacing-52:   208px;
+  --primitive-spacing-56:   224px;
+  --primitive-spacing-60:   240px;
+  --primitive-spacing-64:   256px;
+  --primitive-spacing-72:   288px;
+  --primitive-spacing-80:   320px;
+  --primitive-spacing-96:   384px;
 
   /* ----------------------------------------------------------
      RADIUS TOKENS
      Source: token_numbers.json → Numbers → Radius
      ---------------------------------------------------------- */
-  --radius-px:   1px;
-  --radius-0:    0px;
-  --radius-0\.5: 2px;
-  --radius-1:    4px;
-  --radius-1\.5: 6px;
-  --radius-2:    8px;
-  --radius-2\.5: 10px;
-  --radius-3:    12px;
-  --radius-3\.5: 14px;
-  --radius-4:    16px;
-  --radius-5:    20px;
-  --radius-6:    24px;
-  --radius-7:    28px;
-  --radius-8:    32px;
-  --radius-9:    36px;
-  --radius-10:   40px;
-  --radius-11:   44px;
-  --radius-12:   48px;
-  --radius-14:   56px;
-  --radius-16:   64px;
-  --radius-18:   72px;
-  --radius-20:   80px;
-  --radius-24:   96px;
+  --primitive-radius-px:   1px;
+  --primitive-radius-0:    0px;
+  --primitive-radius-0\.5: 2px;
+  --primitive-radius-1:    4px;
+  --primitive-radius-1\.5: 6px;
+  --primitive-radius-2:    8px;
+  --primitive-radius-2\.5: 10px;
+  --primitive-radius-3:    12px;
+  --primitive-radius-4:    16px;
+  --primitive-radius-5:    20px;
+  --primitive-radius-6:    24px;
+  --primitive-radius-7:    28px;
+  --primitive-radius-8:    32px;
+  --primitive-radius-10:   40px;
+  --primitive-radius-12:   48px;
+  --primitive-radius-16:   64px;
+  --primitive-radius-20:   80px;
+  --primitive-radius-24:   96px;
 
   /* ============================================================
      TYPOGRAPHY TOKENS
      Source: Figma Design-System-v3 → Typography (node 6089-461)
-     Font: Pretendard Variable
+     Font: Geist Sans
      Naming:
-       --font-pretendard          font-family stack
+       --font-geist               font-family stack
        --text-size-{n}            font-size in rem
        --text-lh-{n}              line-height in px
        --text-ls-{n}              letter-spacing in em
@@ -462,7 +457,7 @@
      ============================================================ */
 
   /* font-family */
-  --font-pretendard: 'Pretendard Variable', Pretendard, sans-serif;
+  --font-geist: 'Geist Sans', sans-serif;
 
   /* font-size (rem, base 16px) */
   --text-size-40: 2.5rem;
@@ -523,6 +518,7 @@
   /* Ref: Duration (primitive — do not use directly in components) */
   --primitive-duration-0:   0ms;
   --primitive-duration-100: 100ms;
+  --primitive-duration-150: 150ms;
   --primitive-duration-200: 200ms;
   --primitive-duration-300: 300ms;
   --primitive-duration-500: 500ms;
@@ -530,6 +526,7 @@
   /* Sys: Duration (semantic — use these in components) */
   --semantic-duration-instant: var(--primitive-duration-0);
   --semantic-duration-fast:    var(--primitive-duration-100);
+  --semantic-duration-medium:  var(--primitive-duration-150);
   --semantic-duration-normal:  var(--primitive-duration-200);
   --semantic-duration-slow:    var(--primitive-duration-300);
   --semantic-duration-slower:  var(--primitive-duration-500);
@@ -551,9 +548,9 @@
      Naming: --comp-tooltip-{property}
      ---------------------------------------------------------- */
   --comp-tooltip-max-width:       320px;
-  --comp-tooltip-px:              var(--spacing-3\.5);   /* 14px */
-  --comp-tooltip-py:              var(--spacing-3);      /* 12px */
-  --comp-tooltip-radius:          var(--radius-2);       /* 8px */
+  --comp-tooltip-px:              var(--primitive-spacing-3\.5);   /* 14px */
+  --comp-tooltip-py:              var(--primitive-spacing-3);      /* 12px */
+  --comp-tooltip-radius:          var(--primitive-radius-2);       /* 8px */
   --comp-tooltip-arrow-width:     16px;
   --comp-tooltip-arrow-height:    8px;
   --comp-tooltip-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
@@ -563,10 +560,10 @@
      Naming: --comp-callout-{property}
      ---------------------------------------------------------- */
   --comp-callout-max-width:       320px;
-  --comp-callout-px:              var(--spacing-3\.5);   /* 14px */
-  --comp-callout-py-md:           var(--spacing-3);      /* 12px */
+  --comp-callout-px:              var(--primitive-spacing-3\.5);   /* 14px */
+  --comp-callout-py-md:           var(--primitive-spacing-3);      /* 12px */
   --comp-callout-py-lg:           14px;                  /* 14px */
-  --comp-callout-radius:          var(--radius-2);       /* 8px */
+  --comp-callout-radius:          var(--primitive-radius-2);       /* 8px */
   --comp-callout-arrow-width:     16px;
   --comp-callout-arrow-height:    8px;
   --comp-callout-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
@@ -583,17 +580,41 @@
    ---------------------------------------------------------- */
 
 [data-theme="light"] {
-  /* Primary — Purple */
-  --semantic-primary-50:  var(--primitive-purple-50);
-  --semantic-primary-100: var(--primitive-purple-100);
-  --semantic-primary-200: var(--primitive-purple-200);
-  --semantic-primary-300: var(--primitive-purple-300);
-  --semantic-primary-400: var(--primitive-purple-400);
-  --semantic-primary-500: var(--primitive-purple-500);
-  --semantic-primary-600: var(--primitive-purple-600);
-  --semantic-primary-700: var(--primitive-purple-700);
-  --semantic-primary-800: var(--primitive-purple-800);
-  --semantic-primary-900: var(--primitive-purple-900);
+  /* Emphasized.Purple */
+  --semantic-emphasized-purple-50:  var(--primitive-purple-50);
+  --semantic-emphasized-purple-100: var(--primitive-purple-100);
+  --semantic-emphasized-purple-200: var(--primitive-purple-200);
+  --semantic-emphasized-purple-300: var(--primitive-purple-300);
+  --semantic-emphasized-purple-400: var(--primitive-purple-400);
+  --semantic-emphasized-purple-500: var(--primitive-purple-500);
+  --semantic-emphasized-purple-600: var(--primitive-purple-600);
+  --semantic-emphasized-purple-700: var(--primitive-purple-700);
+  --semantic-emphasized-purple-800: var(--primitive-purple-800);
+  --semantic-emphasized-purple-900: var(--primitive-purple-950);
+
+  /* Emphasized.Blue */
+  --semantic-emphasized-blue-50:  var(--primitive-blue-50);
+  --semantic-emphasized-blue-100: var(--primitive-blue-100);
+  --semantic-emphasized-blue-200: var(--primitive-blue-200);
+  --semantic-emphasized-blue-300: var(--primitive-blue-300);
+  --semantic-emphasized-blue-400: var(--primitive-blue-400);
+  --semantic-emphasized-blue-500: var(--primitive-blue-500);
+  --semantic-emphasized-blue-600: var(--primitive-blue-600);
+  --semantic-emphasized-blue-700: var(--primitive-blue-700);
+  --semantic-emphasized-blue-800: var(--primitive-blue-800);
+  --semantic-emphasized-blue-900: var(--primitive-blue-950);
+
+  /* Emphasized.Orange — RedOrange */
+  --semantic-emphasized-orange-50:  var(--primitive-red-orange-50);
+  --semantic-emphasized-orange-100: var(--primitive-red-orange-100);
+  --semantic-emphasized-orange-200: var(--primitive-red-orange-200);
+  --semantic-emphasized-orange-300: var(--primitive-red-orange-300);
+  --semantic-emphasized-orange-400: var(--primitive-red-orange-400);
+  --semantic-emphasized-orange-500: var(--primitive-red-orange-500);
+  --semantic-emphasized-orange-600: var(--primitive-red-orange-600);
+  --semantic-emphasized-orange-700: var(--primitive-red-orange-700);
+  --semantic-emphasized-orange-800: var(--primitive-red-orange-800);
+  --semantic-emphasized-orange-900: var(--primitive-red-orange-950);
 
   /* Success — Forest */
   --semantic-success-50:  var(--primitive-forest-50);
@@ -619,17 +640,17 @@
   --semantic-warning-800: var(--primitive-amber-900);
   --semantic-warning-900: var(--primitive-amber-950);
 
-  /* Error — RedBright */
-  --semantic-error-50:  var(--primitive-red-bright-50);
-  --semantic-error-100: var(--primitive-red-bright-100);
-  --semantic-error-200: var(--primitive-red-bright-200);
-  --semantic-error-300: var(--primitive-red-bright-300);
-  --semantic-error-400: var(--primitive-red-bright-400);
-  --semantic-error-500: var(--primitive-red-bright-500);
-  --semantic-error-600: var(--primitive-red-bright-600);
-  --semantic-error-700: var(--primitive-red-bright-700);
-  --semantic-error-800: var(--primitive-red-bright-800);
-  --semantic-error-900: var(--primitive-red-bright-950);
+  /* Error — RedDark */
+  --semantic-error-50:  var(--primitive-red-dark-50);
+  --semantic-error-100: var(--primitive-red-dark-100);
+  --semantic-error-200: var(--primitive-red-dark-200);
+  --semantic-error-300: var(--primitive-red-dark-300);
+  --semantic-error-400: var(--primitive-red-dark-400);
+  --semantic-error-500: var(--primitive-red-dark-500);
+  --semantic-error-600: var(--primitive-red-dark-600);
+  --semantic-error-700: var(--primitive-red-dark-700);
+  --semantic-error-800: var(--primitive-red-dark-800);
+  --semantic-error-900: var(--primitive-red-dark-950);
 
   /* Neutral.Solid — Gray */
   --semantic-neutral-solid-0:   var(--primitive-gray-0);
@@ -645,6 +666,7 @@
   --semantic-neutral-solid-800: var(--primitive-gray-800);
   --semantic-neutral-solid-900: var(--primitive-gray-900);
   --semantic-neutral-solid-950: var(--primitive-gray-950);
+  --semantic-neutral-solid-1000: var(--primitive-gray-1000);
 
   /* Neutral.BlackAlpha */
   --semantic-neutral-black-alpha-0:   var(--primitive-black-alpha-0);
@@ -718,17 +740,41 @@
 }
 
 [data-theme="dark"] {
-  /* Primary — Purple (same as light) */
-  --semantic-primary-50:  var(--primitive-purple-50);
-  --semantic-primary-100: var(--primitive-purple-100);
-  --semantic-primary-200: var(--primitive-purple-200);
-  --semantic-primary-300: var(--primitive-purple-300);
-  --semantic-primary-400: var(--primitive-purple-400);
-  --semantic-primary-500: var(--primitive-purple-500);
-  --semantic-primary-600: var(--primitive-purple-600);
-  --semantic-primary-700: var(--primitive-purple-700);
-  --semantic-primary-800: var(--primitive-purple-800);
-  --semantic-primary-900: var(--primitive-purple-900);
+  /* Emphasized.Purple (same as light) */
+  --semantic-emphasized-purple-50:  var(--primitive-purple-50);
+  --semantic-emphasized-purple-100: var(--primitive-purple-100);
+  --semantic-emphasized-purple-200: var(--primitive-purple-200);
+  --semantic-emphasized-purple-300: var(--primitive-purple-300);
+  --semantic-emphasized-purple-400: var(--primitive-purple-400);
+  --semantic-emphasized-purple-500: var(--primitive-purple-500);
+  --semantic-emphasized-purple-600: var(--primitive-purple-600);
+  --semantic-emphasized-purple-700: var(--primitive-purple-700);
+  --semantic-emphasized-purple-800: var(--primitive-purple-800);
+  --semantic-emphasized-purple-900: var(--primitive-purple-950);
+
+  /* Emphasized.Blue (same as light) */
+  --semantic-emphasized-blue-50:  var(--primitive-blue-50);
+  --semantic-emphasized-blue-100: var(--primitive-blue-100);
+  --semantic-emphasized-blue-200: var(--primitive-blue-200);
+  --semantic-emphasized-blue-300: var(--primitive-blue-300);
+  --semantic-emphasized-blue-400: var(--primitive-blue-400);
+  --semantic-emphasized-blue-500: var(--primitive-blue-500);
+  --semantic-emphasized-blue-600: var(--primitive-blue-600);
+  --semantic-emphasized-blue-700: var(--primitive-blue-700);
+  --semantic-emphasized-blue-800: var(--primitive-blue-800);
+  --semantic-emphasized-blue-900: var(--primitive-blue-950);
+
+  /* Emphasized.Orange — RedOrange (same as light) */
+  --semantic-emphasized-orange-50:  var(--primitive-red-orange-50);
+  --semantic-emphasized-orange-100: var(--primitive-red-orange-100);
+  --semantic-emphasized-orange-200: var(--primitive-red-orange-200);
+  --semantic-emphasized-orange-300: var(--primitive-red-orange-300);
+  --semantic-emphasized-orange-400: var(--primitive-red-orange-400);
+  --semantic-emphasized-orange-500: var(--primitive-red-orange-500);
+  --semantic-emphasized-orange-600: var(--primitive-red-orange-600);
+  --semantic-emphasized-orange-700: var(--primitive-red-orange-700);
+  --semantic-emphasized-orange-800: var(--primitive-red-orange-800);
+  --semantic-emphasized-orange-900: var(--primitive-red-orange-950);
 
   /* Success — Forest (same as light) */
   --semantic-success-50:  var(--primitive-forest-50);
@@ -754,17 +800,17 @@
   --semantic-warning-800: var(--primitive-amber-900);
   --semantic-warning-900: var(--primitive-amber-950);
 
-  /* Error — RedBright (same as light) */
-  --semantic-error-50:  var(--primitive-red-bright-50);
-  --semantic-error-100: var(--primitive-red-bright-100);
-  --semantic-error-200: var(--primitive-red-bright-200);
-  --semantic-error-300: var(--primitive-red-bright-300);
-  --semantic-error-400: var(--primitive-red-bright-400);
-  --semantic-error-500: var(--primitive-red-bright-500);
-  --semantic-error-600: var(--primitive-red-bright-600);
-  --semantic-error-700: var(--primitive-red-bright-700);
-  --semantic-error-800: var(--primitive-red-bright-800);
-  --semantic-error-900: var(--primitive-red-bright-950);
+  /* Error — RedDark (same as light) */
+  --semantic-error-50:  var(--primitive-red-dark-50);
+  --semantic-error-100: var(--primitive-red-dark-100);
+  --semantic-error-200: var(--primitive-red-dark-200);
+  --semantic-error-300: var(--primitive-red-dark-300);
+  --semantic-error-400: var(--primitive-red-dark-400);
+  --semantic-error-500: var(--primitive-red-dark-500);
+  --semantic-error-600: var(--primitive-red-dark-600);
+  --semantic-error-700: var(--primitive-red-dark-700);
+  --semantic-error-800: var(--primitive-red-dark-800);
+  --semantic-error-900: var(--primitive-red-dark-950);
 
   /* Neutral.Solid — Gray REVERSED (dark surfaces) */
   --semantic-neutral-solid-0:   var(--primitive-gray-950);
@@ -780,6 +826,7 @@
   --semantic-neutral-solid-800: var(--primitive-gray-70);
   --semantic-neutral-solid-900: var(--primitive-gray-50);
   --semantic-neutral-solid-950: var(--primitive-gray-0);
+  --semantic-neutral-solid-1000: var(--primitive-gray-0);
 
   /* Neutral.BlackAlpha — uses WhiteAlpha (light-on-dark) */
   --semantic-neutral-black-alpha-0:   var(--primitive-white-alpha-0);
@@ -872,11 +919,6 @@
   --comp-tooltip-text-white:             var(--semantic-text-on-bright-900);
   --comp-tooltip-arrow-white:            var(--semantic-neutral-solid-50);
 
-  /* ─── Brand variant ─── */
-  --comp-tooltip-bg-brand:               var(--semantic-primary-500);
-  --comp-tooltip-text-brand:             var(--semantic-text-on-dim-950);
-  --comp-tooltip-arrow-brand:            var(--semantic-primary-500);
-
   /* ----------------------------------------------------------
      COMPONENT TOKENS — Callout (color layer)
      Naming: --comp-callout-{property}-{variant}
@@ -898,13 +940,6 @@
   --comp-callout-close-hover-white:      var(--semantic-state-on-bright-50);
   --comp-callout-action-white:           var(--semantic-text-on-bright-800);
 
-  /* ─── Brand variant ─── */
-  --comp-callout-bg-brand:               var(--semantic-primary-500);
-  --comp-callout-text-brand:             var(--semantic-text-on-dim-950);
-  --comp-callout-arrow-brand:            var(--semantic-primary-500);
-  --comp-callout-close-brand:            var(--semantic-text-on-dim-800);
-  --comp-callout-close-hover-brand:      var(--semantic-state-on-dim-50);
-  --comp-callout-action-brand:           var(--semantic-text-on-dim-800);
 }
 
 /* ----------------------------------------------------------
@@ -936,11 +971,4 @@
   --comp-callout-close-hover-white:      var(--semantic-state-on-dim-50);
   --comp-callout-action-white:           var(--semantic-text-on-dim-800);
 
-  /* === D. Tooltip/Callout — Brand variant (accent bg unchanged → keep light text) === */
-  --comp-tooltip-text-brand:             var(--semantic-text-on-bright-950);
-
-  --comp-callout-text-brand:             var(--semantic-text-on-bright-950);
-  --comp-callout-close-brand:            var(--semantic-text-on-bright-800);
-  --comp-callout-close-hover-brand:      var(--semantic-state-on-bright-50);
-  --comp-callout-action-brand:           var(--semantic-text-on-bright-800);
 }

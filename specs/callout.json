@@ -226,9 +226,9 @@
       "pattern": "--comp-callout-{property}",
       "list": [
         "--comp-callout-max-width: 320px",
-        "--comp-callout-px: var(--spacing-3\\.5) = 14px",
-        "--comp-callout-py: var(--spacing-3) = 12px",
-        "--comp-callout-radius: var(--radius-2) = 8px",
+        "--comp-callout-px: var(--primitive-spacing-3\\.5) = 14px",
+        "--comp-callout-py: var(--primitive-spacing-3) = 12px",
+        "--comp-callout-radius: var(--primitive-radius-2) = 8px",
         "--comp-callout-arrow-width: 16px",
         "--comp-callout-arrow-height: 8px",
         "--comp-callout-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)",

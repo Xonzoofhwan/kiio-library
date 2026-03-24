@@ -24,7 +24,7 @@
 
 > ⚠️ **주의**: 컴포넌트 토큰이 `var(--semantic-*)`를 참조하면 반드시 `[data-theme]` 스코프에 선언해야 한다.
 > `:root`에 선언하면 시맨틱 토큰이 해당 스코프에 존재하지 않아 var() 체인이 끊어진다.
-> 크기/스페이싱 토큰(`var(--spacing-*)`, `var(--radius-*)`)은 `:root`에 정의되므로 `:root`에 선언 가능.
+> 크기/스페이싱 토큰(`var(--primitive-spacing-*)`, `var(--primitive-radius-*)`)은 `:root`에 정의되므로 `:root`에 선언 가능.
 
 **비유**: Semantic = **옵션 메뉴** (어떤 선택지가 있는가), Component = **메뉴에서 선택** (이 컴포넌트는 어떤 선택지를 쓰는가)
 
@@ -66,12 +66,12 @@
 ```css
 /* 기본 (모든 테마 공통) */
 :root {
-  --comp-button-radius-md: var(--radius-3);   /* 12px */
+  --comp-button-radius-md: var(--primitive-radius-3);   /* 12px */
 }
 
 /* 특정 테마에서만 오버라이드 */
 [data-theme="X"] {
-  --comp-button-radius-md: var(--radius-0);   /* 0px */
+  --comp-button-radius-md: var(--primitive-radius-0);   /* 0px */
 }
 ```
 
@@ -88,8 +88,8 @@
 ```css
 /* Semantic: 시스템 전체 옵션 정의 */
 [data-theme="X"] {
-  --semantic-radius-default: var(--radius-0);     /* 각진 UI */
-  --semantic-radius-full: var(--radius-24);       /* pill 형태 */
+  --semantic-radius-default: var(--primitive-radius-0);     /* 각진 UI */
+  --semantic-radius-full: var(--primitive-radius-24);       /* pill 형태 */
 }
 
 /* Component: 각 컴포넌트가 어떤 옵션을 쓸지 선택 */
@@ -145,8 +145,8 @@ Primitive          →  Semantic              →  Component                → 
 
 ```
 Primitive          →  Component                →  CVA
---spacing-10          --comp-button-height-md      h-[var(--comp-...)]
-40px                  var(--spacing-10)
+--primitive-spacing-10          --comp-button-height-md      h-[var(--comp-...)]
+40px                  var(--primitive-spacing-10)
 ```
 
 ### 색상 (테마 변동, Component가 Semantic primary 참조)

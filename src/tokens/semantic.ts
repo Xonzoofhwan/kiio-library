@@ -14,16 +14,17 @@ interface SemanticColorScale {
 }
 
 interface SemanticNeutralScale {
-  0:   string;
-  50:  string;
-  70:  string;
-  100: string;
-  200: string;
-  300: string;
-  400: string;
-  600: string;
-  800: string;
-  950: string;
+  0:    string;
+  50:   string;
+  70:   string;
+  100:  string;
+  200:  string;
+  300:  string;
+  400:  string;
+  600:  string;
+  800:  string;
+  950:  string;
+  1000: string;
 }
 
 interface SemanticBackgroundScale {
@@ -55,7 +56,11 @@ interface SemanticStateScale {
 }
 
 export interface SemanticTheme {
-  Primary:    SemanticColorScale;
+  Emphasized: {
+    Purple: SemanticColorScale;
+    Blue:   SemanticColorScale;
+    Orange: SemanticColorScale;
+  };
   Success:    SemanticColorScale;
   Warning:    SemanticColorScale;
   Error:      SemanticColorScale;
@@ -93,8 +98,9 @@ const neutralSolid: SemanticNeutralScale = {
   300: primitive.Gray[300],
   400: primitive.Gray[400],
   600: primitive.Gray[600],
-  800: primitive.Gray[800],
-  950: primitive.Gray[950],
+  800:  primitive.Gray[800],
+  950:  primitive.Gray[950],
+  1000: primitive.Gray[1000],
 };
 
 const neutralBlackAlpha: SemanticNeutralScale = {
@@ -106,8 +112,9 @@ const neutralBlackAlpha: SemanticNeutralScale = {
   300: primitive.BlackAlpha[300],
   400: primitive.BlackAlpha[400],
   600: primitive.BlackAlpha[600],
-  800: primitive.BlackAlpha[800],
-  950: primitive.BlackAlpha[950],
+  800:  primitive.BlackAlpha[800],
+  950:  primitive.BlackAlpha[950],
+  1000: primitive.BlackAlpha[1000],
 };
 
 const neutralWhiteAlpha: SemanticNeutralScale = {
@@ -119,8 +126,9 @@ const neutralWhiteAlpha: SemanticNeutralScale = {
   300: primitive.WhiteAlpha[300],
   400: primitive.WhiteAlpha[400],
   600: primitive.WhiteAlpha[600],
-  800: primitive.WhiteAlpha[800],
-  950: primitive.WhiteAlpha[950],
+  800:  primitive.WhiteAlpha[800],
+  950:  primitive.WhiteAlpha[950],
+  1000: primitive.WhiteAlpha[1000],
 };
 
 const background: SemanticBackgroundScale = {
@@ -175,17 +183,43 @@ const stateOnDim: SemanticStateScale = {
 
 export const semantic: SemanticTokens = {
   light: {
-    Primary: {
-      50:  primitive.Purple[50],
-      100: primitive.Purple[100],
-      200: primitive.Purple[200],
-      300: primitive.Purple[300],
-      400: primitive.Purple[400],
-      500: primitive.Purple[500],
-      600: primitive.Purple[600],
-      700: primitive.Purple[700],
-      800: primitive.Purple[800],
-      900: primitive.Purple[900],
+    Emphasized: {
+      Purple: {
+        50:  primitive.Purple[50],
+        100: primitive.Purple[100],
+        200: primitive.Purple[200],
+        300: primitive.Purple[300],
+        400: primitive.Purple[400],
+        500: primitive.Purple[500],
+        600: primitive.Purple[600],
+        700: primitive.Purple[700],
+        800: primitive.Purple[800],
+        900: primitive.Purple[950],
+      },
+      Blue: {
+        50:  primitive.Blue[50],
+        100: primitive.Blue[100],
+        200: primitive.Blue[200],
+        300: primitive.Blue[300],
+        400: primitive.Blue[400],
+        500: primitive.Blue[500],
+        600: primitive.Blue[600],
+        700: primitive.Blue[700],
+        800: primitive.Blue[800],
+        900: primitive.Blue[950],
+      },
+      Orange: {
+        50:  primitive.RedOrange[50],
+        100: primitive.RedOrange[100],
+        200: primitive.RedOrange[200],
+        300: primitive.RedOrange[300],
+        400: primitive.RedOrange[400],
+        500: primitive.RedOrange[500],
+        600: primitive.RedOrange[600],
+        700: primitive.RedOrange[700],
+        800: primitive.RedOrange[800],
+        900: primitive.RedOrange[950],
+      },
     },
     Success: {
       50:  primitive.Forest[50],
@@ -212,16 +246,16 @@ export const semantic: SemanticTokens = {
       900: primitive.Amber[950],
     },
     Error: {
-      50:  primitive.RedBright[50],
-      100: primitive.RedBright[100],
-      200: primitive.RedBright[200],
-      300: primitive.RedBright[300],
-      400: primitive.RedBright[400],
-      500: primitive.RedBright[500],
-      600: primitive.RedBright[600],
-      700: primitive.RedBright[700],
-      800: primitive.RedBright[800],
-      900: primitive.RedBright[950], // offset: 900 → RedBright.950
+      50:  primitive.RedDark[50],
+      100: primitive.RedDark[100],
+      200: primitive.RedDark[200],
+      300: primitive.RedDark[300],
+      400: primitive.RedDark[400],
+      500: primitive.RedDark[500],
+      600: primitive.RedDark[600],
+      700: primitive.RedDark[700],
+      800: primitive.RedDark[800],
+      900: primitive.RedDark[950],
     },
     Neutral:    { Solid: neutralSolid, BlackAlpha: neutralBlackAlpha, WhiteAlpha: neutralWhiteAlpha },
     Background: background,
@@ -232,17 +266,43 @@ export const semantic: SemanticTokens = {
 
   dark: {
     // Accent colors — same as light
-    Primary: {
-      50:  primitive.Purple[50],
-      100: primitive.Purple[100],
-      200: primitive.Purple[200],
-      300: primitive.Purple[300],
-      400: primitive.Purple[400],
-      500: primitive.Purple[500],
-      600: primitive.Purple[600],
-      700: primitive.Purple[700],
-      800: primitive.Purple[800],
-      900: primitive.Purple[900],
+    Emphasized: {
+      Purple: {
+        50:  primitive.Purple[50],
+        100: primitive.Purple[100],
+        200: primitive.Purple[200],
+        300: primitive.Purple[300],
+        400: primitive.Purple[400],
+        500: primitive.Purple[500],
+        600: primitive.Purple[600],
+        700: primitive.Purple[700],
+        800: primitive.Purple[800],
+        900: primitive.Purple[950],
+      },
+      Blue: {
+        50:  primitive.Blue[50],
+        100: primitive.Blue[100],
+        200: primitive.Blue[200],
+        300: primitive.Blue[300],
+        400: primitive.Blue[400],
+        500: primitive.Blue[500],
+        600: primitive.Blue[600],
+        700: primitive.Blue[700],
+        800: primitive.Blue[800],
+        900: primitive.Blue[950],
+      },
+      Orange: {
+        50:  primitive.RedOrange[50],
+        100: primitive.RedOrange[100],
+        200: primitive.RedOrange[200],
+        300: primitive.RedOrange[300],
+        400: primitive.RedOrange[400],
+        500: primitive.RedOrange[500],
+        600: primitive.RedOrange[600],
+        700: primitive.RedOrange[700],
+        800: primitive.RedOrange[800],
+        900: primitive.RedOrange[950],
+      },
     },
     Success: {
       50:  primitive.Forest[50],
@@ -269,16 +329,16 @@ export const semantic: SemanticTokens = {
       900: primitive.Amber[950],
     },
     Error: {
-      50:  primitive.RedBright[50],
-      100: primitive.RedBright[100],
-      200: primitive.RedBright[200],
-      300: primitive.RedBright[300],
-      400: primitive.RedBright[400],
-      500: primitive.RedBright[500],
-      600: primitive.RedBright[600],
-      700: primitive.RedBright[700],
-      800: primitive.RedBright[800],
-      900: primitive.RedBright[950], // offset: 900 → RedBright.950
+      50:  primitive.RedDark[50],
+      100: primitive.RedDark[100],
+      200: primitive.RedDark[200],
+      300: primitive.RedDark[300],
+      400: primitive.RedDark[400],
+      500: primitive.RedDark[500],
+      600: primitive.RedDark[600],
+      700: primitive.RedDark[700],
+      800: primitive.RedDark[800],
+      900: primitive.RedDark[950],
     },
     // Dark surfaces — reversed gray, swapped alpha
     Neutral: {
@@ -291,8 +351,9 @@ export const semantic: SemanticTokens = {
         300: primitive.Gray[500],
         400: primitive.Gray[400],
         600: primitive.Gray[200],
-        800: primitive.Gray[70],
-        950: primitive.Gray[0],
+        800:  primitive.Gray[70],
+        950:  primitive.Gray[0],
+        1000: primitive.Gray[0],
       },
       BlackAlpha: neutralWhiteAlpha,  // swap: light-on-dark
       WhiteAlpha: neutralBlackAlpha,  // swap: dark-on-dark
