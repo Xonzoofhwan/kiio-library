@@ -49,7 +49,7 @@ argument-hint: "[ComponentName]"
 | 토큰 종류 | CSS 스코프 | 값 참조 | 이유 |
 |-----------|-----------|---------|------|
 | 색상 (bg, content, border, state, focus) | `[data-theme]` 스코프 | `var(--semantic-*)` | 테마별 색상 전환 |
-| 크기 (height, px, gap, icon, radius) | `:root` | `var(--spacing-*)`, `var(--radius-*)` | 테마와 무관 |
+| 크기 (height, px, gap, icon, radius) | `:root` | `var(--primitive-spacing-*)`, `var(--primitive-radius-*)` | 테마와 무관 |
 
 **위반 사례**: `:root`에서 `var(--semantic-*)` 참조 → var() 체인이 끊어져 값이 비어짐.
 

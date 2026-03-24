@@ -58,11 +58,11 @@ CVA variants 블록에서 각 variant 값에 매핑된 토큰을 추출한다.
 
 ### 크기/간격 토큰 (`:root` 스코프)
 ```
---comp-{name}-height-{size}: var(--spacing-*)
---comp-{name}-px-{size}: var(--spacing-*)
---comp-{name}-gap-{size}: var(--spacing-*)
---comp-{name}-radius-{size}: var(--radius-*)
---comp-{name}-icon-{size}: var(--spacing-*)
+--comp-{name}-height-{size}: var(--primitive-spacing-*)
+--comp-{name}-px-{size}: var(--primitive-spacing-*)
+--comp-{name}-gap-{size}: var(--primitive-spacing-*)
+--comp-{name}-radius-{size}: var(--primitive-radius-*)
+--comp-{name}-icon-{size}: var(--primitive-spacing-*)
 ```
 
 ### 색상 토큰 (`[data-theme]` 스코프)

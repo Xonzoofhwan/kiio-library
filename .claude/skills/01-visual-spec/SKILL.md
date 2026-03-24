@@ -73,12 +73,12 @@ TextField: xSmall(28) small(32) medium(40) large(48) xLarge(56)
 
 | 속성 | 토큰 참조 | 설명 |
 |------|-----------|------|
-| height | `var(--spacing-*)` | 컴포넌트 높이 (4px 단위) |
-| paddingX | `var(--spacing-*)` | 좌우 패딩 |
-| gap | `var(--spacing-*)` | 내부 요소 간격 |
+| height | `var(--primitive-spacing-*)` | 컴포넌트 높이 (4px 단위) |
+| paddingX | `var(--primitive-spacing-*)` | 좌우 패딩 |
+| gap | `var(--primitive-spacing-*)` | 내부 요소 간격 |
 | typography | `typography-{size}-{weight}` | 복합 타이포 토큰 |
-| radius | `var(--radius-*)` | 테두리 둥글기 |
-| iconSize | `var(--spacing-*)` | 아이콘 크기 (있을 때) |
+| radius | `var(--primitive-radius-*)` | 테두리 둥글기 |
+| iconSize | `var(--primitive-spacing-*)` | 아이콘 크기 (있을 때) |
 
 **Tailwind spacing scale**: 1=4px, 1.5=6px, 2=8px, 2.5=10px, 3=12px, 4=16px, 5=20px, 6=24px, 7=28px, 8=32px, 10=40px, 12=48px, 14=56px
 **Typography**: `typography-{12|13|14|15|16|17|18|20|22|24|28|32|40}-{regular|medium|semibold|bold}`
