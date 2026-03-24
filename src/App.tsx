@@ -3,12 +3,14 @@ import { Sidebar, TableOfContents } from '@/components/showcase-layout'
 import type { TocEntry } from '@/components/showcase-layout'
 import { useHashRoute } from '@/hooks/useHashRoute'
 import { NavigateContext } from '@/showcase/NavigateContext'
+import { TokenShowcase, TOKEN_TOC } from '@/showcase/TokenShowcase'
 import { TooltipShowcase, TOOLTIP_TOC } from '@/showcase/TooltipShowcase'
 import { CalloutShowcase, CALLOUT_TOC } from '@/showcase/CalloutShowcase'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
 
 const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEntry[] }> = {
+  'tokens':      { component: TokenShowcase,     toc: TOKEN_TOC       },
   'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
   'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
 }
@@ -26,7 +28,7 @@ export default function App() {
   return (
     <div
       data-theme={theme}
-      className="flex h-screen overflow-hidden bg-semantic-background-0 font-pretendard"
+      className="flex h-screen overflow-hidden bg-semantic-background-0 font-geist"
     >
       <Sidebar
         active={activeId}

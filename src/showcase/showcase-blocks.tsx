@@ -55,7 +55,7 @@ export function ShowcaseHeader({
       <div className="flex items-center gap-3 mb-2">
         <h1 className="typography-24-bold text-semantic-text-on-bright-900">{name}</h1>
         {classification && (
-          <span className="typography-12-medium text-semantic-primary-500 bg-semantic-primary-50 px-2 py-0.5 rounded-full">
+          <span className="typography-12-medium text-semantic-emphasized-purple-500 bg-semantic-emphasized-purple-50 px-2 py-0.5 rounded-full">
             {classification}
           </span>
         )}
@@ -138,7 +138,7 @@ export function Playground({ config }: { config: PlaygroundConfig }) {
 }
 
 const selectClassName =
-  'typography-13-regular text-semantic-text-on-bright-700 bg-semantic-background-0 border border-semantic-divider-solid-100 rounded-2 px-2 py-1 outline-none focus:ring-1 focus:ring-semantic-primary-300'
+  'typography-13-regular text-semantic-text-on-bright-700 bg-semantic-background-0 border border-semantic-divider-solid-100 rounded-2 px-2 py-1 outline-none focus:ring-1 focus:ring-semantic-emphasized-purple-300'
 
 function PlaygroundControl({
   label,
@@ -165,7 +165,7 @@ function PlaygroundControl({
           onClick={() => onChange(!(value as boolean))}
           className={cn(
             'relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-fast ease-enter cursor-pointer',
-            (value as boolean) ? 'bg-semantic-primary-500' : 'bg-semantic-neutral-solid-300',
+            (value as boolean) ? 'bg-semantic-emphasized-purple-500' : 'bg-semantic-neutral-solid-300',
           )}
         >
           <span className={cn(
@@ -235,12 +235,12 @@ export function AnatomyBox({
       className={cn(
         'relative rounded-2 mt-3',
         dashed
-          ? 'border border-dashed border-semantic-primary-300'
+          ? 'border border-dashed border-semantic-emphasized-purple-300'
           : 'border border-semantic-divider-solid-200',
         className,
       )}
     >
-      <span className="absolute -top-2.5 left-2 px-1.5 bg-semantic-background-0 typography-12-medium text-semantic-primary-500 whitespace-nowrap leading-none">
+      <span className="absolute -top-2.5 left-2 px-1.5 bg-semantic-background-0 typography-12-medium text-semantic-emphasized-purple-500 whitespace-nowrap leading-none">
         {label}
       </span>
       {children}
@@ -261,7 +261,7 @@ function cycleSortDirection(current: SortDir): SortDir {
 }
 
 function ShowcaseSortIcon({ direction }: { direction: SortDir }) {
-  const active = 'var(--semantic-primary-500)'
+  const active = 'var(--semantic-emphasized-purple-500)'
   const inactive = 'var(--semantic-neutral-solid-400)'
 
   if (direction === 'ascending') {
@@ -308,7 +308,7 @@ function SortableHeader({
         onClick={onSort}
         className="group/sort inline-flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 m-0 font-inherit text-inherit outline-none"
       >
-        <span className={cn(isSorted && 'text-semantic-primary-500')}>{children}</span>
+        <span className={cn(isSorted && 'text-semantic-emphasized-purple-500')}>{children}</span>
         <span
           className={cn(
             'transition-opacity duration-fast ease-enter',
@@ -384,7 +384,7 @@ export function PropsTable({ props, title }: { props: PropRow[]; title?: string 
           <tbody>
             {sorted.map(prop => (
               <tr key={prop.name} className="border-b border-semantic-divider-solid-50">
-                <td className="typography-13-medium text-semantic-primary-500 py-2.5 pr-6 font-mono whitespace-nowrap">
+                <td className="typography-13-medium text-semantic-emphasized-purple-500 py-2.5 pr-6 font-mono whitespace-nowrap">
                   {prop.name}
                 </td>
                 <td className="typography-12-regular text-semantic-text-on-bright-600 py-2.5 pr-6 font-mono">
@@ -516,7 +516,7 @@ export function UsageGuidelines({
                   {' \u2192 '}
                   <button
                     onClick={() => onNavigate(item.alternative!)}
-                    className="typography-14-medium text-semantic-primary-500 hover:underline"
+                    className="typography-14-medium text-semantic-emphasized-purple-500 hover:underline"
                   >
                     {item.alternativeLabel ?? item.alternative}
                   </button>
@@ -538,7 +538,7 @@ export function UsageGuidelines({
               <button
                 key={r.id}
                 onClick={() => onNavigate?.(r.id)}
-                className="typography-13-medium text-semantic-primary-500 bg-semantic-primary-50 hover:bg-semantic-primary-100 px-3 py-1.5 rounded-full transition-colors duration-fast ease-enter"
+                className="typography-13-medium text-semantic-emphasized-purple-500 bg-semantic-emphasized-purple-50 hover:bg-semantic-emphasized-purple-100 px-3 py-1.5 rounded-full transition-colors duration-fast ease-enter"
               >
                 {r.label}
               </button>

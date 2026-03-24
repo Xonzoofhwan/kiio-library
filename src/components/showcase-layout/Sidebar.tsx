@@ -14,6 +14,12 @@ type NavGroup = {
 
 const NAV_GROUPS: NavGroup[] = [
   {
+    label: 'Foundation',
+    items: [
+      { id: 'tokens', label: 'Tokens' },
+    ],
+  },
+  {
     label: 'Overlay',
     items: [
       { id: 'tooltip', label: 'Tooltip' },
@@ -73,7 +79,7 @@ export function Sidebar({ active, onSelect, theme, onThemeChange }: SidebarProps
             onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
             className={cn(
               'relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-fast ease-enter',
-              theme === 'dark' ? 'bg-semantic-primary-500' : 'bg-semantic-neutral-solid-300',
+              theme === 'dark' ? 'bg-semantic-emphasized-purple-500' : 'bg-semantic-neutral-solid-300',
             )}
           >
             <span

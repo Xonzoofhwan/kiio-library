@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef, type MutableRefObject } from 'react'
 
 const VALID_IDS = new Set([
-  'home', 'tooltip', 'callout',
+  'home', 'tokens', 'tooltip', 'callout',
 ])
 
 function parseHash(): string {
