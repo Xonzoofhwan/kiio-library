@@ -389,23 +389,6 @@ export function CalloutShowcase() {
             </Callout.Content>
           </Callout>
 
-          <Callout variant="brand">
-            <Callout.Anchor>
-              <Button variant="outlined" size="medium">
-                Action + Close
-              </Button>
-            </Callout.Anchor>
-            <Callout.Content>
-              <Callout.Arrow />
-              <Callout.Text>
-                클릭 시 Callout이 자동으로 닫힙니다.
-              </Callout.Text>
-              <Callout.Action closeOnClick>
-                확인
-              </Callout.Action>
-              <Callout.Close />
-            </Callout.Content>
-          </Callout>
         </div>
       </section>
 

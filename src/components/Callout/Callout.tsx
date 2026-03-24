@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
-export const CALLOUT_VARIANTS = ['black', 'white', 'brand'] as const
+export const CALLOUT_VARIANTS = ['black', 'white'] as const
 export const CALLOUT_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const CALLOUT_ALIGNS = ['start', 'center', 'end'] as const
 export const CALLOUT_DISMISS_MODES = ['manual', 'auto', 'none'] as const
@@ -49,25 +49,21 @@ function ArrowForwardIcon({ className }: { className?: string }) {
 const bgMap: Record<CalloutVariant, string> = {
   black: 'bg-[var(--comp-callout-bg-black)]',
   white: 'bg-[var(--comp-callout-bg-white)]',
-  brand: 'bg-[var(--comp-callout-bg-brand)]',
 }
 
 const textMap: Record<CalloutVariant, string> = {
   black: 'text-[var(--comp-callout-text-black)]',
   white: 'text-[var(--comp-callout-text-white)]',
-  brand: 'text-[var(--comp-callout-text-brand)]',
 }
 
 const arrowColorMap: Record<CalloutVariant, string> = {
   black: 'fill-[var(--comp-callout-arrow-black)]',
   white: 'fill-[var(--comp-callout-arrow-white)]',
-  brand: 'fill-[var(--comp-callout-arrow-brand)]',
 }
 
 const closeColorMap: Record<CalloutVariant, string> = {
   black: 'text-[var(--comp-callout-close-black)] hover:bg-[var(--comp-callout-close-hover-black)]',
   white: 'text-[var(--comp-callout-close-white)] hover:bg-[var(--comp-callout-close-hover-white)]',
-  brand: 'text-[var(--comp-callout-close-brand)] hover:bg-[var(--comp-callout-close-hover-brand)]',
 }
 
 
@@ -303,7 +299,7 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
 
     return (
       <RadixPopover.Portal>
-        <div data-theme={theme} className="font-pretendard">
+        <div data-theme={theme} className="font-geist">
           <RadixPopover.Content
             ref={ref}
             side={side}

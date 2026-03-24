@@ -60,7 +60,7 @@ const playgroundConfig: PlaygroundConfig = {
         </Button>
       </Tooltip.Trigger>
       <Tooltip.Content
-        variant={props.variant as 'black' | 'white' | 'brand'}
+        variant={props.variant as 'black' | 'white'}
         side={props.side as 'top' | 'bottom' | 'left' | 'right'}
         size={props.size as 'large' | 'medium'}
         hasArrow={props.hasArrow as boolean}
@@ -120,13 +120,6 @@ const codeExamples: CodeExampleData[] = [
     <Button>White</Button>
   </Tooltip.Trigger>
   <Tooltip.Content variant="white">White tooltip</Tooltip.Content>
-</Tooltip>
-
-<Tooltip>
-  <Tooltip.Trigger>
-    <Button>Brand</Button>
-  </Tooltip.Trigger>
-  <Tooltip.Content variant="brand">Brand tooltip</Tooltip.Content>
 </Tooltip>`,
   },
   {

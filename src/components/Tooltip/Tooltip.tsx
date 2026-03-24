@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
-export const TOOLTIP_VARIANTS = ['black', 'white', 'brand'] as const
+export const TOOLTIP_VARIANTS = ['black', 'white'] as const
 export const TOOLTIP_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const TOOLTIP_ALIGNS = ['start', 'center', 'end'] as const
 export const TOOLTIP_SIZES = ['large', 'medium'] as const
@@ -19,7 +19,6 @@ export type TooltipSize = (typeof TOOLTIP_SIZES)[number]
 const variantMap: Record<TooltipVariant, string> = {
   black: 'bg-[var(--comp-tooltip-bg-black)] text-[var(--comp-tooltip-text-black)]',
   white: 'bg-[var(--comp-tooltip-bg-white)] text-[var(--comp-tooltip-text-white)]',
-  brand: 'bg-[var(--comp-tooltip-bg-brand)] text-[var(--comp-tooltip-text-brand)]',
 }
 
 const typographyMap: Record<TooltipSize, string> = {
@@ -30,7 +29,6 @@ const typographyMap: Record<TooltipSize, string> = {
 const arrowColorMap: Record<TooltipVariant, string> = {
   black: 'fill-[var(--comp-tooltip-arrow-black)]',
   white: 'fill-[var(--comp-tooltip-arrow-white)]',
-  brand: 'fill-[var(--comp-tooltip-arrow-brand)]',
 }
 
 /* ─── Theme context ───────────────────────────────────────────────────────── */
@@ -251,7 +249,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
 
     return (
       <RadixTooltip.Portal>
-        <div data-theme={theme} className="font-pretendard">
+        <div data-theme={theme} className="font-geist">
           <RadixTooltip.Content
             ref={ref}
             side={side}
