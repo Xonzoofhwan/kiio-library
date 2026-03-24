@@ -1,13 +1,13 @@
 // ============================================================
 // MOTION TOKENS
-// Duration (5 steps) + Easing (4 curves)
+// Duration (6 steps) + Easing (4 curves)
 // Primitive → Semantic 2-layer like colors.
 // Do NOT use primitive motion tokens directly in components.
 // ============================================================
 
 // --- Primitive ---
 
-export type PrimitiveDurationKey = '0' | '100' | '200' | '300' | '500';
+export type PrimitiveDurationKey = '0' | '100' | '150' | '200' | '300' | '500';
 export type PrimitiveEasingKey = 'ease-out' | 'ease-in' | 'ease-in-out' | 'linear';
 
 export type PrimitiveDurationScale = Record<PrimitiveDurationKey, string>;
@@ -15,7 +15,7 @@ export type PrimitiveEasingScale = Record<PrimitiveEasingKey, string>;
 
 // --- Semantic ---
 
-export type SemanticDurationKey = 'instant' | 'fast' | 'normal' | 'slow' | 'slower';
+export type SemanticDurationKey = 'instant' | 'fast' | 'medium' | 'normal' | 'slow' | 'slower';
 export type SemanticEasingKey = 'enter' | 'exit' | 'move' | 'linear';
 
 export type SemanticDurationScale = Record<SemanticDurationKey, string>;
@@ -33,6 +33,7 @@ export const motion: MotionTokens = {
     duration: {
       '0':   '0ms',
       '100': '100ms',
+      '150': '150ms',
       '200': '200ms',
       '300': '300ms',
       '500': '500ms',
@@ -48,6 +49,7 @@ export const motion: MotionTokens = {
     duration: {
       instant: 'var(--semantic-duration-instant)',
       fast:    'var(--semantic-duration-fast)',
+      medium:  'var(--semantic-duration-medium)',
       normal:  'var(--semantic-duration-normal)',
       slow:    'var(--semantic-duration-slow)',
       slower:  'var(--semantic-duration-slower)',
