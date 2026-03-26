@@ -1,0 +1,148 @@
+{
+  "component": "TextButton",
+  "description": "Background-less text button with color-only state transitions. Used for inline or secondary actions where a full button is too heavy.",
+  "figmaNode": "6657:27930",
+
+  "props": {
+    "color": {
+      "type": "'neutral' | 'blue'",
+      "default": "neutral",
+      "description": "Text color variant."
+    },
+    "size": {
+      "type": "'xLarge' | 'large' | 'medium' | 'small'",
+      "default": "medium"
+    },
+    "onDim": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use on-dim surface text colors. Maps to Figma 'Has dim background'."
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hug (false) or Fill (true)"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows spinner, hides content, disables interaction."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Leading icon slot. Component handles sizing internally via size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon slot."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element with component styles."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "36px (spacing-9)",
+        "iconSize": "24px (button-icon-xl)",
+        "typography": "typography-18-medium",
+        "gap": "4px (spacing-1)"
+      },
+      "large": {
+        "height": "32px (spacing-8)",
+        "iconSize": "20px (button-icon-lg)",
+        "typography": "typography-16-medium",
+        "gap": "2px (spacing-0.5)"
+      },
+      "medium": {
+        "height": "28px (spacing-7)",
+        "iconSize": "18px (button-icon-md)",
+        "typography": "typography-14-medium",
+        "gap": "0px"
+      },
+      "small": {
+        "height": "24px (spacing-6)",
+        "iconSize": "16px (button-icon-sm)",
+        "typography": "typography-12-medium",
+        "gap": "0px"
+      }
+    },
+    "color": {
+      "neutral": {
+        "onBright": {
+          "default": "text-on-bright-800",
+          "hover": "text-on-bright-900",
+          "pressed": "text-on-bright-950",
+          "disabled": "neutral-black-alpha-300"
+        },
+        "onDim": {
+          "default": "text-on-dim-800",
+          "hover": "text-on-dim-900",
+          "pressed": "text-on-dim-950",
+          "disabled": "neutral-white-alpha-300"
+        }
+      },
+      "blue": {
+        "onBright": {
+          "default": "emphasized-blue-500",
+          "hover": "emphasized-blue-600",
+          "pressed": "emphasized-blue-700",
+          "disabled": "emphasized-blue-200"
+        },
+        "onDim": {
+          "default": "emphasized-blue-500",
+          "hover": "emphasized-blue-400",
+          "pressed": "emphasized-blue-300",
+          "disabled": "emphasized-blue-800"
+        }
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "description": "Text color shifts one shade darker (on-bright) or lighter (on-dim). No state overlay."
+    },
+    "pressed": {
+      "description": "Text color shifts two shades from default. No state overlay."
+    },
+    "focused": {
+      "all": "border-2 border-[var(--comp-button-focus-border)] (focus-visible only, no radius)"
+    },
+    "disabled": {
+      "description": "Low-contrast text color. pointer-events-none + aria-disabled."
+    },
+    "loading": {
+      "description": "Content becomes invisible, spinner centered. Component size preserved. Interaction disabled (pointer-events-none + aria-disabled + aria-busy)."
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "stateOverlay": "None — text color changes directly via hover:/active: pseudo-class utilities on root element.",
+    "loadingStrategy": "Content marked invisible, Spinner absolute centered.",
+    "sharedImports": [
+      "iconSizeMap from Button/shared",
+      "iconFontSizeVar from Button/shared",
+      "spinnerSizeMap from Button/shared"
+    ],
+    "files": [
+      "src/components/TextButton/TextButton.tsx",
+      "src/components/TextButton/index.ts"
+    ],
+    "dependencies": [
+      "src/components/icons/Spinner.tsx",
+      "src/components/Button/shared.ts"
+    ]
+  }
+}

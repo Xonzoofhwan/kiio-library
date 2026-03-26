@@ -1,0 +1,201 @@
+{
+  "component": "Button",
+  "description": "Universal intent button. 4 hierarchy levels (primary, secondary, outlined, ghost), 4 sizes, 3 shapes, loading state, and icon slots. Part of the Button system (Button / IconButton / TextButton).",
+  "figmaNode": "6648:14947",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "props": {
+    "hierarchy": {
+      "type": "'primary' | 'secondary' | 'outlined' | 'ghost'",
+      "default": "primary"
+    },
+    "size": {
+      "type": "'xLarge' | 'large' | 'medium' | 'small'",
+      "default": "medium"
+    },
+    "shape": {
+      "type": "'basic' | 'circular' | 'square'",
+      "default": "basic"
+    },
+    "fullWidth": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hug (false) or Fill (true)"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction."
+    },
+    "loading": {
+      "type": "boolean",
+      "default": false,
+      "description": "Shows spinner, hides content, disables interaction."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Leading icon slot. Component handles sizing internally via size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon slot."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders child element with component styles."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "xLarge": {
+        "height": "h-14 (56px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-5 (20px)",
+        "iconSize": "size-6 (24px)",
+        "typography": "typography-18-semibold",
+        "gap": "gap-2 (8px)",
+        "textMarginX": "px-1 (4px)",
+        "spinnerSize": "size-6 (24px)"
+      },
+      "large": {
+        "height": "h-12 (48px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-4 (16px)",
+        "iconSize": "size-5 (20px)",
+        "typography": "typography-16-semibold",
+        "gap": "gap-1.5 (6px)",
+        "textMarginX": "px-1 (4px)",
+        "spinnerSize": "size-6 (24px)"
+      },
+      "medium": {
+        "height": "h-10 (40px)",
+        "radius": "rounded-3 (12px)",
+        "paddingX": "px-3 (12px)",
+        "iconSize": "size-[18px]",
+        "typography": "typography-14-semibold",
+        "gap": "gap-0.5 (2px)",
+        "textMarginX": "px-1 (4px)",
+        "spinnerSize": "size-5 (20px)"
+      },
+      "small": {
+        "height": "h-8 (32px)",
+        "radius": "rounded-2 (8px)",
+        "paddingX": "px-2.5 (10px)",
+        "iconSize": "size-4 (16px)",
+        "typography": "typography-12-semibold",
+        "gap": "gap-0.5 (2px)",
+        "textMarginX": "px-0.5 (2px)",
+        "spinnerSize": "size-5 (20px)"
+      }
+    },
+    "hierarchy": {
+      "primary": {
+        "background": "bg-semantic-neutral-solid-950",
+        "content": "text-semantic-neutral-solid-0",
+        "border": "none",
+        "stateOverlayType": "on-dim"
+      },
+      "secondary": {
+        "background": "bg-semantic-neutral-black-alpha-70",
+        "content": "text-semantic-neutral-solid-950",
+        "border": "none",
+        "stateOverlayType": "on-bright"
+      },
+      "outlined": {
+        "background": "bg-transparent",
+        "content": "text-semantic-neutral-black-alpha-600",
+        "border": "border border-semantic-neutral-black-alpha-200",
+        "stateOverlayType": "on-bright"
+      },
+      "ghost": {
+        "background": "bg-transparent",
+        "content": "text-semantic-neutral-black-alpha-600",
+        "border": "none",
+        "stateOverlayType": "on-bright"
+      }
+    },
+    "shape": {
+      "basic": {
+        "radius": "size-dependent (xL/L/M: rounded-3, S: rounded-2)"
+      },
+      "circular": {
+        "radius": "rounded-full (9999px)"
+      },
+      "square": {
+        "radius": "rounded-none (0px)"
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "primary": "state overlay: semantic-state-on-dim-50",
+      "secondary": "state overlay: semantic-state-on-bright-50",
+      "outlined": "state overlay: semantic-state-on-bright-50",
+      "ghost": "state overlay: semantic-state-on-bright-50"
+    },
+    "pressed": {
+      "primary": "state overlay: semantic-state-on-dim-100",
+      "secondary": "state overlay: semantic-state-on-bright-70",
+      "outlined": "state overlay: semantic-state-on-bright-70",
+      "ghost": "state overlay: semantic-state-on-bright-70"
+    },
+    "focused": {
+      "all": "border-2 border-semantic-neutral-solid-1000 (focus-visible only)",
+      "outlined-adjust": "inset-[-1px] to compensate existing 1px border"
+    },
+    "disabled": {
+      "primary": {
+        "background": "bg-semantic-neutral-solid-300",
+        "content": "text-semantic-neutral-white-alpha-400"
+      },
+      "secondary": {
+        "background": "bg-semantic-neutral-black-alpha-70",
+        "content": "text-semantic-neutral-black-alpha-200"
+      },
+      "outlined": {
+        "background": "bg-semantic-neutral-black-alpha-50",
+        "content": "text-semantic-neutral-black-alpha-200",
+        "border": "border-semantic-neutral-black-alpha-100"
+      },
+      "ghost": {
+        "background": "bg-transparent",
+        "content": "text-semantic-neutral-black-alpha-200"
+      }
+    },
+    "loading": {
+      "description": "Content becomes invisible (opacity-0), spinner absolute centered at same icon size. Interaction disabled (pointer-events-none + aria-disabled + aria-busy)."
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot",
+    "stateOverlay": "Sibling <span> inside button with group-hover/group-active classes. Root needs 'group relative overflow-hidden'.",
+    "focusRing": "Separate absolute <span> with border-2, shown on focus-visible only. Uses pointerRef to distinguish mouse/keyboard focus.",
+    "loadingStrategy": "Content wrapper gets 'invisible' class, Spinner absolute centered in content area.",
+    "domStructure": [
+      "button (root: bg, height, radius, border, group relative)",
+      "  span (focus ring: absolute, border-2, conditional)",
+      "  span (state overlay: absolute inset-0, group-hover/group-active bg)",
+      "  span (content wrapper: relative, flex, items-center, justify-center)",
+      "    span (loading spinner: absolute, conditional)",
+      "    span (inner: flex, gap, items-center)",
+      "      {iconLeading}",
+      "      span (text with px margin)",
+      "      {iconTrailing}"
+    ],
+    "files": [
+      "src/components/Button/Button.tsx",
+      "src/components/Button/index.ts"
+    ],
+    "dependencies": [
+      "src/lib/utils.ts (cn)",
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ]
+  }
+}

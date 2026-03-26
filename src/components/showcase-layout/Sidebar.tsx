@@ -20,6 +20,14 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: 'Actions',
+    items: [
+      { id: 'button', label: 'Button' },
+      { id: 'icon-button', label: 'IconButton' },
+      { id: 'text-button', label: 'TextButton' },
+    ],
+  },
+  {
     label: 'Overlay',
     items: [
       { id: 'tooltip', label: 'Tooltip' },

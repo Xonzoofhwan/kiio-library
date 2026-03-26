@@ -6,21 +6,32 @@ import { NavigateContext } from '@/showcase/NavigateContext'
 import { TokenShowcase, TOKEN_TOC } from '@/showcase/TokenShowcase'
 import { TooltipShowcase, TOOLTIP_TOC } from '@/showcase/TooltipShowcase'
 import { CalloutShowcase, CALLOUT_TOC } from '@/showcase/CalloutShowcase'
+import { ButtonShowcase, BUTTON_TOC } from '@/showcase/ButtonShowcase'
+import { IconButtonShowcase, ICON_BUTTON_TOC } from '@/showcase/IconButtonShowcase'
+import { TextButtonShowcase, TEXT_BUTTON_TOC } from '@/showcase/TextButtonShowcase'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
+// 새 페이지 등록: 여기에만 추가하면 라우팅 + 사이드바 자동 연동.
+// (Sidebar NAV_GROUPS에 수동 추가도 필요)
 
 const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEntry[] }> = {
   'tokens':      { component: TokenShowcase,     toc: TOKEN_TOC       },
+  'button':      { component: ButtonShowcase,    toc: BUTTON_TOC      },
+  'icon-button': { component: IconButtonShowcase, toc: ICON_BUTTON_TOC },
+  'text-button': { component: TextButtonShowcase, toc: TEXT_BUTTON_TOC },
   'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
   'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
 }
+
+/** Derived from SHOWCASE_MAP — useHashRoute uses this to validate hash IDs. */
+const VALID_SHOWCASE_IDS = new Set(Object.keys(SHOWCASE_MAP))
 
 /* ─── App ─────────────────────────────────────────────────────────────────── */
 
 export default function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const mainRef = useRef<HTMLDivElement>(null)
-  const { activeId, navigate } = useHashRoute(mainRef)
+  const { activeId, navigate } = useHashRoute(mainRef, VALID_SHOWCASE_IDS)
 
   const entry = SHOWCASE_MAP[activeId] ?? SHOWCASE_MAP['tooltip']
   const { component: ActiveShowcase, toc } = entry

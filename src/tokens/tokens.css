@@ -460,6 +460,8 @@
   --font-geist: 'Geist Sans', sans-serif;
 
   /* font-size (rem, base 16px) */
+  --text-size-64: 4rem;
+  --text-size-48: 3rem;
   --text-size-40: 2.5rem;
   --text-size-32: 2rem;
   --text-size-28: 1.75rem;
@@ -477,33 +479,37 @@
   --text-size-10: 0.625rem;
 
   /* line-height (px) */
+  --text-lh-64: 72px;
+  --text-lh-48: 56px;
   --text-lh-40: 48px;
   --text-lh-32: 38px;
   --text-lh-28: 34px;
   --text-lh-24: 30px;
   --text-lh-22: 28px;
   --text-lh-20: 28px;
-  --text-lh-18: 26px;
+  --text-lh-18: 28px;
   --text-lh-17: 24px;
   --text-lh-16: 24px;
-  --text-lh-15: 22px;
+  --text-lh-15: 24px;
   --text-lh-14: 20px;
-  --text-lh-13: 18px;
+  --text-lh-13: 16px;
   --text-lh-12: 16px;
-  --text-lh-11: 14px;
+  --text-lh-11: 12px;
   --text-lh-10: 12px;
 
   /* letter-spacing (em) */
+  --text-ls-64: -0.012em;
+  --text-ls-48: -0.012em;
   --text-ls-40: -0.012em;
   --text-ls-32: -0.012em;
   --text-ls-28: -0.010em;
   --text-ls-24: -0.008em;
   --text-ls-22: -0.016em;
   --text-ls-20: -0.024em;
-  --text-ls-18: -0.024em;
-  --text-ls-17: -0.020em;
-  --text-ls-16: -0.018em;
-  --text-ls-15: -0.008em;
+  --text-ls-18: -0.012em;
+  --text-ls-17: -0.010em;
+  --text-ls-16: -0.009em;
+  --text-ls-15: -0.004em;
   --text-ls-14: 0em;
   --text-ls-13: 0em;
   --text-ls-12: 0em;
@@ -570,6 +576,62 @@
   --comp-callout-close-size:      32px;
   --comp-callout-close-icon:      20px;
   --comp-callout-action-icon:     20px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Button (size/spacing layer)
+     Naming: --comp-button-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Height ─── */
+  --comp-button-height-xl:        var(--primitive-spacing-14);     /* 56px */
+  --comp-button-height-lg:        var(--primitive-spacing-12);     /* 48px */
+  --comp-button-height-md:        var(--primitive-spacing-10);     /* 40px */
+  --comp-button-height-sm:        var(--primitive-spacing-8);      /* 32px */
+
+  /* ─── Horizontal padding ─── */
+  --comp-button-px-xl:            var(--primitive-spacing-5);      /* 20px */
+  --comp-button-px-lg:            var(--primitive-spacing-4);      /* 16px */
+  --comp-button-px-md:            var(--primitive-spacing-3);      /* 12px */
+  --comp-button-px-sm:            var(--primitive-spacing-2\.5);   /* 10px */
+
+  /* ─── Gap (between icon and text) ─── */
+  --comp-button-gap-xl:           var(--primitive-spacing-2);      /* 8px */
+  --comp-button-gap-lg:           var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-button-gap-md:           var(--primitive-spacing-0\.5);   /* 2px */
+  --comp-button-gap-sm:           var(--primitive-spacing-0\.5);   /* 2px */
+
+  /* ─── Icon size ─── */
+  --comp-button-icon-xl:          24px;
+  --comp-button-icon-lg:          20px;
+  --comp-button-icon-md:          18px;
+  --comp-button-icon-sm:          16px;
+
+  /* ─── Text margin (inner padding around label) ─── */
+  --comp-button-text-mx-xl:       var(--primitive-spacing-1);     /* 4px */
+  --comp-button-text-mx-lg:       var(--primitive-spacing-1);     /* 4px */
+  --comp-button-text-mx-md:       var(--primitive-spacing-1);     /* 4px */
+  --comp-button-text-mx-sm:       var(--primitive-spacing-0\.5);  /* 2px */
+
+  /* ─── Border radius (basic shape) ─── */
+  --comp-button-radius-xl:        var(--primitive-radius-3);       /* 12px */
+  --comp-button-radius-lg:        var(--primitive-radius-3);       /* 12px */
+  --comp-button-radius-md:        var(--primitive-radius-3);       /* 12px */
+  --comp-button-radius-sm:        var(--primitive-radius-2);       /* 8px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — TextButton (size/spacing layer)
+     Naming: --comp-text-button-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Height ─── */
+  --comp-text-button-height-xl:   var(--primitive-spacing-9);      /* 36px */
+  --comp-text-button-height-lg:   var(--primitive-spacing-8);      /* 32px */
+  --comp-text-button-height-md:   var(--primitive-spacing-7);      /* 28px */
+  --comp-text-button-height-sm:   var(--primitive-spacing-6);      /* 24px */
+
+  /* ─── Gap (between icon and text) ─── */
+  --comp-text-button-gap-xl:      var(--primitive-spacing-1);      /* 4px */
+  --comp-text-button-gap-lg:      var(--primitive-spacing-0\.5);   /* 2px */
 }
 
 /* ----------------------------------------------------------
@@ -939,6 +1001,48 @@
   --comp-callout-close-white:            var(--semantic-text-on-bright-600);
   --comp-callout-close-hover-white:      var(--semantic-state-on-bright-50);
   --comp-callout-action-white:           var(--semantic-text-on-bright-800);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Button (color layer)
+     Naming: --comp-button-{property}-{hierarchy}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Primary hierarchy ─── */
+  --comp-button-bg-primary:                 var(--semantic-neutral-solid-950);
+  --comp-button-content-primary:            var(--semantic-neutral-solid-0);
+  --comp-button-hover-primary:              var(--semantic-state-on-dim-50);
+  --comp-button-active-primary:             var(--semantic-state-on-dim-100);
+  --comp-button-bg-primary-disabled:        var(--semantic-neutral-solid-300);
+  --comp-button-content-primary-disabled:   var(--semantic-neutral-white-alpha-400);
+
+  /* ─── Secondary hierarchy ─── */
+  --comp-button-bg-secondary:               var(--semantic-neutral-black-alpha-70);
+  --comp-button-content-secondary:          var(--semantic-neutral-solid-950);
+  --comp-button-hover-secondary:            var(--semantic-state-on-bright-50);
+  --comp-button-active-secondary:           var(--semantic-state-on-bright-70);
+  --comp-button-bg-secondary-disabled:      var(--semantic-neutral-black-alpha-70);
+  --comp-button-content-secondary-disabled: var(--semantic-neutral-black-alpha-200);
+
+  /* ─── Outlined hierarchy ─── */
+  --comp-button-bg-outlined:                transparent;
+  --comp-button-content-outlined:           var(--semantic-neutral-black-alpha-600);
+  --comp-button-border-outlined:            var(--semantic-neutral-black-alpha-200);
+  --comp-button-hover-outlined:             var(--semantic-state-on-bright-50);
+  --comp-button-active-outlined:            var(--semantic-state-on-bright-70);
+  --comp-button-bg-outlined-disabled:       var(--semantic-neutral-black-alpha-50);
+  --comp-button-content-outlined-disabled:  var(--semantic-neutral-black-alpha-200);
+  --comp-button-border-outlined-disabled:   var(--semantic-neutral-black-alpha-100);
+
+  /* ─── Ghost hierarchy ─── */
+  --comp-button-bg-ghost:                   transparent;
+  --comp-button-content-ghost:              var(--semantic-neutral-black-alpha-600);
+  --comp-button-hover-ghost:                var(--semantic-state-on-bright-50);
+  --comp-button-active-ghost:               var(--semantic-state-on-bright-70);
+  --comp-button-bg-ghost-disabled:          transparent;
+  --comp-button-content-ghost-disabled:     var(--semantic-neutral-black-alpha-200);
+
+  /* ─── Focus ring ─── */
+  --comp-button-focus-border:               var(--semantic-neutral-solid-1000);
 
 }
 

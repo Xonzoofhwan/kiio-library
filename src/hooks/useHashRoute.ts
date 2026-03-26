@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback, useRef, type MutableRefObject } from 'react'
 
-const VALID_IDS = new Set([
-  'home', 'tokens', 'tooltip', 'callout',
-])
+/**
+ * @param validIds — SHOWCASE_MAP의 키를 전달받아 유효한 해시 ID를 판별.
+ * 새 페이지 등록 시 App.tsx의 SHOWCASE_MAP에만 추가하면 자동으로 라우팅됨.
+ */
+export function useHashRoute(scrollRef?: MutableRefObject<HTMLElement | null>, validIds?: Set<string>) {
+  function parseHash(): string {
+    const raw = window.location.hash.replace(/^#\/?/, '')
+    return validIds?.has(raw) ? raw : 'home'
+  }
 
-function parseHash(): string {
-  const raw = window.location.hash.replace(/^#\/?/, '')
-  return VALID_IDS.has(raw) ? raw : 'home'
-}
-
-export function useHashRoute(scrollRef?: MutableRefObject<HTMLElement | null>) {
   const [activeId, setActiveId] = useState(parseHash)
   const isNavigating = useRef(false)
 

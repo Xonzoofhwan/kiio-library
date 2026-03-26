@@ -690,6 +690,16 @@ export default {
     // --------------------------------------------------------
     function({ addUtilities }) {
       const tokens = {
+        // size 64 — 4rem / 72px / -0.012em
+        '64-bold':     { fontSize: 'var(--text-size-64)', lineHeight: 'var(--text-lh-64)', letterSpacing: 'var(--text-ls-64)', fontWeight: '700' },
+        '64-semibold': { fontSize: 'var(--text-size-64)', lineHeight: 'var(--text-lh-64)', letterSpacing: 'var(--text-ls-64)', fontWeight: '600' },
+        '64-medium':   { fontSize: 'var(--text-size-64)', lineHeight: 'var(--text-lh-64)', letterSpacing: 'var(--text-ls-64)', fontWeight: '500' },
+        '64-regular':  { fontSize: 'var(--text-size-64)', lineHeight: 'var(--text-lh-64)', letterSpacing: 'var(--text-ls-64)', fontWeight: '400' },
+        // size 48 — 3rem / 56px / -0.012em
+        '48-bold':     { fontSize: 'var(--text-size-48)', lineHeight: 'var(--text-lh-48)', letterSpacing: 'var(--text-ls-48)', fontWeight: '700' },
+        '48-semibold': { fontSize: 'var(--text-size-48)', lineHeight: 'var(--text-lh-48)', letterSpacing: 'var(--text-ls-48)', fontWeight: '600' },
+        '48-medium':   { fontSize: 'var(--text-size-48)', lineHeight: 'var(--text-lh-48)', letterSpacing: 'var(--text-ls-48)', fontWeight: '500' },
+        '48-regular':  { fontSize: 'var(--text-size-48)', lineHeight: 'var(--text-lh-48)', letterSpacing: 'var(--text-ls-48)', fontWeight: '400' },
         // size 40 — 2.5rem / 48px / -0.012em
         '40-bold':     { fontSize: 'var(--text-size-40)', lineHeight: 'var(--text-lh-40)', letterSpacing: 'var(--text-ls-40)', fontWeight: '700' },
         '40-semibold': { fontSize: 'var(--text-size-40)', lineHeight: 'var(--text-lh-40)', letterSpacing: 'var(--text-ls-40)', fontWeight: '600' },
@@ -720,22 +730,22 @@ export default {
         '20-semibold': { fontSize: 'var(--text-size-20)', lineHeight: 'var(--text-lh-20)', letterSpacing: 'var(--text-ls-20)', fontWeight: '600' },
         '20-medium':   { fontSize: 'var(--text-size-20)', lineHeight: 'var(--text-lh-20)', letterSpacing: 'var(--text-ls-20)', fontWeight: '500' },
         '20-regular':  { fontSize: 'var(--text-size-20)', lineHeight: 'var(--text-lh-20)', letterSpacing: 'var(--text-ls-20)', fontWeight: '400' },
-        // size 18 — 1.125rem / 26px / -0.024em
+        // size 18 — 1.125rem / 28px / -0.012em
         '18-bold':     { fontSize: 'var(--text-size-18)', lineHeight: 'var(--text-lh-18)', letterSpacing: 'var(--text-ls-18)', fontWeight: '700' },
         '18-semibold': { fontSize: 'var(--text-size-18)', lineHeight: 'var(--text-lh-18)', letterSpacing: 'var(--text-ls-18)', fontWeight: '600' },
         '18-medium':   { fontSize: 'var(--text-size-18)', lineHeight: 'var(--text-lh-18)', letterSpacing: 'var(--text-ls-18)', fontWeight: '500' },
         '18-regular':  { fontSize: 'var(--text-size-18)', lineHeight: 'var(--text-lh-18)', letterSpacing: 'var(--text-ls-18)', fontWeight: '400' },
-        // size 17 — 1.0625rem / 24px / -0.020em
+        // size 17 — 1.0625rem / 24px / -0.010em
         '17-bold':     { fontSize: 'var(--text-size-17)', lineHeight: 'var(--text-lh-17)', letterSpacing: 'var(--text-ls-17)', fontWeight: '700' },
         '17-semibold': { fontSize: 'var(--text-size-17)', lineHeight: 'var(--text-lh-17)', letterSpacing: 'var(--text-ls-17)', fontWeight: '600' },
         '17-medium':   { fontSize: 'var(--text-size-17)', lineHeight: 'var(--text-lh-17)', letterSpacing: 'var(--text-ls-17)', fontWeight: '500' },
         '17-regular':  { fontSize: 'var(--text-size-17)', lineHeight: 'var(--text-lh-17)', letterSpacing: 'var(--text-ls-17)', fontWeight: '400' },
-        // size 16 — 1rem / 24px / -0.018em
+        // size 16 — 1rem / 24px / -0.009em
         '16-bold':     { fontSize: 'var(--text-size-16)', lineHeight: 'var(--text-lh-16)', letterSpacing: 'var(--text-ls-16)', fontWeight: '700' },
         '16-semibold': { fontSize: 'var(--text-size-16)', lineHeight: 'var(--text-lh-16)', letterSpacing: 'var(--text-ls-16)', fontWeight: '600' },
         '16-medium':   { fontSize: 'var(--text-size-16)', lineHeight: 'var(--text-lh-16)', letterSpacing: 'var(--text-ls-16)', fontWeight: '500' },
         '16-regular':  { fontSize: 'var(--text-size-16)', lineHeight: 'var(--text-lh-16)', letterSpacing: 'var(--text-ls-16)', fontWeight: '400' },
-        // size 15 — 0.9375rem / 22px / -0.008em
+        // size 15 — 0.9375rem / 24px / -0.004em
         '15-bold':     { fontSize: 'var(--text-size-15)', lineHeight: 'var(--text-lh-15)', letterSpacing: 'var(--text-ls-15)', fontWeight: '700' },
         '15-semibold': { fontSize: 'var(--text-size-15)', lineHeight: 'var(--text-lh-15)', letterSpacing: 'var(--text-ls-15)', fontWeight: '600' },
         '15-medium':   { fontSize: 'var(--text-size-15)', lineHeight: 'var(--text-lh-15)', letterSpacing: 'var(--text-ls-15)', fontWeight: '500' },
@@ -745,7 +755,7 @@ export default {
         '14-semibold': { fontSize: 'var(--text-size-14)', lineHeight: 'var(--text-lh-14)', letterSpacing: 'var(--text-ls-14)', fontWeight: '600' },
         '14-medium':   { fontSize: 'var(--text-size-14)', lineHeight: 'var(--text-lh-14)', letterSpacing: 'var(--text-ls-14)', fontWeight: '500' },
         '14-regular':  { fontSize: 'var(--text-size-14)', lineHeight: 'var(--text-lh-14)', letterSpacing: 'var(--text-ls-14)', fontWeight: '400' },
-        // size 13 — 0.8125rem / 18px / 0em
+        // size 13 — 0.8125rem / 16px / 0em
         '13-bold':     { fontSize: 'var(--text-size-13)', lineHeight: 'var(--text-lh-13)', letterSpacing: 'var(--text-ls-13)', fontWeight: '700' },
         '13-semibold': { fontSize: 'var(--text-size-13)', lineHeight: 'var(--text-lh-13)', letterSpacing: 'var(--text-ls-13)', fontWeight: '600' },
         '13-medium':   { fontSize: 'var(--text-size-13)', lineHeight: 'var(--text-lh-13)', letterSpacing: 'var(--text-ls-13)', fontWeight: '500' },
@@ -755,7 +765,7 @@ export default {
         '12-semibold': { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '600' },
         '12-medium':   { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '500' },
         '12-regular':  { fontSize: 'var(--text-size-12)', lineHeight: 'var(--text-lh-12)', letterSpacing: 'var(--text-ls-12)', fontWeight: '400' },
-        // size 11 — 0.6875rem / 14px / 0em
+        // size 11 — 0.6875rem / 12px / 0em
         '11-bold':     { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '700' },
         '11-semibold': { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '600' },
         '11-medium':   { fontSize: 'var(--text-size-11)', lineHeight: 'var(--text-lh-11)', letterSpacing: 'var(--text-ls-11)', fontWeight: '500' },
