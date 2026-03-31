@@ -5,9 +5,12 @@ import { useState, useEffect, useCallback, useRef, type MutableRefObject } from 
  * 새 페이지 등록 시 App.tsx의 SHOWCASE_MAP에만 추가하면 자동으로 라우팅됨.
  */
 export function useHashRoute(scrollRef?: MutableRefObject<HTMLElement | null>, validIds?: Set<string>) {
+  const validIdsRef = useRef(validIds)
+  validIdsRef.current = validIds
+
   function parseHash(): string {
     const raw = window.location.hash.replace(/^#\/?/, '')
-    return validIds?.has(raw) ? raw : 'home'
+    return validIdsRef.current?.has(raw) ? raw : 'home'
   }
 
   const [activeId, setActiveId] = useState(parseHash)

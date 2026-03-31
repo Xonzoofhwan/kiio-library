@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { useState, useEffect, useCallback } from 'react'
+import { NavVertical } from '@/components/NavVertical'
 
 export type TocEntry = {
   id: string
@@ -35,38 +35,27 @@ export function TableOfContents({ entries }: TableOfContentsProps) {
     return () => observer.disconnect()
   }, [entries])
 
-  const handleClick = (id: string) => {
-    const el = document.getElementById(id)
+  const handleValueChange = useCallback((value: string) => {
+    const el = document.getElementById(value)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  }, [])
 
   return (
     <aside>
-      <p className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider mb-3">
-        On this page
-      </p>
-      <nav>
-        <ul className="flex flex-col gap-0.5">
+      <NavVertical
+        value={activeId}
+        onValueChange={handleValueChange}
+        size="small"
+        shape="basic"
+      >
+        <NavVertical.Group label="On this page">
           {entries.map(entry => (
-            <li key={entry.id}>
-              <button
-                onClick={() => handleClick(entry.id)}
-                className={cn(
-                  'w-full text-left py-1 transition-colors duration-fast ease-enter',
-                  entry.level === 1
-                    ? 'typography-14-semibold'
-                    : 'typography-14-regular pl-2',
-                  activeId === entry.id
-                    ? 'text-semantic-text-on-bright-900'
-                    : 'text-semantic-text-on-bright-400 hover:text-semantic-text-on-bright-700',
-                )}
-              >
-                {entry.label}
-              </button>
-            </li>
+            <NavVertical.Item key={entry.id} value={entry.id}>
+              {entry.label}
+            </NavVertical.Item>
           ))}
-        </ul>
-      </nav>
+        </NavVertical.Group>
+      </NavVertical>
     </aside>
   )
 }

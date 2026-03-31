@@ -9,6 +9,12 @@ import { CalloutShowcase, CALLOUT_TOC } from '@/showcase/CalloutShowcase'
 import { ButtonShowcase, BUTTON_TOC } from '@/showcase/ButtonShowcase'
 import { IconButtonShowcase, ICON_BUTTON_TOC } from '@/showcase/IconButtonShowcase'
 import { TextButtonShowcase, TEXT_BUTTON_TOC } from '@/showcase/TextButtonShowcase'
+import { TabShowcase, TAB_TOC } from '@/showcase/TabShowcase'
+import { BadgeShowcase, BADGE_TOC } from '@/showcase/BadgeShowcase'
+import { NavVerticalShowcase, NAV_VERTICAL_TOC } from '@/showcase/NavVerticalShowcase'
+import { SegmentBarShowcase, SEGMENT_BAR_TOC } from '@/showcase/SegmentBarShowcase'
+import { ChipShowcase, CHIP_TOC } from '@/showcase/ChipShowcase'
+import { ChipBadgeLikeShowcase, CHIP_BADGELIKE_TOC } from '@/showcase/ChipBadgeLikeShowcase'
 
 /* ─── Showcase map ────────────────────────────────────────────────────────── */
 // 새 페이지 등록: 여기에만 추가하면 라우팅 + 사이드바 자동 연동.
@@ -21,6 +27,12 @@ const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEnt
   'text-button': { component: TextButtonShowcase, toc: TEXT_BUTTON_TOC },
   'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
   'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
+  'tab':         { component: TabShowcase,       toc: TAB_TOC         },
+  'badge':       { component: BadgeShowcase,     toc: BADGE_TOC       },
+  'nav-vertical': { component: NavVerticalShowcase, toc: NAV_VERTICAL_TOC },
+  'segment-bar': { component: SegmentBarShowcase, toc: SEGMENT_BAR_TOC },
+  'chip-universal': { component: ChipShowcase,          toc: CHIP_TOC          },
+  'chip-badgelike': { component: ChipBadgeLikeShowcase, toc: CHIP_BADGELIKE_TOC },
 }
 
 /** Derived from SHOWCASE_MAP — useHashRoute uses this to validate hash IDs. */

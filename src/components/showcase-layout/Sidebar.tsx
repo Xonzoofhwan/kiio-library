@@ -1,4 +1,7 @@
 import { cn } from '@/lib/utils'
+import { NavVertical } from '@/components/NavVertical'
+import logoLight from '@/assets/logo_24_withLettermark_light.svg'
+import logoDark from '@/assets/logo_24_withLettermark_dark.svg'
 
 /* ─── Nav config ──────────────────────────────────────────────────────────── */
 
@@ -28,6 +31,22 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
+    label: 'Indicators',
+    items: [
+      { id: 'badge', label: 'Badge' },
+      { id: 'chip-universal', label: 'Chip.Universal' },
+      { id: 'chip-badgelike', label: 'Chip.BadgeLike' },
+    ],
+  },
+  {
+    label: 'Navigation',
+    items: [
+      { id: 'tab', label: 'Tab' },
+      { id: 'nav-vertical', label: 'NavVertical' },
+      { id: 'segment-bar', label: 'SegmentBar' },
+    ],
+  },
+  {
     label: 'Overlay',
     items: [
       { id: 'tooltip', label: 'Tooltip' },
@@ -50,33 +69,31 @@ export function Sidebar({ active, onSelect, theme, onThemeChange }: SidebarProps
     <aside className="fixed top-0 left-0 h-screen w-[240px] flex flex-col bg-semantic-background-0 border-r border-semantic-divider-solid-50 z-20">
       {/* Logo */}
       <div className="flex-shrink-0 px-4 pt-5 pb-4">
-        <span className="typography-16-bold text-semantic-text-on-bright-900">kiio</span>
-        <span className="typography-12-regular text-semantic-text-on-bright-400 ml-1">components</span>
+        <img
+          src={theme === 'dark' ? logoDark : logoLight}
+          alt="kiio Library"
+          className="h-6"
+        />
       </div>
 
       {/* Nav groups */}
-      <div className="flex-1 overflow-y-auto px-4 py-4">
-        {NAV_GROUPS.map((group) => (
-          <div key={group.label}>
-            <div className="typography-12-semibold text-semantic-text-on-bright-400 uppercase tracking-wider px-3 mb-1">
-              {group.label}
+      <div className="flex-1 overflow-y-auto px-3 py-4">
+        <NavVertical value={active} onValueChange={onSelect} size="large" shape="basic">
+          {NAV_GROUPS.map((group, i) => (
+            <div key={group.label}>
+              {i > 0 && (
+                <hr className="border-t border-semantic-divider-solid-100 my-2" />
+              )}
+              <NavVertical.Group label={group.label}>
+                {group.items.map((item) => (
+                  <NavVertical.Item key={item.id} value={item.id}>
+                    {item.label}
+                  </NavVertical.Item>
+                ))}
+              </NavVertical.Group>
             </div>
-            {group.items.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onSelect(item.id)}
-                className={cn(
-                  'w-full text-left px-3 py-2 rounded-2 typography-14-medium transition-colors duration-fast ease-enter',
-                  active === item.id
-                    ? 'bg-semantic-state-on-bright-100 text-semantic-text-on-bright-900'
-                    : 'text-semantic-text-on-bright-600 hover:bg-semantic-state-on-bright-70 hover:text-semantic-text-on-bright-900',
-                )}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-        ))}
+          ))}
+        </NavVertical>
       </div>
 
       {/* Theme toggle */}
