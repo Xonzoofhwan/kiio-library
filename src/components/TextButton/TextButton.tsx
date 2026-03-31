@@ -16,7 +16,10 @@ export type TextButtonSize = (typeof TEXT_BUTTON_SIZES)[number]
 /* ─── CVA (size only — colors handled via style maps) ──────────────────────── */
 
 const textButtonVariants = cva(
-  'group relative inline-flex items-center justify-center cursor-pointer select-none transition-colors duration-fast ease-enter',
+  [
+    'group relative inline-flex items-center justify-center cursor-pointer select-none',
+    'will-change-transform [transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-out)] active:[transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-in)] active:scale-[var(--comp-text-button-scale-pressed)]',
+  ],
   {
     variants: {
       size: {

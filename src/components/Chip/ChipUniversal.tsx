@@ -13,13 +13,13 @@ export type { ChipUniversalSize }
 const chipUniversalVariants = cva(
   [
     'group relative inline-flex items-center justify-center cursor-pointer select-none rounded-full',
-    'transition-colors duration-fast ease-enter outline-none',
+    'outline-none will-change-transform [transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-out)] active:[transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-in)] active:scale-[var(--comp-chip-universal-scale-pressed)]',
   ],
   {
     variants: {
       size: {
-        large: 'h-[var(--comp-chip-universal-height-lg)] px-[var(--comp-chip-universal-px)] typography-14-semibold',
-        medium: 'h-[var(--comp-chip-universal-height-md)] px-[var(--comp-chip-universal-px)] typography-14-semibold',
+        large: 'h-[var(--comp-chip-universal-height-lg)] px-[var(--comp-chip-universal-px-lg)] typography-14-semibold',
+        medium: 'h-[var(--comp-chip-universal-height-md)] px-[var(--comp-chip-universal-px-md)] typography-12-semibold',
       },
       selected: {
         false: 'bg-[var(--comp-chip-universal-bg)] text-[var(--comp-chip-universal-content)]',
@@ -107,17 +107,35 @@ export const ChipUniversal = forwardRef<HTMLButtonElement, ChipUniversalProps>(
         />
 
         {/* Content */}
-        <span className="relative z-[1] inline-flex items-center gap-[var(--comp-chip-universal-gap)]">
-          <span className="inline-flex items-center gap-[var(--comp-chip-universal-inner-gap)]">
+        <span className={cn(
+          'relative z-[1] inline-flex items-center',
+          size === 'large' ? 'gap-[var(--comp-chip-universal-gap-lg)]' : 'gap-[var(--comp-chip-universal-gap-md)]',
+        )}>
+          <span className={cn(
+            'inline-flex items-center',
+            size === 'large' ? 'gap-[var(--comp-chip-universal-inner-gap-lg)]' : 'gap-[var(--comp-chip-universal-inner-gap-md)]',
+          )}>
             {iconLeading && (
-              <span className="flex-shrink-0 size-[var(--comp-chip-universal-icon)] [&>*]:[font-size:inherit]" style={{ fontSize: 18 }}>
+              <span
+                className={cn(
+                  'flex-shrink-0 [&>*]:[font-size:inherit]',
+                  size === 'large' ? 'size-[var(--comp-chip-universal-icon-lg)]' : 'size-[var(--comp-chip-universal-icon-md)]',
+                )}
+                style={{ fontSize: size === 'large' ? 18 : 16 }}
+              >
                 {iconLeading}
               </span>
             )}
             <span className="px-1">{children}</span>
           </span>
           {iconTrailing && (
-            <span className="flex-shrink-0 size-[var(--comp-chip-universal-icon)] [&>*]:[font-size:inherit]" style={{ fontSize: 18 }}>
+            <span
+              className={cn(
+                'flex-shrink-0 [&>*]:[font-size:inherit]',
+                size === 'large' ? 'size-[var(--comp-chip-universal-icon-lg)]' : 'size-[var(--comp-chip-universal-icon-md)]',
+              )}
+              style={{ fontSize: size === 'large' ? 18 : 16 }}
+            >
               {iconTrailing}
             </span>
           )}

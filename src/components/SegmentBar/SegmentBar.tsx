@@ -67,7 +67,7 @@ const segmentBarVariants = cva(
 const segmentItemVariants = cva(
   [
     'group relative inline-flex items-center justify-center cursor-pointer select-none',
-    'transition-colors duration-fast ease-enter outline-none',
+    'outline-none will-change-transform [transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-out)] active:[transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-in)] active:scale-[var(--comp-segment-item-scale-pressed)]',
     'border border-transparent',
     'text-[var(--comp-segment-item-text-default)]',
     'data-[state=on]:bg-[var(--comp-segment-item-bg-active)]',
@@ -88,7 +88,7 @@ const segmentItemVariants = cva(
         square: 'rounded-none',
       },
       fullWidth: {
-        true: 'flex-1 min-w-0',
+        true: 'flex-1 min-w-0 active:scale-[var(--comp-segment-item-scale-pressed-fill)]',
         false: 'shrink-0',
       },
     },

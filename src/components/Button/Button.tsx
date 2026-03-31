@@ -21,7 +21,10 @@ export type { ButtonSize, ButtonShape }
 /* ─── CVA ──────────────────────────────────────────────────────────────────── */
 
 const buttonVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
+  [
+    'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
+    'will-change-transform [transition:var(--comp-scale-press-transition-out)] active:[transition:var(--comp-scale-press-transition-in)] active:scale-[var(--comp-button-scale-pressed)]',
+  ],
   {
     variants: {
       hierarchy: {
@@ -42,7 +45,7 @@ const buttonVariants = cva(
         square:   'rounded-none',
       },
       fullWidth: {
-        true:  'w-full',
+        true:  'w-full active:scale-[var(--comp-button-scale-pressed-fill)]',
         false: 'w-auto',
       },
     },

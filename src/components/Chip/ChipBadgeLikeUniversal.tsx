@@ -67,7 +67,7 @@ export function ChipBadgeLikeUniversal({
     <span
       className={cn(
         'group relative inline-flex items-center justify-center shrink-0 select-none',
-        'transition-colors duration-fast ease-enter',
+        'will-change-transform [transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-out)] active:[transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-in)] active:scale-[var(--comp-chip-badgelike-scale-pressed)]',
         s.height, s.px, s.typography,
         radius,
         weightClasses[weight],

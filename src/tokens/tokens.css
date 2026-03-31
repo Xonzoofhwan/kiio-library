@@ -549,6 +549,15 @@
   --semantic-easing-move:   var(--primitive-easing-ease-in-out);
   --semantic-easing-linear: var(--primitive-easing-linear);
 
+  /* Ref: Scale (primitive — do not use directly in components) */
+  --primitive-scale-96: 0.96;
+  --primitive-scale-98: 0.98;
+  --primitive-scale-99: 0.99;
+
+  /* Sys: Scale (semantic — use these in components) */
+  --semantic-scale-press-sm: var(--primitive-scale-98);   /* 작은/hug 요소 */
+  --semantic-scale-press-lg: var(--primitive-scale-99);   /* 넓은/fill 요소 */
+
   /* ----------------------------------------------------------
      COMPONENT TOKENS — Tooltip (size/spacing layer)
      Naming: --comp-tooltip-{property}
@@ -620,6 +629,33 @@
   --comp-button-radius-lg:        var(--primitive-radius-3);       /* 12px */
   --comp-button-radius-md:        var(--primitive-radius-3);       /* 12px */
   --comp-button-radius-sm:        var(--primitive-radius-2);       /* 8px */
+
+  /* ─── Scale-press (shared transition, per-component scale) ─── */
+  --comp-scale-press-transition-in:      transform var(--semantic-duration-fast) var(--semantic-easing-enter);
+  --comp-scale-press-transition-out:     transform var(--semantic-duration-medium) var(--semantic-easing-exit);
+
+  /* Button / IconButton — hug 0.98, fullWidth 0.99 */
+  --comp-button-scale-pressed:           var(--semantic-scale-press-sm);
+  --comp-button-scale-pressed-fill:      var(--semantic-scale-press-lg);
+
+  /* TextButton — always 0.98 */
+  --comp-text-button-scale-pressed:      var(--semantic-scale-press-sm);
+
+  /* ChipUniversal — always 0.99 */
+  --comp-chip-universal-scale-pressed:   var(--semantic-scale-press-lg);
+
+  /* ChipBadgeLike — always 0.99 */
+  --comp-chip-badgelike-scale-pressed:   var(--semantic-scale-press-lg);
+
+  /* SegmentBar — hug 0.98, fixed(fill) 0.99 */
+  --comp-segment-item-scale-pressed:     var(--semantic-scale-press-sm);
+  --comp-segment-item-scale-pressed-fill: var(--semantic-scale-press-lg);
+
+  /* Tab — always 0.99 */
+  --comp-tab-scale-pressed:              var(--semantic-scale-press-lg);
+
+  /* NavVertical — always 0.99 */
+  --comp-nav-vertical-scale-pressed:     var(--semantic-scale-press-lg);
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — TextButton (size/spacing layer)
@@ -800,10 +836,14 @@
   /* ─── ChipUniversal ─── */
   --comp-chip-universal-height-lg:         var(--primitive-spacing-10);     /* 40px */
   --comp-chip-universal-height-md:         var(--primitive-spacing-8);      /* 32px */
-  --comp-chip-universal-px:                var(--primitive-spacing-3);      /* 12px */
-  --comp-chip-universal-icon:              18px;
-  --comp-chip-universal-gap:               var(--primitive-spacing-1\.5);   /* 6px */
-  --comp-chip-universal-inner-gap:         var(--primitive-spacing-0\.5);   /* 2px */
+  --comp-chip-universal-px-lg:             var(--primitive-spacing-3);      /* 12px */
+  --comp-chip-universal-px-md:             var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-chip-universal-icon-lg:           18px;
+  --comp-chip-universal-icon-md:           16px;
+  --comp-chip-universal-gap-lg:            var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-universal-gap-md:            var(--primitive-spacing-1);      /* 4px */
+  --comp-chip-universal-inner-gap-lg:      var(--primitive-spacing-0\.5);   /* 2px */
+  --comp-chip-universal-inner-gap-md:      0px;
 
   /* ─── ChipBadgeLike (size/spacing) ─── */
   --comp-chip-badgelike-height-lg:         var(--primitive-spacing-8);      /* 32px */

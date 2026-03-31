@@ -58,7 +58,10 @@ const NavVerticalContext = createContext<NavVerticalContextValue>({
 /* ─── CVA — NavVerticalItem ────────────────────────────────────────────────── */
 
 const navItemVariants = cva(
-  'group relative flex w-full items-center cursor-pointer select-none transition-colors duration-fast ease-enter outline-none',
+  [
+    'group relative flex w-full items-center cursor-pointer select-none outline-none',
+    'will-change-transform [transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-out)] active:[transition:color_var(--semantic-duration-fast)_var(--semantic-easing-enter),var(--comp-scale-press-transition-in)] active:scale-[var(--comp-nav-vertical-scale-pressed)]',
+  ],
   {
     variants: {
       size: {

@@ -21,7 +21,10 @@ export type IconButtonEmpShape = (typeof ICON_BUTTON_EMP_SHAPES)[number]
 /* ─── CVA ──────────────────────────────────────────────────────────────────── */
 
 const iconButtonEmpVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
+  [
+    'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
+    'will-change-transform [transition:var(--comp-scale-press-transition-out)] active:[transition:var(--comp-scale-press-transition-in)] active:scale-[var(--comp-button-scale-pressed)]',
+  ],
   {
     variants: {
       size: {
