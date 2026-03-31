@@ -559,6 +559,14 @@
   --semantic-scale-press-lg: var(--primitive-scale-99);   /* 넓은/fill 요소 */
 
   /* ----------------------------------------------------------
+     COMPONENT TOKENS — Skeleton (size/spacing layer)
+     Naming: --comp-skeleton-{property}
+     ---------------------------------------------------------- */
+  --comp-skeleton-radius-small:   var(--primitive-radius-1);       /* 4px */
+  --comp-skeleton-radius-medium:  var(--primitive-radius-2);       /* 8px */
+  --comp-skeleton-radius-large:   var(--primitive-radius-3);       /* 12px */
+
+  /* ----------------------------------------------------------
      COMPONENT TOKENS — Tooltip (size/spacing layer)
      Naming: --comp-tooltip-{property}
      ---------------------------------------------------------- */
@@ -1416,6 +1424,13 @@
 
   /* ─── Focus ring (shared) ─── */
   --comp-nav-vertical-focus-border:           var(--semantic-neutral-solid-1000);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Skeleton (color layer)
+     Naming: --comp-skeleton-{property}
+     ---------------------------------------------------------- */
+  --comp-skeleton-bg:              var(--semantic-neutral-solid-100);
+  --comp-skeleton-shimmer:         var(--semantic-neutral-white-alpha-400);
 
 }
 

@@ -97,6 +97,12 @@ body {
   75%      { transform: translateX(2px); }
 }
 
+/* Shimmer — skeleton loading placeholder */
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 /* ----------------------------------------------------------
    TOOLTIP / CALLOUT — Enter / Exit Animations
    Legacy keyframes kept for existing component compatibility.
