@@ -19,6 +19,7 @@ const SEMANTIC_TO_PRIMITIVE_EASING: Record<string, string> = {
 const SEMANTIC_TO_PRIMITIVE_DURATION: Record<string, string> = {
   instant: '0',
   fast: '100',
+  medium: '150',
   normal: '200',
   slow: '300',
   slower: '500',

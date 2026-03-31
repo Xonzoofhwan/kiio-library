@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  safelist: [
+    { pattern: /^typography-/ },
+  ],
   theme: {
     extend: {
       colors: {
@@ -670,6 +673,22 @@ export default {
         exit:   'var(--semantic-easing-exit)',
         move:   'var(--semantic-easing-move)',
         linear: 'var(--semantic-easing-linear)',
+      },
+
+      // --------------------------------------------------------
+      // ANIMATION PRESETS — Reusable microinteraction animations
+      // Usage: animate-press, animate-fade-in, animate-scale-in, etc.
+      // Keyframes defined in src/index.css
+      // --------------------------------------------------------
+      animation: {
+        'press':      'press var(--semantic-duration-fast) var(--semantic-easing-enter)',
+        'fade-in':    'fade-in var(--semantic-duration-normal) var(--semantic-easing-enter)',
+        'fade-out':   'fade-out var(--semantic-duration-normal) var(--semantic-easing-exit)',
+        'scale-in':   'scale-in var(--semantic-duration-fast) var(--semantic-easing-enter)',
+        'scale-out':  'scale-out var(--semantic-duration-fast) var(--semantic-easing-exit) forwards',
+        'slide-up':   'slide-up var(--semantic-duration-normal) var(--semantic-easing-enter)',
+        'slide-down': 'slide-down var(--semantic-duration-normal) var(--semantic-easing-exit) forwards',
+        'shake':      'shake var(--semantic-duration-normal) var(--semantic-easing-move)',
       },
 
     },

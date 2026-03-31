@@ -1,7 +1,7 @@
 import { typography } from '@/tokens/typography'
 import type { TypographySize, TypographyWeight, TypographyTokenValue } from '@/tokens/typography'
 
-const SIZES: TypographySize[] = ['40', '32', '28', '24', '22', '20', '18', '17', '16', '15', '14', '13', '12', '11', '10']
+const SIZES: TypographySize[] = ['64', '48', '40', '32', '28', '24', '22', '20', '18', '17', '16', '15', '14', '13', '12', '11', '10']
 const WEIGHTS: TypographyWeight[] = ['regular', 'medium', 'semibold', 'bold']
 
 export function TypographySection() {
@@ -9,7 +9,7 @@ export function TypographySection() {
     <section id="typography">
       <h2 className="typography-20-bold text-semantic-text-on-bright-900 mb-6">Typography</h2>
       <p className="typography-14-regular text-semantic-text-on-bright-600 mb-8">
-        15 sizes × 4 weights = 60 composite tokens. Each token sets font-size, line-height, letter-spacing, and font-weight.
+        17 sizes × 4 weights = 68 composite tokens. Each token sets font-size, line-height, letter-spacing, and font-weight.
       </p>
 
       {/* Column headers */}
