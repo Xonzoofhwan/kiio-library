@@ -105,6 +105,7 @@ kiio-library/
 | [DEVIATIONS.md](./docs/DEVIATIONS.md) | `docs/` | 시스템 이탈 기록, 반복 이탈 시 수정 트리거 (원칙 8) |
 | [token-reference.md](./docs/token-reference.md) | `docs/` | 토큰 전체 값, CSS 변수, Tailwind config 매핑 |
 | [ROADMAP.md](./docs/ROADMAP.md) | `docs/` | 컴포넌트 개발 로드맵 (Phase 1–6) |
+| [SHOWCASE_TEMPLATE.md](./docs/SHOWCASE_TEMPLATE.md) | `docs/` | 쇼케이스 페이지 작성 가이드 (레이아웃, 탭 구조, 섹션 카탈로그, 티어 시스템) |
 | Skill commands | `.claude/skills/` | 4-phase 컴포넌트 개발 워크플로: `/visual-spec` → `/behavior-spec` → `/implement` → `/showcase` + `/verify` |
 | Commit skill | `.claude/skills/07-commit/` | 커밋 자동화: 빌드 확인 → 보안 검사 → 작업 분리 → 커밋 생성 |
 | Code review skill | `.claude/skills/08-frontend-review/` | 컴포넌트 코드 품질 리뷰: React 성능, 클린 코드, 안티패턴 검사 |
