@@ -19,7 +19,7 @@ export type IconButtonErrShape = (typeof ICON_BUTTON_ERR_SHAPES)[number]
 /* ─── CVA ──────────────────────────────────────────────────────────────────── */
 
 const iconButtonErrVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer',
+  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
   {
     variants: {
       size: {

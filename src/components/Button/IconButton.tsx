@@ -19,7 +19,7 @@ export type IconButtonShape = (typeof ICON_BUTTON_SHAPES)[number]
 /* ─── CVA ──────────────────────────────────────────────────────────────────── */
 
 const iconButtonVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer',
+  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
   {
     variants: {
       hierarchy: {

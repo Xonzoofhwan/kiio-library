@@ -21,7 +21,7 @@ export type ButtonErrShape = (typeof BUTTON_ERR_SHAPES)[number]
 /* ─── CVA (size/shape — shared tokens with Universal) ──────────────────────── */
 
 const buttonErrVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer',
+  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
   {
     variants: {
       size: {

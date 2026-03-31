@@ -23,7 +23,7 @@ export type ButtonEmpShape = (typeof BUTTON_EMP_SHAPES)[number]
 /* ─── CVA (size/shape only — colors handled via maps) ──────────────────────── */
 
 const buttonEmpVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer',
+  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
   {
     variants: {
       size: {

@@ -21,7 +21,7 @@ export type { ButtonSize, ButtonShape }
 /* ─── CVA ──────────────────────────────────────────────────────────────────── */
 
 const buttonVariants = cva(
-  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer',
+  'group relative inline-flex items-center justify-center overflow-hidden cursor-pointer select-none',
   {
     variants: {
       hierarchy: {
