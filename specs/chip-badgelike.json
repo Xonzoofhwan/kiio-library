@@ -1,0 +1,185 @@
+{
+  "component": "ChipBadgeLike",
+  "classification": "Primitive (multi-file)",
+  "description": "Badge-like chip labels for tags, categories, and status display. Three sub-components: Universal (neutral), Emphasized (colored), Error. Supports close icon, state overlays, and focus ring. Not interactive by default (span), but close button adds interaction.",
+  "figmaNode": {
+    "universal": "6973:27733",
+    "emphasized": "12585:59313",
+    "error": "12585:58770"
+  },
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "subComponents": [
+    {
+      "name": "ChipBadgeLikeUniversal",
+      "role": "Neutral badge-like chip label with light/heavy weight.",
+      "element": "<span>"
+    },
+    {
+      "name": "ChipBadgeLikeEmphasized",
+      "role": "Colored badge-like chip label with 3 semantic emphasized colors.",
+      "element": "<span>"
+    },
+    {
+      "name": "ChipBadgeLikeError",
+      "role": "Error state badge-like chip label.",
+      "element": "<span>"
+    }
+  ],
+
+  "props": {
+    "_shared": {
+      "size": {
+        "type": "'large' | 'medium' | 'small' | 'xSmall'",
+        "default": "medium",
+        "description": "Size variant."
+      },
+      "shape": {
+        "type": "'basic' | 'circular' | 'square'",
+        "default": "basic",
+        "description": "Border-radius shape."
+      },
+      "weight": {
+        "type": "'light' | 'heavy'",
+        "default": "light",
+        "description": "Color intensity — light (tinted bg) or heavy (solid bg)."
+      },
+      "onClose": {
+        "type": "() => void",
+        "default": null,
+        "description": "When provided, shows a close (X) icon. Clicking it calls this handler."
+      },
+      "disabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Disables interaction (close button) and dims appearance."
+      },
+      "children": {
+        "type": "ReactNode",
+        "description": "Label text content."
+      },
+      "className": {
+        "type": "string",
+        "description": "Additional CSS classes."
+      }
+    },
+    "_emphasized_only": {
+      "color": {
+        "type": "'purple' | 'blue' | 'orange'",
+        "default": "blue",
+        "description": "Semantic emphasized color. Maps to semantic-emphasized-{color} tokens."
+      }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "large": {
+        "height": "32px → var(--comp-chip-badgelike-height-lg)",
+        "paddingX": "12px → var(--comp-chip-badgelike-px-lg)",
+        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "typography": "typography-15-medium",
+        "radius": "10px → var(--comp-chip-badgelike-radius-lg)",
+        "iconSize": "20px → var(--comp-chip-badgelike-icon-lg)"
+      },
+      "medium": {
+        "height": "28px → var(--comp-chip-badgelike-height-md)",
+        "paddingX": "8px → var(--comp-chip-badgelike-px-md)",
+        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "typography": "typography-14-medium",
+        "radius": "6px → var(--comp-chip-badgelike-radius-md)",
+        "iconSize": "16px → var(--comp-chip-badgelike-icon-md)"
+      },
+      "small": {
+        "height": "24px → var(--comp-chip-badgelike-height-sm)",
+        "paddingX": "6px → var(--comp-chip-badgelike-px-sm)",
+        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "typography": "typography-12-medium",
+        "radius": "4px → var(--comp-chip-badgelike-radius-sm)",
+        "iconSize": "14px → var(--comp-chip-badgelike-icon-sm)"
+      },
+      "xSmall": {
+        "height": "20px → var(--comp-chip-badgelike-height-xs)",
+        "paddingX": "4px → var(--comp-chip-badgelike-px-xs)",
+        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+        "radius": "4px → var(--comp-chip-badgelike-radius-xs)",
+        "iconSize": "12px → var(--comp-chip-badgelike-icon-xs)"
+      }
+    },
+    "shape": {
+      "basic": { "radius": "size-dependent (from size variant)" },
+      "circular": { "radius": "rounded-full (9999px)" },
+      "square": { "radius": "rounded-none (0px)" }
+    },
+    "weight_color": {
+      "universal": {
+        "light": {
+          "background": "semantic-neutral-solid-100",
+          "content": "semantic-neutral-black-alpha-600"
+        },
+        "heavy": {
+          "background": "semantic-neutral-solid-800",
+          "content": "semantic-neutral-solid-0"
+        }
+      },
+      "emphasized": {
+        "colors": ["purple", "blue", "orange"],
+        "light": {
+          "background": "semantic-emphasized-{color}-100",
+          "content": "semantic-emphasized-{color}-600"
+        },
+        "heavy": {
+          "background": "semantic-emphasized-{color}-500",
+          "content": "semantic-neutral-solid-0"
+        }
+      },
+      "error": {
+        "light": {
+          "background": "semantic-error-100",
+          "content": "semantic-error-700"
+        },
+        "heavy": {
+          "background": "semantic-error-500",
+          "content": "semantic-neutral-solid-0"
+        }
+      }
+    }
+  },
+
+  "states": {
+    "hover": {
+      "all": "state overlay: semantic-state-on-bright-50"
+    },
+    "pressed": {
+      "all": "state overlay: semantic-state-on-bright-70"
+    },
+    "focused": {
+      "all": "border-2 semantic-neutral-solid-1000 (focus-visible only)"
+    },
+    "disabled": {
+      "description": "pointer-events-none, opacity-50"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Slot, no Context)",
+    "strategy": {
+      "ChipBadgeLikeUniversal": "CVA for size × shape. Weight applied via conditional classes (light/heavy bg+content from component tokens).",
+      "ChipBadgeLikeEmphasized": "Same CVA as Universal + colorMap for color × weight (semantic-emphasized tokens).",
+      "ChipBadgeLikeError": "Same CVA as Universal + errorMap for weight (semantic-error tokens)."
+    },
+    "sharedModule": "src/components/Chip/chip-badgelike-shared.ts — shared types, size constants, size map, close icon, color maps",
+    "stateOverlay": "Absolute <span> inside component with group-hover/group-active classes. Root needs 'group relative'.",
+    "focusRing": "Absolute <span> with border-2, opacity toggle on group-focus-visible (keyboard focus on close button).",
+    "closeButton": "Inline <button> inside the chip, renders close X SVG. Triggers onClose. Chip root stays <span>.",
+    "openTypeFeatures": "'case' 1, 'lnum' 1, 'pnum' 1",
+    "files": [
+      "src/components/Chip/ChipBadgeLikeUniversal.tsx",
+      "src/components/Chip/ChipBadgeLikeEmphasized.tsx",
+      "src/components/Chip/ChipBadgeLikeError.tsx",
+      "src/components/Chip/chip-badgelike-shared.ts"
+    ],
+    "dependencies": []
+  }
+}

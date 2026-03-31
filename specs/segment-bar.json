@@ -1,0 +1,223 @@
+{
+  "component": "SegmentBar",
+  "classification": "Compound (Pattern)",
+  "description": "Single-selection segment control. Groups segment buttons into a bar where one item is always active. Used as radio-group-like selection or tab-like navigation.",
+  "figmaNode": "6502:1640",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "subComponents": [
+    {
+      "name": "SegmentBar",
+      "role": "Container wrapping SegmentBar.Item children. Provides shared context (size, shape, fullWidth) via SegmentBarContext.",
+      "element": "ToggleGroup.Root (renders <div role='group'>)",
+      "props": {
+        "size": {
+          "type": "'small' | 'medium' | 'large' | 'xLarge'",
+          "default": "medium",
+          "description": "Size variant. Large/xLarge force fullWidth=true."
+        },
+        "shape": {
+          "type": "'basic' | 'circular' | 'square'",
+          "default": "basic",
+          "description": "Border-radius shape for container and items."
+        },
+        "fullWidth": {
+          "type": "boolean",
+          "default": true,
+          "description": "Fixed (true): items flex-1. Hug (false): items shrink-0. Large/xLarge always fixed."
+        },
+        "value": {
+          "type": "string",
+          "description": "Controlled active item value."
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "Default active item for uncontrolled mode."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "description": "Callback fired when active item changes. Guarded against empty string (deselect prevented)."
+        },
+        "className": { "type": "string" },
+        "children": { "type": "ReactNode" }
+      }
+    },
+    {
+      "name": "SegmentBar.Item",
+      "role": "Individual segment button. Consumes SegmentBarContext for size/shape/fullWidth.",
+      "element": "ToggleGroup.Item (renders <button role='radio'>)",
+      "props": {
+        "value": {
+          "type": "string",
+          "required": true,
+          "description": "Unique value identifying this item."
+        },
+        "icon": {
+          "type": "ReactNode",
+          "description": "Leading icon. Only rendered for small/medium sizes."
+        },
+        "badge": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show red BadgeDot indicator. Size 4px (sm/md) or 8px (lg/xl)."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable this item. Applies pointer-events-none + opacity-50."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    }
+  ],
+
+  "context": {
+    "name": "SegmentBarContext",
+    "fields": {
+      "size": "SegmentBarSize",
+      "shape": "SegmentBarShape",
+      "fullWidth": "boolean"
+    }
+  },
+
+  "variantMetadata": {
+    "SEGMENT_BAR_SIZES": ["small", "medium", "large", "xLarge"],
+    "SEGMENT_BAR_SHAPES": ["basic", "circular", "square"]
+  },
+
+  "variants": {
+    "size": {
+      "small": {
+        "container": {
+          "padding": "2px → --comp-segment-bar-padding-sm",
+          "radius-basic": "8px → --comp-segment-bar-radius-sm (primitive-radius-2)"
+        },
+        "item": {
+          "height": "28px → --comp-segment-item-height-sm (primitive-spacing-7)",
+          "typography": "typography-12-medium",
+          "px-fill": "10px → --comp-segment-item-px-fill-sm (primitive-spacing-2.5)",
+          "px-hug": "6px → --comp-segment-item-px-hug-sm (primitive-spacing-1.5)",
+          "radius-basic": "6px → --comp-segment-item-radius-sm (primitive-radius-1.5)",
+          "icon": "16px → --comp-segment-item-icon-sm",
+          "badge": "4px (BadgeDot size=4)",
+          "shadow-active": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)"
+        }
+      },
+      "medium": {
+        "container": {
+          "padding": "2px → --comp-segment-bar-padding-md",
+          "radius-basic": "12px → --comp-segment-bar-radius-md (primitive-radius-3)"
+        },
+        "item": {
+          "height": "36px → --comp-segment-item-height-md (primitive-spacing-9)",
+          "typography": "typography-14-medium",
+          "px-fill": "16px → --comp-segment-item-px-fill-md (primitive-spacing-4)",
+          "px-hug": "10px → --comp-segment-item-px-hug-md (primitive-spacing-2.5)",
+          "radius-basic": "10px → --comp-segment-item-radius-md (primitive-radius-2.5)",
+          "icon": "20px → --comp-segment-item-icon-md",
+          "badge": "4px (BadgeDot size=4)",
+          "shadow-active": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)"
+        }
+      },
+      "large": {
+        "container": {
+          "padding": "4px → --comp-segment-bar-padding-lg",
+          "radius-basic": "16px → --comp-segment-bar-radius-lg (primitive-radius-4)"
+        },
+        "item": {
+          "height": "44px → --comp-segment-item-height-lg",
+          "typography": "typography-16-medium",
+          "px-fill": "16px → --comp-segment-item-px-fill-lg (primitive-spacing-4)",
+          "radius-basic": "12px → --comp-segment-item-radius-lg (primitive-radius-3)",
+          "badge": "8px (BadgeDot size=8)",
+          "shadow-active": "0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08)",
+          "note": "No icon support. fullWidth always true."
+        }
+      },
+      "xLarge": {
+        "container": {
+          "padding": "4px → --comp-segment-bar-padding-xl",
+          "radius-basic": "16px → --comp-segment-bar-radius-xl (primitive-radius-4)"
+        },
+        "item": {
+          "height": "48px → --comp-segment-item-height-xl (primitive-spacing-12)",
+          "typography": "typography-18-medium",
+          "px-fill": "16px → --comp-segment-item-px-fill-xl (primitive-spacing-4)",
+          "radius-basic": "12px → --comp-segment-item-radius-xl (primitive-radius-3)",
+          "badge": "8px (BadgeDot size=8)",
+          "shadow-active": "0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08)",
+          "note": "No icon support. fullWidth always true."
+        }
+      }
+    },
+    "shape": {
+      "basic": "Size-dependent border-radius via compoundVariants",
+      "circular": "rounded-full (9999px)",
+      "square": "rounded-none (0px)"
+    },
+    "fullWidth": {
+      "true": "Container w-full, items flex-1 min-w-0",
+      "false": "Container w-fit, items shrink-0"
+    }
+  },
+
+  "states": {
+    "default": {
+      "background": "transparent",
+      "border": "1px transparent (border border-transparent)",
+      "text": "semantic-text-on-bright-600 → --comp-segment-item-text-default",
+      "shadow": "none"
+    },
+    "hovered": {
+      "overlay": "semantic-state-on-bright-50 → --comp-segment-item-hover",
+      "method": "State overlay <span> with group-hover, hidden when data-[state=on]"
+    },
+    "pressed": {
+      "overlay": "semantic-state-on-bright-70 → --comp-segment-item-pressed",
+      "method": "State overlay <span> with group-active, hidden when data-[state=on]"
+    },
+    "active": {
+      "background": "semantic-neutral-solid-0 → --comp-segment-item-bg-active",
+      "border": "1.5px semantic-neutral-black-alpha-950 → --comp-segment-item-border-active",
+      "text": "semantic-text-on-bright-900 → --comp-segment-item-text-active",
+      "shadow-sm-md": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)",
+      "shadow-lg-xl": "0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08)",
+      "method": "data-[state=on] attribute from Radix ToggleGroup"
+    },
+    "focused": {
+      "border": "2px semantic-emphasized-purple-300 → --comp-segment-item-focus-border",
+      "method": "Separate <span> with group-focus-visible:opacity-100. Inset adjusts: inset-0 (inactive) / inset-[-1.5px] (active)"
+    },
+    "disabled": {
+      "opacity": 0.5,
+      "interaction": "pointer-events-none",
+      "method": "Conditional class: disabled && 'pointer-events-none opacity-50'"
+    }
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Context + CVA + @radix-ui/react-toggle-group",
+    "stateOverlay": "Sibling <span aria-hidden> with pointer-events-none absolute inset-0 rounded-[inherit]. Hidden on active via group-data-[state=on]:hidden.",
+    "focusRing": "Separate <span aria-hidden> with border-2 + group-focus-visible:opacity-100. Radius matches shape. Inset shifts on active state.",
+    "deselectionGuard": "onValueChange guarded with if(v) to prevent deselecting (Radix sends empty string on deselect).",
+    "fullWidthForcing": "Large/xLarge sizes silently force fullWidth=true in root component.",
+    "iconConstraint": "Icons only render when size is 'small' or 'medium' AND icon prop is provided.",
+    "badgeComponent": "Uses imported BadgeDot from @/components/Badge. Size 4 for sm/md, size 8 for lg/xl.",
+    "files": [
+      "src/components/SegmentBar/SegmentBar.tsx",
+      "src/components/SegmentBar/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-toggle-group",
+      "@/components/Badge (BadgeDot)"
+    ],
+    "tokenFile": "src/tokens/tokens.css",
+    "exports": [
+      "SegmentBar (compound: SegmentBarRoot + { Item: SegmentBarItem })",
+      "SegmentBarProps, SegmentBarItemProps (types)",
+      "SEGMENT_BAR_SIZES, SEGMENT_BAR_SHAPES (as const arrays)",
+      "SegmentBarSize, SegmentBarShape (derived types)"
+    ]
+  }
+}

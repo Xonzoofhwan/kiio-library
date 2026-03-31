@@ -1,0 +1,153 @@
+{
+  "component": "NavVertical",
+  "description": "Vertical navigation component for deep information hierarchies. Compound component with optional collapsible groups and single-selection items. Commonly used alongside Tab components.",
+  "figmaNode": "12534:22113",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "subComponents": {
+    "NavVertical.Item": {
+      "figmaAtom": ".atom.nav.button.VerticalCase",
+      "description": "Individual navigation item button with icon, text, and optional badge."
+    },
+    "NavVertical.Group": {
+      "figmaAtom": ".atom.nav.groupTitle",
+      "description": "Collapsible group header with label and accordion chevron."
+    }
+  },
+
+  "props": {
+    "root": {
+      "value": { "type": "string", "description": "Controlled active item value" },
+      "defaultValue": { "type": "string", "description": "Uncontrolled default active value" },
+      "onValueChange": { "type": "(value: string) => void", "description": "Callback when active item changes" },
+      "size": { "type": "'large' | 'small'", "default": "large" },
+      "shape": { "type": "'basic' | 'circular' | 'square'", "default": "basic" },
+      "className": { "type": "string" }
+    },
+    "group": {
+      "label": { "type": "string", "description": "Group heading text" },
+      "collapsible": { "type": "boolean", "default": false, "description": "Enables accordion chevron and collapse behavior" },
+      "defaultOpen": { "type": "boolean", "default": true, "description": "Initial open state when collapsible" },
+      "className": { "type": "string" }
+    },
+    "item": {
+      "value": { "type": "string", "required": true, "description": "Unique identifier, matched against root value" },
+      "icon": { "type": "ReactNode", "description": "Leading icon slot" },
+      "badgeLabel": { "type": "ReactNode", "description": "Optional badge label content" },
+      "badgeDot": { "type": "boolean", "default": false, "description": "Optional red dot indicator" },
+      "disabled": { "type": "boolean", "default": false },
+      "children": { "type": "ReactNode", "description": "Text label" },
+      "className": { "type": "string" }
+    }
+  },
+
+  "variants": {
+    "size": {
+      "large": {
+        "item": {
+          "height": "40px (auto from py-2 + content)",
+          "paddingX": "px-2.5 (10px)",
+          "paddingY": "py-2 (8px)",
+          "iconSize": "size-6 (24px)",
+          "textWrapperPx": "px-1 (4px)",
+          "typography": "typography-16-medium (both default and active)"
+        },
+        "group": {
+          "height": "28px (auto from py-1 + content)",
+          "paddingLeft": "pl-2.5 (10px)",
+          "paddingRight": "pr-1 (4px)",
+          "paddingY": "py-1 (4px)",
+          "chevronSize": "size-5 (20px)",
+          "typography": "text-[13px] leading-[16px] font-medium"
+        }
+      },
+      "small": {
+        "item": {
+          "height": "32px (auto from py-1.5 + content)",
+          "paddingX": "px-2 (8px)",
+          "paddingY": "py-1.5 (6px)",
+          "iconSize": "size-5 (20px)",
+          "textWrapperPx": "px-1 (4px)",
+          "typography": "typography-14-medium (both default and active)"
+        },
+        "group": {
+          "height": "24px (auto from py-1 + content)",
+          "paddingLeft": "pl-2 (8px)",
+          "paddingRight": "pr-1 (4px)",
+          "paddingY": "py-1 (4px)",
+          "chevronSize": "size-4 (16px)",
+          "typography": "text-[11px] leading-[12px] font-medium"
+        }
+      }
+    },
+    "shape": {
+      "basic": {
+        "item": { "radius": "rounded-3 (12px)" },
+        "group": { "radius": "rounded-2 (8px) large, rounded-1.5 (6px) small" }
+      },
+      "circular": {
+        "item": { "radius": "rounded-full (9999px)" },
+        "group": { "radius": "rounded-full (9999px)" }
+      },
+      "square": {
+        "item": { "radius": "rounded-none (0)" },
+        "group": { "radius": "rounded-none (0)" }
+      }
+    }
+  },
+
+  "states": {
+    "item": {
+      "default": {
+        "background": "transparent",
+        "text": "semantic-text-on-bright-600"
+      },
+      "hover": {
+        "background": "state overlay: semantic-state-on-bright-50",
+        "text": "semantic-text-on-bright-600"
+      },
+      "pressed": {
+        "background": "state overlay: semantic-state-on-bright-70",
+        "text": "semantic-text-on-bright-600"
+      },
+      "active": {
+        "background": "semantic-neutral-black-alpha-50 (direct, not overlay)",
+        "text": "semantic-text-on-bright-800",
+        "fontWeight": "medium (same as default — no weight change)"
+      },
+      "focused": {
+        "border": "border-2 semantic-neutral-solid-1000 (focus-visible only, keyboard only)"
+      }
+    },
+    "group": {
+      "default": { "text": "semantic-text-on-bright-400" },
+      "hover": { "background": "state overlay: semantic-state-on-bright-50" },
+      "pressed": { "background": "state overlay: semantic-state-on-bright-70" }
+    }
+  },
+
+  "container": {
+    "layout": "flex flex-col",
+    "gap": "gap-1 (4px)",
+    "element": "<nav> with <ul role='list'>"
+  },
+
+  "implementation": {
+    "pattern": "Compound Component + Context + CVA + cn",
+    "stateOverlay": "Sibling <span> with group-hover/group-active for item hover/press",
+    "activeState": "data-active attribute, direct background (not overlay), color change only (no weight change)",
+    "focusRing": "group-focus-visible border-2 overlay, pointerRef for mouse/keyboard distinction",
+    "keyboard": "ArrowUp/Down navigation, Home/End, roving tabindex",
+    "aria": "nav role=navigation, ul role=list, button with aria-current=page when active",
+    "collapsible": "@radix-ui/react-collapsible for group accordion",
+    "files": [
+      "src/components/NavVertical/NavVertical.tsx",
+      "src/components/NavVertical/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-collapsible",
+      "src/components/Badge/BadgeLabel.tsx",
+      "src/components/Badge/BadgeDot.tsx"
+    ]
+  }
+}

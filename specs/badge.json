@@ -1,0 +1,260 @@
+{
+  "component": "Badge",
+  "classification": "Primitive (multi-file)",
+  "description": "Display-only label and dot indicator. BadgeLabel: text badge with 5 sizes (nano, xSmall, small, medium, large), 3 shapes, 2 weights, 17 color themes. Nano is counter-only (numbers). BadgeDot: status indicator dot with 2 sizes and outlined option.",
+  "figmaNode": "6693:9544",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+
+  "subComponents": [
+    {
+      "name": "BadgeLabel",
+      "role": "Text label badge with color theming and weight variants.",
+      "element": "<span>",
+      "props": {
+        "children": {
+          "type": "ReactNode",
+          "description": "Label text content."
+        },
+        "size": {
+          "type": "'nano' | 'xSmall' | 'small' | 'medium' | 'large'",
+          "default": "small",
+          "description": "Size variant. nano is counter-only (numbers only)."
+        },
+        "shape": {
+          "type": "'basic' | 'circular' | 'square'",
+          "default": "basic",
+          "description": "Border-radius shape."
+        },
+        "weight": {
+          "type": "'light' | 'heavy'",
+          "default": "light",
+          "description": "Color intensity — light (tinted bg) or heavy (solid bg)."
+        },
+        "color": {
+          "type": "'gray' | 'indigo' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue'",
+          "default": "gray",
+          "description": "Color theme."
+        },
+        "className": {
+          "type": "string",
+          "description": "Additional CSS classes."
+        }
+      }
+    },
+    {
+      "name": "BadgeDot",
+      "role": "Status indicator dot. Solid colored circle, optionally with white outline.",
+      "element": "<span>",
+      "props": {
+        "size": {
+          "type": "4 | 8",
+          "default": 8,
+          "description": "Dot diameter in pixels."
+        },
+        "outlined": {
+          "type": "boolean",
+          "default": false,
+          "description": "Adds 1px white border for visibility on colored backgrounds."
+        },
+        "color": {
+          "type": "'gray' | 'indigo' | 'purple' | 'fuchsia' | 'pink' | 'rose' | 'red' | 'orange' | 'amber' | 'yellow' | 'lime' | 'green' | 'emerald' | 'teal' | 'cyan' | 'sky' | 'blue'",
+          "default": "gray",
+          "description": "Color theme."
+        },
+        "className": {
+          "type": "string",
+          "description": "Additional CSS classes."
+        }
+      }
+    }
+  ],
+
+  "variants": {
+    "BadgeLabel": {
+      "size": {
+        "nano": {
+          "height": "var(--comp-badge-height-nano) → 16px",
+          "paddingX": "var(--comp-badge-px-nano) → 4px",
+          "paddingY": "none (fixed height)",
+          "radius": "var(--comp-badge-radius-nano) → 4px",
+          "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+          "minWidth": "var(--comp-badge-min-w-nano) → 16px",
+          "textAlign": "text-center",
+          "note": "Counter-only (numbers only)"
+        },
+        "xSmall": {
+          "height": "var(--comp-badge-height-xs) → 20px",
+          "paddingX": "var(--comp-badge-px-xs) → 4px",
+          "paddingY": "none (fixed height)",
+          "radius": "var(--comp-badge-radius-xs) → 4px",
+          "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+          "minWidth": "var(--comp-badge-min-w-xs) → 20px",
+          "textAlign": "text-center"
+        },
+        "small": {
+          "paddingX": "var(--comp-badge-px-sm) → 6px",
+          "paddingY": "var(--comp-badge-py) → 4px",
+          "radius": "var(--comp-badge-radius-sm) → 4px",
+          "typography": "typography-12-medium",
+          "minWidth": "var(--comp-badge-min-w-sm) → 24px"
+        },
+        "medium": {
+          "paddingX": "var(--comp-badge-px-md) → 8px",
+          "paddingY": "var(--comp-badge-py) → 4px",
+          "radius": "var(--comp-badge-radius-md) → 6px",
+          "typography": "typography-14-medium",
+          "minWidth": "var(--comp-badge-min-w-md) → 28px"
+        },
+        "large": {
+          "paddingX": "var(--comp-badge-px-lg) → 8px",
+          "paddingY": "var(--comp-badge-py) → 4px",
+          "radius": "var(--comp-badge-radius-lg) → 6px",
+          "typography": "typography-15-medium",
+          "minWidth": "var(--comp-badge-min-w-lg) → 32px"
+        }
+      },
+      "shape": {
+        "basic": {
+          "radius": "size-dependent (compoundVariants)",
+          "paddingX": "size-dependent (from size variant)"
+        },
+        "circular": {
+          "radius": "rounded-full (9999px)",
+          "paddingX_override": {
+            "nano": "var(--comp-badge-px-circular-nano) → 6px",
+            "xSmall": "var(--comp-badge-px-circular-xs) → 6px",
+            "small": "var(--comp-badge-px-circular-sm) → 8px",
+            "medium": "var(--comp-badge-px-circular-md) → 8px",
+            "large": "var(--comp-badge-px-circular-lg) → 10px"
+          }
+        },
+        "square": {
+          "radius": "rounded-none (0px)",
+          "paddingX": "same as basic"
+        }
+      },
+      "color_weight": {
+        "strategy": "colorMap pattern (Record<BadgeColor, Record<BadgeWeight, { bg, content }>>)",
+        "pattern": {
+          "light": {
+            "background": "bg-primitive-{prim}-100",
+            "text": "text-primitive-{prim}-700"
+          },
+          "heavy": {
+            "background": "bg-primitive-{prim}-500",
+            "text": "text-primitive-gray-0"
+          }
+        },
+        "exceptions": {
+          "gray.heavy.bg": "primitive-gray-800 (not 500)",
+          "red.light.text": "primitive-redbright-600 (not 700)",
+          "emerald.light.text": "primitive-forest-600 (not 700)"
+        },
+        "figmaToTokenMapping": {
+          "gray": "gray",
+          "indigo": "indigo",
+          "purple": "purple",
+          "fuchsia": "violet",
+          "pink": "pink",
+          "rose": "rose",
+          "red": "redbright",
+          "orange": "orange",
+          "amber": "amber",
+          "yellow": "yellow",
+          "lime": "lime",
+          "green": "edamame",
+          "emerald": "forest",
+          "teal": "teal",
+          "cyan": "cyan",
+          "sky": "sky",
+          "blue": "blue"
+        }
+      }
+    },
+    "BadgeDot": {
+      "size": {
+        "4": { "dimensions": "var(--comp-badge-dot-size-4) → 4px" },
+        "8": { "dimensions": "var(--comp-badge-dot-size-8) → 8px" }
+      },
+      "color": {
+        "strategy": "dotColorMap (Record<BadgeColor, string>)",
+        "pattern": "bg-primitive-{prim}-300",
+        "mapping": "same as BadgeLabel figmaToTokenMapping"
+      },
+      "outlined": {
+        "true": "border border-primitive-gray-0 (1px white)",
+        "false": "no border"
+      }
+    }
+  },
+
+  "states": {
+    "none": "Badge is display-only. No interactive states."
+  },
+
+  "tokens": {
+    "scope": ":root (all size/spacing — no [data-theme] tokens)",
+    "colorStrategy": "Primitive Tailwind classes in JS colorMap objects (shared.ts), not CSS custom properties",
+    "definitions": {
+      "--comp-badge-height-nano": "16px",
+      "--comp-badge-height-xs": "var(--primitive-spacing-5) → 20px",
+      "--comp-badge-px-nano": "var(--primitive-spacing-1) → 4px",
+      "--comp-badge-px-xs": "var(--primitive-spacing-1) → 4px",
+      "--comp-badge-px-sm": "var(--primitive-spacing-1\\.5) → 6px",
+      "--comp-badge-px-md": "var(--primitive-spacing-2) → 8px",
+      "--comp-badge-px-lg": "var(--primitive-spacing-2) → 8px",
+      "--comp-badge-px-circular-nano": "6px",
+      "--comp-badge-px-circular-xs": "var(--primitive-spacing-1\\.5) → 6px",
+      "--comp-badge-px-circular-sm": "var(--primitive-spacing-2) → 8px",
+      "--comp-badge-px-circular-md": "var(--primitive-spacing-2) → 8px",
+      "--comp-badge-px-circular-lg": "var(--primitive-spacing-2\\.5) → 10px",
+      "--comp-badge-py": "var(--primitive-spacing-1) → 4px",
+      "--comp-badge-radius-nano": "var(--primitive-radius-1) → 4px",
+      "--comp-badge-radius-xs": "var(--primitive-radius-1) → 4px",
+      "--comp-badge-radius-sm": "var(--primitive-radius-1) → 4px",
+      "--comp-badge-radius-md": "var(--primitive-radius-1\\.5) → 6px",
+      "--comp-badge-radius-lg": "var(--primitive-radius-1\\.5) → 6px",
+      "--comp-badge-min-w-nano": "16px",
+      "--comp-badge-min-w-xs": "20px",
+      "--comp-badge-min-w-sm": "24px",
+      "--comp-badge-min-w-md": "28px",
+      "--comp-badge-min-w-lg": "32px",
+      "--comp-badge-dot-size-4": "4px",
+      "--comp-badge-dot-size-8": "8px"
+    }
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (no Slot, no Context)",
+    "strategy": {
+      "BadgeLabel": "CVA for size × shape (compoundVariants for basic radius and circular px). colorMap JS object for color × weight (similar to ButtonEmphasized).",
+      "BadgeDot": "Simple cn() with ternary for size, dotColorMap for color, conditional border for outlined."
+    },
+    "openTypeFeatures": {
+      "fontFeatureSettings": "'case' 1, 'lnum' 1, 'pnum' 1",
+      "appliedVia": "inline style on BadgeLabel root element"
+    },
+    "baseClasses": {
+      "BadgeLabel": "inline-flex items-center justify-center whitespace-nowrap select-none",
+      "BadgeDot": "inline-block shrink-0 rounded-full"
+    },
+    "domStructure": {
+      "BadgeLabel": "<span class={cva + colorMap}>{children}</span>",
+      "BadgeDot": "<span aria-hidden class={size + color + outline} />"
+    },
+    "files": [
+      "src/components/Badge/BadgeLabel.tsx",
+      "src/components/Badge/BadgeDot.tsx",
+      "src/components/Badge/shared.ts",
+      "src/components/Badge/index.ts"
+    ],
+    "dependencies": [],
+    "consumers": [
+      {
+        "component": "Tab (TabItem)",
+        "file": "src/components/Tab/Tab.tsx",
+        "usage": "BadgeDot with size=8 color='red' for tab notification indicator"
+      }
+    ]
+  }
+}
