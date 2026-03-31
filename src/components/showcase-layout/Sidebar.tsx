@@ -15,11 +15,12 @@ type NavGroup = {
   items: NavItem[]
 }
 
-const NAV_GROUPS: NavGroup[] = [
+export const NAV_GROUPS: NavGroup[] = [
   {
     label: 'Foundation',
     items: [
       { id: 'tokens', label: 'Tokens' },
+      { id: 'block-catalog', label: 'Block Catalog' },
     ],
   },
   {
@@ -53,6 +54,12 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'callout', label: 'Callout' },
     ],
   },
+  {
+    label: 'Feedback',
+    items: [
+      { id: 'skeleton', label: 'Skeleton' },
+    ],
+  },
 ]
 
 /* ─── Component ───────────────────────────────────────────────────────────── */
@@ -66,9 +73,9 @@ interface SidebarProps {
 
 export function Sidebar({ active, onSelect, theme, onThemeChange }: SidebarProps) {
   return (
-    <aside className="fixed top-0 left-0 h-screen w-[240px] flex flex-col bg-semantic-background-0 border-r border-semantic-divider-solid-50 z-20">
+    <aside className="fixed top-0 left-0 h-screen w-[240px] flex flex-col bg-semantic-background-50 border-r border-semantic-divider-solid-200 z-20">
       {/* Logo */}
-      <div className="flex-shrink-0 px-4 pt-5 pb-4">
+      <div className="flex-shrink-0 h-14 px-4 py-4 border-b border-semantic-divider-solid-100">
         <img
           src={theme === 'dark' ? logoDark : logoLight}
           alt="kiio Library"

@@ -44,23 +44,32 @@ export function ShowcaseHeader({
   name,
   description,
   classification,
+  groupName,
 }: {
   id: string
   name: string
   description: string
   classification?: string
+  groupName?: string
 }) {
   return (
-    <div id={id} className="mb-8 scroll-mt-6">
-      <div className="flex items-center gap-3 mb-2">
-        <h1 className="typography-24-bold text-semantic-text-on-bright-900">{name}</h1>
-        {classification && (
-          <span className="typography-12-medium text-semantic-emphasized-purple-500 bg-semantic-emphasized-purple-50 px-2 py-0.5 rounded-full">
-            {classification}
+    <div id={id} className="flex flex-col gap-4 mb-8 scroll-mt-6">
+      <div className="flex flex-col gap-1">
+        {groupName && (
+          <span className="typography-14-medium text-semantic-text-on-bright-400">
+            {groupName}
           </span>
         )}
+        <div className="flex items-center gap-3">
+          <h1 className="typography-48-semibold text-semantic-text-on-bright-950">{name}</h1>
+          {classification && (
+            <span className="typography-12-medium text-semantic-emphasized-purple-500 bg-semantic-emphasized-purple-50 px-2 py-0.5 rounded-full">
+              {classification}
+            </span>
+          )}
+        </div>
       </div>
-      <p className="typography-14-regular text-semantic-text-on-bright-500 leading-relaxed max-w-[640px]">
+      <p className="typography-16-regular text-semantic-text-on-bright-600 leading-relaxed">
         {description}
       </p>
     </div>
