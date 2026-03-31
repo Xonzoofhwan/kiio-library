@@ -97,6 +97,8 @@ xLarge → xl, large → lg, medium → md, small → sm, xSmall → xs
 
 7. /* --- Icon size map --- */ (아이콘 지원 시)
    - Record<SizeType, string>: 사이즈별 아이콘 크기
+   - 아이콘 컨테이너 <span>에 반드시 `[&>*]:[font-size:inherit]` 포함
+     (외부 아이콘 폰트의 클래스 기반 font-size 오버라이드 방지)
 
 8. /* --- Spinner size map --- */ (loading 지원 시)
    - Record<SizeType, string>: 사이즈별 스피너 크기
@@ -109,7 +111,7 @@ xLarge → xl, large → lg, medium → md, small → sm, xSmall → xs
     - Comp = asChild ? Slot : '{element}'
     - State overlay <span aria-hidden> pointer-events-none absolute inset-0 rounded-[inherit]
     - Loading: absolute Spinner + invisible content
-    - Icon containers: flex-shrink-0 relative
+    - Icon containers: flex-shrink-0 relative [&>*]:[font-size:inherit]
 ```
 
 ### 10대 규칙
@@ -152,8 +154,9 @@ export type { ComponentVariant, ComponentSize } from './ComponentName'
 `src/App.tsx`를 수정한다:
 
 1. **Import 추가**: `import { {Name}Showcase, {COMPONENT}_TOC } from '@/showcase/{Name}Showcase'`
-2. **ComponentId union 확장**: `type ComponentId = '...' | '{kebab-id}'`
-3. **SHOWCASE_MAP entry 추가**: `'{kebab-id}': { component: {Name}Showcase, toc: {COMPONENT}_TOC },`
+2. **SHOWCASE_MAP entry 추가**: `'{kebab-id}': { component: {Name}Showcase, toc: {COMPONENT}_TOC },`
+
+> `VALID_SHOWCASE_IDS`는 `Object.keys(SHOWCASE_MAP)`에서 자동 파생 — 별도 ID 등록 불필요.
 
 ### 3.3 Sidebar 등록
 

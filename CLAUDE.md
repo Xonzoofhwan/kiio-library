@@ -383,6 +383,10 @@ Based on component size variants from JSON specs:
 - Icons are passed as `ReactNode` props (`iconLeading`, `iconTrailing`)
 - Component handles sizing internally based on size variant
 - Use `flex-shrink-0` on icon containers to prevent squishing
+- **아이콘 컨테이너에 `[&>*]:[font-size:inherit]` 필수** — 외부 아이콘 폰트(Material Symbols 등)의 클래스 기반 `font-size: 24px` 선언이 CSS 상속을 덮어쓰는 것을 방지. `style={{ fontSize }}` 와 함께 반드시 적용한다.
+- 쇼케이스/데모 코드에서도 raw `<span class="material-symbols-sharp">` 대신 `<Icon name="..." />` 컴포넌트를 사용한다.
+
+> 아이콘 컨테이너 구현 패턴과 코드 예시는 [COMPONENT_PATTERNS.md §Pattern 2](./docs/COMPONENT_PATTERNS.md) 참고.
 ---
 ## Component Development Checklist
 Use this checklist for every component to ensure consistency and quality. Categories: Design Fidelity, Implementation, Theme Support, Accessibility, TypeScript, File Organization, Testing, Code Quality.

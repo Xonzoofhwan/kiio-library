@@ -77,6 +77,22 @@
 
 ---
 
+## New Showcase Page Not Visible
+
+**Problem**: 새 컴포넌트 쇼케이스 페이지를 추가했지만 사이드바에서 클릭해도 페이지가 표시되지 않음.
+
+**Root cause**: `useHashRoute`의 `useEffect` 클로저가 stale `validIds`를 참조하여, HMR 업데이트 후 새로 추가된 페이지 ID를 인식하지 못함.
+
+**Fix (2025-03-26)**: `validIds`를 `useRef`로 감싸서 항상 최신 값을 참조하도록 수정함 (`src/hooks/useHashRoute.ts`).
+
+**Checklist** — 새 쇼케이스 등록 시 **2곳만** 수정:
+1. `src/App.tsx` — `SHOWCASE_MAP`에 `{ component, toc }` 추가 (라우팅 자동 파생)
+2. `src/components/showcase-layout/Sidebar.tsx` — `NAV_GROUPS`에 `{ id, label }` 추가
+
+> `useHashRoute`의 `VALID_IDS`는 `Object.keys(SHOWCASE_MAP)`에서 자동 파생되므로 별도 수정 불필요.
+
+---
+
 ## Build Errors
 
 **Problem**: `npm run build` fails.

@@ -63,14 +63,49 @@ export function Component({
 
 **Naming**: `iconLeading` / `iconTrailing` 사용 (`iconLeft` / `iconRight` 아님). RTL 레이아웃에서도 올바른 방향을 보장한다.
 
-```tsx
-interface ButtonProps {
-  iconLeading?: React.ReactNode
-  iconTrailing?: React.ReactNode
-  children: React.ReactNode
-  size?: 'small' | 'medium' | 'large'
-}
+### 아이콘 컨테이너 필수 규칙
 
+아이콘 슬롯은 `ReactNode`를 받으므로 소비자가 어떤 요소를 전달할지 모른다. 외부 아이콘 폰트(Material Symbols 등)는 `.material-symbols-sharp { font-size: 24px }` 같은 **클래스 기반 크기 선언**을 포함하며, 이는 CSS 상속보다 우선한다. 따라서 아이콘 컨테이너 `<span>`에는 반드시 다음 두 가지를 모두 적용한다:
+
+1. `style={{ fontSize: ... }}` — 컨테이너에 원하는 크기를 inline으로 설정
+2. `[&>*]:[font-size:inherit]` — 자식 요소가 컨테이너의 font-size를 강제 상속하도록 보장
+
+```tsx
+{icon && (
+  <span
+    className={cn(
+      'flex-shrink-0 flex items-center justify-center',
+      '[&>*]:[font-size:inherit]',  // 필수: 외부 폰트 클래스의 font-size 오버라이드
+      iconSizes[size],
+    )}
+    style={{ fontSize: iconFontSizeVar[size] }}
+  >
+    {icon}
+  </span>
+)}
+```
+
+> **왜 `[&>*]:[font-size:inherit]`가 필요한가?**
+> `Icon` 컴포넌트는 `fontSize: 'inherit'`를 inline으로 설정하여 문제가 없지만,
+> raw `<span class="material-symbols-sharp">` 등 외부 요소가 전달되면 클래스 선언(`font-size: 24px`)이
+> 상속값을 덮어쓴다. `[&>*]:[font-size:inherit]`는 자식 선택자로 이를 방지한다.
+
+### 쇼케이스에서 아이콘 사용
+
+쇼케이스/데모 코드에서도 raw `<span>` 대신 반드시 `<Icon name="..." />` 컴포넌트를 사용한다.
+
+```tsx
+// DO: Icon 컴포넌트 사용
+import { Icon } from '@/components/icons'
+<NavVertical.Item icon={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
+
+// DON'T: raw span 사용 금지
+<NavVertical.Item icon={<span className="material-symbols-sharp">dashboard</span>}>
+```
+
+### 사이즈 매핑 예시
+
+```tsx
 // Icon size mapping from JSON spec
 const iconSizes = {
   small: 'w-4 h-4',
@@ -93,13 +128,13 @@ export function Button({
       isIconOnly ? iconOnlyPadding[size] : regularPadding[size]
     )}>
       {iconLeading && (
-        <span className={cn('flex-shrink-0', iconSizes[size])}>
+        <span className={cn('flex-shrink-0 [&>*]:[font-size:inherit]', iconSizes[size])}>
           {iconLeading}
         </span>
       )}
       {children && <span>{children}</span>}
       {iconTrailing && (
-        <span className={cn('flex-shrink-0', iconSizes[size])}>
+        <span className={cn('flex-shrink-0 [&>*]:[font-size:inherit]', iconSizes[size])}>
           {iconTrailing}
         </span>
       )}
