@@ -554,25 +554,28 @@
      Naming: --comp-tooltip-{property}
      ---------------------------------------------------------- */
   --comp-tooltip-max-width:       320px;
-  --comp-tooltip-px:              var(--primitive-spacing-3\.5);   /* 14px */
-  --comp-tooltip-py:              var(--primitive-spacing-3);      /* 12px */
-  --comp-tooltip-radius:          var(--primitive-radius-2);       /* 8px */
+  --comp-tooltip-px-lg:           var(--primitive-spacing-3\.5);   /* 14px */
+  --comp-tooltip-py-lg:           var(--primitive-spacing-3);      /* 12px */
+  --comp-tooltip-px-md:           var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-tooltip-py-md:           var(--primitive-spacing-2);      /* 8px */
+  --comp-tooltip-radius:          var(--primitive-radius-1);       /* 4px */
   --comp-tooltip-arrow-width:     16px;
   --comp-tooltip-arrow-height:    8px;
-  --comp-tooltip-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
+  --comp-tooltip-shadow:          0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08);
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — Callout (size/spacing layer)
      Naming: --comp-callout-{property}
      ---------------------------------------------------------- */
   --comp-callout-max-width:       320px;
-  --comp-callout-px:              var(--primitive-spacing-3\.5);   /* 14px */
-  --comp-callout-py-md:           var(--primitive-spacing-3);      /* 12px */
-  --comp-callout-py-lg:           14px;                  /* 14px */
-  --comp-callout-radius:          var(--primitive-radius-2);       /* 8px */
+  --comp-callout-px-lg:           var(--primitive-spacing-3\.5);   /* 14px */
+  --comp-callout-py-lg:           var(--primitive-spacing-3);      /* 12px */
+  --comp-callout-px-md:           var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-callout-py-md:           var(--primitive-spacing-2);      /* 8px */
+  --comp-callout-radius:          var(--primitive-radius-1);       /* 4px */
   --comp-callout-arrow-width:     16px;
   --comp-callout-arrow-height:    8px;
-  --comp-callout-shadow:          0px 2px 10px 0px rgba(0,0,0,0.12);
+  --comp-callout-shadow:          0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08);
   --comp-callout-close-size:      32px;
   --comp-callout-close-icon:      20px;
   --comp-callout-action-icon:     20px;
@@ -632,6 +635,195 @@
   /* ─── Gap (between icon and text) ─── */
   --comp-text-button-gap-xl:      var(--primitive-spacing-1);      /* 4px */
   --comp-text-button-gap-lg:      var(--primitive-spacing-0\.5);   /* 2px */
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tab (size/spacing layer)
+     Naming: --comp-tab-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* -- Circular variant -- */
+  --comp-tab-height-lg:              var(--primitive-spacing-10);     /* 40px */
+  --comp-tab-height-sm:              var(--primitive-spacing-8);      /* 32px */
+  --comp-tab-px-lg:                  var(--primitive-spacing-4);      /* 16px */
+  --comp-tab-px-sm:                  var(--primitive-spacing-3\.5);   /* 14px */
+
+  /* -- Underlined variant -- */
+  --comp-tab-underline-pt:           var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-tab-underline-gap:          var(--primitive-spacing-2);      /* 8px */
+  --comp-tab-underline-border:       2px;
+
+  /* -- Badge dot (placeholder — replace with Badge component tokens later) -- */
+  --comp-tab-badge-size:             8px;
+  --comp-tab-badge-offset-lg:        var(--primitive-spacing-2);      /* 8px */
+  --comp-tab-badge-offset-sm:        var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-tab-badge-top-underlined:   var(--primitive-spacing-1);      /* 4px */
+  --comp-tab-badge-right-underlined: -4px;
+
+  /* -- Container gaps -- */
+  --comp-tab-list-gap-circular:      var(--primitive-spacing-2);      /* 8px */
+  --comp-tab-list-gap-underlined:    var(--primitive-spacing-4);      /* 16px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Badge (size/spacing layer)
+     Naming: --comp-badge-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Height ─── */
+  --comp-badge-height-nano:          16px;
+  --comp-badge-height-xs:            var(--primitive-spacing-5);      /* 20px */
+
+  /* ─── Horizontal padding (basic/square shape) ─── */
+  --comp-badge-px-nano:              var(--primitive-spacing-1);      /* 4px */
+  --comp-badge-px-xs:                var(--primitive-spacing-1);      /* 4px */
+  --comp-badge-px-sm:                var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-badge-px-md:                var(--primitive-spacing-2);      /* 8px */
+  --comp-badge-px-lg:                var(--primitive-spacing-2);      /* 8px */
+
+  /* ─── Horizontal padding (circular shape override) ─── */
+  --comp-badge-px-circular-nano:     6px;
+  --comp-badge-px-circular-xs:       var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-badge-px-circular-sm:       var(--primitive-spacing-2);      /* 8px */
+  --comp-badge-px-circular-md:       var(--primitive-spacing-2);      /* 8px */
+  --comp-badge-px-circular-lg:       var(--primitive-spacing-2\.5);   /* 10px */
+
+  /* ─── Vertical padding ─── */
+  --comp-badge-py:                   var(--primitive-spacing-1);      /* 4px */
+
+  /* ─── Border radius (basic shape) ─── */
+  --comp-badge-radius-nano:          var(--primitive-radius-1);       /* 4px */
+  --comp-badge-radius-xs:            var(--primitive-radius-1);       /* 4px */
+  --comp-badge-radius-sm:            var(--primitive-radius-1);       /* 4px */
+  --comp-badge-radius-md:            var(--primitive-radius-1\.5);    /* 6px */
+  --comp-badge-radius-lg:            var(--primitive-radius-1\.5);    /* 6px */
+
+  /* ─── Min width (all sizes — min-w equals height) ─── */
+  --comp-badge-min-w-nano:           16px;
+  --comp-badge-min-w-xs:             20px;
+  --comp-badge-min-w-sm:             24px;
+  --comp-badge-min-w-md:             28px;
+  --comp-badge-min-w-lg:             32px;
+
+  /* ─── Dot sizes ─── */
+  --comp-badge-dot-size-4:           4px;
+  --comp-badge-dot-size-8:           8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — NavVertical (size/spacing layer)
+     Naming: --comp-nav-vertical-{property}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Item padding ─── */
+  --comp-nav-vertical-item-px-lg:          var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-nav-vertical-item-px-sm:          var(--primitive-spacing-2);      /* 8px */
+  --comp-nav-vertical-item-py-lg:          var(--primitive-spacing-2);      /* 8px */
+  --comp-nav-vertical-item-py-sm:          var(--primitive-spacing-1\.5);   /* 6px */
+
+  /* ─── Item icon size ─── */
+  --comp-nav-vertical-item-icon-lg:        24px;
+  --comp-nav-vertical-item-icon-sm:        20px;
+
+  /* ─── Item text wrapper ─── */
+  --comp-nav-vertical-item-text-px:        var(--primitive-spacing-1);      /* 4px */
+
+  /* ─── Item border-radius (basic shape) ─── */
+  --comp-nav-vertical-item-radius-basic:   var(--primitive-radius-3);       /* 12px */
+
+  /* ─── Group padding ─── */
+  --comp-nav-vertical-group-pl-lg:         var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-nav-vertical-group-pl-sm:         var(--primitive-spacing-2);      /* 8px */
+  --comp-nav-vertical-group-pr:            var(--primitive-spacing-1);      /* 4px */
+  --comp-nav-vertical-group-py:            var(--primitive-spacing-1);      /* 4px */
+
+  /* ─── Group chevron size ─── */
+  --comp-nav-vertical-group-chevron-lg:    20px;
+  --comp-nav-vertical-group-chevron-sm:    16px;
+
+  /* ─── Group border-radius (basic shape) ─── */
+  --comp-nav-vertical-group-radius-basic-lg: var(--primitive-radius-2);     /* 8px */
+  --comp-nav-vertical-group-radius-basic-sm: var(--primitive-radius-1\.5);  /* 6px */
+
+  /* ─── Container ─── */
+  --comp-nav-vertical-gap:                 var(--primitive-spacing-1);      /* 4px */
+  --comp-nav-vertical-group-gap:           var(--primitive-spacing-2);      /* 8px */
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SegmentBar (size/spacing layer)
+     Naming: --comp-segment-bar-{property}-{size}   (container)
+             --comp-segment-item-{property}-{size}   (item)
+     ---------------------------------------------------------- */
+
+  /* ─── Container padding ─── */
+  --comp-segment-bar-padding-sm:           2px;
+  --comp-segment-bar-padding-md:           2px;
+  --comp-segment-bar-padding-lg:           2px;
+  --comp-segment-bar-padding-xl:           4px;
+
+  /* ─── Container border-radius (basic shape) ─── */
+  --comp-segment-bar-radius-sm:            var(--primitive-radius-2);       /* 8px */
+  --comp-segment-bar-radius-md:            var(--primitive-radius-3);       /* 12px */
+  --comp-segment-bar-radius-lg:            var(--primitive-radius-4);       /* 16px */
+  --comp-segment-bar-radius-xl:            var(--primitive-radius-4);       /* 16px */
+
+  /* ─── Item height ─── */
+  --comp-segment-item-height-sm:           var(--primitive-spacing-7);      /* 28px */
+  --comp-segment-item-height-md:           var(--primitive-spacing-9);      /* 36px */
+  --comp-segment-item-height-lg:           44px;
+  --comp-segment-item-height-xl:           var(--primitive-spacing-12);     /* 48px */
+
+  /* ─── Item border-radius (basic shape) ─── */
+  --comp-segment-item-radius-sm:           var(--primitive-radius-1\.5);    /* 6px */
+  --comp-segment-item-radius-md:           var(--primitive-radius-2\.5);    /* 10px */
+  --comp-segment-item-radius-lg:           var(--primitive-radius-3);       /* 12px */
+  --comp-segment-item-radius-xl:           var(--primitive-radius-3);       /* 12px */
+
+  /* ─── Item horizontal padding (fill / fixed mode) ─── */
+  --comp-segment-item-px-fill-sm:          var(--primitive-spacing-2\.5);   /* 10px */
+  --comp-segment-item-px-fill-md:          var(--primitive-spacing-4);      /* 16px */
+  --comp-segment-item-px-fill-lg:          var(--primitive-spacing-4);      /* 16px */
+  --comp-segment-item-px-fill-xl:          var(--primitive-spacing-4);      /* 16px */
+
+  /* ─── Item horizontal padding (hug mode — sm/md only) ─── */
+  --comp-segment-item-px-hug-sm:           var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-segment-item-px-hug-md:           var(--primitive-spacing-2\.5);   /* 10px */
+
+  /* ─── Item icon size (sm/md only) ─── */
+  --comp-segment-item-icon-sm:             16px;
+  --comp-segment-item-icon-md:             18px;
+
+  /* ─── Badge dot size ─── */
+  --comp-segment-item-badge-sm:            4px;
+  --comp-segment-item-badge-lg:            8px;
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Chip (size/spacing layer)
+     ---------------------------------------------------------- */
+
+  /* ─── ChipUniversal ─── */
+  --comp-chip-universal-height-lg:         var(--primitive-spacing-10);     /* 40px */
+  --comp-chip-universal-height-md:         var(--primitive-spacing-8);      /* 32px */
+  --comp-chip-universal-px:                var(--primitive-spacing-3);      /* 12px */
+  --comp-chip-universal-icon:              18px;
+  --comp-chip-universal-gap:               var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-universal-inner-gap:         var(--primitive-spacing-0\.5);   /* 2px */
+
+  /* ─── ChipBadgeLike (size/spacing) ─── */
+  --comp-chip-badgelike-height-lg:         var(--primitive-spacing-8);      /* 32px */
+  --comp-chip-badgelike-height-md:         var(--primitive-spacing-7);      /* 28px */
+  --comp-chip-badgelike-height-sm:         var(--primitive-spacing-6);      /* 24px */
+  --comp-chip-badgelike-height-xs:         var(--primitive-spacing-5);      /* 20px */
+  --comp-chip-badgelike-px-lg:             var(--primitive-spacing-2);      /* 8px */
+  --comp-chip-badgelike-px-md:             var(--primitive-spacing-2);      /* 8px */
+  --comp-chip-badgelike-px-sm:             var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-badgelike-px-xs:             var(--primitive-spacing-1);      /* 4px */
+  --comp-chip-badgelike-gap:               var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-badgelike-icon-lg:           16px;
+  --comp-chip-badgelike-icon-md:           16px;
+  --comp-chip-badgelike-icon-sm:           16px;
+  --comp-chip-badgelike-icon-xs:           12px;
+  --comp-chip-badgelike-radius-lg:         var(--primitive-radius-1\.5);    /* 6px */
+  --comp-chip-badgelike-radius-md:         var(--primitive-radius-1\.5);    /* 6px */
+  --comp-chip-badgelike-radius-sm:         var(--primitive-radius-1);       /* 4px */
+  --comp-chip-badgelike-radius-xs:         var(--primitive-radius-1);       /* 4px */
+
 }
 
 /* ----------------------------------------------------------
@@ -1017,7 +1209,7 @@
 
   /* ─── Secondary hierarchy ─── */
   --comp-button-bg-secondary:               var(--semantic-neutral-black-alpha-70);
-  --comp-button-content-secondary:          var(--semantic-neutral-solid-950);
+  --comp-button-content-secondary:          var(--semantic-neutral-solid-800);
   --comp-button-hover-secondary:            var(--semantic-state-on-bright-50);
   --comp-button-active-secondary:           var(--semantic-state-on-bright-70);
   --comp-button-bg-secondary-disabled:      var(--semantic-neutral-black-alpha-70);
@@ -1043,6 +1235,147 @@
 
   /* ─── Focus ring ─── */
   --comp-button-focus-border:               var(--semantic-neutral-solid-1000);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Tab (color layer)
+     Naming: --comp-tab-{property}-{variant}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Circular: default (inactive) ─── */
+  --comp-tab-bg-circular:                var(--semantic-neutral-black-alpha-70);
+  --comp-tab-text-circular:              var(--semantic-text-on-bright-600);
+  --comp-tab-hover-circular:             var(--semantic-state-on-bright-50);
+  --comp-tab-pressed-circular:           var(--semantic-state-on-bright-70);
+
+  /* ─── Circular: active ─── */
+  --comp-tab-bg-circular-active:         var(--semantic-neutral-solid-950);
+  --comp-tab-text-circular-active:       var(--semantic-neutral-solid-0);
+  --comp-tab-hover-circular-active:      var(--semantic-state-on-dim-50);
+  --comp-tab-pressed-circular-active:    var(--semantic-state-on-dim-70);
+
+  /* ─── Underlined: default (inactive) ─── */
+  --comp-tab-text-underlined:            var(--semantic-text-on-bright-600);
+  --comp-tab-border-underlined:          var(--semantic-neutral-black-alpha-0);
+  --comp-tab-hover-underlined:           var(--semantic-state-on-bright-50);
+  --comp-tab-pressed-underlined:         var(--semantic-state-on-bright-70);
+
+  /* ─── Underlined: active ─── */
+  --comp-tab-text-underlined-active:     var(--semantic-neutral-black-alpha-800);
+  --comp-tab-border-underlined-active:   var(--semantic-neutral-black-alpha-800);
+
+  /* ─── Underlined: container ─── */
+  --comp-tab-list-border-underlined:     var(--semantic-divider-alpha-70);
+
+  /* ─── Tab: badge dot (placeholder — replace when Badge component exists) ─── */
+  --comp-tab-badge-bg:                   var(--primitive-red-bright-500);
+
+  /* ─── Tab: focus ring (shared) ─── */
+  --comp-tab-focus-border:               var(--semantic-neutral-solid-1000);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — SegmentBar (color layer)
+     Naming: --comp-segment-{bar|item}-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Container ─── */
+  --comp-segment-bar-bg:                   var(--semantic-neutral-black-alpha-50);
+
+  /* ─── Item: default (inactive) ─── */
+  --comp-segment-item-text-default:        var(--semantic-text-on-bright-600);
+  --comp-segment-item-hover:               var(--semantic-state-on-bright-50);
+  --comp-segment-item-pressed:             var(--semantic-state-on-bright-70);
+
+  /* ─── Item: active ─── */
+  --comp-segment-item-bg-active:           var(--semantic-neutral-solid-0);
+  --comp-segment-item-border-active:       var(--semantic-neutral-black-alpha-950);
+  --comp-segment-item-text-active:         var(--semantic-text-on-bright-900);
+
+  /* ─── Divider ─── */
+  --comp-segment-bar-bg-divider:           var(--semantic-neutral-black-alpha-70);
+
+  /* ─── Focus ring ─── */
+  --comp-segment-item-focus-border:        var(--semantic-emphasized-purple-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Chip (color layer)
+     ---------------------------------------------------------- */
+
+  /* ─── ChipUniversal: unselected ─── */
+  --comp-chip-universal-bg:                      var(--semantic-neutral-black-alpha-70);
+  --comp-chip-universal-content:                 var(--semantic-neutral-black-alpha-600);
+  --comp-chip-universal-hover:                   var(--semantic-state-on-bright-50);
+  --comp-chip-universal-pressed:                 var(--semantic-state-on-bright-70);
+
+  /* ─── ChipUniversal: selected ─── */
+  --comp-chip-universal-bg-selected:             var(--semantic-neutral-black-alpha-950);
+  --comp-chip-universal-content-selected:        var(--semantic-neutral-solid-0);
+  --comp-chip-universal-hover-selected:          var(--semantic-state-on-dim-50);
+  --comp-chip-universal-pressed-selected:        var(--semantic-state-on-dim-70);
+
+  /* ─── ChipUniversal: focus ─── */
+  --comp-chip-universal-focus-border:            var(--semantic-primary-300);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — ChipBadgeLike (color layer)
+     Naming: --comp-chip-badgelike-{property}[-{variant}][-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── ChipBadgeLike: states ─── */
+  --comp-chip-badgelike-hover:                   var(--semantic-state-on-bright-50);
+  --comp-chip-badgelike-pressed:                 var(--semantic-state-on-bright-70);
+  --comp-chip-badgelike-focus-border:            var(--semantic-neutral-solid-1000);
+
+  /* ─── ChipBadgeLike Universal: weight colors ─── */
+  --comp-chip-badgelike-bg-light:                var(--semantic-neutral-solid-100);
+  --comp-chip-badgelike-content-light:           var(--semantic-neutral-black-alpha-600);
+  --comp-chip-badgelike-bg-heavy:                var(--semantic-neutral-solid-800);
+  --comp-chip-badgelike-content-heavy:           var(--semantic-neutral-solid-0);
+
+  /* ─── ChipBadgeLike Emphasized: purple ─── */
+  --comp-chip-badgelike-bg-purple-light:         var(--semantic-emphasized-purple-100);
+  --comp-chip-badgelike-content-purple-light:    var(--semantic-emphasized-purple-600);
+  --comp-chip-badgelike-bg-purple-heavy:         var(--semantic-emphasized-purple-500);
+  --comp-chip-badgelike-content-purple-heavy:    var(--semantic-neutral-solid-0);
+
+  /* ─── ChipBadgeLike Emphasized: blue ─── */
+  --comp-chip-badgelike-bg-blue-light:           var(--semantic-emphasized-blue-100);
+  --comp-chip-badgelike-content-blue-light:      var(--semantic-emphasized-blue-600);
+  --comp-chip-badgelike-bg-blue-heavy:           var(--semantic-emphasized-blue-500);
+  --comp-chip-badgelike-content-blue-heavy:      var(--semantic-neutral-solid-0);
+
+  /* ─── ChipBadgeLike Emphasized: orange ─── */
+  --comp-chip-badgelike-bg-orange-light:         var(--semantic-emphasized-orange-100);
+  --comp-chip-badgelike-content-orange-light:    var(--semantic-emphasized-orange-600);
+  --comp-chip-badgelike-bg-orange-heavy:         var(--semantic-emphasized-orange-500);
+  --comp-chip-badgelike-content-orange-heavy:    var(--semantic-neutral-solid-0);
+
+  /* ─── ChipBadgeLike Error: weight colors ─── */
+  --comp-chip-badgelike-bg-error-light:          var(--semantic-error-100);
+  --comp-chip-badgelike-content-error-light:     var(--semantic-error-700);
+  --comp-chip-badgelike-bg-error-heavy:          var(--semantic-error-500);
+  --comp-chip-badgelike-content-error-heavy:     var(--semantic-neutral-solid-0);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — NavVertical (color layer)
+     Naming: --comp-nav-vertical-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Item: default ─── */
+  --comp-nav-vertical-item-text:              var(--semantic-text-on-bright-600);
+  --comp-nav-vertical-item-hover:             var(--semantic-state-on-bright-50);
+  --comp-nav-vertical-item-pressed:           var(--semantic-state-on-bright-70);
+
+  /* ─── Item: active ─── */
+  --comp-nav-vertical-item-bg-active:         var(--semantic-neutral-black-alpha-50);
+  --comp-nav-vertical-item-text-active:       var(--semantic-text-on-bright-800);
+
+  /* ─── Group ─── */
+  --comp-nav-vertical-group-text:             var(--semantic-text-on-bright-400);
+  --comp-nav-vertical-group-hover:            var(--semantic-state-on-bright-50);
+  --comp-nav-vertical-group-pressed:          var(--semantic-state-on-bright-70);
+
+  /* ─── Focus ring (shared) ─── */
+  --comp-nav-vertical-focus-border:           var(--semantic-neutral-solid-1000);
 
 }
 

@@ -1,6 +1,6 @@
 {
   "component": "Callout",
-  "description": "Radix UI Popover 기반의 콜아웃 컴포넌트. black/white/brand 3가지 색상 variant와 manual/auto/none 3가지 닫힘 정책(dismiss mode)을 지원한다. 텍스트, 닫기 버튼, 액션 버튼, 화살표 등 서브 컴포넌트를 조합하여 구성하며, Portal 렌더링 시 앵커 조상의 테마 속성을 자동 전파한다.",
+  "description": "Radix UI Popover 기반의 콜아웃 컴포넌트. black/white 2가지 색상 variant, large/medium 2가지 사이즈, basic/square 2가지 shape, manual/auto/none 3가지 닫힘 정책(dismiss mode)을 지원한다. 텍스트, 닫기 버튼, 액션 버튼, 화살표 등 서브 컴포넌트를 조합하여 구성하며, Portal 렌더링 시 앵커 조상의 테마 속성을 자동 전파한다.",
   "classification": "Compound",
 
   "subComponents": [
@@ -10,9 +10,19 @@
       "element": "RadixPopover.Root",
       "props": {
         "variant": {
-          "type": "'black' | 'white' | 'brand'",
+          "type": "'black' | 'white'",
           "default": "black",
           "description": "시각적 variant. 배경, 텍스트, 화살표, 버튼 색상을 결정한다."
+        },
+        "size": {
+          "type": "'large' | 'medium'",
+          "default": "large",
+          "description": "크기. 타이포그래피, 내부 패딩을 제어한다."
+        },
+        "shape": {
+          "type": "'basic' | 'square'",
+          "default": "basic",
+          "description": "Border-radius shape."
         },
         "dismiss": {
           "type": "'manual' | 'auto' | 'none'",
@@ -136,7 +146,9 @@
     "componentContext": {
       "name": "CalloutContext",
       "sharedState": {
-        "variant": "현재 variant (black/white/brand). 서브 컴포넌트에서 색상 토큰 결정에 사용.",
+        "variant": "현재 variant (black/white). 서브 컴포넌트에서 색상 토큰 결정에 사용.",
+        "size": "현재 size (large/medium). CalloutText/CalloutAction에서 패딩/타이포그래피 결정에 사용.",
+        "shape": "현재 shape (basic/square). CalloutContent에서 border-radius 결정에 사용.",
         "dismiss": "현재 dismiss mode (manual/auto/none). Content에서 외부 클릭/Esc 동작 제어에 사용.",
         "onClose": "닫기 핸들러. CalloutClose와 CalloutAction(closeOnClick)에서 호출."
       },
@@ -161,15 +173,23 @@
         "close": "--comp-callout-close-white → semantic-text-on-bright-600",
         "closeHover": "--comp-callout-close-hover-white → semantic-state-on-bright-50",
         "action": "--comp-callout-action-white → semantic-text-on-bright-800"
-      },
-      "brand": {
-        "background": "--comp-callout-bg-brand → semantic-primary-500",
-        "text": "--comp-callout-text-brand → semantic-text-on-dim-950",
-        "arrow": "--comp-callout-arrow-brand → semantic-primary-500",
-        "close": "--comp-callout-close-brand → semantic-text-on-dim-800",
-        "closeHover": "--comp-callout-close-hover-brand → semantic-state-on-dim-50",
-        "action": "--comp-callout-action-brand → semantic-text-on-dim-800"
       }
+    },
+    "size": {
+      "large": {
+        "paddingX": "--comp-callout-px-lg → 14px",
+        "paddingY": "--comp-callout-py-lg → 12px",
+        "typography": "typography-16-medium"
+      },
+      "medium": {
+        "paddingX": "--comp-callout-px-md → 10px",
+        "paddingY": "--comp-callout-py-md → 8px",
+        "typography": "typography-14-medium"
+      }
+    },
+    "shape": {
+      "basic": { "radius": "--comp-callout-radius → 4px (primitive-radius-1)" },
+      "square": { "radius": "rounded-none (0px)" }
     },
     "side": {
       "values": ["top", "bottom", "left", "right"],
@@ -226,12 +246,14 @@
       "pattern": "--comp-callout-{property}",
       "list": [
         "--comp-callout-max-width: 320px",
-        "--comp-callout-px: var(--primitive-spacing-3\\.5) = 14px",
-        "--comp-callout-py: var(--primitive-spacing-3) = 12px",
-        "--comp-callout-radius: var(--primitive-radius-2) = 8px",
+        "--comp-callout-px-lg: var(--primitive-spacing-3\\.5) = 14px",
+        "--comp-callout-py-lg: var(--primitive-spacing-3) = 12px",
+        "--comp-callout-px-md: var(--primitive-spacing-2\\.5) = 10px",
+        "--comp-callout-py-md: var(--primitive-spacing-2) = 8px",
+        "--comp-callout-radius: var(--primitive-radius-1) = 4px",
         "--comp-callout-arrow-width: 16px",
         "--comp-callout-arrow-height: 8px",
-        "--comp-callout-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)",
+        "--comp-callout-shadow: 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08)",
         "--comp-callout-close-size: 32px",
         "--comp-callout-close-icon: 20px",
         "--comp-callout-action-icon: 20px"
@@ -252,13 +274,7 @@
         "--comp-callout-arrow-white: semantic-neutral-solid-50",
         "--comp-callout-close-white: semantic-text-on-bright-600",
         "--comp-callout-close-hover-white: semantic-state-on-bright-50",
-        "--comp-callout-action-white: semantic-text-on-bright-800",
-        "--comp-callout-bg-brand: semantic-primary-500",
-        "--comp-callout-text-brand: semantic-text-on-dim-950",
-        "--comp-callout-arrow-brand: semantic-primary-500",
-        "--comp-callout-close-brand: semantic-text-on-dim-800",
-        "--comp-callout-close-hover-brand: semantic-state-on-dim-50",
-        "--comp-callout-action-brand: semantic-text-on-dim-800"
+        "--comp-callout-action-white: semantic-text-on-bright-800"
       ]
     },
     "geoShapeOverrides": []
@@ -276,12 +292,12 @@
     },
     "arrow": {
       "description": "CalloutArrow 서브 컴포넌트로 선택적 렌더링. RadixPopover.Arrow를 감싼다.",
-      "size": "width=10, height=5",
+      "size": "width=16, height=8",
       "color": "variant별 --comp-callout-arrow-{variant} fill 적용."
     },
     "shadow": {
       "description": "showShadow=true일 때 --comp-callout-shadow box-shadow 적용.",
-      "value": "0px 2px 10px 0px rgba(0,0,0,0.12)"
+      "value": "0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08)"
     },
     "animation": {
       "enter": "tooltip-enter keyframes, var(--semantic-duration-fast), var(--semantic-easing-enter). data-[state=open] 트리거.",
@@ -302,8 +318,8 @@
       "transition": "transition-opacity duration-fast ease-enter, hover:opacity-80"
     },
     "textArea": {
-      "typography": "typography-16-medium",
-      "padding": "px-[var(--comp-callout-px)] py-[var(--comp-callout-py)]"
+      "typography": "size-dependent: large=typography-16-medium, medium=typography-14-medium",
+      "padding": "size-dependent: large=px-lg/py-lg, medium=px-md/py-md"
     },
     "controlledUncontrolled": {
       "description": "open prop 유무로 controlled/uncontrolled 판단. 내부 state(internalOpen) + isControlled 패턴.",
@@ -327,8 +343,8 @@
   "implementation": {
     "pattern": "Compound Component + Radix UI Popover + Dual Context (theme + component) + cn",
     "compoundExport": "Object.assign(CalloutRoot, { Anchor, Content, Arrow, Text, Close, Action })",
-    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-pretendard'> wrapper.",
-    "variantStyleMaps": "bgMap, textMap, arrowColorMap, closeColorMap, actionColorMap — 5개의 Record<CalloutVariant, string> 맵.",
+    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-geist'> wrapper.",
+    "variantStyleMaps": "bgMap, textMap, arrowColorMap, closeColorMap — 4개의 Record<CalloutVariant, string> 맵.",
     "contentLayout": "flex flex-col — 서브 컴포넌트(Text, Close, Action, Arrow)를 수직 배치.",
     "files": [
       "src/components/Callout/Callout.tsx",
@@ -338,10 +354,12 @@
       "@radix-ui/react-popover"
     ],
     "variantMetadata": {
-      "CALLOUT_VARIANTS": ["black", "white", "brand"],
+      "CALLOUT_VARIANTS": ["black", "white"],
       "CALLOUT_SIDES": ["top", "bottom", "left", "right"],
       "CALLOUT_ALIGNS": ["start", "center", "end"],
-      "CALLOUT_DISMISS_MODES": ["manual", "auto", "none"]
+      "CALLOUT_DISMISS_MODES": ["manual", "auto", "none"],
+      "CALLOUT_SIZES": ["large", "medium"],
+      "CALLOUT_SHAPES": ["basic", "square"]
     },
     "exportedTypes": [
       "CalloutProps",
@@ -354,7 +372,9 @@
       "CalloutVariant",
       "CalloutSide",
       "CalloutAlign",
-      "CalloutDismissMode"
+      "CalloutDismissMode",
+      "CalloutSize",
+      "CalloutShape"
     ]
   }
 }

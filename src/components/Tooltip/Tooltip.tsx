@@ -8,11 +8,13 @@ export const TOOLTIP_VARIANTS = ['black', 'white'] as const
 export const TOOLTIP_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const TOOLTIP_ALIGNS = ['start', 'center', 'end'] as const
 export const TOOLTIP_SIZES = ['large', 'medium'] as const
+export const TOOLTIP_SHAPES = ['basic', 'square'] as const
 
 export type TooltipVariant = (typeof TOOLTIP_VARIANTS)[number]
 export type TooltipSide = (typeof TOOLTIP_SIDES)[number]
 export type TooltipAlign = (typeof TOOLTIP_ALIGNS)[number]
 export type TooltipSize = (typeof TOOLTIP_SIZES)[number]
+export type TooltipShape = (typeof TOOLTIP_SHAPES)[number]
 
 /* ─── Variant style maps ──────────────────────────────────────────────────── */
 
@@ -24,6 +26,11 @@ const variantMap: Record<TooltipVariant, string> = {
 const typographyMap: Record<TooltipSize, string> = {
   large: 'typography-16-medium',
   medium: 'typography-14-medium',
+}
+
+const sizePaddingMap: Record<TooltipSize, string> = {
+  large: 'px-[var(--comp-tooltip-px-lg)] py-[var(--comp-tooltip-py-lg)]',
+  medium: 'px-[var(--comp-tooltip-px-md)] py-[var(--comp-tooltip-py-md)]',
 }
 
 const arrowColorMap: Record<TooltipVariant, string> = {
@@ -209,6 +216,12 @@ export interface TooltipContentProps {
    */
   hasArrow?: boolean
   /**
+   * Border-radius shape.
+   * @default 'basic'
+   * @see TOOLTIP_SHAPES
+   */
+  shape?: TooltipShape
+  /**
    * 그림자 표시 여부.
    * @default false
    */
@@ -232,6 +245,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
     {
       variant = 'black',
       size = 'large',
+      shape = 'basic',
       side = 'top',
       align = 'center',
       hasArrow = true,
@@ -258,9 +272,9 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
             collisionPadding={collisionPadding}
             className={cn(
               'z-50 max-w-[var(--comp-tooltip-max-width)]',
-              size === 'large' ? 'px-[var(--comp-tooltip-px)]' : 'px-2.5',
-              size === 'large' ? 'py-[var(--comp-tooltip-py)]' : 'py-2.5',
-              'rounded-[var(--comp-tooltip-radius)]',
+              sizePaddingMap[size],
+              shape === 'basic' && 'rounded-[var(--comp-tooltip-radius)]',
+              shape === 'square' && 'rounded-none',
               typographyMap[size],
               variantMap[variant],
               showShadow && '[box-shadow:var(--comp-tooltip-shadow)]',

@@ -1,6 +1,6 @@
 {
   "component": "Tooltip",
-  "description": "Radix UI Tooltip 기반의 툴팁 컴포넌트. black/white/brand 3가지 색상 variant를 지원하며, 화살표, 그림자, 방향/정렬 설정을 제공한다. Portal 렌더링 시 트리거 조상의 테마 속성을 자동 전파한다.",
+  "description": "Radix UI Tooltip 기반의 툴팁 컴포넌트. black/white 2가지 색상 variant, large/medium 2가지 사이즈, basic/square 2가지 shape를 지원하며, 화살표, 그림자, 방향/정렬 설정을 제공한다. Portal 렌더링 시 트리거 조상의 테마 속성을 자동 전파한다.",
   "classification": "Compound",
 
   "subComponents": [
@@ -60,9 +60,19 @@
       "element": "RadixTooltip.Content (Portal 내부)",
       "props": {
         "variant": {
-          "type": "'black' | 'white' | 'brand'",
+          "type": "'black' | 'white'",
           "default": "black",
           "description": "시각적 variant. 배경, 텍스트, 화살표 색상을 결정한다."
+        },
+        "size": {
+          "type": "'large' | 'medium'",
+          "default": "large",
+          "description": "크기. 타이포그래피와 패딩을 제어한다."
+        },
+        "shape": {
+          "type": "'basic' | 'square'",
+          "default": "basic",
+          "description": "Border-radius shape."
         },
         "side": {
           "type": "'top' | 'bottom' | 'left' | 'right'",
@@ -121,12 +131,23 @@
         "background": "--comp-tooltip-bg-white → semantic-neutral-solid-50",
         "text": "--comp-tooltip-text-white → semantic-text-on-bright-900",
         "arrow": "--comp-tooltip-arrow-white → semantic-neutral-solid-50"
-      },
-      "brand": {
-        "background": "--comp-tooltip-bg-brand → semantic-primary-500",
-        "text": "--comp-tooltip-text-brand → semantic-text-on-dim-950",
-        "arrow": "--comp-tooltip-arrow-brand → semantic-primary-500"
       }
+    },
+    "size": {
+      "large": {
+        "paddingX": "--comp-tooltip-px-lg → 14px",
+        "paddingY": "--comp-tooltip-py-lg → 12px",
+        "typography": "typography-16-medium"
+      },
+      "medium": {
+        "paddingX": "--comp-tooltip-px-md → 10px",
+        "paddingY": "--comp-tooltip-py-md → 8px",
+        "typography": "typography-14-medium"
+      }
+    },
+    "shape": {
+      "basic": { "radius": "--comp-tooltip-radius → 4px (primitive-radius-1)" },
+      "square": { "radius": "rounded-none (0px)" }
     },
     "side": {
       "values": ["top", "bottom", "left", "right"],
@@ -157,12 +178,14 @@
       "pattern": "--comp-tooltip-{property}",
       "list": [
         "--comp-tooltip-max-width: 320px",
-        "--comp-tooltip-px: var(--primitive-spacing-3\\.5) = 14px",
-        "--comp-tooltip-py: var(--primitive-spacing-3) = 12px",
-        "--comp-tooltip-radius: var(--primitive-radius-2) = 8px",
+        "--comp-tooltip-px-lg: var(--primitive-spacing-3\\.5) = 14px",
+        "--comp-tooltip-py-lg: var(--primitive-spacing-3) = 12px",
+        "--comp-tooltip-px-md: var(--primitive-spacing-2\\.5) = 10px",
+        "--comp-tooltip-py-md: var(--primitive-spacing-2) = 8px",
+        "--comp-tooltip-radius: var(--primitive-radius-1) = 4px",
         "--comp-tooltip-arrow-width: 16px",
         "--comp-tooltip-arrow-height: 8px",
-        "--comp-tooltip-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12)"
+        "--comp-tooltip-shadow: 0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08)"
       ]
     },
     "colorTokens": {
@@ -174,10 +197,7 @@
         "--comp-tooltip-arrow-black: semantic-neutral-solid-950",
         "--comp-tooltip-bg-white: semantic-neutral-solid-50",
         "--comp-tooltip-text-white: semantic-text-on-bright-900",
-        "--comp-tooltip-arrow-white: semantic-neutral-solid-50",
-        "--comp-tooltip-bg-brand: semantic-primary-500",
-        "--comp-tooltip-text-brand: semantic-text-on-dim-950",
-        "--comp-tooltip-arrow-brand: semantic-primary-500"
+        "--comp-tooltip-arrow-white: semantic-neutral-solid-50"
       ]
     },
     "geoShapeOverrides": []
@@ -195,13 +215,13 @@
     },
     "shadow": {
       "description": "showShadow=true일 때 --comp-tooltip-shadow box-shadow 적용.",
-      "value": "0px 2px 10px 0px rgba(0,0,0,0.12)"
+      "value": "0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08)"
     },
     "animation": {
       "enter": "tooltip-enter keyframes, var(--semantic-duration-fast), var(--semantic-easing-enter). data-[state=delayed-open] 트리거.",
       "exit": "tooltip-exit keyframes, var(--semantic-duration-fast), var(--semantic-easing-exit), forwards. data-[state=closed] 트리거."
     },
-    "typography": "typography-16-medium (고정, variant/size에 따라 변하지 않음).",
+    "typography": "size-dependent: large=typography-16-medium, medium=typography-14-medium",
     "collision": "Radix 내장 collision detection. collisionPadding으로 뷰포트 가장자리 간격 설정."
   },
 
@@ -214,8 +234,8 @@
   "implementation": {
     "pattern": "Compound Component + Radix UI Tooltip + Context (theme only) + cn",
     "compoundExport": "Object.assign(TooltipRoot, { Provider, Trigger, Content })",
-    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-pretendard'> wrapper.",
-    "variantStyleMaps": "variantMap (bg+text), arrowColorMap (fill) — Record<TooltipVariant, string> 형태로 cn()에서 사용.",
+    "portalWrapper": "Portal 내부에 <div data-theme={theme} className='font-geist'> wrapper.",
+    "variantStyleMaps": "variantMap (bg+text), sizePaddingMap (px+py), arrowColorMap (fill) — Record 형태로 cn()에서 사용.",
     "files": [
       "src/components/Tooltip/Tooltip.tsx",
       "src/components/Tooltip/index.ts"
@@ -224,9 +244,11 @@
       "@radix-ui/react-tooltip"
     ],
     "variantMetadata": {
-      "TOOLTIP_VARIANTS": ["black", "white", "brand"],
+      "TOOLTIP_VARIANTS": ["black", "white"],
       "TOOLTIP_SIDES": ["top", "bottom", "left", "right"],
-      "TOOLTIP_ALIGNS": ["start", "center", "end"]
+      "TOOLTIP_ALIGNS": ["start", "center", "end"],
+      "TOOLTIP_SIZES": ["large", "medium"],
+      "TOOLTIP_SHAPES": ["basic", "square"]
     },
     "exportedTypes": [
       "TooltipProviderProps",
@@ -235,7 +257,9 @@
       "TooltipContentProps",
       "TooltipVariant",
       "TooltipSide",
-      "TooltipAlign"
+      "TooltipAlign",
+      "TooltipSize",
+      "TooltipShape"
     ]
   }
 }

@@ -7,6 +7,7 @@ export {
   TOOLTIP_SIDES,
   TOOLTIP_ALIGNS,
   TOOLTIP_SIZES,
+  TOOLTIP_SHAPES,
 } from './Tooltip'
 
 export type {
@@ -18,4 +19,5 @@ export type {
   TooltipSide,
   TooltipAlign,
   TooltipSize,
+  TooltipShape,
 } from './Tooltip'

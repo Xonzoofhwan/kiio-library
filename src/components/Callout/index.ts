@@ -11,6 +11,7 @@ export {
   CALLOUT_ALIGNS,
   CALLOUT_DISMISS_MODES,
   CALLOUT_SIZES,
+  CALLOUT_SHAPES,
 } from './Callout'
 
 export type {
@@ -26,4 +27,5 @@ export type {
   CalloutAlign,
   CalloutDismissMode,
   CalloutSize,
+  CalloutShape,
 } from './Callout'

@@ -19,12 +19,14 @@ export const CALLOUT_SIDES = ['top', 'bottom', 'left', 'right'] as const
 export const CALLOUT_ALIGNS = ['start', 'center', 'end'] as const
 export const CALLOUT_DISMISS_MODES = ['manual', 'auto', 'none'] as const
 export const CALLOUT_SIZES = ['large', 'medium'] as const
+export const CALLOUT_SHAPES = ['basic', 'square'] as const
 
 export type CalloutVariant = (typeof CALLOUT_VARIANTS)[number]
 export type CalloutSide = (typeof CALLOUT_SIDES)[number]
 export type CalloutAlign = (typeof CALLOUT_ALIGNS)[number]
 export type CalloutDismissMode = (typeof CALLOUT_DISMISS_MODES)[number]
 export type CalloutSize = (typeof CALLOUT_SIZES)[number]
+export type CalloutShape = (typeof CALLOUT_SHAPES)[number]
 
 /* ─── Internal icons ──────────────────────────────────────────────────────── */
 
@@ -98,6 +100,7 @@ function useThemeAttributes(anchorRef: React.RefObject<HTMLElement | null>) {
 interface CalloutContextValue {
   variant: CalloutVariant
   size: CalloutSize
+  shape: CalloutShape
   dismiss: CalloutDismissMode
   onClose: () => void
 }
@@ -126,6 +129,12 @@ export interface CalloutProps {
    */
   size?: CalloutSize
   /**
+   * Border-radius shape.
+   * @default 'basic'
+   * @see CALLOUT_SHAPES
+   */
+  shape?: CalloutShape
+  /**
    * 닫힘 정책. manual=외부 클릭+Esc+Close, auto=manual+타이머, none=Close 전용.
    * @default 'manual'
    * @see CALLOUT_DISMISS_MODES
@@ -148,6 +157,7 @@ export interface CalloutProps {
 function CalloutRoot({
   variant = 'black',
   size = 'large',
+  shape = 'basic',
   dismiss = 'manual',
   autoDismissDuration = 5000,
   open: openProp,
@@ -180,7 +190,7 @@ function CalloutRoot({
 
   return (
     <CalloutThemeContext.Provider value={{ anchorRef }}>
-      <CalloutContext.Provider value={{ variant, size, dismiss, onClose }}>
+      <CalloutContext.Provider value={{ variant, size, shape, dismiss, onClose }}>
         <RadixPopover.Root
           open={isOpen}
           onOpenChange={handleOpenChange}
@@ -278,7 +288,7 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
   ) => {
     const { anchorRef } = useContext(CalloutThemeContext)
     const { theme } = useThemeAttributes(anchorRef)
-    const { variant, size, dismiss } = useCalloutContext()
+    const { variant, size, shape, dismiss } = useCalloutContext()
 
     /* Categorize children to build Figma's row.upper / row.action layout */
     const upperChildren: React.ReactNode[] = []
@@ -315,7 +325,8 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
             className={cn(
               'z-50 max-w-[var(--comp-callout-max-width)]',
               'flex flex-col',
-              'rounded-[var(--comp-callout-radius)]',
+              shape === 'basic' && 'rounded-[var(--comp-callout-radius)]',
+              shape === 'square' && 'rounded-none',
               bgMap[variant],
               textMap[variant],
               showShadow && '[box-shadow:var(--comp-callout-shadow)]',
@@ -327,10 +338,10 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
           >
             {arrowChildren}
             {(upperChildren.length > 0 || closeChildren.length > 0) && (
-              <div className={cn('flex items-start', size === 'large' ? 'pr-2' : 'pr-1')}>
+              <div className={cn('flex items-start', size === 'large' ? 'pr-2' : 'pr-0.5')}>
                 {upperChildren}
                 {closeChildren.length > 0 && (
-                  <div className={cn('flex items-center pl-0.5', size === 'large' ? 'py-1.5' : 'py-1')}>
+                  <div className={cn('flex items-center pl-0.5', size === 'large' ? 'py-2' : 'py-0.5')}>
                     {closeChildren}
                   </div>
                 )}
@@ -378,7 +389,7 @@ export function CalloutText({ children, className }: CalloutTextProps) {
       className={cn(
         size === 'large' ? 'typography-16-medium' : 'typography-14-medium',
         'flex-1 min-w-0',
-        size === 'large' ? 'pl-[var(--comp-callout-px)]' : 'pl-2.5',
+        size === 'large' ? 'pl-[var(--comp-callout-px-lg)]' : 'pl-[var(--comp-callout-px-md)]',
         size === 'large' ? 'py-[var(--comp-callout-py-lg)]' : 'py-[var(--comp-callout-py-md)]',
         size === 'large' ? 'pr-1.5' : 'pr-0.5',
         className,
@@ -451,7 +462,7 @@ export function CalloutAction({
   const surface = variant === 'white' ? 'bright' : 'dim'
 
   return (
-    <div className={cn('flex justify-end px-[var(--comp-callout-px)]', size === 'large' ? 'pb-[var(--comp-callout-py-lg)]' : 'pb-[var(--comp-callout-py-md)]')}>
+    <div className={cn('flex justify-end', size === 'large' ? 'px-[var(--comp-callout-px-lg)]' : 'px-[var(--comp-callout-px-md)]', size === 'large' ? 'pb-[var(--comp-callout-py-lg)]' : 'pb-[var(--comp-callout-py-md)]')}>
       <button
         type="button"
         onClick={(e) => {
