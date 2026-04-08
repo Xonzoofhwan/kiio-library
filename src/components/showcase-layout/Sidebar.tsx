@@ -30,6 +30,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'icon-button', label: 'IconButton' },
       { id: 'text-button', label: 'TextButton' },
       { id: 'switch', label: 'Switch' },
+      { id: 'checkbox', label: 'Checkbox' },
     ],
   },
   {

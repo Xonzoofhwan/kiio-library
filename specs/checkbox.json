@@ -1,0 +1,238 @@
+{
+  "component": "Checkbox",
+  "description": "Boolean (or tri-state) selection control built on @radix-ui/react-checkbox. The visual is a single inline SVG path filled with currentColor — the path draws both the outer square and the inner check/dash glyph at once, with the glyph rendered as a 'hole' via SVG fill-rule so the page background shows through. Two variants: box (square + glyph) and line (standalone check glyph only). Visual square is small (16/20/24px); the Root extends an invisible 8px hit-area inset compensated by negative margin so the layout footprint matches the visual size.",
+  "classification": "Primitive",
+  "_classification_note": "Single-file leaf control. RadixCheckbox.Root → visual <span> → inline <svg> + focus ring. No RadixCheckbox.Indicator (we render all SVG paths and toggle visibility via group-data selectors so unchecked Box variant can also draw an empty square). No external icon component dependency.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "12943:10459",
+
+  "props": {
+    "size": {
+      "type": "'xSmall' | 'small' | 'medium'",
+      "default": "medium",
+      "description": "Visual size — the size of the visible square. Layout footprint matches this. @see CHECKBOX_SIZES",
+      "category": "variant"
+    },
+    "variant": {
+      "type": "'box' | 'line'",
+      "default": "box",
+      "description": "Visual treatment. 'box' draws a bordered square that fills when checked. 'line' draws no box — only the check glyph appears when checked. @see CHECKBOX_VARIANTS",
+      "category": "variant",
+      "_naming_note": "Figma calls this 'Style' but we use 'variant' to avoid React's reserved style prop."
+    },
+    "checked": {
+      "type": "boolean | 'indeterminate'",
+      "default": "undefined",
+      "description": "Controlled checked state. Pair with onCheckedChange. Pass 'indeterminate' for tri-state (e.g. parent of partial selection).",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "defaultChecked": {
+      "type": "boolean | 'indeterminate'",
+      "default": false,
+      "description": "Uncontrolled initial checked state.",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "onCheckedChange": {
+      "type": "(checked: boolean | 'indeterminate') => void",
+      "description": "Called when toggled. Always emits boolean — Radix resolves indeterminate → false on user toggle.",
+      "category": "event",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction; hit area still exists in layout but pointer events are disabled.",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "name": {
+      "type": "string",
+      "description": "Form integration — name of the hidden input.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "value": {
+      "type": "string",
+      "default": "on",
+      "description": "Form integration — value submitted when checked.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Form validation — checkbox must be checked to submit.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "id": {
+      "type": "string",
+      "description": "Element id — used to associate with external <label htmlFor>.",
+      "category": "a11y",
+      "inheritedFrom": "@radix-ui/react-checkbox Root"
+    },
+    "className": {
+      "type": "string",
+      "description": "Additional Tailwind classes merged with cn(). Applied to the Root (hit area), not the visual square.",
+      "category": "styling"
+    }
+  },
+
+  "omittedFromBase": {
+    "asChild": "Checkbox is a leaf control — asChild adds no value, omitted via Omit<RadixRootProps, 'asChild'>."
+  },
+
+  "variants": {
+    "size": {
+      "_comment": "Visual square dimension. Hit area = visual + 2 × inset (8px each side). Layout footprint = visual (negative margin compensation). The SVG fills the visual square at 100%.",
+      "xSmall":  { "visual": 16, "hit": 32, "tokens": { "visual": "var(--comp-checkbox-visual-xs)" } },
+      "small":   { "visual": 20, "hit": 36, "tokens": { "visual": "var(--comp-checkbox-visual-sm)" } },
+      "medium":  { "visual": 24, "hit": 40, "tokens": { "visual": "var(--comp-checkbox-visual-md)" } }
+    },
+    "variant": {
+      "box": {
+        "unchecked": "CHECKBOX_BOX_EMPTY_PATH — outer square outline, no fill inside",
+        "checked": "CHECKBOX_BOX_CHECKED_PATH — filled square with checkmark hole (glyph appears as page background showing through)",
+        "indeterminate": "CHECKBOX_BOX_INDETERMINATE_PATH — filled square with horizontal-dash hole"
+      },
+      "line": {
+        "unchecked": "no path rendered",
+        "checked": "CHECKBOX_LINE_CHECK_PATH — standalone checkmark, no surrounding box",
+        "indeterminate": "CHECKBOX_LINE_CHECK_PATH (fallback — Figma line variant has no indeterminate; we show the check)"
+      }
+    }
+  },
+
+  "hitArea": {
+    "_comment": "Critical: hit area > visual, but layout footprint = visual. Achieved with padding + matching negative margin.",
+    "inset": "8px (constant across all sizes)",
+    "implementation": "Root: p-[var(--comp-checkbox-inset)] -m-[var(--comp-checkbox-inset)]",
+    "result": {
+      "xSmall": "visual 16 / hit 32 / layout 16",
+      "small":  "visual 20 / hit 36 / layout 20",
+      "medium": "visual 24 / hit 40 / layout 24"
+    },
+    "overlapPolicy": "When placed adjacent to other interactive atoms, recommend gap-4 (16px) minimum to avoid hit area overlap. Showcase examples use gap-4 as the standard. JSDoc on the component documents this."
+  },
+
+  "tokens": {
+    "_comment": "All --comp-checkbox-* tokens. Sizing in :root, colors in [data-theme]. The visual is a single SVG path filled with currentColor, so a single fg color drives box outline / box fill / glyph all at once.",
+    "sizing": {
+      "visual": [
+        "--comp-checkbox-visual-xs = 16px",
+        "--comp-checkbox-visual-sm = 20px",
+        "--comp-checkbox-visual-md = 24px"
+      ],
+      "hitArea": [
+        "--comp-checkbox-inset = 8px (constant)"
+      ]
+    },
+    "color": {
+      "fg": {
+        "--comp-checkbox-fg":                  "var(--semantic-neutral-black-alpha-400)",
+        "--comp-checkbox-fg-hover":            "var(--semantic-neutral-black-alpha-600)",
+        "--comp-checkbox-fg-pressed":          "var(--semantic-neutral-black-alpha-800)",
+        "--comp-checkbox-fg-disabled":         "var(--semantic-neutral-black-alpha-200)"
+      },
+      "fgChecked": {
+        "--comp-checkbox-fg-checked":          "var(--semantic-neutral-solid-950)",
+        "--comp-checkbox-fg-checked-hover":    "var(--semantic-neutral-solid-900)",
+        "--comp-checkbox-fg-checked-pressed":  "var(--semantic-neutral-solid-800)",
+        "--comp-checkbox-fg-checked-disabled": "var(--semantic-neutral-solid-300)"
+      },
+      "focus": {
+        "--comp-checkbox-focus-border":        "var(--semantic-neutral-solid-1000)"
+      }
+    }
+  },
+
+  "states": {
+    "_comment": "Single foreground color (currentColor) drives the entire SVG. State changes recolor it; no separate overlay/border/bg layers. The Root has data-state on it (Radix), which group-data-[state=…] selectors read.",
+    "unchecked": {
+      "trigger": "data-[state=unchecked] (Radix attribute)",
+      "fg":     "--comp-checkbox-fg",
+      "box":    "renders CHECKBOX_BOX_EMPTY_PATH",
+      "line":   "renders nothing"
+    },
+    "checked": {
+      "trigger": "data-[state=checked] (Radix attribute)",
+      "fg":     "--comp-checkbox-fg-checked",
+      "box":    "renders CHECKBOX_BOX_CHECKED_PATH (filled square + checkmark hole)",
+      "line":   "renders CHECKBOX_LINE_CHECK_PATH"
+    },
+    "indeterminate": {
+      "trigger": "data-[state=indeterminate] (Radix attribute)",
+      "fg":     "--comp-checkbox-fg-checked",
+      "box":    "renders CHECKBOX_BOX_INDETERMINATE_PATH (filled square + dash hole)",
+      "line":   "renders CHECKBOX_LINE_CHECK_PATH (no dedicated line indeterminate)"
+    },
+    "hover": {
+      "trigger": ":hover on Root",
+      "implementation": "fg → -hover or -checked-hover (whichever applies). No separate overlay layer."
+    },
+    "pressed": {
+      "trigger": ":active on Root",
+      "implementation": "fg → -pressed or -checked-pressed."
+    },
+    "focused": {
+      "trigger": ":focus-visible on Root (keyboard only)",
+      "implementation": "absolute span, 2px border --comp-checkbox-focus-border, opacity-0 → group-focus-visible:opacity-100. Sits at -inset-0.5 around the visual square."
+    },
+    "disabled": {
+      "trigger": "data-[disabled] (Radix attribute)",
+      "fg":     "--comp-checkbox-fg-disabled (off) or --comp-checkbox-fg-checked-disabled (on/indeterminate)",
+      "interaction": "cursor-not-allowed + pointer-events-none"
+    }
+  },
+
+  "implementation": {
+    "pattern": "cn() with simple variant branching (NOT CVA — variant axis is small enough)",
+    "library": "@radix-ui/react-checkbox",
+    "structure": [
+      "RadixCheckbox.Root (the hit area) — group, padding + negative margin, focus-visible target, text-color cascade",
+      "  └ <span> visual square — relative wrapper sized to --comp-checkbox-visual-{size}",
+      "       └ <svg viewBox='0 0 24 24' fill='currentColor'> — single source of visual",
+      "            └ <path> for unchecked state (visibility toggled by group-data)",
+      "            └ <path> for checked state",
+      "            └ <path> for indeterminate state",
+      "       └ <span> focus ring (2px border at -inset-0.5, opacity-0 → group-focus-visible:opacity-100)"
+    ],
+    "stateDriving": "Radix sets data-state=checked|unchecked|indeterminate + data-disabled on Root. The Root's text-color is cascaded based on data-state + :hover + :active combinations; the SVG fills with currentColor and inherits automatically. Path visibility is driven by group-data-[state=…] selectors so each path renders only in its corresponding state.",
+    "indicatorOmission": "RadixCheckbox.Indicator is intentionally NOT used. Indicator only mounts in checked|indeterminate states, but the box variant must also draw an empty square in unchecked, so we render all paths and toggle visibility via group-data-[state=…] selectors instead.",
+    "holeThroughBackground": "The checked/indeterminate box paths express the inner check/dash as an SVG fill-rule hole. The page background shows through the hole. Light theme: dark fill + light page bg → light glyph appears. Dark theme: semantic tokens invert tone, so light fill + dark page bg → dark glyph appears. Auto-inverts without extra layers, provided the parent container uses --semantic-background-0.",
+    "transitions": {
+      "fgColor": "transition-colors duration-fast ease-enter (on Root, cascades to SVG via currentColor)",
+      "focusRing": "transition-opacity duration-fast ease-enter"
+    },
+    "files": [
+      "src/components/Checkbox/Checkbox.tsx",
+      "src/components/Checkbox/checkboxIcons.tsx",
+      "src/components/Checkbox/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-checkbox ^1.x",
+      "@/lib/utils cn()"
+    ],
+    "ariaSupport": [
+      "role='checkbox' (Radix-managed)",
+      "aria-checked='true|false|mixed' (Radix-managed via data-state)",
+      "Space key toggle (Radix-managed)",
+      "Hidden form input for native form integration (Radix-managed)",
+      "Indeterminate exposed as aria-checked='mixed'"
+    ]
+  },
+
+  "exports": {
+    "component": "Checkbox (forwardRef HTMLButtonElement)",
+    "constants": ["CHECKBOX_SIZES", "CHECKBOX_VARIANTS"],
+    "types": ["CheckboxProps", "CheckboxSize", "CheckboxVariant"]
+  },
+
+  "labelStrategy": {
+    "approach": "atom-only — no internal label/description props",
+    "composition": "External <label htmlFor={id}> wraps the checkbox, or future FormField wrapper",
+    "rationale": "Mirrors Switch — labels are layout decisions, not checkbox concerns"
+  }
+}

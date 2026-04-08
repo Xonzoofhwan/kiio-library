@@ -952,6 +952,24 @@
          standard ease-out: stronger initial deceleration, smoother end. ─── */
   --comp-switch-easing-toggle:             cubic-bezier(0.2, 0, 0, 1);
 
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Checkbox (size/spacing layer)
+     Naming: --comp-checkbox-{property}-{size?}
+     Layout footprint = visual; hit area = visual + 2 × inset.
+     The visual area renders an inline SVG glyph (24×24 viewBox) that
+     draws the entire checkbox shape — outer box outline AND inner
+     check/dash — as a single path. No separate radius / border /
+     icon-size tokens are needed; the SVG path is the source of truth.
+     ---------------------------------------------------------- */
+
+  /* ─── Visual square dimension (per size) — also the SVG render box ─── */
+  --comp-checkbox-visual-xs:               16px;
+  --comp-checkbox-visual-sm:               20px;
+  --comp-checkbox-visual-md:               24px;
+
+  /* ─── Hit area inset — constant across sizes; padding extends interactive area, negative margin compensates layout ─── */
+  --comp-checkbox-inset:                   8px;
+
 }
 
 /* ----------------------------------------------------------
@@ -1542,6 +1560,31 @@
 
   /* ─── Focus ring ─── */
   --comp-switch-focus-border:          var(--semantic-neutral-solid-1000);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Checkbox (color layer)
+     Naming: --comp-checkbox-fg[-{state}]
+     The visual is a single SVG path filled with currentColor.
+     A single foreground color drives box outline / box fill / glyph all at once;
+     state changes recolor the entire SVG. The "checkmark hole" inside the
+     filled square shows the page background through fill-rule, which auto-inverts
+     in dark mode because semantic tokens flip tone.
+     ---------------------------------------------------------- */
+
+  /* ─── Foreground (unchecked / line variant base) ─── */
+  --comp-checkbox-fg:                   var(--semantic-neutral-black-alpha-400);
+  --comp-checkbox-fg-hover:             var(--semantic-neutral-black-alpha-600);
+  --comp-checkbox-fg-pressed:           var(--semantic-neutral-black-alpha-800);
+  --comp-checkbox-fg-disabled:          var(--semantic-neutral-black-alpha-200);
+
+  /* ─── Foreground (checked / indeterminate) ─── */
+  --comp-checkbox-fg-checked:           var(--semantic-neutral-solid-950);
+  --comp-checkbox-fg-checked-hover:     var(--semantic-neutral-solid-900);
+  --comp-checkbox-fg-checked-pressed:   var(--semantic-neutral-solid-800);
+  --comp-checkbox-fg-checked-disabled:  var(--semantic-neutral-solid-300);
+
+  /* ─── Focus ring ─── */
+  --comp-checkbox-focus-border:         var(--semantic-neutral-solid-1000);
 
 }
 

@@ -11,6 +11,7 @@ import { ButtonShowcase, BUTTON_TOC } from '@/showcase/ButtonShowcase'
 import { IconButtonShowcase, ICON_BUTTON_TOC } from '@/showcase/IconButtonShowcase'
 import { TextButtonShowcase, TEXT_BUTTON_TOC } from '@/showcase/TextButtonShowcase'
 import { SwitchShowcase, SWITCH_TOC } from '@/showcase/SwitchShowcase'
+import { CheckboxShowcase, CHECKBOX_TOC } from '@/showcase/CheckboxShowcase'
 import { TabShowcase, TAB_TOC } from '@/showcase/TabShowcase'
 import { BadgeShowcase, BADGE_TOC } from '@/showcase/BadgeShowcase'
 import { NavVerticalShowcase, NAV_VERTICAL_TOC } from '@/showcase/NavVerticalShowcase'
@@ -30,6 +31,7 @@ const SHOWCASE_MAP: Record<string, { component: React.ComponentType; toc: TocEnt
   'icon-button': { component: IconButtonShowcase, toc: ICON_BUTTON_TOC },
   'text-button': { component: TextButtonShowcase, toc: TEXT_BUTTON_TOC },
   'switch':      { component: SwitchShowcase,    toc: SWITCH_TOC      },
+  'checkbox':    { component: CheckboxShowcase,  toc: CHECKBOX_TOC    },
   'tooltip':     { component: TooltipShowcase,   toc: TOOLTIP_TOC     },
   'callout':     { component: CalloutShowcase,   toc: CALLOUT_TOC     },
   'tab':         { component: TabShowcase,       toc: TAB_TOC         },
