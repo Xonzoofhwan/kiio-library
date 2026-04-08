@@ -2,7 +2,7 @@
   "component": "Switch",
   "description": "Toggle switch atom built on @radix-ui/react-switch. Two shapes (circular, square) with distinct interaction models — circular squeezes the knob on press; square slides the knob inward.",
   "classification": "Primitive",
-  "_classification_note": "Single-file leaf control. Renders RadixSwitch.Root → RadixSwitch.Thumb (asChild via direct className). No internal composition with other kiio components.",
+  "_classification_note": "Single-file leaf control. Renders RadixSwitch.Root → RadixSwitch.Thumb (className applied directly, no asChild). No internal composition with other kiio components.",
   "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
   "figmaNode": "12943:10458",
 
@@ -163,7 +163,7 @@
   },
 
   "tokens": {
-    "_comment": "All --comp-switch-* tokens. Sizing in :root, colors in [data-theme]. 67 total definitions.",
+    "_comment": "All --comp-switch-* tokens. Sizing in :root, colors in [data-theme]. ~71 total definitions (sizing 55, color 16). The shadow tier has 3 entries (on / off / off-emphasized).",
     "sizing": {
       "track": [
         "--comp-switch-track-w-{xs,sm,md,lg}",
@@ -213,8 +213,9 @@
         "--comp-switch-knob-disabled": "var(--semantic-neutral-white-alpha-600)"
       },
       "shadow": {
-        "--comp-switch-knob-shadow-on": "0 1px 3px rgba(0, 0, 0, 0.12)",
-        "--comp-switch-knob-shadow-off": "0 1px 3px rgba(0, 0, 0, 0.08)"
+        "--comp-switch-knob-shadow-on":             "0 1px 3px rgba(0, 0, 0, 0.12)",
+        "--comp-switch-knob-shadow-off":            "0 1px 3px rgba(0, 0, 0, 0.08)",
+        "--comp-switch-knob-shadow-off-emphasized": "0 1px 3px rgba(0, 0, 0, 0.16)"
       },
       "focus": {
         "--comp-switch-focus-border": "var(--semantic-neutral-solid-1000)"
@@ -274,27 +275,32 @@
     ],
     "stateDriving": "Radix sets data-state=checked|unchecked + data-disabled on Root and Thumb. Combined with :hover / :active / :focus-visible via Tailwind group selectors and arbitrary parent selectors like 'group-[[data-state=checked]:not(:hover):not(:active)]' to ensure unambiguous specificity.",
     "transitions": {
-      "trackBg": "transition-colors duration-fast ease-enter",
-      "thumbPosition": "transition-transform duration-normal ease-move (Radix Thumb slide)",
-      "circularKnobSqueeze": "transition-[width,height,background-color] duration-fast ease-enter",
-      "squareKnobInsetSlide": "transition-[transform,background-color] duration-fast ease-enter",
-      "stateOverlay": "transition-colors duration-fast ease-enter",
-      "focusRing": "transition-opacity duration-fast ease-enter"
+      "trackBg":            "transition-colors duration-normal ease-comp-switch-toggle (synced with thumb slide for unified ON/OFF feel)",
+      "thumbPosition":      "transition-transform duration-normal ease-comp-switch-toggle (Radix Thumb slide)",
+      "knobMicroState":     "transition-[width,height,background-color,box-shadow] duration-fast ease-enter — applies to BOTH circular and square knob; covers size + color + shadow tier swap",
+      "stateOverlay":       "transition-colors duration-fast ease-enter",
+      "focusRing":          "transition-opacity duration-fast ease-enter"
     },
     "knobInteractionLogic": {
       "circular": {
-        "model": "2-tier size — 'expanded' (full placer) vs 'compact' (~4-8px smaller)",
-        "rule": "compact by default; expand only when ON + not :hover + not :active",
-        "selector": "group-[[data-state=checked]:not(:hover):not(:active)]:size-{expanded}"
+        "model": "3-tier size — compact (OFF idle) / pressed (any hover/press) / expanded (ON idle)",
+        "rule": "Base = compact. Override 1: ON + not :hover + not :active → expanded. Override 2: any :hover or :active → pressed (this rule wins because the 'expanded' rule's :not() clauses exclude interaction states).",
+        "selectors": [
+          "size-[var(--comp-switch-knob-circular-{size}-compact)]   (base)",
+          "group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-{size}-expanded)]",
+          "group-hover:size-[var(--comp-switch-knob-circular-{size}-pressed)]",
+          "group-active:size-[var(--comp-switch-knob-circular-{size}-pressed)]"
+        ]
       },
       "square": {
-        "model": "Fixed knob size; translate-x changes based on (state, hover) combination",
-        "positions": {
-          "off-default": "translate-x: 0 (knob at left edge of placer)",
-          "off-hover": "translate-x: +inset (2px, slide right)",
-          "on-default": "translate-x: +edge (4px = placer−knob, knob at right edge)",
-          "on-hover": "translate-x: +inset (2px, slide left from edge — hover always centers)"
-        }
+        "model": "2-tier size squeeze — default (= placer fill, w = h) vs pressed (squeeze on hover/press). ON/OFF share the same idle size; interaction is purely a press micro-state, not a state preview. Squeeze delta: −2px for xs/sm/md, −4px for lg only.",
+        "rule": "Base = default. Any :hover or :active → pressed (uniform regardless of toggle state).",
+        "selectors": [
+          "size-[var(--comp-switch-knob-square-{size}-default)]    (base)",
+          "group-hover:size-[var(--comp-switch-knob-square-{size}-pressed)]",
+          "group-active:size-[var(--comp-switch-knob-square-{size}-pressed)]"
+        ],
+        "_note": "Earlier drafts used translate-x to position the knob inside the placer; the current implementation keeps the knob centered and only changes its size. Position is exclusively driven by the parent Thumb's translate-x (Off → On slide)."
       }
     },
     "files": [
@@ -303,7 +309,6 @@
     ],
     "dependencies": [
       "@radix-ui/react-switch ^1.x",
-      "class-variance-authority (not used in this component, but imported by sibling components)",
       "@/lib/utils cn()"
     ],
     "ariaSupport": [
