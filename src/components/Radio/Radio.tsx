@@ -1,4 +1,4 @@
-import { createContext, forwardRef, useContext } from 'react'
+import { createContext, forwardRef, useContext, useMemo } from 'react'
 import * as RadixRadioGroup from '@radix-ui/react-radio-group'
 import { cn } from '@/lib/utils'
 import { RADIO_UNCHECKED_PATH, RADIO_CHECKED_PATH } from './radioIcons'
@@ -52,15 +52,23 @@ export interface RadioGroupProps extends Omit<RadixGroupRootProps, 'asChild'> {
  * </RadioGroup>
  */
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(
-  { size = 'medium', className, children, ...rest },
+  { size = 'medium', orientation = 'vertical', className, children, ...rest },
   ref,
 ) {
+  // Memoize context value so consumers don't re-render on every parent update.
+  const ctxValue = useMemo(() => ({ size }), [size])
+
   return (
-    <RadioGroupContext.Provider value={{ size }}>
+    <RadioGroupContext.Provider value={ctxValue}>
       <RadixRadioGroup.Root
         ref={ref}
+        orientation={orientation}
         {...rest}
-        className={cn('flex flex-col gap-3', className)}
+        className={cn(
+          'flex gap-3',
+          orientation === 'horizontal' ? 'flex-row' : 'flex-col',
+          className,
+        )}
       >
         {children}
       </RadixRadioGroup.Root>
