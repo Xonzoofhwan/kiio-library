@@ -148,7 +148,7 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(function Ch
         <span
           aria-hidden
           className={cn(
-            'pointer-events-none absolute -inset-0.5 rounded-[2px]',
+            'pointer-events-none absolute -inset-0.5 rounded-0.5',
             'border-2 border-[var(--comp-checkbox-focus-border)]',
             'opacity-0 transition-opacity duration-fast ease-enter',
             'group-focus-visible:opacity-100',
