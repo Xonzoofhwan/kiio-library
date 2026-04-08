@@ -1,0 +1,137 @@
+{
+  "component": "Radio",
+  "description": "Radio atom built on @radix-ui/react-radio-group. Renders a single circular indicator (ring + filled dot) as one option within a RadioGroup. Atom-only — no internal label.",
+  "classification": "Primitive",
+  "_classification_note": "Two-file compound: <RadioGroup> wraps RadixRadioGroup.Root, <Radio> wraps RadixRadioGroup.Item. Size is propagated via RadioGroupContext but Radio may override per-instance.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "12943:10460",
+
+  "library": {
+    "name": "@radix-ui/react-radio-group",
+    "version": "^1.x",
+    "rationale": "Provides roving tabindex, arrow-key navigation, role=radiogroup/radio, aria-checked, hidden form input — all WAI-ARIA APG compliant. Consistent with the project's existing Radix usage (Switch, Tooltip, Tabs, etc.). data-state attributes drive our token-based Tailwind selectors."
+  },
+
+  "props": {
+    "RadioGroup": {
+      "size": {
+        "type": "'xSmall' | 'small' | 'medium'",
+        "default": "medium",
+        "description": "Visual size propagated to all child Radios via context. Individual Radio may override.",
+        "category": "variant"
+      },
+      "value":         { "type": "string", "category": "state",    "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Controlled selected value." },
+      "defaultValue":  { "type": "string", "category": "state",    "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Uncontrolled initial value." },
+      "onValueChange": { "type": "(value: string) => void", "category": "event", "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Called when selection changes." },
+      "disabled":      { "type": "boolean", "default": false, "category": "state", "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Disables all radios in the group." },
+      "name":          { "type": "string", "category": "form", "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Form integration — name of the hidden input." },
+      "required":      { "type": "boolean", "default": false, "category": "form", "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Form validation — a value must be selected to submit." },
+      "orientation":   { "type": "'horizontal' | 'vertical'", "default": "vertical", "category": "a11y", "inheritedFrom": "@radix-ui/react-radio-group Root", "description": "Affects arrow-key navigation direction." }
+    },
+    "Radio": {
+      "size": {
+        "type": "'xSmall' | 'small' | 'medium'",
+        "description": "Override size from group context. @see RADIO_SIZES",
+        "category": "variant"
+      },
+      "value":     { "type": "string", "required": true, "category": "data", "inheritedFrom": "@radix-ui/react-radio-group Item", "description": "Unique value identifying this radio." },
+      "disabled":  { "type": "boolean", "default": false, "category": "state", "inheritedFrom": "@radix-ui/react-radio-group Item", "description": "Disable just this radio." },
+      "id":        { "type": "string", "category": "a11y", "inheritedFrom": "@radix-ui/react-radio-group Item", "description": "Element id — pair with external <label htmlFor>." },
+      "className": { "type": "string", "category": "styling", "description": "Additional Tailwind classes merged with cn()." }
+    }
+  },
+
+  "omittedFromBase": {
+    "asChild": "Radio is a leaf control — asChild adds zero value."
+  },
+
+  "variants": {
+    "size": {
+      "_comment": "Visual circle dimensions — also the SVG viewBox render box. Hit target is fixed-inset 8px on all sizes (matches Checkbox).",
+      "xSmall": { "box": 16 },
+      "small":  { "box": 20 },
+      "medium": { "box": 24 }
+    }
+  },
+
+  "tokens": {
+    "_comment": "All --comp-radio-* tokens. Sizing in :root, colors in [data-theme]. The SVG path is the source of truth for ring thickness and inner-dot size — no separate dot/border tokens.",
+    "sizing": [
+      "--comp-radio-visual-xs = 16px",
+      "--comp-radio-visual-sm = 20px",
+      "--comp-radio-visual-md = 24px",
+      "--comp-radio-inset = 8px (fixed across all sizes — matches Checkbox)"
+    ],
+    "color": {
+      "fg": {
+        "--comp-radio-fg":          "var(--semantic-neutral-black-alpha-300)",
+        "--comp-radio-fg-hover":    "var(--semantic-neutral-black-alpha-400)",
+        "--comp-radio-fg-pressed":  "var(--semantic-neutral-black-alpha-400)",
+        "--comp-radio-fg-disabled": "var(--semantic-neutral-black-alpha-200)"
+      },
+      "fgChecked": {
+        "--comp-radio-fg-checked":          "var(--semantic-neutral-solid-950)",
+        "--comp-radio-fg-checked-hover":    "var(--semantic-neutral-black-alpha-800)",
+        "--comp-radio-fg-checked-pressed":  "var(--semantic-neutral-black-alpha-600)",
+        "--comp-radio-fg-checked-disabled": "var(--semantic-neutral-black-alpha-200)"
+      },
+      "focus": {
+        "--comp-radio-focus-border": "var(--semantic-neutral-solid-1000)"
+      }
+    }
+  },
+
+  "states": {
+    "unchecked":    { "trigger": "data-[state=unchecked]", "fg": "--comp-radio-fg", "svgPath": "RADIO_UNCHECKED_PATH visible, RADIO_CHECKED_PATH hidden" },
+    "checked":      { "trigger": "data-[state=checked]",   "fg": "--comp-radio-fg-checked", "svgPath": "RADIO_CHECKED_PATH visible, RADIO_UNCHECKED_PATH hidden" },
+    "hover":        { "trigger": ":hover",                  "uncheckedFg": "--comp-radio-fg-hover", "checkedFg": "--comp-radio-fg-checked-hover" },
+    "pressed":      { "trigger": ":active",                 "uncheckedFg": "--comp-radio-fg-pressed", "checkedFg": "--comp-radio-fg-checked-pressed" },
+    "focus-visible": { "trigger": ":focus-visible",         "implementation": "absolute span, 2px border --comp-radio-focus-border, opacity-0 → group-focus-visible:opacity-100, sized to visual circle (NOT hit area)" },
+    "disabled":     { "trigger": "data-[disabled]",         "uncheckedFg": "--comp-radio-fg-disabled", "checkedFg": "--comp-radio-fg-checked-disabled", "interaction": "cursor-not-allowed + pointer-events-none" }
+  },
+
+  "hitAreaStrategy": {
+    "approach": "padding + negative margin on the focusable RadixRadioGroup.Item: p-[var(--comp-radio-inset)] -m-[var(--comp-radio-inset)]",
+    "rationale": "Fixed 8px inset matches the parallel Checkbox component for consistency. The visual circle and layout box stay at the Figma-spec size; only the click/touch area is enlarged. Resulting hit areas: xs 32×32, sm 36×36, md 40×40.",
+    "focusRing": "Bound to the visual circle (-inset-0.5), not the expanded hit area."
+  },
+
+  "implementation": {
+    "pattern": "Record maps + cn() (NOT CVA — matches Switch/Checkbox). The SVG path is the single source of truth for ring thickness and inner-dot size.",
+    "files": [
+      "src/components/Radio/Radio.tsx",
+      "src/components/Radio/radioIcons.tsx",
+      "src/components/Radio/index.ts"
+    ],
+    "structure": [
+      "RadioGroup → RadixRadioGroup.Root + RadioGroupContext.Provider({ size })",
+      "Radio → RadixRadioGroup.Item (the group, owns the foreground color cascade via text-* classes)",
+      "  └ <span> visual wrapper (sized to --comp-radio-visual-{size})",
+      "       ├ <svg viewBox='0 0 24 24' fill='currentColor'>",
+      "       │   ├ <path d={RADIO_UNCHECKED_PATH} className='hidden group-data-[state=unchecked]:block' />",
+      "       │   └ <path d={RADIO_CHECKED_PATH}   className='hidden group-data-[state=checked]:block' />",
+      "       └ <span> focus ring — absolute -inset-0.5, 2px border, opacity-0 → group-focus-visible:opacity-100"
+    ],
+    "transitions": {
+      "fgColor":   "transition-colors duration-fast ease-enter (on the Root, cascades to SVG via currentColor)",
+      "focusRing": "transition-opacity duration-fast ease-enter"
+    },
+    "ariaSupport": [
+      "role='radiogroup' on RadioGroup (Radix-managed)",
+      "role='radio' + aria-checked on Radio (Radix-managed)",
+      "Roving tabindex + arrow keys (Radix-managed)",
+      "Hidden input for form integration (Radix-managed)"
+    ]
+  },
+
+  "exports": {
+    "components": ["Radio", "RadioGroup"],
+    "constants": ["RADIO_SIZES"],
+    "types": ["RadioProps", "RadioGroupProps", "RadioSize"]
+  },
+
+  "labelStrategy": {
+    "approach": "atom-only — no internal label/description props",
+    "composition": "External <label htmlFor={id}> wraps the radio, or compose with future FormField"
+  }
+}

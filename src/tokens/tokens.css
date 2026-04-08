@@ -970,6 +970,24 @@
   /* ─── Hit area inset — constant across sizes; padding extends interactive area, negative margin compensates layout ─── */
   --comp-checkbox-inset:                   8px;
 
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Radio (size/spacing layer)
+     Naming: --comp-radio-{property}-{size?}
+     Layout footprint = visual; hit area = visual + 2 × inset.
+     The visual area renders an inline SVG glyph (24×24 viewBox) that
+     draws the entire radio shape — outer ring AND inner dot — as a
+     single path. No separate dot / border tokens are needed; the SVG
+     path is the source of truth. Mirrors Checkbox conventions.
+     ---------------------------------------------------------- */
+
+  /* ─── Visual circle dimension (per size) — also the SVG render box ─── */
+  --comp-radio-visual-xs:                  16px;
+  --comp-radio-visual-sm:                  20px;
+  --comp-radio-visual-md:                  24px;
+
+  /* ─── Hit area inset — constant across sizes; padding extends interactive area, negative margin compensates layout ─── */
+  --comp-radio-inset:                      8px;
+
 }
 
 /* ----------------------------------------------------------
@@ -1585,6 +1603,29 @@
 
   /* ─── Focus ring ─── */
   --comp-checkbox-focus-border:         var(--semantic-neutral-solid-1000);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Radio (color layer)
+     Naming: --comp-radio-fg[-{state}]
+     The visual is a single SVG path filled with currentColor. One
+     foreground color drives outer ring AND inner dot at once; state
+     changes recolor the entire SVG. Mirrors Checkbox naming.
+     ---------------------------------------------------------- */
+
+  /* ─── Foreground (unchecked base) ─── */
+  --comp-radio-fg:                      var(--semantic-neutral-black-alpha-300);
+  --comp-radio-fg-hover:                var(--semantic-neutral-black-alpha-400);
+  --comp-radio-fg-pressed:              var(--semantic-neutral-black-alpha-400);
+  --comp-radio-fg-disabled:             var(--semantic-neutral-black-alpha-200);
+
+  /* ─── Foreground (checked) ─── */
+  --comp-radio-fg-checked:              var(--semantic-neutral-solid-950);
+  --comp-radio-fg-checked-hover:        var(--semantic-neutral-black-alpha-800);
+  --comp-radio-fg-checked-pressed:      var(--semantic-neutral-black-alpha-600);
+  --comp-radio-fg-checked-disabled:     var(--semantic-neutral-black-alpha-200);
+
+  /* ─── Focus ring ─── */
+  --comp-radio-focus-border:            var(--semantic-neutral-solid-1000);
 
 }
 
