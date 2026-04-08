@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils'
 import { NavVertical } from '@/components/NavVertical'
+import { IconButton } from '@/components/Button'
+import { Icon } from '@/components/icons'
 import logoLight from '@/assets/logo_24_withLettermark_light.svg'
 import logoDark from '@/assets/logo_24_withLettermark_dark.svg'
 
@@ -78,11 +79,19 @@ export function Sidebar({ active, onSelect, theme, onThemeChange }: SidebarProps
   return (
     <aside className="fixed top-0 left-0 h-screen w-[240px] flex flex-col bg-semantic-background-50 border-r border-semantic-divider-solid-200 z-20">
       {/* Logo */}
-      <div className="flex-shrink-0 h-14 px-4 py-4 border-b border-semantic-divider-solid-100">
+      <div className="flex-shrink-0 h-14 px-4 flex items-center justify-between border-b border-semantic-divider-solid-100">
         <img
           src={theme === 'dark' ? logoDark : logoLight}
           alt="kiio Library"
           className="h-6"
+        />
+        <IconButton
+          hierarchy="ghost"
+          size="small"
+          shape="circular"
+          icon={<Icon name={theme === 'dark' ? 'light_mode' : 'dark_mode'} />}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
         />
       </div>
 
@@ -104,27 +113,6 @@ export function Sidebar({ active, onSelect, theme, onThemeChange }: SidebarProps
             </div>
           ))}
         </NavVertical>
-      </div>
-
-      {/* Theme toggle */}
-      <div className="flex-shrink-0 px-4 py-4 border-t border-semantic-divider-solid-50">
-        <div className="flex items-center justify-between">
-          <span className="typography-13-medium text-semantic-text-on-bright-600">Dark mode</span>
-          <button
-            onClick={() => onThemeChange(theme === 'dark' ? 'light' : 'dark')}
-            className={cn(
-              'relative inline-flex h-5 w-9 items-center rounded-full transition-colors duration-fast ease-enter',
-              theme === 'dark' ? 'bg-semantic-emphasized-purple-500' : 'bg-semantic-neutral-solid-300',
-            )}
-          >
-            <span
-              className={cn(
-                'inline-block h-4 w-4 rounded-full bg-white transition-transform duration-fast ease-enter',
-                theme === 'dark' ? 'translate-x-[18px]' : 'translate-x-[2px]',
-              )}
-            />
-          </button>
-        </div>
       </div>
     </aside>
   )
