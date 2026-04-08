@@ -872,6 +872,86 @@
   --comp-chip-badgelike-radius-sm:         var(--primitive-radius-1);       /* 4px */
   --comp-chip-badgelike-radius-xs:         var(--primitive-radius-1);       /* 4px */
 
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Switch (size/spacing layer)
+     Naming: --comp-switch-{property}-{shape?}-{size}
+     ---------------------------------------------------------- */
+
+  /* ─── Track dimensions (shared between shapes) ─── */
+  --comp-switch-track-w-xs:                40px;
+  --comp-switch-track-h-xs:                24px;
+  --comp-switch-track-w-sm:                56px;
+  --comp-switch-track-h-sm:                32px;
+  --comp-switch-track-w-md:                68px;
+  --comp-switch-track-h-md:                40px;
+  --comp-switch-track-w-lg:                80px;
+  --comp-switch-track-h-lg:                48px;
+
+  /* ─── Track padding — only square-lg uses 4px, all others 2px ─── */
+  --comp-switch-track-padding-circular-xs: 2px;
+  --comp-switch-track-padding-circular-sm: 2px;
+  --comp-switch-track-padding-circular-md: 2px;
+  --comp-switch-track-padding-circular-lg: 2px;
+  --comp-switch-track-padding-square-xs:   2px;
+  --comp-switch-track-padding-square-sm:   2px;
+  --comp-switch-track-padding-square-md:   2px;
+  --comp-switch-track-padding-square-lg:   4px;
+
+  /* ─── Track radius ─── */
+  --comp-switch-track-radius-circular:     9999px;
+  --comp-switch-track-radius-square:       0px;
+
+  /* ─── Knob placer (fixed-size positioner inside track) — per shape ─── */
+  --comp-switch-placer-circular-xs:        20px;
+  --comp-switch-placer-circular-sm:        28px;
+  --comp-switch-placer-circular-md:        36px;
+  --comp-switch-placer-circular-lg:        44px;
+  --comp-switch-placer-square-xs:          20px;
+  --comp-switch-placer-square-sm:          28px;
+  --comp-switch-placer-square-md:          36px;
+  --comp-switch-placer-square-lg:          40px;
+
+  /* ─── Circular knob size — 3 tiers: compact (OFF idle) / pressed (any hover/press) / expanded (ON idle) ─── */
+  --comp-switch-knob-circular-xs-compact:  16px;
+  --comp-switch-knob-circular-xs-pressed:  18px;
+  --comp-switch-knob-circular-xs-expanded: 20px;
+  --comp-switch-knob-circular-sm-compact:  24px;
+  --comp-switch-knob-circular-sm-pressed:  26px;
+  --comp-switch-knob-circular-sm-expanded: 28px;
+  --comp-switch-knob-circular-md-compact:  32px;
+  --comp-switch-knob-circular-md-pressed:  34px;
+  --comp-switch-knob-circular-md-expanded: 36px;
+  --comp-switch-knob-circular-lg-compact:  36px;
+  --comp-switch-knob-circular-lg-pressed:  40px;
+  --comp-switch-knob-circular-lg-expanded: 44px;
+
+  /* ─── Square knob — 2 tiers: default (= placer fill, w = h) / pressed (squeeze on hover/press)
+         Squeeze delta: −2px for xs/sm/md, −4px for lg only. ─── */
+  --comp-switch-knob-square-xs-default:    20px;
+  --comp-switch-knob-square-xs-pressed:    18px;
+  --comp-switch-knob-square-sm-default:    28px;
+  --comp-switch-knob-square-sm-pressed:    26px;
+  --comp-switch-knob-square-md-default:    36px;
+  --comp-switch-knob-square-md-pressed:    34px;
+  --comp-switch-knob-square-lg-default:    40px;
+  --comp-switch-knob-square-lg-pressed:    36px;
+
+  /* ─── Translate distance (Off → On knob slide), per shape × size ───
+     formula: track-w − padding*2 − placer */
+  --comp-switch-translate-circular-xs:     16px;  /* 40 − 4  − 20 */
+  --comp-switch-translate-circular-sm:     24px;  /* 56 − 4  − 28 */
+  --comp-switch-translate-circular-md:     28px;  /* 68 − 4  − 36 */
+  --comp-switch-translate-circular-lg:     32px;  /* 80 − 4  − 44 */
+  --comp-switch-translate-square-xs:       16px;  /* 40 − 4  − 20 */
+  --comp-switch-translate-square-sm:       24px;  /* 56 − 4  − 28 */
+  --comp-switch-translate-square-md:       28px;  /* 68 − 4  − 36 */
+  --comp-switch-translate-square-lg:       32px;  /* 80 − 8  − 40 */
+
+  /* ─── Toggle easing — Material Design "decelerate" curve, used for
+         track bg + thumb slide on ON/OFF transition. Differs from the
+         standard ease-out: stronger initial deceleration, smoother end. ─── */
+  --comp-switch-easing-toggle:             cubic-bezier(0.2, 0, 0, 1);
+
 }
 
 /* ----------------------------------------------------------
@@ -1431,6 +1511,37 @@
      ---------------------------------------------------------- */
   --comp-skeleton-bg:              var(--semantic-neutral-solid-100);
   --comp-skeleton-shimmer:         var(--semantic-neutral-white-alpha-400);
+
+  /* ----------------------------------------------------------
+     COMPONENT TOKENS — Switch (color layer)
+     Naming: --comp-switch-{property}[-{state}]
+     ---------------------------------------------------------- */
+
+  /* ─── Track ─── */
+  --comp-switch-track-on:              var(--semantic-neutral-solid-950);
+  --comp-switch-track-off:             var(--semantic-neutral-black-alpha-70);
+  --comp-switch-track-on-disabled:     var(--semantic-neutral-solid-300);
+  --comp-switch-track-off-disabled:    var(--semantic-neutral-black-alpha-70);
+
+  /* ─── Track state overlay (sibling layer over track) ─── */
+  --comp-switch-overlay-on-hover:      var(--semantic-state-on-dim-50);
+  --comp-switch-overlay-on-pressed:    var(--semantic-state-on-dim-100);
+  --comp-switch-overlay-off-hover:     var(--semantic-state-on-bright-50);
+  --comp-switch-overlay-off-pressed:   var(--semantic-state-on-bright-100);
+
+  /* ─── Knob ─── */
+  --comp-switch-knob:                  var(--semantic-neutral-solid-0);
+  --comp-switch-knob-hover:            var(--semantic-neutral-solid-50);
+  --comp-switch-knob-pressed:          var(--semantic-neutral-solid-70);
+  --comp-switch-knob-disabled:         var(--semantic-neutral-white-alpha-600);
+
+  /* ─── Knob shadow (3 tiers: ON always 0.12, OFF default 0.08, OFF hover/press 0.16 emphasized) ─── */
+  --comp-switch-knob-shadow-on:             0 1px 3px rgba(0, 0, 0, 0.12);
+  --comp-switch-knob-shadow-off:            0 1px 3px rgba(0, 0, 0, 0.08);
+  --comp-switch-knob-shadow-off-emphasized: 0 1px 3px rgba(0, 0, 0, 0.16);
+
+  /* ─── Focus ring ─── */
+  --comp-switch-focus-border:          var(--semantic-neutral-solid-1000);
 
 }
 

@@ -659,6 +659,9 @@ export default {
         exit:   'var(--semantic-easing-exit)',
         move:   'var(--semantic-easing-move)',
         linear: 'var(--semantic-easing-linear)',
+        // Switch ON/OFF toggle — Material decelerate curve
+        // (named entry needed because `ease-[var(...)]` arbitrary fails to parse cubic-bezier commas)
+        'comp-switch-toggle': 'var(--comp-switch-easing-toggle)',
       },
       animationDuration: {
         instant: 'var(--semantic-duration-instant)',
@@ -673,6 +676,19 @@ export default {
         exit:   'var(--semantic-easing-exit)',
         move:   'var(--semantic-easing-move)',
         linear: 'var(--semantic-easing-linear)',
+      },
+
+      // --------------------------------------------------------
+      // BOX SHADOW — Component shadows referencing CSS variables
+      // Tailwind's `shadow-[var(...)]` arbitrary syntax mis-parses
+      // CSS-variable values as shadow color (resulting in no box-shadow
+      // output). Named entries here force correct box-shadow emission.
+      // Usage: shadow-comp-switch-knob-on, shadow-comp-switch-knob-off, etc.
+      // --------------------------------------------------------
+      boxShadow: {
+        'comp-switch-knob-on':             'var(--comp-switch-knob-shadow-on)',
+        'comp-switch-knob-off':            'var(--comp-switch-knob-shadow-off)',
+        'comp-switch-knob-off-emphasized': 'var(--comp-switch-knob-shadow-off-emphasized)',
       },
 
       // --------------------------------------------------------

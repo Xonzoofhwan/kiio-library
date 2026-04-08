@@ -1,0 +1,328 @@
+{
+  "component": "Switch",
+  "description": "Toggle switch atom built on @radix-ui/react-switch. Two shapes (circular, square) with distinct interaction models — circular squeezes the knob on press; square slides the knob inward.",
+  "classification": "Primitive",
+  "_classification_note": "Single-file leaf control. Renders RadixSwitch.Root → RadixSwitch.Thumb (asChild via direct className). No internal composition with other kiio components.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "12943:10458",
+
+  "props": {
+    "size": {
+      "type": "'xSmall' | 'small' | 'medium' | 'large'",
+      "default": "medium",
+      "description": "Visual size. @see SWITCH_SIZES",
+      "category": "variant"
+    },
+    "shape": {
+      "type": "'circular' | 'square'",
+      "default": "circular",
+      "description": "Track and knob shape. @see SWITCH_SHAPES",
+      "category": "variant"
+    },
+    "checked": {
+      "type": "boolean",
+      "default": "undefined",
+      "description": "Controlled checked state. Pair with onCheckedChange.",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "defaultChecked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Uncontrolled initial checked state.",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "onCheckedChange": {
+      "type": "(checked: boolean) => void",
+      "description": "Called when toggled.",
+      "category": "event",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Inactive state. Prevents interaction.",
+      "category": "state",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "name": {
+      "type": "string",
+      "description": "Form integration — name of the hidden input.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "value": {
+      "type": "string",
+      "default": "on",
+      "description": "Form integration — value submitted when checked.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "Form validation — switch must be checked to submit.",
+      "category": "form",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "id": {
+      "type": "string",
+      "description": "Element id — used to associate with external <label htmlFor>.",
+      "category": "a11y",
+      "inheritedFrom": "@radix-ui/react-switch Root"
+    },
+    "className": {
+      "type": "string",
+      "description": "Additional Tailwind classes merged with cn().",
+      "category": "styling"
+    }
+  },
+
+  "omittedFromBase": {
+    "asChild": "Switch is a leaf control — asChild adds zero value, omitted via Omit<RadixRootProps, 'asChild'>."
+  },
+
+  "variants": {
+    "size": {
+      "_comment": "Track dimensions per size (shared between shapes).",
+      "xSmall": {
+        "track": "40 × 24",
+        "tokens": {
+          "trackW": "var(--comp-switch-track-w-xs)",
+          "trackH": "var(--comp-switch-track-h-xs)"
+        }
+      },
+      "small": {
+        "track": "56 × 32",
+        "tokens": {
+          "trackW": "var(--comp-switch-track-w-sm)",
+          "trackH": "var(--comp-switch-track-h-sm)"
+        }
+      },
+      "medium": {
+        "track": "68 × 40",
+        "tokens": {
+          "trackW": "var(--comp-switch-track-w-md)",
+          "trackH": "var(--comp-switch-track-h-md)"
+        }
+      },
+      "large": {
+        "track": "80 × 48",
+        "tokens": {
+          "trackW": "var(--comp-switch-track-w-lg)",
+          "trackH": "var(--comp-switch-track-h-lg)"
+        }
+      }
+    },
+    "shape": {
+      "circular": {
+        "trackRadius": "9999px (rounded-full)",
+        "trackPadding": "2px (all sizes)",
+        "knobRadius": "9999px",
+        "knobShape": "square aspect (w = h)",
+        "interactionModel": "3-tier knob size model. Idle = current state (OFF compact, ON expanded). Any hover/press converges to the intermediate 'pressed' size from either direction, providing unified interaction feedback.",
+        "knobSizeStateMatrix": {
+          "OFF-idle":     "compact",
+          "OFF-hover":    "pressed (intermediate)",
+          "OFF-press":    "pressed (intermediate)",
+          "ON-idle":      "expanded",
+          "ON-hover":     "pressed (intermediate)",
+          "ON-press":     "pressed (intermediate)"
+        },
+        "knobSizeBySize": {
+          "xSmall": { "compact": 16, "pressed": 18, "expanded": 20 },
+          "small":  { "compact": 24, "pressed": 26, "expanded": 28 },
+          "medium": { "compact": 32, "pressed": 34, "expanded": 36 },
+          "large":  { "compact": 36, "pressed": 40, "expanded": 44 }
+        }
+      },
+      "square": {
+        "trackRadius": "0px (sharp)",
+        "trackPadding": "2px (xs/sm/md), 4px (lg only)",
+        "knobRadius": "0px",
+        "knobShape": "square aspect (w = h)",
+        "interactionModel": "2-tier knob size model. Idle = placer fill (default). Any hover/press squeezes by −4px. ON/OFF share identical idle size — interaction is purely a press micro-state, not a state preview.",
+        "knobSizeStateMatrix": {
+          "OFF-idle":     "default (= placer)",
+          "OFF-hover":    "pressed (−4)",
+          "OFF-press":    "pressed (−4)",
+          "ON-idle":      "default (= placer)",
+          "ON-hover":     "pressed (−4)",
+          "ON-press":     "pressed (−4)"
+        },
+        "knobSizeBySize": {
+          "_comment": "Squeeze delta: −2px for xs/sm/md, −4px for lg only.",
+          "xSmall": { "default": 20, "pressed": 18, "placer": 20 },
+          "small":  { "default": 28, "pressed": 26, "placer": 28 },
+          "medium": { "default": 36, "pressed": 34, "placer": 36 },
+          "large":  { "default": 40, "pressed": 36, "placer": 40 }
+        }
+      }
+    }
+  },
+
+  "tokens": {
+    "_comment": "All --comp-switch-* tokens. Sizing in :root, colors in [data-theme]. 67 total definitions.",
+    "sizing": {
+      "track": [
+        "--comp-switch-track-w-{xs,sm,md,lg}",
+        "--comp-switch-track-h-{xs,sm,md,lg}"
+      ],
+      "trackPadding": [
+        "--comp-switch-track-padding-{circular,square}-{xs,sm,md,lg}"
+      ],
+      "trackRadius": [
+        "--comp-switch-track-radius-circular = 9999px",
+        "--comp-switch-track-radius-square = 0px"
+      ],
+      "placer": [
+        "--comp-switch-placer-circular-{xs,sm,md,lg}",
+        "--comp-switch-placer-square-{xs,sm,md,lg}"
+      ],
+      "knobCircular": [
+        "--comp-switch-knob-circular-{xs,sm,md,lg}-compact",
+        "--comp-switch-knob-circular-{xs,sm,md,lg}-pressed",
+        "--comp-switch-knob-circular-{xs,sm,md,lg}-expanded"
+      ],
+      "knobSquare": [
+        "--comp-switch-knob-square-{xs,sm,md,lg}-default",
+        "--comp-switch-knob-square-{xs,sm,md,lg}-pressed"
+      ],
+      "translate": [
+        "--comp-switch-translate-{circular,square}-{xs,sm,md,lg}"
+      ]
+    },
+    "color": {
+      "track": {
+        "--comp-switch-track-on": "var(--semantic-neutral-solid-950)",
+        "--comp-switch-track-off": "var(--semantic-neutral-black-alpha-70)",
+        "--comp-switch-track-on-disabled": "var(--semantic-neutral-solid-300)",
+        "--comp-switch-track-off-disabled": "var(--semantic-neutral-black-alpha-70)"
+      },
+      "overlay": {
+        "--comp-switch-overlay-on-hover": "var(--semantic-state-on-dim-50)",
+        "--comp-switch-overlay-on-pressed": "var(--semantic-state-on-dim-100)",
+        "--comp-switch-overlay-off-hover": "var(--semantic-state-on-bright-50)",
+        "--comp-switch-overlay-off-pressed": "var(--semantic-state-on-bright-100)"
+      },
+      "knob": {
+        "--comp-switch-knob": "var(--semantic-neutral-solid-0)",
+        "--comp-switch-knob-hover": "var(--semantic-neutral-solid-50)",
+        "--comp-switch-knob-pressed": "var(--semantic-neutral-solid-70)",
+        "--comp-switch-knob-disabled": "var(--semantic-neutral-white-alpha-600)"
+      },
+      "shadow": {
+        "--comp-switch-knob-shadow-on": "0 1px 3px rgba(0, 0, 0, 0.12)",
+        "--comp-switch-knob-shadow-off": "0 1px 3px rgba(0, 0, 0, 0.08)"
+      },
+      "focus": {
+        "--comp-switch-focus-border": "var(--semantic-neutral-solid-1000)"
+      }
+    }
+  },
+
+  "states": {
+    "checked": {
+      "trigger": "data-[state=checked] (Radix attribute)",
+      "track": "bg --comp-switch-track-on",
+      "thumb": "translate-x by --comp-switch-translate-{shape}-{size}"
+    },
+    "unchecked": {
+      "trigger": "data-[state=unchecked] (Radix attribute)",
+      "track": "bg --comp-switch-track-off",
+      "thumb": "translate-x: 0"
+    },
+    "hover": {
+      "trigger": ":hover on Root (group via .group)",
+      "trackOverlay": "absolute span, --comp-switch-overlay-{on|off}-hover",
+      "knobBg": "ON only — solid-0 → solid-50. OFF stays at solid-0 (no color change).",
+      "knobShadow": "ON 0.12 (constant). OFF 0.08 → 0.16 (emphasized — 'lifts').",
+      "circularKnob": "CONVERGE — both ON and OFF go to intermediate 'pressed' size (ON shrinks, OFF grows)",
+      "squareKnob": "SQUEEZE — knob shrinks by 4px from default (placer fill). ON/OFF behave identically."
+    },
+    "pressed": {
+      "trigger": ":active on Root",
+      "trackOverlay": "--comp-switch-overlay-{on|off}-pressed",
+      "knobBg": "ON only — solid-0 → solid-70. OFF stays at solid-0.",
+      "knobShadow": "ON 0.12. OFF 0.16 (emphasized).",
+      "circularKnob": "Same as hover — CONVERGE to intermediate 'pressed' size",
+      "squareKnob": "Same as hover — −4px squeeze"
+    },
+    "focused": {
+      "trigger": ":focus-visible on Root (keyboard only)",
+      "implementation": "absolute span, 2px border --comp-switch-focus-border, opacity-0 → group-focus-visible:opacity-100"
+    },
+    "disabled": {
+      "trigger": "data-[disabled] (Radix attribute, set when disabled prop is true)",
+      "track": "--comp-switch-track-{on|off}-disabled",
+      "knob": "--comp-switch-knob-disabled, no shadow",
+      "interaction": "cursor-not-allowed + pointer-events-none, state overlay hidden"
+    }
+  },
+
+  "implementation": {
+    "pattern": "Record maps + cn() (NOT CVA — see _pattern_note)",
+    "_pattern_note": "Multi-axis variants (shape × size = 8 combos × multiple properties) are expressed as nested Record<Shape, Record<Size, string>> maps for clarity. CVA's compoundVariants would be more verbose for this case.",
+    "library": "@radix-ui/react-switch",
+    "structure": [
+      "RadixSwitch.Root (the track) — group, data-state, focus-visible target",
+      "  └ <span> state overlay (sibling to Thumb, hover/press tint)",
+      "  └ <span> focus ring (sibling, 2px inset border)",
+      "  └ RadixSwitch.Thumb (the placer) — slides Off → On via translate-x",
+      "       └ <span> knob (visual layer) — squeeze (circular) or inset slide (square)"
+    ],
+    "stateDriving": "Radix sets data-state=checked|unchecked + data-disabled on Root and Thumb. Combined with :hover / :active / :focus-visible via Tailwind group selectors and arbitrary parent selectors like 'group-[[data-state=checked]:not(:hover):not(:active)]' to ensure unambiguous specificity.",
+    "transitions": {
+      "trackBg": "transition-colors duration-fast ease-enter",
+      "thumbPosition": "transition-transform duration-normal ease-move (Radix Thumb slide)",
+      "circularKnobSqueeze": "transition-[width,height,background-color] duration-fast ease-enter",
+      "squareKnobInsetSlide": "transition-[transform,background-color] duration-fast ease-enter",
+      "stateOverlay": "transition-colors duration-fast ease-enter",
+      "focusRing": "transition-opacity duration-fast ease-enter"
+    },
+    "knobInteractionLogic": {
+      "circular": {
+        "model": "2-tier size — 'expanded' (full placer) vs 'compact' (~4-8px smaller)",
+        "rule": "compact by default; expand only when ON + not :hover + not :active",
+        "selector": "group-[[data-state=checked]:not(:hover):not(:active)]:size-{expanded}"
+      },
+      "square": {
+        "model": "Fixed knob size; translate-x changes based on (state, hover) combination",
+        "positions": {
+          "off-default": "translate-x: 0 (knob at left edge of placer)",
+          "off-hover": "translate-x: +inset (2px, slide right)",
+          "on-default": "translate-x: +edge (4px = placer−knob, knob at right edge)",
+          "on-hover": "translate-x: +inset (2px, slide left from edge — hover always centers)"
+        }
+      }
+    },
+    "files": [
+      "src/components/Switch/Switch.tsx",
+      "src/components/Switch/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-switch ^1.x",
+      "class-variance-authority (not used in this component, but imported by sibling components)",
+      "@/lib/utils cn()"
+    ],
+    "ariaSupport": [
+      "role='switch' (Radix-managed)",
+      "aria-checked (Radix-managed via data-state)",
+      "Space + Enter keyboard toggle (Radix-managed)",
+      "Hidden form input for native form integration (Radix-managed)"
+    ]
+  },
+
+  "exports": {
+    "component": "Switch (forwardRef HTMLButtonElement)",
+    "constants": ["SWITCH_SIZES", "SWITCH_SHAPES"],
+    "types": ["SwitchProps", "SwitchSize", "SwitchShape"]
+  },
+
+  "labelStrategy": {
+    "approach": "atom-only — no internal label/description props",
+    "composition": "External <label htmlFor={id}> wraps the switch, or future FormField wrapper",
+    "rationale": "Mirrors Toss tds-react-native and Uber Base Switch — labels are layout decisions, not switch concerns"
+  }
+}
