@@ -581,25 +581,21 @@ const bottomSheetAnimation = {
 ```
 이 로딩 상태에 어떤 패턴을 사용해야 하는가?
 
-1. 예상 소요 시간은?
-   → < 300ms: 로딩 표시 없음 (인지 불가능한 시간)
-   → 300ms ~ 2초: 스피너 (간단한 표시)
-   → 2초 ~ 10초: 스켈레톤 또는 프로그레스 바
-   → > 10초: 프로그레스 바 + 예상 시간 텍스트
+1. 콘텐츠의 레이아웃이 예측 가능한가?
+   → YES: 스켈레톤 (콘텐츠 형태를 미리 보여줌, Defer + Minimum Hold 정책 적용 — §로딩 노출 정책 참조)
+   → NO:  스피너 (형태를 모르므로 일반적 로딩 표시)
 
-2. 콘텐츠의 레이아웃이 예측 가능한가?
-   → YES: 스켈레톤 (콘텐츠 형태를 미리 보여줌)
-   → NO: 스피너 (형태를 모르므로 일반적 로딩 표시)
-
-3. 진행률을 알 수 있는가?
+2. 진행률을 알 수 있는가?
    → YES: 프로그레스 바 (determinate)
-   → NO: 스피너 또는 스켈레톤 (indeterminate)
+   → NO:  스피너 또는 스켈레톤 (indeterminate)
 
-4. 화면 전체인가, 부분인가?
+3. 화면 전체인가, 부분인가?
    → 전체 페이지: 페이지 레벨 스켈레톤 또는 중앙 스피너
    → 섹션 일부: 해당 영역에만 스피너/스켈레톤 배치
    → 단일 컴포넌트: 컴포넌트 내부 로딩 상태 (예: Button의 loading prop)
 ```
+
+소요 시간 임계값(예: <300ms vs >2초)으로 패턴을 가르지 않는다. 대신 모든 비동기 로딩에 동일한 **노출 정책**(아래 §로딩 노출 정책)을 적용하여 빠른 응답에는 시각적 잡음이 없고, 느린 응답에는 layout shift 없는 매끄러운 fade-in을 보장한다.
 
 ### Loading 패턴 상세
 
@@ -607,7 +603,7 @@ const bottomSheetAnimation = {
 
 | 속성 | 규칙 |
 |------|------|
-| 사용 시점 | 예상 시간 300ms~2초, 콘텐츠 레이아웃 예측 불가 |
+| 사용 시점 | 콘텐츠 레이아웃을 예측할 수 없는 비동기 로딩 (노출 정책은 §로딩 노출 정책의 Defer 100ms 원칙을 그대로 적용) |
 | 크기 | 컴포넌트 내부: 컴포넌트 크기에 맞춤. 섹션: 24px. 페이지: 32~48px |
 | 위치 | 교체 대상의 중앙 |
 | 레이블 | 3초 이상 지속 시 "로딩 중..." 텍스트 추가 |
@@ -617,11 +613,12 @@ const bottomSheetAnimation = {
 
 | 속성 | 규칙 |
 |------|------|
-| 사용 시점 | 예상 시간 2초 이상, 콘텐츠 레이아웃 예측 가능 |
-| 형태 | 실제 콘텐츠의 레이아웃을 반영 (텍스트 → 긴 직사각형, 이미지 → 정사각형 등) |
+| 사용 시점 | 콘텐츠 레이아웃이 예측 가능한 모든 비동기 로딩 (노출 시점은 §로딩 노출 정책 참조) |
+| 형태 | 실제 콘텐츠의 레이아웃을 반영 (텍스트 → `TextReservation`, 이미지/박스 → `SkeletonBlock`) |
 | 애니메이션 | shimmer (좌→우 그라데이션 스윕), linear, 1.5s 주기 |
 | 색상 | `sys-neutral-solid-100` (배경) + `sys-neutral-solid-50` (shimmer) |
-| 콘텐츠 전환 | 데이터 도착 시 fade-in (`duration-normal`, `ease-enter`) |
+| 노출 정책 | **Defer 100ms + Minimum Hold 300ms** (§로딩 노출 정책). 빠른 응답은 skeleton 없이, 느린 응답은 hold window가 정확한 측정 시간을 보장 |
+| 콘텐츠 전환 | hold window 종료 후 fade-in (`duration-normal`, `ease-enter`). hold 동안 `TextReservation`의 pretext가 정확한 라인 폭으로 measure → fade-in 시 layout shift 0 |
 | 접근성 | `aria-busy="true"` on 컨테이너, `aria-hidden="true"` on 스켈레톤 요소 |
 
 #### 프로그레스 바 (Progress Bar)
@@ -633,33 +630,52 @@ const bottomSheetAnimation = {
 | Indeterminate | 반복 애니메이션 (좌→우 이동). 진행률을 모를 때 사용 |
 | 텍스트 | 10초 이상 시 "X% 완료" 또는 "약 N초 남음" 텍스트 추가 |
 
-### 로딩 표시 딜레이 규칙
+### 로딩 노출 정책 (Defer + Minimum Hold)
 
-| 소요 시간 | 즉시 표시 | 딜레이 후 표시 | 이유 |
-|:---------:|:---------:|:-------------:|------|
-| < 300ms | — | — | 인지 불가. 로딩 표시 불필요 |
-| 300ms ~ 1초 | — | 300ms 후 표시 | 빠른 응답에 로딩이 "깜빡"이는 걸 방지 |
-| > 1초 | 즉시 표시 | — | 사용자가 기다리고 있음을 인지해야 함 |
+로딩 UI는 두 가지 원칙을 동시에 만족해야 한다:
 
-**구현**: 로딩 상태 진입 후 300ms 딜레이를 둔 뒤에 스피너/스켈레톤을 표시한다. 300ms 안에 데이터가 도착하면 로딩 UI를 건너뛴다.
+1. **Anti-flash** — 빠른 응답에서 skeleton이 잠깐 떴다 사라지는 broken UI 인상 방지 (Nielsen 응답시간 0.1s 임계 — 100ms 안의 변화는 사용자가 "즉시"로 인지)
+2. **Layout stability** — skeleton이 한 번 등장한 뒤에는 콘텐츠 fade-in 시 layout shift 0
+
+이 둘을 조합하기 위해 **Defer 100ms + Minimum Hold 300ms** 정책을 채택한다.
+
+| 단계 | 시간 | 동작 | 이유 |
+|------|:---:|------|------|
+| **Defer** | 0 ~ 100ms | skeleton 표시 안 함 | anti-flash. 100ms 안에 끝나는 작업은 사용자가 "즉시"로 인지 — 시각적 잡음 0 |
+| **Skeleton 등장** | 100ms 이후 | skeleton 즉시 표시 | 100ms 안에 안 끝났으면 사용자가 기다림을 인지함 |
+| **Minimum hold** | skeleton 등장 후 ≥ 300ms | skeleton 유지 | 데이터가 빨리 와도 깜빡임 방지. hold 동안 `TextReservation`의 pretext가 정확 측정 |
+| **Fade-in** | minHold 충족 + 데이터 도착 | `TextReservation`이 콘텐츠로 fade-in | layout shift 0 보장 |
+
+**구현**: 위 정책은 [`useSkeletonPhase`](../src/lib/useSkeletonPhase.ts) 훅으로 강제한다. 소비자는 `isLoading`만 전달하면 정책을 자동으로 따른다.
 
 ```tsx
-// 개념적 패턴 (실제 구현은 훅으로 추출)
-function useDeferredLoading(isLoading: boolean, delay = 300) {
-  const [showLoading, setShowLoading] = useState(false)
+import { useSkeletonPhase } from '@/lib/useSkeletonPhase'
+import { TextReservation } from '@/components/Skeleton'
 
-  useEffect(() => {
-    if (!isLoading) {
-      setShowLoading(false)
-      return
-    }
-    const timer = setTimeout(() => setShowLoading(true), delay)
-    return () => clearTimeout(timer)
-  }, [isLoading, delay])
+function ProfileName({ data, isLoading }: Props) {
+  const { showSkeleton, ready } = useSkeletonPhase(isLoading)
 
-  return showLoading
+  // Defer 단계 (100ms 이내) 또는 idle → 콘텐츠 직접 렌더 (skeleton 없음)
+  if (!showSkeleton) {
+    return data ? <p className="typography-16-semibold">{data.name}</p> : null
+  }
+
+  // Skeleton 단계 또는 fade-in 단계
+  return (
+    <TextReservation
+      text={data?.name ?? null}
+      typography="16-semibold"
+      ready={ready}
+    >
+      {(text) => <p className="typography-16-semibold">{text}</p>}
+    </TextReservation>
+  )
 }
 ```
+
+옵션으로 `deferMs`/`minHoldMs`를 조정할 수 있다 (예: 캐시 hit이 잦은 영역은 `deferMs={200}`).
+
+> ⚠️ **TextReservation 사용 시 주의**: `typography` prop과 children의 typography 클래스(`typography-16-semibold` 등)를 동일하게 유지해야 layout shift가 0으로 유지된다. 두 소스가 어긋나면 reservation phase의 측정값과 실제 콘텐츠의 폭이 달라져 fade-in 시 점프가 발생한다.
 
 ### Empty State 패턴
 
