@@ -6,6 +6,7 @@ import {
   CHECKBOX_BOX_CHECKED_PATH,
   CHECKBOX_BOX_INDETERMINATE_PATH,
   CHECKBOX_LINE_CHECK_PATH,
+  CHECKBOX_LINE_INDETERMINATE_PATH,
 } from './checkboxIcons'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -135,10 +136,14 @@ export const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(function Ch
             </>
           ) : (
             <>
-              {/* Line variant has no unchecked glyph; the standalone check appears for both checked and indeterminate */}
+              {/* Line variant has no unchecked glyph; checked and indeterminate render distinct standalone glyphs */}
               <path
                 d={CHECKBOX_LINE_CHECK_PATH}
-                className="hidden group-data-[state=checked]:block group-data-[state=indeterminate]:block"
+                className="hidden group-data-[state=checked]:block"
+              />
+              <path
+                d={CHECKBOX_LINE_INDETERMINATE_PATH}
+                className="hidden group-data-[state=indeterminate]:block"
               />
             </>
           )}

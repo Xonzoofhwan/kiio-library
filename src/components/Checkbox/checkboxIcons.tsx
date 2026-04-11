@@ -24,3 +24,8 @@ export const CHECKBOX_BOX_INDETERMINATE_PATH =
 /** ✓ Standalone checkmark — used by the `line` variant when checked. */
 export const CHECKBOX_LINE_CHECK_PATH =
   'M9.55 18L3.85 12.3L5.275 10.875L9.55 15.15L18.725 5.97498L20.15 7.39998L9.55 18Z'
+
+/** ─ Standalone horizontal dash — used by the `line` variant when indeterminate.
+ *  Sourced from Material Symbols `check_indeterminate_small`, normalized to the 24×24 viewBox. */
+export const CHECKBOX_LINE_INDETERMINATE_PATH =
+  'M6 13v-2h12v2H6Z'
