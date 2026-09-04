@@ -252,6 +252,10 @@ function SegmentBarRoot({
   return (
     <SegmentBarContext.Provider value={{ size, shape, fullWidth }}>
       <ToggleGroup.Root
+        // Radix ToggleGroup 은 루트에 role="group" 을 준다. 그런데 type="single" 이면
+        // 항목에는 role="radio" 를 주므로, ARIA 가 요구하는 소유자(radiogroup)가 없어
+        // 보조기술이 "3개 중 1번째" 같은 위치 정보를 읽어주지 못한다(aria-required-parent).
+        role="radiogroup"
         type="single"
         value={activeValue}
         onValueChange={handleValueChange}

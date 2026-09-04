@@ -60,11 +60,6 @@ const KNOWN_KEYBOARD_DEBT = {
     '**선택된** 항목에 둔다. 그래서 방향키로 이동만 하고 활성화하지 않은 채 Tab 으로 나갔다 ',
     '돌아오면, 사용자가 있던 자리가 아니라 선택된 항목으로 돌아온다.',
   ].join(''),
-  'SegmentBar.radio가_radiogroup_밖': [
-    'Radix ToggleGroup(type="single") 이 루트에 role="group" 을, 항목에 role="radio" 를 준다. ',
-    'ARIA 는 radio 의 소유자로 radiogroup 을 요구하므로(aria-required-parent) 보조기술이 ',
-    '"3개 중 1번째" 같은 위치 정보를 읽어주지 못한다.',
-  ].join(''),
 } as const
 
 type DebtId = keyof typeof KNOWN_KEYBOARD_DEBT
@@ -369,10 +364,14 @@ describe('SegmentBar — 그룹 안 roving', () => {
     expect(checkedStates('radio')).toEqual(['false', 'false', 'true'])
   })
 
-  it(`${debt('SegmentBar.radio가_radiogroup_밖')} 항목이 role="radio" 인데 부모가 role="group" 이다`, () => {
+  it('role="radio" 의 부모가 radiogroup 이다', () => {
+    // ARIA 는 radio 의 소유자로 radiogroup 을 요구한다(aria-required-parent).
+    // Radix ToggleGroup 은 루트에 role="group" 을 주므로 우리가 덮어써야 한다 —
+    // 없으면 보조기술이 "3개 중 1번째" 같은 위치 정보를 읽어주지 못한다.
     renderSegmentBar()
     const item = screen.getAllByRole('radio')[0]
-    expect(item.parentElement?.getAttribute('role')).toBe('group')
+    expect(item.parentElement?.getAttribute('role')).toBe('radiogroup')
+    expect(screen.getByRole('radiogroup')).toBeDefined()
   })
 })
 
@@ -611,7 +610,6 @@ describe('부채·미검증 목록', () => {
     // 목록이 늘어나면 이 단언이 먼저 깨진다 — 승인 없이 부채가 쌓이는 것을 막는다.
     expect(Object.keys(KNOWN_KEYBOARD_DEBT)).toEqual([
       'NavVertical.탭스톱이_포커스를_따라가지_않음',
-      'SegmentBar.radio가_radiogroup_밖',
     ])
     for (const reason of Object.values(KNOWN_KEYBOARD_DEBT)) {
       expect(reason.length).toBeGreaterThan(40)

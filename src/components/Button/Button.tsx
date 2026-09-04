@@ -116,6 +116,13 @@ export interface ButtonProps
   iconLeading?: ReactNode
   /** Trailing icon slot. */
   iconTrailing?: ReactNode
+  /**
+   * Native button type. Defaults to `'button'` — HTML's own default is `'submit'`,
+   * which turns every button inside a form into a submit button by accident.
+   * Not applied when `asChild` is set: the consumer element may not be a `<button>`.
+   * @default 'button'
+   */
+  type?: 'button' | 'submit' | 'reset'
   /** Radix Slot — renders the child element with this component's styles.
    * The child (a single element) becomes the root: ring, overlay, icons and spinner are
    * placed inside it. There is no content wrapper on this path, so `loading` hides the
@@ -135,6 +142,7 @@ export function Button({
   loading = false,
   iconLeading,
   iconTrailing,
+  type = 'button',
   asChild = false,
   className,
   children,
@@ -181,6 +189,8 @@ export function Button({
       {...rest}
       // rest 스프레드보다 뒤에 둬야 소비자 onClick 이 가드를 덮어쓰지 않는다.
       onClick={handleClick}
+      // asChild 면 소비자 요소가 <button> 이 아닐 수 있어 붙이지 않는다.
+      type={asChild ? undefined : type}
       // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
       // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
       // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.

@@ -127,7 +127,7 @@
           "radius-basic": "16px → --comp-segment-bar-radius-lg (primitive-radius-4)"
         },
         "item": {
-          "height": "44px → --comp-segment-item-height-lg",
+          "height": "44px → --comp-segment-item-height-lg (primitive-spacing-11). 컨트롤은 아이템이 아니라 레일이다 — 레일 = 44 + 패딩 2×2 = 48. 근거: docs/rfcs/2026-09-control-height.md",
           "typography": "typography-16-medium",
           "px-fill": "16px → --comp-segment-item-px-fill-lg (primitive-spacing-4)",
           "radius-basic": "12px → --comp-segment-item-radius-lg (primitive-radius-3)",

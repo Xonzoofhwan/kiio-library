@@ -126,6 +126,7 @@ kiio-library/
 - CLAUDE.md에는 **핵심 규칙과 빠른 참조**만 둔다. 상세 가이드는 `docs/`에 별도 문서로 분리한다.
 - 새 규칙/가이드 추가 시: (1) `docs/`에 주제별 문서 생성 → (2) CLAUDE.md의 관련 섹션에 `> ... 참고` 링크 추가 → (3) 위 테이블에 행 추가
 - 문서는 **주제/맥락 단위**로 분리한다 (시간순이나 작업순 아님).
+- `npm run docs:check`가 문서의 정합을 판정한다 — 상대 링크 존재(D1) · 스킬 frontmatter(D2) · 문서가 언급하는 semantic 패밀리가 실재하는가(D3) · 모션 표 ↔ tailwind.config 양방향 일치(D4) · specs ↔ components ↔ showcase 3자 정합(D5) · 스킬 문서의 소스 경로(D6). `npm run check`가 함께 돌린다.
 
 ### Import Path Alias
 - `@/` maps to `src/` (configured in `tsconfig.app.json` + `vite.config.ts`)

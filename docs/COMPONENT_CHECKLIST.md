@@ -61,14 +61,29 @@
 - [ ] Barrel export: `index.ts`
 - [ ] Both interface and component exported from index
 
-## Testing (Phase 5 설정 후 적용)
-- [ ] All size combinations tested
-- [ ] All variant combinations tested
-- [ ] All states tested (hover, focus, disabled, etc.)
-- [ ] Icons scale correctly with size (if applicable)
-- [ ] Loading state works (if applicable)
-- [ ] Works with and without optional props
-- [ ] No console errors or warnings
+## Testing
+
+```bash
+npm run check          # lint → build → test:run → docs:check
+```
+
+**스크립트가 판정하는 것** — 손으로 다시 세지 않고 결과를 읽는다:
+- [ ] `tokenContract` T1–T7 — var 무결성 · `:root` 스코프 · 테마 완전성 · 컨트롤 높이 · 리터럴 · 타이포 · 하드코딩
+- [ ] `cssContract` — hover는 포인터 가드 안, active는 밖, reduced-motion
+- [ ] `a11ySmoke` — axe 위반 0 (열린 상태 포함). 새 컴포넌트는 케이스를 **추가**한다
+- [ ] `keyboardContract` — roving tabindex · 활성화 키. 새 인터랙티브 컴포넌트는 케이스를 **추가**한다
+- [ ] `docs:check` D5 — specs ↔ components ↔ showcase 3자 정합
+- [ ] 인터랙티브면 `tokenContract.test.ts`의 `CONTROLS`에 **등록**했는가 — 등록하지 않으면 T4가 보지 않는다
+
+**사람이 판정하는 것** — 스크립트가 볼 수 없다:
+- [ ] 모든 size × variant 조합이 시각적으로 의도대로 보이는가 (jsdom은 Tailwind 시트를 로드하지 않는다)
+- [ ] hover·focus·pressed·disabled·loading의 **시각** 상태
+- [ ] 아이콘이 size에 맞게 커지는가
+- [ ] 두 테마(light·dark)에서 확인했는가
+- [ ] 콘솔 에러·경고 없음
+
+> **green의 기준**은 명령이 끝난 것이 아니라 **출력을 읽고** 실패·경고·skip이 없음을 확인한 것이다.
+> 각 검사의 `UNMEASURED_*` 목록이 비어 있지 않은 한 "전부 통과"라고 쓰지 않는다.
 
 ## Code Quality
 - [ ] No hardcoded values (colors, spacing, fonts, duration, easing)

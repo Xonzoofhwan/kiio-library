@@ -53,9 +53,11 @@ import {
  * 아래 특성화 테스트가 현재 동작을 고정하므로, 고치는 순간 red 가 나서 이 목록도 함께 정리된다.
  */
 const KNOWN_DEFECTS: Record<string, string> = {
-  'type 을 지정하지 않는다':
-    '같은 저장소의 ChipUniversal 은 type={asChild ? undefined : "button"} 을 준다. Button 은 ' +
-    '주지 않아 HTML 기본값인 submit 이 되고, form 안에 놓으면 클릭이 곧 제출이다.',
+  // **비어 있다.** 등록됐던 두 항목은 전부 해소됐다 (2026-09-05):
+  // - 'asChild 가 항상 던진다' → Slottable 로 소비자 자식을 감쌌다
+  // - 'type 을 지정하지 않는다' → type prop 을 추가하고 기본값을 'button' 으로 뒀다
+  // 목록이 비었다는 것은 "Button 에 결함이 없다"가 아니라 "여기 적힌 것이 없다"는 뜻이다.
+  // UNMEASURED_ASPECTS 를 함께 읽어라.
 }
 
 /**
@@ -226,10 +228,24 @@ describe('Button — 기본 표면', () => {
     expect(findContentWrapper(root)?.textContent).toBe('저장')
   })
 
-  it('[알려진 결함] type 을 지정하지 않아 form 안에서 submit 이 된다', () => {
-    // KNOWN_DEFECTS['type 을 지정하지 않는다'] 를 고정한다. type="button" 을 넣으면 이 단언이 실패한다.
-    const root = renderButton(<Button>저장</Button>)
-    expect(root.getAttribute('type')).toBeNull()
+  it('type 의 기본값이 button 이다 — HTML 기본값 submit 을 덮는다', () => {
+    // HTML 의 기본값은 submit 이라, 지정하지 않으면 form 안의 모든 버튼이 제출 버튼이 된다.
+    // 실수로 제출되는 쪽보다 명시적으로 제출을 요구하는 쪽이 안전하다.
+    expect(renderButton(<Button>저장</Button>).getAttribute('type')).toBe('button')
+  })
+
+  it('type 을 넘기면 그대로 나간다', () => {
+    expect(renderButton(<Button type="submit">저장</Button>).getAttribute('type')).toBe('submit')
+    expect(renderButton(<Button type="reset">초기화</Button>).getAttribute('type')).toBe('reset')
+  })
+
+  it('asChild 면 type 을 붙이지 않는다 — 소비자 요소가 button 이 아닐 수 있다', () => {
+    const { container } = render(
+      <Button asChild>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+    expect(container.querySelector('a')!.hasAttribute('type')).toBe(false)
   })
 })
 
@@ -328,11 +344,13 @@ describe('Button — loading', () => {
   it('로딩이 아니면 제출된다 — 가드가 항상 막는 것이 아니다', async () => {
     // 위 케이스의 대조군. 가드가 무조건 preventDefault 하도록 잘못 짜여도 그 쪽은 통과하므로,
     // "막지 않아야 할 때 막지 않는가"를 함께 본다.
+    // type="submit" 을 명시하는 이유: 기본값이 'button' 이라 지정하지 않으면 제출 자체가
+    // 일어나지 않아 이 대조가 성립하지 않는다.
     const user = userEvent.setup()
     const onSubmit = vi.fn((event: { preventDefault: () => void }) => event.preventDefault())
     const { container } = render(
       <form onSubmit={onSubmit}>
-        <Button>저장</Button>
+        <Button type="submit">저장</Button>
       </form>,
     )
 
@@ -633,7 +651,8 @@ describe('Button — 부채·미검증 목록', () => {
     const defects = Object.keys(KNOWN_DEFECTS)
     for (const name of defects) expect(KNOWN_DEFECTS[name].length).toBeGreaterThan(0)
     // 비어 있지 않은 한 이 파일의 green 을 "Button 계약 이상 없음"으로 읽으면 안 된다.
-    expect(defects).toEqual(['type 을 지정하지 않는다'])
+    // 목록을 리터럴로 대조한다 — 승인 없이 항목이 늘거나 조용히 줄면 여기서 먼저 깨진다.
+    expect(defects).toEqual([])
   })
 
   it('미검증 항목은 사유와 함께 남아 있다', () => {
