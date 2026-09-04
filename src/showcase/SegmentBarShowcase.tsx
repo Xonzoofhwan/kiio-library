@@ -11,7 +11,7 @@ export const SEGMENT_BAR_TOC: TocEntry[] = [
   { id: 'segment-bar-sizes-hug', label: 'Sizes (Hug)' },
   { id: 'segment-bar-shapes', label: 'Shapes' },
   { id: 'segment-bar-icons', label: 'With Icons' },
-  { id: 'segment-bar-badge', label: 'With Badge' },
+  { id: 'segment-bar-badge-dot', label: 'With Badge Dot' },
   { id: 'segment-bar-controlled', label: 'Controlled' },
   { id: 'segment-bar-disabled', label: 'Disabled' },
 ]
@@ -87,33 +87,33 @@ export function SegmentBarShowcase() {
         <SectionTitle>With Icons</SectionTitle>
         <div className="flex flex-col gap-6">
           <SegmentBar defaultValue="chart" size="small" shape="basic">
-            <SegmentBar.Item value="chart" icon={<Icon name="bar_chart" />}>Chart</SegmentBar.Item>
-            <SegmentBar.Item value="table" icon={<Icon name="table_rows" />}>Table</SegmentBar.Item>
-            <SegmentBar.Item value="grid" icon={<Icon name="grid_view" />}>Grid</SegmentBar.Item>
+            <SegmentBar.Item value="chart" iconLeading={<Icon name="bar_chart" />}>Chart</SegmentBar.Item>
+            <SegmentBar.Item value="table" iconLeading={<Icon name="table_rows" />}>Table</SegmentBar.Item>
+            <SegmentBar.Item value="grid" iconLeading={<Icon name="grid_view" />}>Grid</SegmentBar.Item>
           </SegmentBar>
 
           <SegmentBar defaultValue="list" size="medium" shape="circular">
-            <SegmentBar.Item value="list" icon={<Icon name="view_list" />}>List</SegmentBar.Item>
-            <SegmentBar.Item value="board" icon={<Icon name="view_kanban" />}>Board</SegmentBar.Item>
-            <SegmentBar.Item value="calendar" icon={<Icon name="calendar_month" />}>Calendar</SegmentBar.Item>
+            <SegmentBar.Item value="list" iconLeading={<Icon name="view_list" />}>List</SegmentBar.Item>
+            <SegmentBar.Item value="board" iconLeading={<Icon name="view_kanban" />}>Board</SegmentBar.Item>
+            <SegmentBar.Item value="calendar" iconLeading={<Icon name="calendar_month" />}>Calendar</SegmentBar.Item>
           </SegmentBar>
         </div>
       </section>
 
-      {/* ─── With Badge ───────────────────────────────────────── */}
-      <section id="segment-bar-badge" className="mb-12">
-        <SectionTitle>With Badge</SectionTitle>
+      {/* ─── With Badge Dot ───────────────────────────────────── */}
+      <section id="segment-bar-badge-dot" className="mb-12">
+        <SectionTitle>With Badge Dot</SectionTitle>
         <div className="flex flex-col gap-6">
           <SegmentBar defaultValue="inbox" size="medium" shape="basic">
-            <SegmentBar.Item value="inbox" badge>Inbox</SegmentBar.Item>
+            <SegmentBar.Item value="inbox" badgeDot>Inbox</SegmentBar.Item>
             <SegmentBar.Item value="sent">Sent</SegmentBar.Item>
-            <SegmentBar.Item value="drafts" badge>Drafts</SegmentBar.Item>
+            <SegmentBar.Item value="drafts" badgeDot>Drafts</SegmentBar.Item>
           </SegmentBar>
 
           <SegmentBar defaultValue="all" size="large" shape="basic">
             <SegmentBar.Item value="all">All</SegmentBar.Item>
-            <SegmentBar.Item value="unread" badge>Unread</SegmentBar.Item>
-            <SegmentBar.Item value="flagged" badge>Flagged</SegmentBar.Item>
+            <SegmentBar.Item value="unread" badgeDot>Unread</SegmentBar.Item>
+            <SegmentBar.Item value="flagged" badgeDot>Flagged</SegmentBar.Item>
           </SegmentBar>
         </div>
       </section>

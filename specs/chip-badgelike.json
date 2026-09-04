@@ -49,6 +49,11 @@
         "default": null,
         "description": "When provided, shows a close (X) icon. Clicking it calls this handler."
       },
+      "closeLabel": {
+        "type": "string",
+        "default": "Remove",
+        "description": "Accessible name (aria-label) of the close button. The button is icon-only, so this string is its only name. Named closeLabel rather than 'aria-label' because the root <span> already carries aria-label via HTMLAttributes — one name cannot address both elements. Default is 'Remove' (not Callout's 'Close') because the accessible name states the outcome: a chip is removed from a list."
+      },
       "disabled": {
         "type": "boolean",
         "default": false,
@@ -102,7 +107,7 @@
         "height": "20px → var(--comp-chip-badgelike-height-xs)",
         "paddingX": "4px → var(--comp-chip-badgelike-px-xs)",
         "gap": "6px → var(--comp-chip-badgelike-gap)",
-        "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+        "typography": "typography-10-medium",
         "radius": "4px → var(--comp-chip-badgelike-radius-xs)",
         "iconSize": "12px → var(--comp-chip-badgelike-icon-xs)"
       }
@@ -155,11 +160,30 @@
       "all": "state overlay: semantic-state-on-bright-70"
     },
     "focused": {
-      "all": "border-2 semantic-neutral-solid-1000 (focus-visible only)"
+      "all": "border-2 semantic-neutral-solid-1000 — shown while a descendant has focus (group-focus-within, not focus-visible); today that is only the close button"
     },
     "disabled": {
       "description": "pointer-events-none, opacity-50"
     }
+  },
+
+  "a11y": {
+    "_comment": "Keyboard and ARIA contract. \"N/A - <reason>\" is a valid answer, an empty field is not.",
+    "role": "The chip root is a plain <span> with no role — it is a label, not a control. The close button is native: <button type=\"button\">.",
+    "keyboard": {
+      "Tab": "The root is not focusable. Focus enters the close button only when onClose is given; it is the chip's single tab stop. disabled removes it from the tab order (native disabled) and the root also drops pointer-events.",
+      "Enter": "Activates the focused close button (native button behaviour) → onClose. The click handler stops propagation so a surrounding clickable surface does not also fire.",
+      "Space": "Same as Enter — native button.",
+      "Arrow": "N/A - not a composite widget. Arrow keys are not intercepted.",
+      "Escape": "N/A - nothing to dismiss."
+    },
+    "aria": [
+      "aria-label on the close button — supplied by closeLabel, defaults to \"Remove\". The icon is inline SVG with no text, so this is the button's only accessible name.",
+      "aria-hidden on the focus ring and state overlay spans — decoration only.",
+      "The chip text is plain content; no aria-* is emitted on the root."
+    ],
+    "focus": "sequential",
+    "focusVisible": "A sibling <span> ring (border-2, var(--comp-chip-badgelike-focus-border)) fades in on group-focus-within; the close button suppresses its own UA outline (outline-none). Today the close button is the only focusable descendant, so focus-within is equivalent to focusing it."
   },
 
   "implementation": {
@@ -169,16 +193,17 @@
       "ChipBadgeLikeEmphasized": "Same CVA as Universal + colorMap for color × weight (semantic-emphasized tokens).",
       "ChipBadgeLikeError": "Same CVA as Universal + errorMap for weight (semantic-error tokens)."
     },
-    "sharedModule": "src/components/Chip/chip-badgelike-shared.ts — shared types, size constants, size map, close icon, color maps",
+    "sharedModule": "src/components/Chip/chip-badgelike-constants.ts — variant arrays, types, size map, emphasized color map. src/components/Chip/chip-badgelike-shared.tsx — CloseIcon, the shared ChipBadgeLikeClose button, and ChipBadgeLikeClosableProps (onClose·closeLabel) which all three props interfaces extend.",
     "stateOverlay": "Absolute <span> inside component with group-hover/group-active classes. Root needs 'group relative'.",
-    "focusRing": "Absolute <span> with border-2, opacity toggle on group-focus-visible (keyboard focus on close button).",
-    "closeButton": "Inline <button> inside the chip, renders close X SVG. Triggers onClose. Chip root stays <span>.",
+    "focusRing": "Absolute <span> with border-2, opacity toggle on group-focus-within — today the close button is the only focusable descendant.",
+    "closeButton": "ChipBadgeLikeClose (chip-badgelike-shared.tsx) renders one <button> with the close X SVG for all three chips. Triggers onClose; aria-label comes from closeLabel with a single shared default. Chip root stays <span>.",
     "openTypeFeatures": "'case' 1, 'lnum' 1, 'pnum' 1",
     "files": [
       "src/components/Chip/ChipBadgeLikeUniversal.tsx",
       "src/components/Chip/ChipBadgeLikeEmphasized.tsx",
       "src/components/Chip/ChipBadgeLikeError.tsx",
-      "src/components/Chip/chip-badgelike-shared.ts"
+      "src/components/Chip/chip-badgelike-constants.ts",
+      "src/components/Chip/chip-badgelike-shared.tsx"
     ],
     "dependencies": []
   }

@@ -1,6 +1,6 @@
 export { ChipUniversal } from './ChipUniversal'
-export type { ChipUniversalProps, ChipUniversalSize } from './ChipUniversal'
-export { CHIP_UNIVERSAL_SIZES } from './ChipUniversal'
+export type { ChipUniversalProps, ChipUniversalSize, ChipUniversalPurpose } from './ChipUniversal'
+export { CHIP_UNIVERSAL_SIZES, CHIP_UNIVERSAL_PURPOSES } from './ChipUniversal'
 
 export { ChipBadgeLikeUniversal } from './ChipBadgeLikeUniversal'
 export type { ChipBadgeLikeUniversalProps } from './ChipBadgeLikeUniversal'

@@ -44,7 +44,7 @@ export function TabShowcase() {
           <Tab defaultValue="all" variant="circular" size="large">
             <Tab.List>
               <Tab.Item value="all">All</Tab.Item>
-              <Tab.Item value="active" badge>Active</Tab.Item>
+              <Tab.Item value="active" badgeDot>Active</Tab.Item>
               <Tab.Item value="completed">Completed</Tab.Item>
             </Tab.List>
           </Tab>
@@ -88,7 +88,7 @@ export function TabShowcase() {
           <Tab defaultValue="overview" variant="underlined">
             <Tab.List>
               <Tab.Item value="overview">Overview</Tab.Item>
-              <Tab.Item value="analytics" badge>Analytics</Tab.Item>
+              <Tab.Item value="analytics" badgeDot>Analytics</Tab.Item>
               <Tab.Item value="reports">Reports</Tab.Item>
             </Tab.List>
           </Tab>

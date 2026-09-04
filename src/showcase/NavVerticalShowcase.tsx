@@ -36,10 +36,10 @@ export function NavVerticalShowcase() {
         <SectionTitle>Basic</SectionTitle>
         <div className="w-[220px]">
           <NavVertical defaultValue="valuation">
-            <NavVertical.Item value="valuation" icon={<Icon name="analytics" />}>Valuation</NavVertical.Item>
-            <NavVertical.Item value="dividends" icon={<Icon name="payments" />}>Dividends</NavVertical.Item>
-            <NavVertical.Item value="earnings" icon={<Icon name="star" />}>Earnings</NavVertical.Item>
-            <NavVertical.Item value="balance" icon={<Icon name="folder" />}>Balance Sheet</NavVertical.Item>
+            <NavVertical.Item value="valuation" iconLeading={<Icon name="analytics" />}>Valuation</NavVertical.Item>
+            <NavVertical.Item value="dividends" iconLeading={<Icon name="payments" />}>Dividends</NavVertical.Item>
+            <NavVertical.Item value="earnings" iconLeading={<Icon name="star" />}>Earnings</NavVertical.Item>
+            <NavVertical.Item value="balance" iconLeading={<Icon name="folder" />}>Balance Sheet</NavVertical.Item>
           </NavVertical>
         </div>
       </section>
@@ -53,9 +53,9 @@ export function NavVerticalShowcase() {
               <RowHeader>{size}</RowHeader>
               <div className="w-[220px]">
                 <NavVertical defaultValue="dashboard" size={size}>
-                  <NavVertical.Item value="dashboard" icon={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
-                  <NavVertical.Item value="analytics" icon={<Icon name="analytics" />}>Analytics</NavVertical.Item>
-                  <NavVertical.Item value="settings" icon={<Icon name="settings" />}>Settings</NavVertical.Item>
+                  <NavVertical.Item value="dashboard" iconLeading={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
+                  <NavVertical.Item value="analytics" iconLeading={<Icon name="analytics" />}>Analytics</NavVertical.Item>
+                  <NavVertical.Item value="settings" iconLeading={<Icon name="settings" />}>Settings</NavVertical.Item>
                 </NavVertical>
               </div>
             </div>
@@ -72,9 +72,9 @@ export function NavVerticalShowcase() {
               <RowHeader>{shape}</RowHeader>
               <div className="w-[220px]">
                 <NavVertical defaultValue="overview" shape={shape}>
-                  <NavVertical.Item value="overview" icon={<Icon name="dashboard" />}>Overview</NavVertical.Item>
-                  <NavVertical.Item value="reports" icon={<Icon name="analytics" />}>Reports</NavVertical.Item>
-                  <NavVertical.Item value="settings" icon={<Icon name="settings" />}>Settings</NavVertical.Item>
+                  <NavVertical.Item value="overview" iconLeading={<Icon name="dashboard" />}>Overview</NavVertical.Item>
+                  <NavVertical.Item value="reports" iconLeading={<Icon name="analytics" />}>Reports</NavVertical.Item>
+                  <NavVertical.Item value="settings" iconLeading={<Icon name="settings" />}>Settings</NavVertical.Item>
                 </NavVertical>
               </div>
             </div>
@@ -88,13 +88,13 @@ export function NavVerticalShowcase() {
         <div className="w-[220px]">
           <NavVertical defaultValue="dashboard">
             <NavVertical.Group label="Overview">
-              <NavVertical.Item value="dashboard" icon={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
-              <NavVertical.Item value="analytics" icon={<Icon name="analytics" />}>Analytics</NavVertical.Item>
+              <NavVertical.Item value="dashboard" iconLeading={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
+              <NavVertical.Item value="analytics" iconLeading={<Icon name="analytics" />}>Analytics</NavVertical.Item>
             </NavVertical.Group>
             <NavVertical.Group label="Account">
-              <NavVertical.Item value="profile" icon={<Icon name="person" />}>Profile</NavVertical.Item>
-              <NavVertical.Item value="notifications" icon={<Icon name="notifications" />}>Notifications</NavVertical.Item>
-              <NavVertical.Item value="settings" icon={<Icon name="settings" />}>Settings</NavVertical.Item>
+              <NavVertical.Item value="profile" iconLeading={<Icon name="person" />}>Profile</NavVertical.Item>
+              <NavVertical.Item value="notifications" iconLeading={<Icon name="notifications" />}>Notifications</NavVertical.Item>
+              <NavVertical.Item value="settings" iconLeading={<Icon name="settings" />}>Settings</NavVertical.Item>
             </NavVertical.Group>
           </NavVertical>
         </div>
@@ -106,17 +106,17 @@ export function NavVerticalShowcase() {
         <div className="w-[220px]">
           <NavVertical defaultValue="dashboard">
             <NavVertical.Group label="Overview" collapsible>
-              <NavVertical.Item value="dashboard" icon={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
-              <NavVertical.Item value="analytics" icon={<Icon name="analytics" />}>Analytics</NavVertical.Item>
+              <NavVertical.Item value="dashboard" iconLeading={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
+              <NavVertical.Item value="analytics" iconLeading={<Icon name="analytics" />}>Analytics</NavVertical.Item>
             </NavVertical.Group>
             <NavVertical.Group label="Account" collapsible>
-              <NavVertical.Item value="profile" icon={<Icon name="person" />}>Profile</NavVertical.Item>
-              <NavVertical.Item value="notifications" icon={<Icon name="notifications" />}>Notifications</NavVertical.Item>
-              <NavVertical.Item value="settings" icon={<Icon name="settings" />}>Settings</NavVertical.Item>
+              <NavVertical.Item value="profile" iconLeading={<Icon name="person" />}>Profile</NavVertical.Item>
+              <NavVertical.Item value="notifications" iconLeading={<Icon name="notifications" />}>Notifications</NavVertical.Item>
+              <NavVertical.Item value="settings" iconLeading={<Icon name="settings" />}>Settings</NavVertical.Item>
             </NavVertical.Group>
             <NavVertical.Group label="Favorites" collapsible defaultOpen={false}>
-              <NavVertical.Item value="starred" icon={<Icon name="star" />}>Starred</NavVertical.Item>
-              <NavVertical.Item value="archived" icon={<Icon name="folder" />}>Archived</NavVertical.Item>
+              <NavVertical.Item value="starred" iconLeading={<Icon name="star" />}>Starred</NavVertical.Item>
+              <NavVertical.Item value="archived" iconLeading={<Icon name="folder" />}>Archived</NavVertical.Item>
             </NavVertical.Group>
           </NavVertical>
         </div>
@@ -130,13 +130,13 @@ export function NavVerticalShowcase() {
           <RowHeader>Label (default)</RowHeader>
           <div className="w-[220px]">
             <NavVertical defaultValue="valuation">
-              <NavVertical.Item value="valuation" icon={<Icon name="analytics" />} badgeLabel="12">
+              <NavVertical.Item value="valuation" iconLeading={<Icon name="analytics" />} badgeLabel="12">
                 Valuation
               </NavVertical.Item>
-              <NavVertical.Item value="dividends" icon={<Icon name="payments" />} badgeLabel="3">
+              <NavVertical.Item value="dividends" iconLeading={<Icon name="payments" />} badgeLabel="3">
                 Dividends
               </NavVertical.Item>
-              <NavVertical.Item value="balance" icon={<Icon name="folder" />}>
+              <NavVertical.Item value="balance" iconLeading={<Icon name="folder" />}>
                 Balance Sheet
               </NavVertical.Item>
             </NavVertical>
@@ -148,21 +148,21 @@ export function NavVerticalShowcase() {
             <NavVertical defaultValue="features">
               <NavVertical.Item
                 value="features"
-                icon={<Icon name="star" />}
+                iconLeading={<Icon name="star" />}
                 badgeLabel={{ children: 'New', color: 'blue', weight: 'light' }}
               >
                 Features
               </NavVertical.Item>
               <NavVertical.Item
                 value="admin"
-                icon={<Icon name="settings" />}
+                iconLeading={<Icon name="settings" />}
                 badgeLabel={{ children: 'Admin', color: 'purple', weight: 'heavy' }}
               >
                 Admin Panel
               </NavVertical.Item>
               <NavVertical.Item
                 value="alerts"
-                icon={<Icon name="notifications" />}
+                iconLeading={<Icon name="notifications" />}
                 badgeLabel={{ children: '5', color: 'red', weight: 'light' }}
               >
                 Alerts
@@ -174,13 +174,13 @@ export function NavVerticalShowcase() {
           <RowHeader>Dot (default)</RowHeader>
           <div className="w-[220px]">
             <NavVertical defaultValue="dashboard">
-              <NavVertical.Item value="dashboard" icon={<Icon name="dashboard" />} badgeDot>
+              <NavVertical.Item value="dashboard" iconLeading={<Icon name="dashboard" />} badgeDot>
                 Dashboard
               </NavVertical.Item>
-              <NavVertical.Item value="earnings" icon={<Icon name="star" />} badgeDot>
+              <NavVertical.Item value="earnings" iconLeading={<Icon name="star" />} badgeDot>
                 Earnings
               </NavVertical.Item>
-              <NavVertical.Item value="balance" icon={<Icon name="folder" />}>
+              <NavVertical.Item value="balance" iconLeading={<Icon name="folder" />}>
                 Balance Sheet
               </NavVertical.Item>
             </NavVertical>
@@ -192,21 +192,21 @@ export function NavVerticalShowcase() {
             <NavVertical defaultValue="messages">
               <NavVertical.Item
                 value="messages"
-                icon={<Icon name="chat" />}
+                iconLeading={<Icon name="chat" />}
                 badgeDot={{ color: 'green', size: 8 }}
               >
                 Messages
               </NavVertical.Item>
               <NavVertical.Item
                 value="updates"
-                icon={<Icon name="notifications" />}
+                iconLeading={<Icon name="notifications" />}
                 badgeDot={{ color: 'blue', size: 4 }}
               >
                 Updates
               </NavVertical.Item>
               <NavVertical.Item
                 value="warnings"
-                icon={<Icon name="analytics" />}
+                iconLeading={<Icon name="analytics" />}
                 badgeDot={{ color: 'orange', size: 8, outlined: true }}
               >
                 Warnings
@@ -218,15 +218,15 @@ export function NavVerticalShowcase() {
           <RowHeader>Combined</RowHeader>
           <div className="w-[220px]">
             <NavVertical defaultValue="valuation">
-              <NavVertical.Item value="valuation" icon={<Icon name="analytics" />} badgeLabel="12" badgeDot>
+              <NavVertical.Item value="valuation" iconLeading={<Icon name="analytics" />} badgeLabel="12" badgeDot>
                 Valuation
               </NavVertical.Item>
-              <NavVertical.Item value="earnings" icon={<Icon name="star" />} badgeDot>
+              <NavVertical.Item value="earnings" iconLeading={<Icon name="star" />} badgeDot>
                 Earnings
               </NavVertical.Item>
               <NavVertical.Item
                 value="admin"
-                icon={<Icon name="settings" />}
+                iconLeading={<Icon name="settings" />}
                 badgeLabel={{ children: 'Admin', color: 'purple' }}
               >
                 Admin
@@ -242,9 +242,9 @@ export function NavVerticalShowcase() {
         <div className="flex gap-8 items-start">
           <div className="w-[220px]">
             <NavVertical value={controlledValue} onValueChange={setControlledValue}>
-              <NavVertical.Item value="dashboard" icon={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
-              <NavVertical.Item value="analytics" icon={<Icon name="analytics" />}>Analytics</NavVertical.Item>
-              <NavVertical.Item value="settings" icon={<Icon name="settings" />}>Settings</NavVertical.Item>
+              <NavVertical.Item value="dashboard" iconLeading={<Icon name="dashboard" />}>Dashboard</NavVertical.Item>
+              <NavVertical.Item value="analytics" iconLeading={<Icon name="analytics" />}>Analytics</NavVertical.Item>
+              <NavVertical.Item value="settings" iconLeading={<Icon name="settings" />}>Settings</NavVertical.Item>
             </NavVertical>
           </div>
           <div className="flex flex-col gap-2">

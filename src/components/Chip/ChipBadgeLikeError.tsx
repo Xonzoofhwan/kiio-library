@@ -4,7 +4,7 @@ import {
   chipBadgeLikeSizeMap,
   type ChipBadgeLikeSize, type ChipBadgeLikeShape, type ChipBadgeLikeWeight,
 } from './chip-badgelike-constants'
-import { CloseIcon } from './chip-badgelike-shared'
+import { ChipBadgeLikeClose, type ChipBadgeLikeClosableProps } from './chip-badgelike-shared'
 
 /* ─── Weight classes (error) ──────────────────────────────────────────────── */
 
@@ -23,7 +23,7 @@ const shapeRadius: Record<ChipBadgeLikeShape, string | null> = {
 
 /* ─── Props ───────────────────────────────────────────────────────────────── */
 
-export interface ChipBadgeLikeErrorProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
+export interface ChipBadgeLikeErrorProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'>, ChipBadgeLikeClosableProps {
   /** Size variant.
    * @default 'medium' */
   size?: ChipBadgeLikeSize
@@ -33,8 +33,8 @@ export interface ChipBadgeLikeErrorProps extends Omit<HTMLAttributes<HTMLSpanEle
   /** Color intensity — light (tinted bg) or heavy (solid bg).
    * @default 'light' */
   weight?: ChipBadgeLikeWeight
-  /** When provided, shows a close (X) icon. Clicking it calls this handler. */
-  onClose?: () => void
+  // Close 파트의 prop(onClose·closeLabel)은 ChipBadgeLikeClosableProps 에서 온다 —
+  // 3종이 같은 선언을 세 번 갖지 않도록 chip-badgelike-shared 에 한 번만 둔다.
   /** Disables interaction and dims appearance.
    * @default false */
   disabled?: boolean
@@ -49,6 +49,7 @@ export function ChipBadgeLikeError({
   shape = 'basic',
   weight = 'light',
   onClose,
+  closeLabel,
   disabled = false,
   children,
   className,
@@ -97,18 +98,12 @@ export function ChipBadgeLikeError({
 
       {/* Close button */}
       {onClose && (
-        <button
-          type="button"
-          aria-label="Remove"
-          onClick={(e) => { e.stopPropagation(); onClose() }}
+        <ChipBadgeLikeClose
+          label={closeLabel}
+          onClose={onClose}
           disabled={disabled}
-          className={cn(
-            'relative z-[1] flex-shrink-0 cursor-pointer outline-none',
-            s.icon,
-          )}
-        >
-          <CloseIcon className="size-full" />
-        </button>
+          iconClassName={s.icon}
+        />
       )}
     </span>
   )

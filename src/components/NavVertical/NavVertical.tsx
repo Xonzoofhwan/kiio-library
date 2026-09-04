@@ -344,8 +344,8 @@ export interface NavVerticalItemProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'value'> {
   /** Unique identifier matched against the root value. */
   value: string
-  /** Leading icon slot. */
-  icon?: ReactNode
+  /** Leading icon slot — 텍스트 앞자리에 고정으로 그려진다. */
+  iconLeading?: ReactNode
   /** Badge label — pass string/ReactNode for defaults (gray, light),
    *  or a config object to customize color/weight.
    *  @example badgeLabel="New"
@@ -365,7 +365,7 @@ export interface NavVerticalItemProps
 
 function NavVerticalItem({
   value: itemValue,
-  icon,
+  iconLeading,
   badgeLabel,
   badgeDot = false,
   disabled = false,
@@ -434,12 +434,12 @@ function NavVerticalItem({
       )}
 
       {/* Icon */}
-      {icon && (
+      {iconLeading && (
         <span
           className={cn('relative z-[1] flex-shrink-0 flex items-center justify-center [&>*]:[font-size:inherit]', iconSizeMap[size])}
           style={{ fontSize: iconFontSizeVar[size] }}
         >
-          {icon}
+          {iconLeading}
         </span>
       )}
 

@@ -68,7 +68,7 @@
           "default": false,
           "description": "Disables this tab. Applies pointer-events-none + opacity-50 and passes disabled to Radix, which removes the tab from roving focus."
         },
-        "badge": {
+        "badgeDot": {
           "type": "boolean",
           "default": false,
           "description": "Show a red BadgeDot indicator (size 8). Position depends on variant and size."
@@ -119,7 +119,7 @@
         "text-active": "--comp-tab-text-circular-active (semantic-neutral-solid-0)",
         "listGap": "8px → --comp-tab-list-gap-circular (primitive-spacing-2)",
         "listBorder": "none",
-        "badge": "BadgeDot size=8 color='red', absolute, offset by --comp-tab-badge-offset-{lg|sm}"
+        "badgeDot": "BadgeDot size=8 color='red', absolute, offset by --comp-tab-badge-offset-{lg|sm}"
       },
       "underlined": {
         "shape": "flex-col, no radius, no background",
@@ -129,7 +129,7 @@
         "contentPadding": "pt 6px → --comp-tab-underline-pt (primitive-spacing-1.5) · pb 8px → --comp-tab-underline-gap (primitive-spacing-2)",
         "listGap": "16px → --comp-tab-list-gap-underlined (primitive-spacing-4)",
         "listBorder": "1px bottom → --comp-tab-list-border-underlined (semantic-divider-alpha-70)",
-        "badge": "BadgeDot size=8 color='red' at top 4px → --comp-tab-badge-top-underlined (primitive-spacing-1), right -4px → --comp-tab-badge-right-underlined (literal -4px)"
+        "badgeDot": "BadgeDot size=8 color='red' at top 4px → --comp-tab-badge-top-underlined (primitive-spacing-1), right -4px → --comp-tab-badge-right-underlined (literal -4px)"
       }
     },
     "size": {
@@ -188,7 +188,7 @@
     },
     "focused": {
       "all": "Absolute <span aria-hidden> with border-2 border-[var(--comp-tab-focus-border)] (semantic-neutral-solid-1000), opacity 0 → 1 on group-focus-visible, transition-opacity duration-fast ease-enter. rounded-full for circular; square for underlined.",
-      "note": "Tab.Item does not set outline-none, so the UA focus outline renders in addition to this ring. Tab.Panel does set outline-none while Radix gives it tabIndex=0 — the panel is focusable with no visible indicator. See a11y.focusVisible."
+      "note": "Tab.Item does not set outline-none, so the UA focus outline renders in addition to this ring. Tab.Panel suppresses the UA outline and draws its own focus-visible outline in its place — see a11y.focusVisible."
     },
     "disabled": {
       "opacity": 0.5,
@@ -209,10 +209,9 @@
     },
     "aria": ["aria-orientation", "aria-selected", "aria-controls", "aria-labelledby"],
     "focus": "roving — RovingFocusGroup keeps exactly one tab in the tab order (tabIndex=0 on the active tab, -1 on the rest). Disabled tabs are passed focusable=false and are skipped.",
-    "focusVisible": "Custom ring: absolute <span aria-hidden> with border-2 border-[var(--comp-tab-focus-border)], rounded-full for circular and square for underlined, faded in on group-focus-visible.",
+    "focusVisible": "Tab.Item — custom ring: absolute <span aria-hidden> with border-2 border-[var(--comp-tab-focus-border)], rounded-full for circular and square for underlined, faded in on group-focus-visible. Tab.Panel — outline-none plus focus-visible:outline-2 outline-offset-2 outline-[var(--comp-tab-focus-border)], because Radix makes the panel a focus stop (tabIndex=0).",
     "gaps": [
-      "Tab.Item does not set outline-none, so the UA focus outline draws on top of the custom ring. Button and TextButton share this; Checkbox, Radio, Switch, Chip, SegmentBar and NavVertical all suppress it — the convention is split, not settled.",
-      "Tab.Panel sets outline-none (Tab.tsx:277) on an element Radix gives tabIndex=0. That focus stop therefore has no visible focus indicator at all."
+      "Tab.Item does not set outline-none, so the UA focus outline draws on top of the custom ring. Button and TextButton share this; Checkbox, Radio, Switch, Chip, SegmentBar and NavVertical all suppress it — the convention is split, not settled."
     ]
   },
 
@@ -231,7 +230,7 @@
       "      span (content: relative z-1; underlined adds pt/pb)",
       "      BadgeDot (absolute z-2, conditional)",
       "      span (underlined only: bottom indicator, absolute, h 2px)",
-      "  div[role=tabpanel] (Tab.Panel: outline-none)"
+      "  div[role=tabpanel] (Tab.Panel: outline-none + focus-visible outline)"
     ],
     "files": [
       "src/components/Tab/Tab.tsx",
@@ -250,7 +249,7 @@
     },
     "exports": [
       "Tab (compound: TabGroup + { List, Item, Panel })",
-      "TabGroupProps, TabListProps, TabItemProps, TabPanelProps (types)",
+      "TabProps, TabListProps, TabItemProps, TabPanelProps (types)",
       "TAB_VARIANTS, TAB_SIZES (as const arrays)",
       "TabVariant, TabSize (derived types)"
     ],

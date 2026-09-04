@@ -15,6 +15,7 @@ export const CHIP_BADGELIKE_TOC: TocEntry[] = [
   { id: 'chip-badgelike-error', label: 'Error' },
   { id: 'chip-badgelike-shapes', label: 'Shapes' },
   { id: 'chip-badgelike-no-close', label: 'Without Close' },
+  { id: 'chip-badgelike-close-label', label: 'Close Label (a11y)' },
 ]
 
 const noop = () => {}
@@ -114,6 +115,28 @@ export function ChipBadgeLikeShowcase() {
           <ChipBadgeLikeEmphasized size="medium" color="blue">Blue</ChipBadgeLikeEmphasized>
           <ChipBadgeLikeEmphasized size="medium" color="purple" weight="heavy">Purple</ChipBadgeLikeEmphasized>
           <ChipBadgeLikeError size="medium">Error</ChipBadgeLikeError>
+        </div>
+      </section>
+
+      {/* ─── Close Label (a11y name) ──────────────────────────── */}
+      <section id="chip-badgelike-close-label" className="mb-12">
+        <SectionTitle>Close Label (a11y name)</SectionTitle>
+        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+          The close button is icon-only, so its accessible name comes from <code>closeLabel</code>.
+          It defaults to <code>Remove</code> — override it to translate the name or to say what is
+          being removed. Tab to a chip and inspect the button with a screen reader to hear the difference.
+        </p>
+        <div className="flex flex-wrap gap-3 items-center">
+          <ChipBadgeLikeUniversal size="medium" onClose={noop}>default (Remove)</ChipBadgeLikeUniversal>
+          <ChipBadgeLikeUniversal size="medium" onClose={noop} closeLabel="디자인 태그 삭제">
+            디자인
+          </ChipBadgeLikeUniversal>
+          <ChipBadgeLikeEmphasized size="medium" color="blue" onClose={noop} closeLabel="필터 삭제: 진행 중">
+            진행 중
+          </ChipBadgeLikeEmphasized>
+          <ChipBadgeLikeError size="medium" onClose={noop} closeLabel="첨부 파일 삭제: report.pdf">
+            report.pdf
+          </ChipBadgeLikeError>
         </div>
       </section>
     </div>

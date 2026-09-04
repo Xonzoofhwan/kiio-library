@@ -52,11 +52,11 @@
           "required": true,
           "description": "Unique value identifying this item."
         },
-        "icon": {
+        "iconLeading": {
           "type": "ReactNode",
-          "description": "Leading icon. Only rendered for small/medium sizes."
+          "description": "Leading icon slot. Only rendered for small/medium sizes."
         },
-        "badge": {
+        "badgeDot": {
           "type": "boolean",
           "default": false,
           "description": "Show red BadgeDot indicator. Size 4px (sm/md) or 8px (lg/xl)."
@@ -100,7 +100,7 @@
           "px-hug": "6px → --comp-segment-item-px-hug-sm (primitive-spacing-1.5)",
           "radius-basic": "6px → --comp-segment-item-radius-sm (primitive-radius-1.5)",
           "icon": "16px → --comp-segment-item-icon-sm",
-          "badge": "4px (BadgeDot size=4)",
+          "badgeDot": "4px (BadgeDot size=4)",
           "shadow-active": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)"
         }
       },
@@ -116,13 +116,14 @@
           "px-hug": "10px → --comp-segment-item-px-hug-md (primitive-spacing-2.5)",
           "radius-basic": "10px → --comp-segment-item-radius-md (primitive-radius-2.5)",
           "icon": "20px → --comp-segment-item-icon-md",
-          "badge": "4px (BadgeDot size=4)",
+          "badgeDot": "4px (BadgeDot size=4)",
           "shadow-active": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)"
         }
       },
       "large": {
         "container": {
-          "padding": "4px → --comp-segment-bar-padding-lg",
+          "_comment_padding": "토큰 기준으로 정정함 (기존 스펙 표기 4px → 2px) · Figma 재확인 필요. tokens.css 의 --comp-segment-bar-padding-lg 가 2px 이고 그것이 실제로 렌더되는 값이다. 4px 이면 레일 높이가 44 + 4×2 = 52 가 되어 허용 집합(20·24·28·32·36·40·48·56) 밖이다 — docs/rfcs/2026-09-control-height.md 참고.",
+          "padding": "2px → --comp-segment-bar-padding-lg",
           "radius-basic": "16px → --comp-segment-bar-radius-lg (primitive-radius-4)"
         },
         "item": {
@@ -130,9 +131,9 @@
           "typography": "typography-16-medium",
           "px-fill": "16px → --comp-segment-item-px-fill-lg (primitive-spacing-4)",
           "radius-basic": "12px → --comp-segment-item-radius-lg (primitive-radius-3)",
-          "badge": "8px (BadgeDot size=8)",
+          "badgeDot": "8px (BadgeDot size=8)",
           "shadow-active": "0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08)",
-          "note": "No icon support. fullWidth always true."
+          "note": "No iconLeading support. fullWidth always true."
         }
       },
       "xLarge": {
@@ -145,9 +146,9 @@
           "typography": "typography-18-medium",
           "px-fill": "16px → --comp-segment-item-px-fill-xl (primitive-spacing-4)",
           "radius-basic": "12px → --comp-segment-item-radius-xl (primitive-radius-3)",
-          "badge": "8px (BadgeDot size=8)",
+          "badgeDot": "8px (BadgeDot size=8)",
           "shadow-active": "0px 1px 3px rgba(0,0,0,0.04), 0px 2px 6px rgba(0,0,0,0.08)",
-          "note": "No icon support. fullWidth always true."
+          "note": "No iconLeading support. fullWidth always true."
         }
       }
     },
@@ -202,7 +203,7 @@
     "focusRing": "Separate <span aria-hidden> with border-2 + group-focus-visible:opacity-100. Radius matches shape. Inset shifts on active state.",
     "deselectionGuard": "onValueChange guarded with if(v) to prevent deselecting (Radix sends empty string on deselect).",
     "fullWidthForcing": "Large/xLarge sizes silently force fullWidth=true in root component.",
-    "iconConstraint": "Icons only render when size is 'small' or 'medium' AND icon prop is provided.",
+    "iconConstraint": "Icons only render when size is 'small' or 'medium' AND the iconLeading prop is provided.",
     "badgeComponent": "Uses imported BadgeDot from @/components/Badge. Size 4 for sm/md, size 8 for lg/xl.",
     "files": [
       "src/components/SegmentBar/SegmentBar.tsx",

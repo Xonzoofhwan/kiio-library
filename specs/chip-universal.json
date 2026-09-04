@@ -7,14 +7,20 @@
 
   "variantMetadata": {
     "CHIP_UNIVERSAL_SIZES": ["large", "medium"],
-    "_comment": "Declared in src/components/Chip/shared.tsx and re-exported from ChipUniversal.tsx, so both import paths resolve to the same array. There is no shape axis — the chip is always rounded-full."
+    "CHIP_UNIVERSAL_PURPOSES": ["toggle", "trigger", "action"],
+    "_comment": "CHIP_UNIVERSAL_SIZES is declared in src/components/Chip/shared.tsx and re-exported from ChipUniversal.tsx, so both import paths resolve to the same array. CHIP_UNIVERSAL_PURPOSES is declared in ChipUniversal.tsx itself — nothing else in the Chip folder uses it. `purpose` is not a CVA axis: it changes ARIA attributes only, never the paint. There is no shape axis — the chip is always rounded-full."
   },
 
   "props": {
     "selected": {
       "type": "boolean",
       "default": false,
-      "description": "Visual selection state. Drives the CVA `selected` variant and aria-pressed. Toggle/dropdown behaviour is the consumer's job via onClick."
+      "description": "Visual selection state. Drives the CVA `selected` variant, and is emitted as aria-pressed (purpose='toggle'), aria-expanded (purpose='trigger') or nothing at all (purpose='action'). Toggle/dropdown behaviour is the consumer's job via onClick. If the painted selection and the popup's open state differ, pass aria-expanded explicitly — the trailing spread wins."
+    },
+    "purpose": {
+      "type": "'toggle' | 'trigger' | 'action'",
+      "default": "toggle",
+      "description": "What the chip is used for. Splits the ARIA state attribute: toggle → aria-pressed, trigger → aria-expanded + aria-haspopup='true', action → neither. The default preserves the pre-split behaviour (aria-pressed always emitted). `action` exists because asChild + <a href> makes the element a link, and role=link does not allow aria-pressed."
     },
     "size": {
       "type": "'large' | 'medium'",
@@ -31,15 +37,15 @@
       "default": null,
       "description": "Trailing icon slot. Sits outside the inner icon+text group, so the outer gap applies to it."
     },
-    "badge": {
+    "badgeLabel": {
       "type": "ReactNode",
       "default": null,
-      "description": "Corner badge content. Rendered as BadgeLabel size='nano' shape='circular' weight='heavy' color='red', absolutely positioned at the top-right."
+      "description": "Corner badge content. Rendered as BadgeLabel size='nano' shape='circular' weight='heavy' color='red', absolutely positioned at the top-right. Named badgeLabel (not badge) per docs/ANATOMY.md A5 — a Badge carries content, a Dot does not, and SegmentBar.Item / Tab.Item use badgeDot: boolean for the dot."
     },
     "asChild": {
       "type": "boolean",
       "default": false,
-      "description": "Radix Slot — renders the child element with the chip styles. type='button' is dropped when asChild is set."
+      "description": "Radix Slot — renders the child element with the chip styles. type='button' is dropped when asChild is set. children must be a single React element. The consumer's element is wrapped in <Slottable> so the ring/overlay/badge spans can be siblings of it; without that, Radix's React.Children.only threw on every asChild render. The content wrapper does not exist on this path, so the root carries the gap (see implementation.domStructure)."
     },
     "disabled": {
       "type": "boolean",
@@ -49,12 +55,12 @@
     "children": {
       "type": "ReactNode",
       "required": true,
-      "description": "Label content. Wrapped in a span with px-1 (4px each side)."
+      "description": "Label content. Wrapped in a span with px-1 (4px each side) on the default path. With asChild it must be a single React element, it is passed through <Slottable>, and it gets no wrapper — so no px-1."
     },
     "className": { "type": "string" },
     "...rest": {
       "type": "Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>",
-      "description": "'color' is omitted to avoid colliding with the HTML color attribute. Spread last, so a consumer can override aria-pressed or type."
+      "description": "'color' is omitted to avoid colliding with the HTML color attribute. Spread last, so a consumer can override the purpose-derived aria attributes (aria-pressed / aria-expanded / aria-haspopup) or type."
     },
     "ref": {
       "type": "Ref<HTMLButtonElement>",
@@ -121,7 +127,7 @@
   },
 
   "a11y": {
-    "role": "native: <button type='button'>. With asChild the element is whatever the consumer renders, and no role is imposed on it.",
+    "role": "native: <button type='button'>. With asChild the element is whatever the consumer renders, and no role is imposed on it — use purpose='action' there when it is a link, since role=link forbids aria-pressed.",
     "keyboard": {
       "Tab": "Sequential — one tab stop, in DOM order. A chip row is plain DOM, not a composite widget.",
       "Enter": "Native button activation → onClick.",
@@ -129,12 +135,12 @@
       "Arrow": "N/A — a standalone control with no group semantics. Roving focus would require a wrapper this component does not provide.",
       "Escape": "N/A — not a dismissible layer."
     },
-    "aria": ["aria-pressed"],
+    "aria": ["aria-pressed (purpose='toggle')", "aria-expanded (purpose='trigger')", "aria-haspopup='true' (purpose='trigger')"],
     "focus": "sequential",
     "focusVisible": "Custom ring only: the CVA base sets outline-none, and an absolute <span aria-hidden> with border-2 rounded-full fades in on group-focus-visible (transition-opacity duration-fast ease-enter).",
     "gaps": [
-      "aria-pressed={selected} is emitted unconditionally, including for the dropdown-trigger use the `selected` JSDoc explicitly names. A trigger should expose aria-expanded/aria-haspopup instead; a consumer can only fix this by overriding through the trailing spread.",
-      "The badge renders BadgeLabel, a plain <span> with no aria-hidden, so its number is folded into the button's accessible name with no unit (e.g. '필터 3'). Compare BadgeDot, which is aria-hidden.",
+      "aria-haspopup is emitted as 'true' (menu) for every trigger, because the chip cannot know whether the popup is a menu, a listbox or a dialog. A consumer whose popup is not a menu must pass the exact value through the trailing spread.",
+      "badgeLabel renders BadgeLabel, a plain <span> with no aria-hidden, so its number is folded into the button's accessible name with no unit (e.g. '필터 3'). Compare BadgeDot, which is aria-hidden.",
       "With asChild, `disabled` is forwarded to the Slot child. On a non-button child it has no effect, leaving only pointer-events-none and opacity-50 — the element stays focusable and Enter still activates it."
     ]
   },
@@ -143,10 +149,11 @@
     "pattern": "CVA + cn + @radix-ui/react-slot + forwardRef",
     "stateOverlay": "Single absolute <span aria-hidden> inset-0 rounded-full. The hover/active token pair is chosen in JS from `selected` rather than with group-data attributes, because the chip has no data-state.",
     "focusRing": "Separate absolute <span aria-hidden> with border-2, opacity toggled by group-focus-visible. No pointerRef — unlike Button, this relies on the CSS :focus-visible pseudo-class alone.",
-    "iconSizing": "Icon containers get size-[var(--comp-chip-universal-icon-{lg|md})] plus flex-shrink-0 and [&>*]:[font-size:inherit], with an inline style={{ fontSize: size === 'large' ? 18 : 16 }}. The inline value is a raw number, not var(--comp-chip-universal-icon-*), so it duplicates the token value in JS — the Button family uses iconFontSizeVar with var() references instead.",
+    "iconSizing": "One renderIcon() helper builds both paths' containers: size-[var(--comp-chip-universal-icon-{lg|md})] plus flex-shrink-0 and [&>*]:[font-size:inherit], with style={{ fontSize: iconFontSizeVar[size] }}. iconFontSizeVar holds 'var(--comp-chip-universal-icon-{lg|md})', matching the Button family — the previous raw numbers (18 / 16) duplicated the token values in JS.",
     "badgePosition": "Absolute -top-1 -right-1 (−4px) z-[2] wrapper. Sits outside the content span, so it is unaffected by the content gaps.",
+    "asChild": "Slot + Slottable. The three content expressions (leading icon, <Slottable>{children}</Slottable>, trailing icon) are top-level siblings of Slot because Radix finds the Slottable with React.Children.toArray(children).find(isSlottable) — one level only, so a Fragment or wrapper span hides it and React.Children.only throws again. Since the content wrapper is gone on that path, the root takes gapMap[size]; iconLeading↔text spacing matches the default path (inner-gap + px-1 == gap), while text↔iconTrailing loses the 4px px-1. The consumer's content also has no z-[1] wrapper, so the hover/press overlay paints over it — the tints are 5-8% alpha, so this is accepted rather than worked around.",
     "domStructure": [
-      "button (root: bg, height, px, rounded-full, group relative, outline-none, press scale)",
+      "button (root: bg, height, px, rounded-full, group relative, outline-none, press scale; + gap when asChild)",
       "  span (focus ring: absolute inset-0, rounded-full, border-2, group-focus-visible)",
       "  span (state overlay: absolute inset-0, rounded-full, group-hover/group-active)",
       "  span (content: relative z-1, inline-flex, outer gap)",
@@ -156,13 +163,22 @@
       "    span (iconTrailing container, conditional)",
       "  span (badge wrapper: absolute -top-1 -right-1 z-2, conditional) → BadgeLabel"
     ],
+    "domStructureAsChild": [
+      "<consumer element> (root: same classes + gap; Slot injects the children below into it)",
+      "  span (focus ring)",
+      "  span (state overlay)",
+      "  span (iconLeading container, conditional)",
+      "  …the consumer element's own children (via Slottable)",
+      "  span (iconTrailing container, conditional)",
+      "  span (badge wrapper, conditional) → BadgeLabel"
+    ],
     "files": [
       "src/components/Chip/ChipUniversal.tsx",
       "src/components/Chip/shared.tsx",
       "src/components/Chip/index.ts"
     ],
     "dependencies": [
-      "@radix-ui/react-slot",
+      "@radix-ui/react-slot (Slot + Slottable)",
       "class-variance-authority",
       "src/lib/utils.ts (cn)",
       "@/components/Badge (BadgeLabel)"
@@ -174,8 +190,8 @@
     },
     "exports": [
       "ChipUniversal (from src/components/Chip/index.ts)",
-      "ChipUniversalProps, ChipUniversalSize (types)",
-      "CHIP_UNIVERSAL_SIZES (as const array)"
+      "ChipUniversalProps, ChipUniversalSize, ChipUniversalPurpose (types)",
+      "CHIP_UNIVERSAL_SIZES, CHIP_UNIVERSAL_PURPOSES (as const arrays)"
     ],
     "showcaseId": "chip-universal"
   }

@@ -89,7 +89,7 @@ export function TooltipProvider({
 
 /* ─── Tooltip (Root) ──────────────────────────────────────────────────────── */
 
-export interface TooltipRootProps {
+export interface TooltipProps {
   /** 열림 상태 (controlled). */
   open?: boolean
   /** 기본 열림 상태 (uncontrolled). */
@@ -114,7 +114,7 @@ function TooltipRoot({
   delayDuration,
   disableHoverableContent,
   children,
-}: TooltipRootProps) {
+}: TooltipProps) {
   const triggerRef = useRef<HTMLElement | null>(null)
 
   return (

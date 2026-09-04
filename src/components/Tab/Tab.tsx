@@ -65,7 +65,7 @@ const tabItemVariants = cva(
 
 /* ─── TabGroup (Root) ──────────────────────────────────────────────────────── */
 
-export interface TabGroupProps {
+export interface TabProps {
   /** Style variant of the tab bar.
    * @default 'circular'
    * @see {@link TAB_VARIANTS} */
@@ -96,7 +96,7 @@ function TabGroup({
   activationMode = 'automatic',
   children,
   className,
-}: TabGroupProps) {
+}: TabProps) {
   return (
     <TabContext.Provider value={{ variant, size }}>
       <RadixTabs.Root
@@ -155,10 +155,10 @@ export interface TabItemProps {
   disabled?: boolean
   /** Show badge dot indicator.
    * @default false */
-  badge?: boolean
+  badgeDot?: boolean
 }
 
-function TabItem({ value, children, className, disabled, badge }: TabItemProps) {
+function TabItem({ value, children, className, disabled, badgeDot }: TabItemProps) {
   const { variant, size } = useContext(TabContext)
 
   return (
@@ -221,7 +221,7 @@ function TabItem({ value, children, className, disabled, badge }: TabItemProps) 
       {variant === 'circular' && (
         <>
           <span className="relative z-[1]">{children}</span>
-          {badge && (
+          {badgeDot && (
             <BadgeDot
               size={8}
               color="red"
@@ -235,7 +235,7 @@ function TabItem({ value, children, className, disabled, badge }: TabItemProps) 
         <>
           <span className="relative z-[1] pt-[var(--comp-tab-underline-pt)] pb-[var(--comp-tab-underline-gap)]">
             {children}
-            {badge && (
+            {badgeDot && (
               <BadgeDot
                 size={8}
                 color="red"

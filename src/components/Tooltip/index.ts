@@ -12,7 +12,7 @@ export {
 
 export type {
   TooltipProviderProps,
-  TooltipRootProps,
+  TooltipProps,
   TooltipTriggerProps,
   TooltipContentProps,
   TooltipVariant,

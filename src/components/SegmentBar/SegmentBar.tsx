@@ -149,7 +149,7 @@ const badgeDotSizeMap: Record<SegmentBarSize, 4 | 8> = {
 }
 
 /* Badge dot position per segment size (absolute inside text wrapper) */
-const badgePositionMap: Record<SegmentBarSize, string> = {
+const badgeDotPositionMap: Record<SegmentBarSize, string> = {
   small: 'right-0 top-0',
   medium: 'right-0 top-[2px]',
   large: 'right-[4px] top-0',
@@ -268,11 +268,11 @@ function SegmentBarRoot({
 export interface SegmentBarItemProps {
   /** Unique value identifying this item. */
   value: string
-  /** Leading icon. Only rendered for small/medium sizes.  */
-  icon?: ReactNode
+  /** Leading icon slot. Only rendered for small/medium sizes. */
+  iconLeading?: ReactNode
   /** Show red BadgeDot indicator. Size 4px (sm/md) or 8px (lg/xl).
    * @default false */
-  badge?: boolean
+  badgeDot?: boolean
   /** Disable this item.
    * @default false */
   disabled?: boolean
@@ -282,14 +282,14 @@ export interface SegmentBarItemProps {
 
 function SegmentBarItem({
   value,
-  icon,
-  badge,
+  iconLeading,
+  badgeDot,
   disabled,
   children,
   className,
 }: SegmentBarItemProps) {
   const { size, shape, fullWidth } = useContext(SegmentBarContext)
-  const showIcon = (size === 'small' || size === 'medium') && !!icon
+  const showIcon = (size === 'small' || size === 'medium') && !!iconLeading
 
   return (
     <ToggleGroup.Item
@@ -338,16 +338,16 @@ function SegmentBarItem({
             className={cn('flex-shrink-0', iconSizeMap[size], '[&>*]:[font-size:inherit]')}
             style={iconFontSizeMap[size]}
           >
-            {icon}
+            {iconLeading}
           </span>
         )}
         <span className={cn('relative', textWrapperPxMap[size])}>
           {children}
-          {badge && (
+          {badgeDot && (
             <BadgeDot
               size={badgeDotSizeMap[size]}
               color="red"
-              className={cn('absolute', badgePositionMap[size])}
+              className={cn('absolute', badgeDotPositionMap[size])}
             />
           )}
         </span>

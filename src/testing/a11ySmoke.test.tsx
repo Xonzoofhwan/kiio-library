@@ -201,7 +201,7 @@ const CASES: SmokeCase[] = [
     name: 'SegmentBar',
     element: (
       <SegmentBar defaultValue="daily">
-        <SegmentBar.Item value="daily" icon={<Icon name="today" />}>
+        <SegmentBar.Item value="daily" iconLeading={<Icon name="today" />}>
           일간
         </SegmentBar.Item>
         <SegmentBar.Item value="weekly">주간</SegmentBar.Item>
@@ -214,7 +214,7 @@ const CASES: SmokeCase[] = [
       <Tab defaultValue="overview">
         <Tab.List>
           <Tab.Item value="overview">개요</Tab.Item>
-          <Tab.Item value="detail" badge>
+          <Tab.Item value="detail" badgeDot>
             상세
           </Tab.Item>
         </Tab.List>
@@ -230,7 +230,7 @@ const CASES: SmokeCase[] = [
     element: (
       <NavVertical defaultValue="home">
         <NavVertical.Group label="워크스페이스">
-          <NavVertical.Item value="home" icon={<Icon name="home" />}>
+          <NavVertical.Item value="home" iconLeading={<Icon name="home" />}>
             홈
           </NavVertical.Item>
           <NavVertical.Item value="reports" badgeDot>

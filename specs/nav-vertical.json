@@ -32,7 +32,7 @@
     },
     "item": {
       "value": { "type": "string", "required": true, "description": "Unique identifier, matched against root value" },
-      "icon": { "type": "ReactNode", "description": "Leading icon slot" },
+      "iconLeading": { "type": "ReactNode", "description": "Leading icon slot" },
       "badgeLabel": { "type": "ReactNode", "description": "Optional badge label content" },
       "badgeDot": { "type": "boolean", "default": false, "description": "Optional red dot indicator" },
       "disabled": { "type": "boolean", "default": false },
