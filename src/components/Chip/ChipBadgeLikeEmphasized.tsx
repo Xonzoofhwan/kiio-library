@@ -1,10 +1,11 @@
 import { type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 import {
-  CHIP_BADGELIKE_SIZES, CHIP_BADGELIKE_SHAPES, CHIP_BADGELIKE_WEIGHTS, CHIP_BADGELIKE_COLORS,
-  chipBadgeLikeSizeMap, emphasizedColorMap, CloseIcon,
+  CHIP_BADGELIKE_COLORS,
+  chipBadgeLikeSizeMap, emphasizedColorMap,
   type ChipBadgeLikeSize, type ChipBadgeLikeShape, type ChipBadgeLikeWeight, type ChipBadgeLikeColor,
-} from './chip-badgelike-shared'
+} from './chip-badgelike-constants'
+import { CloseIcon } from './chip-badgelike-shared'
 
 export { CHIP_BADGELIKE_COLORS }
 export type { ChipBadgeLikeColor }

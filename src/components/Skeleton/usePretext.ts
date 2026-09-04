@@ -1,10 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
-import {
-  prepareWithSegments,
-  layoutWithLines,
-  type PreparedTextWithSegments,
-  type LayoutLine,
-} from '@chenglou/pretext'
+import { useState, useEffect, useMemo } from 'react'
+import { prepareWithSegments, layoutWithLines, type LayoutLine } from '@chenglou/pretext'
 
 /* ─── Types ────────────────────────────────────────────────────────────────── */
 
@@ -41,9 +36,6 @@ export function usePretext({
   lineHeight,
 }: UsePretextOptions): UsePretextResult {
   const [fontReady, setFontReady] = useState(false)
-  const preparedRef = useRef<PreparedTextWithSegments | null>(null)
-  const prevTextRef = useRef<string | null>(null)
-  const prevFontRef = useRef<string | null>(null)
 
   // Wait for the font to load before measuring
   useEffect(() => {
@@ -54,37 +46,27 @@ export function usePretext({
     return () => { cancelled = true }
   }, [])
 
-  // Invalidate prepared cache when text or font changes
-  const getPrepared = useCallback(() => {
-    if (text == null) return null
+  // 세그먼트 준비는 text/font 에만 의존하므로 여기서 캐시한다.
+  // fontReady 를 의존성에 둔 이유: 폰트 로드 전에는 fallback 폰트 폭이 잡혀
+  // 실제 레이아웃과 어긋난다. 이전의 ref 캐시도 fontReady 가 켜진 뒤 첫 호출에서
+  // 채워졌으므로 준비 시점은 그대로다 — 렌더 중 계산이라 첫 페인트 전에 값이 나온다.
+  const prepared = useMemo(() => {
+    if (!fontReady || text == null) return null
+    return prepareWithSegments(text, font)
+  }, [fontReady, text, font])
 
-    if (text !== prevTextRef.current || font !== prevFontRef.current) {
-      preparedRef.current = prepareWithSegments(text, font)
-      prevTextRef.current = text
-      prevFontRef.current = font
-    }
+  // 줄바꿈 결과만 컨테이너 폭·행간에 의존한다. 준비 단계와 분리해야
+  // 리사이즈마다 세그먼트를 다시 재지 않는다.
+  const measurement = useMemo(() => {
+    if (prepared == null || maxWidth <= 0) return null
 
-    return preparedRef.current
-  }, [text, font])
-
-  // Compute measurement — only when font is ready and text is present
-  if (!fontReady || text == null || maxWidth <= 0) {
-    return { fontReady, measurement: null }
-  }
-
-  const prepared = getPrepared()
-  if (!prepared) {
-    return { fontReady, measurement: null }
-  }
-
-  const result = layoutWithLines(prepared, maxWidth, lineHeight)
-
-  return {
-    fontReady,
-    measurement: {
+    const result = layoutWithLines(prepared, maxWidth, lineHeight)
+    return {
       height: result.height,
       lineCount: result.lineCount,
       lines: result.lines,
-    },
-  }
+    }
+  }, [prepared, maxWidth, lineHeight])
+
+  return { fontReady, measurement }
 }

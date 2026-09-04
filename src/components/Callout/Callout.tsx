@@ -8,8 +8,10 @@ import {
   useCallback,
   Children,
   isValidElement,
+  useId,
 } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
+import { useAncestorTheme } from '@/hooks/useAncestorTheme'
 import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -78,22 +80,6 @@ interface CalloutThemeContextValue {
 const CalloutThemeContext = createContext<CalloutThemeContextValue>({
   anchorRef: { current: null },
 })
-
-function useThemeAttributes(anchorRef: React.RefObject<HTMLElement | null>) {
-  const [theme, setTheme] = useState<string | undefined>()
-
-  useEffect(() => {
-    const el = anchorRef.current
-    if (!el) return
-    const themed = el.closest('[data-theme]')
-    if (themed) {
-      const t = themed.getAttribute('data-theme') ?? undefined
-      setTheme(prev => prev === t ? prev : t)
-    }
-  })
-
-  return { theme }
-}
 
 /* ─── Callout context ─────────────────────────────────────────────────────── */
 
@@ -270,6 +256,16 @@ export interface CalloutContentProps {
   collisionPadding?: number
   children: React.ReactNode
   className?: string
+  /**
+   * 대화 상자의 접근 가능한 이름. 넘기지 않으면 `Callout.Text` 내용에서 자동으로 만든다.
+   *
+   * Radix Popover.Content 는 `role="dialog"` 로 렌더되고, dialog 는 이름이 없으면
+   * 스크린리더가 "대화 상자"라고만 읽는다. 대개는 본문이 곧 이름이므로 자동 연결이 맞지만,
+   * 본문이 길거나 요약이 필요하면 이 prop 으로 덮는다.
+   */
+  'aria-label'?: string
+  /** 이름을 다른 요소에서 가져올 때. 지정하면 자동 연결을 끈다. */
+  'aria-labelledby'?: string
 }
 
 export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
@@ -287,8 +283,9 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
     ref,
   ) => {
     const { anchorRef } = useContext(CalloutThemeContext)
-    const { theme } = useThemeAttributes(anchorRef)
+    const theme = useAncestorTheme(anchorRef)
     const { variant, size, shape, dismiss } = useCalloutContext()
+    const generatedLabelId = useId()
 
     /* Categorize children to build Figma's row.upper / row.action layout */
     const upperChildren: React.ReactNode[] = []
@@ -307,11 +304,18 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
       else upperChildren.push(child)
     })
 
+    // dialog 의 이름을 본문에서 가져온다. 소비자가 직접 준 이름이 언제나 이긴다.
+    // 본문이 아예 없으면 가리킬 대상이 없으므로 연결하지 않는다 — 존재하지 않는 id 를
+    // 가리키는 aria-labelledby 는 이름이 없는 것보다 나쁘다.
+    const hasExplicitLabel = props['aria-label'] != null || props['aria-labelledby'] != null
+    const autoLabelId = !hasExplicitLabel && upperChildren.length > 0 ? generatedLabelId : undefined
+
     return (
       <RadixPopover.Portal>
         <div data-theme={theme} className="font-geist">
           <RadixPopover.Content
             ref={ref}
+            aria-labelledby={autoLabelId}
             side={side}
             align={align}
             sideOffset={sideOffset}
@@ -338,7 +342,10 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
           >
             {arrowChildren}
             {(upperChildren.length > 0 || closeChildren.length > 0) && (
-              <div className={cn('flex items-start', size === 'large' ? 'pr-2' : 'pr-0.5')}>
+              <div
+                id={autoLabelId}
+                className={cn('flex items-start', size === 'large' ? 'pr-2' : 'pr-0.5')}
+              >
                 {upperChildren}
                 {closeChildren.length > 0 && (
                   <div className={cn('flex items-center pl-0.5', size === 'large' ? 'py-2' : 'py-0.5')}>

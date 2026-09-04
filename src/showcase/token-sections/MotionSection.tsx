@@ -82,7 +82,7 @@ export function MotionSection() {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(motion.semantic.duration).map(([name, _cssVar]) => {
+            {Object.entries(motion.semantic.duration).map(([name]) => {
               const primKey = SEMANTIC_TO_PRIMITIVE_DURATION[name]
               const value = primKey ? motion.primitive.duration[primKey as keyof typeof motion.primitive.duration] : ''
               const usageMap: Record<string, string> = {
@@ -118,7 +118,7 @@ export function MotionSection() {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(motion.semantic.easing).map(([name, _cssVar]) => {
+            {Object.entries(motion.semantic.easing).map(([name]) => {
               const primKey = SEMANTIC_TO_PRIMITIVE_EASING[name]
               const value = primKey ? motion.primitive.easing[primKey as keyof typeof motion.primitive.easing] : ''
               const curvePoints = primKey ? EASING_CURVES[primKey] : undefined

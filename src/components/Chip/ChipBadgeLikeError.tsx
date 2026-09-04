@@ -1,9 +1,10 @@
 import { type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 import {
-  chipBadgeLikeSizeMap, CloseIcon,
+  chipBadgeLikeSizeMap,
   type ChipBadgeLikeSize, type ChipBadgeLikeShape, type ChipBadgeLikeWeight,
-} from './chip-badgelike-shared'
+} from './chip-badgelike-constants'
+import { CloseIcon } from './chip-badgelike-shared'
 
 /* ─── Weight classes (error) ──────────────────────────────────────────────── */
 

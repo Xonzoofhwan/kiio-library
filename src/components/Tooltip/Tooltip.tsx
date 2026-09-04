@@ -1,5 +1,6 @@
-import { forwardRef, createContext, useContext, useRef, useEffect, useState } from 'react'
+import { forwardRef, createContext, useContext, useRef, useEffect } from 'react'
 import * as RadixTooltip from '@radix-ui/react-tooltip'
+import { useAncestorTheme } from '@/hooks/useAncestorTheme'
 import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -47,22 +48,6 @@ interface TooltipThemeContextValue {
 const TooltipThemeContext = createContext<TooltipThemeContextValue>({
   triggerRef: { current: null },
 })
-
-function useThemeAttributes(triggerRef: React.RefObject<HTMLElement | null>) {
-  const [theme, setTheme] = useState<string | undefined>()
-
-  useEffect(() => {
-    const el = triggerRef.current
-    if (!el) return
-    const themed = el.closest('[data-theme]')
-    if (themed) {
-      const t = themed.getAttribute('data-theme') ?? undefined
-      setTheme(prev => prev === t ? prev : t)
-    }
-  })
-
-  return { theme }
-}
 
 /* ─── TooltipProvider ─────────────────────────────────────────────────────── */
 
@@ -259,7 +244,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
     ref,
   ) => {
     const { triggerRef } = useContext(TooltipThemeContext)
-    const { theme } = useThemeAttributes(triggerRef)
+    const theme = useAncestorTheme(triggerRef)
 
     return (
       <RadixTooltip.Portal>

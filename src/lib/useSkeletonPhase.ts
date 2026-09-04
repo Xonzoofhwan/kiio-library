@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 /* ─── Types ────────────────────────────────────────────────────────────────── */
 
@@ -58,46 +58,54 @@ export function useSkeletonPhase(
 ): UseSkeletonPhaseResult {
   const { deferMs = 100, minHoldMs = 300 } = options
 
-  const [showSkeleton, setShowSkeleton] = useState(false)
-  const [ready, setReady] = useState(!isLoading)
-  const skeletonShownAtRef = useRef<number | null>(null)
+  /**
+   * skeleton이 등장한 시각. `null`이면 아직 defer 단계이거나 idle이다.
+   *
+   * ref가 아니라 state인 이유: 이 값이 곧 `showSkeleton`이므로 렌더에 필요하고,
+   * 렌더 중 ref를 읽는 것은 React가 금지한다.
+   */
+  const [skeletonShownAt, setSkeletonShownAt] = useState<number | null>(null)
+  /** minHold 창이 닫혔는가. 타이머만 이 값을 참으로 만든다. */
+  const [holdDone, setHoldDone] = useState(false)
 
-  useEffect(() => {
+  /**
+   * `isLoading`이 바뀌는 순간의 초기화는 **렌더 중 파생**이다.
+   *
+   * effect 안에서 되돌리면 초기화가 한 프레임 늦어, 새 로딩이 시작됐는데도
+   * 직전 로딩의 skeleton과 ready가 한 번 더 그려진다. React가 문서화한
+   * "이전 렌더 정보로 상태 조정" 패턴을 쓴다 — 렌더 중 setState는 허용되며,
+   * React가 커밋 전에 즉시 재실행하므로 중간 상태가 화면에 나가지 않는다.
+   */
+  const [prevIsLoading, setPrevIsLoading] = useState(isLoading)
+  if (isLoading !== prevIsLoading) {
+    setPrevIsLoading(isLoading)
     if (isLoading) {
-      // 로딩 시작: defer 단계 진입
-      setReady(false)
-      setShowSkeleton(false)
-      skeletonShownAtRef.current = null
-
-      const deferTimer = setTimeout(() => {
-        setShowSkeleton(true)
-        skeletonShownAtRef.current = performance.now()
-      }, deferMs)
-
-      return () => clearTimeout(deferTimer)
+      setSkeletonShownAt(null)
+      setHoldDone(false)
     }
+  }
 
-    // 로딩 종료
-    const shownAt = skeletonShownAtRef.current
-    if (shownAt == null) {
-      // skeleton 등장 전 (defer 단계 또는 idle) → 곧장 콘텐츠
-      setShowSkeleton(false)
-      setReady(true)
-      return
-    }
+  // defer 타이머 — 로딩 중에만 돈다. deps에 skeletonShownAt을 넣지 않는다.
+  // 넣으면 타이머가 스스로를 재시작해 defer가 영원히 만료되지 않는다.
+  useEffect(() => {
+    if (!isLoading) return
+    const deferTimer = setTimeout(() => setSkeletonShownAt(performance.now()), deferMs)
+    return () => clearTimeout(deferTimer)
+  }, [isLoading, deferMs])
 
-    // skeleton이 이미 떴음 → minHold 충족 여부 확인
-    const elapsed = performance.now() - shownAt
-    const remaining = Math.max(0, minHoldMs - elapsed)
-
-    if (remaining === 0) {
-      setReady(true)
-      return
-    }
-
-    const holdTimer = setTimeout(() => setReady(true), remaining)
+  // minHold 타이머 — 로딩이 끝났고 skeleton이 이미 떴을 때만 필요하다.
+  useEffect(() => {
+    if (isLoading || skeletonShownAt == null) return
+    const remaining = Math.max(0, minHoldMs - (performance.now() - skeletonShownAt))
+    const holdTimer = setTimeout(() => setHoldDone(true), remaining)
     return () => clearTimeout(holdTimer)
-  }, [isLoading, deferMs, minHoldMs])
+  }, [isLoading, skeletonShownAt, minHoldMs])
+
+  // skeleton이 한 번 뜨면 콘텐츠 fade-in 동안에도 마운트를 유지한다 —
+  // 언마운트하면 fade-in 할 대상 자체가 사라진다.
+  const showSkeleton = skeletonShownAt !== null
+  // skeleton을 건너뛴 경로(skeletonShownAt == null)는 hold 없이 곧장 ready다.
+  const ready = !isLoading && (skeletonShownAt === null || holdDone)
 
   return { showSkeleton, ready }
 }

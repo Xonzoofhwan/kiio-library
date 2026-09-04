@@ -118,12 +118,15 @@ export function TextReservation({
     }
   }, [ready, measurement, text, fontReady])
 
-  // Reset when text becomes null or ready becomes false
-  useEffect(() => {
-    if (text == null || !ready) {
-      setShowContent(false)
-    }
-  }, [text, ready])
+  // text가 사라지거나 ready가 풀리면 fade-in을 처음부터 다시 시작한다.
+  // effect로 되돌리면 리셋이 한 프레임 늦어 이전 콘텐츠가 남는다 —
+  // 조건이 **참으로 바뀌는 순간**을 렌더 중에 잡는다.
+  const shouldResetContent = text == null || !ready
+  const [prevShouldReset, setPrevShouldReset] = useState(shouldResetContent)
+  if (shouldResetContent !== prevShouldReset) {
+    setPrevShouldReset(shouldResetContent)
+    if (shouldResetContent) setShowContent(false)
+  }
 
   return (
     <div

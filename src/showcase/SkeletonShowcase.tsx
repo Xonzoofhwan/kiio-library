@@ -20,20 +20,19 @@ export const SKELETON_TOC: TocEntry[] = [
 
 /** 외부 fetch를 시뮬레이션. trigger 변경 시 재실행. */
 function useSimulatedFetch<T>(value: T, latencyMs: number, trigger: number) {
-  const [data, setData] = useState<T | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  // 도착한 데이터에 그 시점의 trigger를 함께 담아 둔다. 재생(trigger 변경) 시
+  // 초기화를 effect의 동기 setState가 아니라 렌더 중 파생으로 처리하기 위함 —
+  // trigger가 바뀐 렌더에서 곧바로 로딩 상태가 되므로 연쇄 렌더가 생기지 않는다.
+  const [loaded, setLoaded] = useState<{ trigger: number; value: T } | null>(null)
 
   useEffect(() => {
-    setData(null)
-    setIsLoading(true)
-    const t = setTimeout(() => {
-      setData(value)
-      setIsLoading(false)
-    }, latencyMs)
+    const t = setTimeout(() => setLoaded({ trigger, value }), latencyMs)
     return () => clearTimeout(t)
   }, [latencyMs, trigger, value])
 
-  return { data, isLoading }
+  const current = loaded !== null && loaded.trigger === trigger ? loaded : null
+
+  return { data: current === null ? null : current.value, isLoading: current === null }
 }
 
 /* ─── Data ────────────────────────────────────────────────────────────────── */

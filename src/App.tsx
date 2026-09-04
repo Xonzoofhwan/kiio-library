@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { Sidebar, TableOfContents } from '@/components/showcase-layout'
 import type { TocEntry } from '@/components/showcase-layout'
 import { useHashRoute } from '@/hooks/useHashRoute'
@@ -59,11 +59,20 @@ export default function App() {
   const entry = SHOWCASE_MAP[activeId] ?? SHOWCASE_MAP['tooltip']
   const { component: ActiveShowcase, toc: defaultToc } = entry
 
-  /* Dynamic TOC — tabbed showcases override via ShowcaseTocContext */
-  const [dynamicToc, setDynamicToc] = useState<TocEntry[] | null>(null)
-  useEffect(() => { setDynamicToc(null) }, [activeId])
-  const handleTocChange = useCallback((entries: TocEntry[]) => setDynamicToc(entries), [])
-  const toc = dynamicToc ?? defaultToc
+  /* Dynamic TOC — tabbed showcases override via ShowcaseTocContext.
+     소유한 페이지 id를 함께 저장해 렌더 중에 파생한다. effect로 초기화하면
+     자식 effect가 먼저 실행되는 탓에 새 페이지가 방금 올린 목차를 덮어쓴다. */
+  const [dynamicToc, setDynamicToc] = useState<{ ownerId: string; entries: TocEntry[] } | null>(null)
+  const handleTocChange = useCallback(
+    (entries: TocEntry[]) =>
+      setDynamicToc(prev =>
+        prev?.ownerId === activeId && prev.entries === entries
+          ? prev // 같은 목차 재전달은 리렌더를 만들지 않는다
+          : { ownerId: activeId, entries },
+      ),
+    [activeId],
+  )
+  const toc = dynamicToc?.ownerId === activeId ? dynamicToc.entries : defaultToc
 
   return (
     <div

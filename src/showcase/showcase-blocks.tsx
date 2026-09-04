@@ -341,6 +341,17 @@ export function PropsTable({ props, title }: { props: PropRow[]; title?: string 
   const [sortCol, setSortCol] = useState<string | null>(null)
   const [sortDir, setSortDir] = useState<SortDir>(false)
 
+  // 훅은 early return 위에서 호출해야 렌더마다 호출 순서가 같다.
+  // 정렬 미적용(sortCol/sortDir 없음) 방어는 훅 안쪽에서 처리한다.
+  const sorted = useMemo(() => {
+    if (!sortCol || !sortDir) return props
+    const dir = sortDir === 'ascending' ? 1 : -1
+    return [...props].sort((a, b) => {
+      const key = sortCol as keyof PropRow
+      return String(a[key]).localeCompare(String(b[key])) * dir
+    })
+  }, [props, sortCol, sortDir])
+
   if (props.length === 0) return null
 
   const handleSort = (col: string) => {
@@ -353,15 +364,6 @@ export function PropsTable({ props, title }: { props: PropRow[]; title?: string 
       setSortDir('descending')
     }
   }
-
-  const sorted = useMemo(() => {
-    if (!sortCol || !sortDir) return props
-    const dir = sortDir === 'ascending' ? 1 : -1
-    return [...props].sort((a, b) => {
-      const key = sortCol as keyof PropRow
-      return String(a[key]).localeCompare(String(b[key])) * dir
-    })
-  }, [props, sortCol, sortDir])
 
   return (
     <div className="mb-6">
