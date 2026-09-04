@@ -309,9 +309,15 @@
 
 ## 5. 불일치 판정
 
-### 5.1 (a) 개명 필요 — 표준과 다르고, 고치면 breaking
+### 5.1 (a) 개명 — **A1–A8 전부 적용 완료 (2026-09-05)**
 
-| ID | 대상 | 현재 → 표준 | 근거 |
+> 아래 8건은 이 문서가 판정한 뒤 **같은 날 전부 적용됐다.** 옛 이름은 deprecated alias 없이
+> 완전히 삭제했다 — 외부 소비자가 0이라 alias 를 남길 이유가 없고, 남기면 어휘가 둘이 되어
+> 이 문서가 막으려던 상태로 돌아간다. `docs:check` D5 와 `npm run build` 가 잔존을 잡는다.
+>
+> 표는 **판정 근거의 기록**으로 남긴다. "현재 → 표준" 열의 왼쪽이 옛 이름이다.
+
+| ID | 대상 | 옛 이름 → 표준 | 근거 |
 |:-:|---|---|---|
 | **A1** | `NavVertical.Item` | `icon` → `iconLeading` | 텍스트가 있고 아이콘이 그 앞 자리에 고정이다(§2.2). JSDoc 이 이미 `Leading icon slot.` 이라고 적는다 — 이름만 따라오지 않았다 |
 | **A2** | `SegmentBar.Item` | `icon` → `iconLeading` | 동일. JSDoc 은 `Leading icon.` |
@@ -354,7 +360,7 @@
 | **C8** | Radix 위임 prop 의 이름(`checked`·`onCheckedChange`·`value`·`required` 등) | 우리가 이름을 정하지 않는다. 바꾸면 Radix 타입과 어긋나 위임 자체가 깨진다 |
 | **C9** | Chip 닫기의 접근명이 `"Remove"`, Callout 이 `"Close"` 인 것 | 파트는 둘 다 `Close` 지만 **접근명은 사용자에게 일어나는 결과**를 말해야 한다. 칩은 사라지고(remove), 콜아웃은 닫힌다(close). 다만 값이 하드코딩된 것은 별개 문제이므로 A8 로 고친다 |
 
-### 5.4 파괴적 변경 총량
+### 5.4 파괴적 변경 총량 (적용 완료)
 
 | 구분 | 이름 개수 | 컴포넌트 수 | 수정 지점(grep 기준) |
 |---|:-:|:-:|:-:|
@@ -378,7 +384,12 @@
 
 영향 파일 **15개**: `NavVertical.tsx` · `NavVerticalShowcase.tsx` · `specs/nav-vertical.json` · `SegmentBar.tsx` · `SegmentBarShowcase.tsx` · `specs/segment-bar.json` · `Tab.tsx` · `Tab/index.ts` · `TabShowcase.tsx` · `specs/tab.json` · `ChipUniversal.tsx` · `ChipShowcase.tsx` · `specs/chip-universal.json` · `Tooltip.tsx` · `Tooltip/index.ts` (A8 을 포함하면 Chip BadgeLike 3파일이 더해져 18개).
 
-> 집계 기준: `specs/tab.json`·`specs/chip-universal.json` 은 이 문서와 **동시에 추가된 파일**이다([QUALITY_GATES_PLAN.md](./QUALITY_GATES_PLAN.md) F11 해소분). 두 파일이 더 자라면 지점 수도 따라 늘어난다 — 개명을 실제로 착수할 때 다시 센다.
+> 집계 기준: `specs/tab.json`·`specs/chip-universal.json` 은 이 문서와 **동시에 추가된 파일**이다([QUALITY_GATES_PLAN.md](./QUALITY_GATES_PLAN.md) F11 해소분).
+
+**적용 결과 (2026-09-05):** 8건 전부 반영. 개명 뒤 `npm run check` = lint 0 problems · ✓ built ·
+293 passed · docs:check 6종 통과. 계약 테스트 3곳(`a11ySmoke`)이 옛 이름을 쓰고 있어 함께 고쳤다 —
+**타입 검사가 그 셋을 전부 잡아냈다.** 개명이 조용히 새어나갈 수 있는 경로는 타입이 없는 곳
+(문서·스펙 산문)뿐이고, 그쪽은 `docs:check` 가 본다.
 
 > **표준을 이미 지킨 증거 하나:** `specs/chip-universal.json` 은 같은 파일 안에서 `iconLeading`·`iconTrailing` 은 표준대로 적고 `badge` 만 어긋나 있다. 스펙 작성자가 아이콘 어휘는 이미 내면화했고 배지 어휘는 아직 없다는 뜻이다 — §1.4 의 Badge/Dot 구분이 문서에 없었기 때문이다.
 

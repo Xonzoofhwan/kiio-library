@@ -2,7 +2,6 @@
   "component": "Callout",
   "description": "Radix UI Popover 기반의 콜아웃 컴포넌트. black/white 2가지 색상 variant, large/medium 2가지 사이즈, basic/square 2가지 shape, manual/auto/none 3가지 닫힘 정책(dismiss mode)을 지원한다. 텍스트, 닫기 버튼, 액션 버튼, 화살표 등 서브 컴포넌트를 조합하여 구성하며, Portal 렌더링 시 앵커 조상의 테마 속성을 자동 전파한다.",
   "classification": "Compound",
-
   "subComponents": [
     {
       "name": "Callout",
@@ -34,10 +33,21 @@
           "default": 5000,
           "description": "자동 닫힘 시간 (ms). dismiss='auto'일 때만 유효."
         },
-        "open": { "type": "boolean", "description": "열림 상태 (controlled)." },
-        "defaultOpen": { "type": "boolean", "description": "기본 열림 상태 (uncontrolled)." },
-        "onOpenChange": { "type": "(open: boolean) => void", "description": "열림/닫힘 콜백." },
-        "children": { "type": "ReactNode" }
+        "open": {
+          "type": "boolean",
+          "description": "열림 상태 (controlled)."
+        },
+        "defaultOpen": {
+          "type": "boolean",
+          "description": "기본 열림 상태 (uncontrolled)."
+        },
+        "onOpenChange": {
+          "type": "(open: boolean) => void",
+          "description": "열림/닫힘 콜백."
+        },
+        "children": {
+          "type": "ReactNode"
+        }
       }
     },
     {
@@ -50,8 +60,12 @@
           "default": true,
           "description": "자식 요소에 anchor/trigger props를 전달한다."
         },
-        "children": { "type": "ReactNode" },
-        "className": { "type": "string" }
+        "children": {
+          "type": "ReactNode"
+        },
+        "className": {
+          "type": "string"
+        }
       }
     },
     {
@@ -84,8 +98,12 @@
           "default": 8,
           "description": "뷰포트 가장자리 최소 간격 (px)."
         },
-        "children": { "type": "ReactNode" },
-        "className": { "type": "string" }
+        "children": {
+          "type": "ReactNode"
+        },
+        "className": {
+          "type": "string"
+        }
       }
     },
     {
@@ -93,7 +111,9 @@
       "role": "화살표. variant별 fill 색상 적용. RadixPopover.Arrow를 감싼다.",
       "element": "RadixPopover.Arrow",
       "props": {
-        "className": { "type": "string" }
+        "className": {
+          "type": "string"
+        }
       }
     },
     {
@@ -101,8 +121,12 @@
       "role": "텍스트 영역. 내부 패딩(px, py)과 typography-16-medium을 적용.",
       "element": "div",
       "props": {
-        "children": { "type": "ReactNode" },
-        "className": { "type": "string" }
+        "children": {
+          "type": "ReactNode"
+        },
+        "className": {
+          "type": "string"
+        }
       }
     },
     {
@@ -115,7 +139,9 @@
           "default": "Close",
           "description": "접근성 레이블."
         },
-        "className": { "type": "string" }
+        "className": {
+          "type": "string"
+        }
       }
     },
     {
@@ -123,18 +149,24 @@
       "role": "액션 버튼. 우측 정렬, trailing arrow-forward 아이콘 포함. variant별 텍스트 색상 적용. closeOnClick 옵션으로 클릭 시 콜아웃 닫기.",
       "element": "button",
       "props": {
-        "onClick": { "type": "(event: React.MouseEvent) => void", "description": "클릭 핸들러." },
+        "onClick": {
+          "type": "(event: React.MouseEvent) => void",
+          "description": "클릭 핸들러."
+        },
         "closeOnClick": {
           "type": "boolean",
           "default": false,
           "description": "true면 클릭 시 Callout을 닫는다."
         },
-        "children": { "type": "ReactNode" },
-        "className": { "type": "string" }
+        "children": {
+          "type": "ReactNode"
+        },
+        "className": {
+          "type": "string"
+        }
       }
     }
   ],
-
   "context": {
     "themeContext": {
       "name": "CalloutThemeContext",
@@ -155,7 +187,6 @@
       "errorBoundary": "CalloutContext 외부에서 서브 컴포넌트 사용 시 'must be used inside <Callout>' 에러 throw."
     }
   },
-
   "variants": {
     "variant": {
       "black": {
@@ -188,16 +219,29 @@
       }
     },
     "shape": {
-      "basic": { "radius": "--comp-callout-radius → 4px (primitive-radius-1)" },
-      "square": { "radius": "rounded-none (0px)" }
+      "basic": {
+        "radius": "--comp-callout-radius → 4px (primitive-radius-1)"
+      },
+      "square": {
+        "radius": "rounded-none (0px)"
+      }
     },
     "side": {
-      "values": ["top", "bottom", "left", "right"],
+      "values": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
       "default": "bottom",
       "description": "Radix Popover.Content side prop으로 전달."
     },
     "align": {
-      "values": ["start", "center", "end"],
+      "values": [
+        "start",
+        "center",
+        "end"
+      ],
       "default": "center",
       "description": "Radix Popover.Content align prop으로 전달."
     },
@@ -220,7 +264,6 @@
       }
     }
   },
-
   "states": {
     "open": {
       "animation": "tooltip-enter keyframes, duration-fast, ease-enter",
@@ -239,7 +282,6 @@
       "hover": "transition-opacity duration-fast ease-enter, hover:opacity-80"
     }
   },
-
   "tokens": {
     "sizeTokens": {
       "scope": ":root",
@@ -279,11 +321,12 @@
     },
     "geoShapeOverrides": []
   },
-
   "features": {
     "themeInheritance": {
       "mechanism": "useThemeAttributes hook. anchorRef에서 closest('[data-theme]')를 찾아 Portal wrapper에 data-theme 전파.",
-      "components": ["CalloutContent"]
+      "components": [
+        "CalloutContent"
+      ]
     },
     "dismissModes": {
       "manual": "외부 클릭(onInteractOutside) + Escape(onEscapeKeyDown) + Close 버튼. Radix Popover 기본 동작 활용.",
@@ -328,18 +371,24 @@
     "collision": "Radix 내장 collision detection. collisionPadding으로 뷰포트 가장자리 간격 설정.",
     "internalIcons": "CloseIcon, ArrowForwardIcon — 내부 SVG 컴포넌트로 정의. 외부 의존성 없음."
   },
-
-  "accessibility": {
-    "roles": "Radix Popover가 자동 관리 (dialog role, aria-describedby 등 Radix 기본값)",
-    "closeButton": "aria-label='Close' (기본값, 커스터마이즈 가능)",
+  "a11y": {
+    "_comment": "Migrated from the free-form `accessibility` key so the schema matches specs/_TEMPLATE.json. \"N/A - <reason>\" is a valid answer, an empty field is not.",
+    "role": "native: Radix Popover.Content renders role=\"dialog\"; Callout.Anchor keeps the child element's own role (asChild).",
     "keyboard": {
-      "manual": "Escape로 닫힘 가능",
-      "auto": "Escape로 닫힘 가능 (타이머도 활성)",
-      "none": "Escape 차단 (Close 버튼만 사용)"
+      "Tab": "Focus enters the anchor. When open, Tab moves into the content (Radix Popover manages the order).",
+      "Enter": "N/A - the anchor is a position reference, not a trigger. Callout is opened by `open`/`defaultOpen`, not by clicking.",
+      "Space": "N/A - same reason as Enter.",
+      "Arrow": "N/A - no composite widget. Arrow keys are not intercepted.",
+      "Escape": "Closes for dismiss=\"manual\" and \"auto\". For dismiss=\"none\" the key is swallowed (onEscapeKeyDown preventDefault) and only Callout.Close dismisses."
     },
-    "anchor": "asChild=true(기본값)로 자식 요소의 접근성 속성 유지"
+    "aria": [
+      "aria-labelledby — CalloutContent auto-links the upper row so the dialog has an accessible name. A consumer-supplied aria-label/aria-labelledby wins.",
+      "aria-label on Callout.Close — defaults to \"Close\", overridable.",
+      "aria-haspopup + aria-controls on the anchor — emitted by Radix Popover."
+    ],
+    "focus": "sequential",
+    "focusVisible": "Callout.Close draws its own ring; the content surface is not a focus stop."
   },
-
   "implementation": {
     "pattern": "Compound Component + Radix UI Popover + Dual Context (theme + component) + cn",
     "compoundExport": "Object.assign(CalloutRoot, { Anchor, Content, Arrow, Text, Close, Action })",
@@ -354,12 +403,34 @@
       "@radix-ui/react-popover"
     ],
     "variantMetadata": {
-      "CALLOUT_VARIANTS": ["black", "white"],
-      "CALLOUT_SIDES": ["top", "bottom", "left", "right"],
-      "CALLOUT_ALIGNS": ["start", "center", "end"],
-      "CALLOUT_DISMISS_MODES": ["manual", "auto", "none"],
-      "CALLOUT_SIZES": ["large", "medium"],
-      "CALLOUT_SHAPES": ["basic", "square"]
+      "CALLOUT_VARIANTS": [
+        "black",
+        "white"
+      ],
+      "CALLOUT_SIDES": [
+        "top",
+        "bottom",
+        "left",
+        "right"
+      ],
+      "CALLOUT_ALIGNS": [
+        "start",
+        "center",
+        "end"
+      ],
+      "CALLOUT_DISMISS_MODES": [
+        "manual",
+        "auto",
+        "none"
+      ],
+      "CALLOUT_SIZES": [
+        "large",
+        "medium"
+      ],
+      "CALLOUT_SHAPES": [
+        "basic",
+        "square"
+      ]
     },
     "exportedTypes": [
       "CalloutProps",

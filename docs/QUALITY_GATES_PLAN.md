@@ -61,14 +61,24 @@
 | N15 | SegmentBar `role="radio"`의 부모가 `role="group"` (Radix ToggleGroup이 만든다) — 보조기술이 "3개 중 1번째"를 읽지 못한다 | `KNOWN_KEYBOARD_DEBT` 등록. Radix 동작이라 우회가 필요 |
 | N16 | 스펙에 `accessibility`(자유 형식)와 `a11y`(스키마 고정) 두 키가 공존한다 | tooltip·callout의 기존 키를 `a11y`로 통합해야 한다 |
 
-### 결정이 필요한 것
+### 결정 완료 — E1–E4 전부 적용 (2026-09-05)
 
-| ID | 항목 | 선택지 |
+| ID | 확정 | 결과 |
 |:-:|---|---|
-| **E1** | `asChild` (N7) | (a) `Slottable`로 소비자 자식을 감싸 정상화 — Button 계열 7개 + ChipUniversal 수술, 아이콘 gap 래퍼가 사라지는 레이아웃 차이를 감수 (b) prop 제거 — 공개 표면 삭제라 **L3(RFC + 승인)** |
-| **E2** | `loading`의 탭 순서 (N8) | (a) 현행 유지 — 로딩 중 포커스를 잃는다 (b) `disabled={disabled}` + `aria-disabled` + onClick 가드 — 접근성 관행에 맞지만 5개 컴포넌트의 상호작용이 바뀐다 |
-| **E3** | ChipUniversal `aria-pressed` (N14) | (a) 유지 (b) 용도별로 분기 — 토글이면 `aria-pressed`, 드롭다운이면 `aria-expanded` |
-| **E4** | ANATOMY §5.1 개명 8건 | `icon → iconLeading`, `badge → badgeDot/badgeLabel` 등. 소비자가 없어 비용이 낮은 지금이 적기 |
+| **E1** | `Slottable`로 정상화 | 8개 컴포넌트(Button 계열 6 + TextButton + ChipUniversal). `Slottable`은 `Slot`의 **최상위 자식**이어야 해서(Radix가 한 겹만 훑는다) asChild 경로에서는 콘텐츠 래퍼를 쓸 수 없다 — 아이콘 gap을 루트로 올려 해결. 실측: 8종 전부 `<a href>`로 렌더되고 클래스가 병합된다 |
+| **E2** | 포커스 유지로 전환 | `disabled={disabled}` + `aria-disabled` + onClick 가드. `aria-disabled`는 시맨틱일 뿐이고 `pointer-events-none`은 키보드에 무력하므로 가드가 필요하다 — Enter/Space는 브라우저가 click으로 바꿔 주므로 onClick 하나로 덮인다. `keyboardContract`가 loading/disabled 대조로 잠근다 |
+| **E3** | 용도 prop으로 분기 | 토글이면 `aria-pressed`, 드롭다운이면 `aria-expanded`. additive라 기존 사용처는 기본값으로 그대로 동작한다 |
+| **E4** | 개명 8건 적용 | `icon → iconLeading`(2) · `badge → badgeDot`(2) · `badge → badgeLabel`(1) · 타입명(2) · Chip 닫기 `aria-label` 개방(1). deprecated alias 없이 옛 이름 완전 삭제. 상세는 [ANATOMY §5](./ANATOMY.md) |
+
+**적용 후 게이트**: lint 0 problems · ✓ built · **293 passed (7 files)** · docs:check 6종 통과.
+
+부수 해소: `specs/callout.json`·`tooltip.json`의 자유 형식 `accessibility` 키를 템플릿의
+`a11y` 스키마로 옮겼다(N16). 스키마가 고정돼야 `keyboardContract` 케이스를 스펙에서 파생할 수 있다.
+
+**해소된 부채** — 목록이 줄어든 것을 각 목록의 키 대조 단언이 확인한다:
+`KNOWN_DEFECTS['asChild가 항상 던진다']` · `KNOWN_KEYBOARD_DEBT['Button.loading이_탭_순서에서_빠짐']`
+· `KNOWN_A11Y_DEBT` 3건(앞서 해소). 남은 부채는 `KNOWN_DEFECTS['type을 지정하지 않는다']` ·
+`KNOWN_KEYBOARD_DEBT` 2건(NavVertical 탭스톱·SegmentBar radiogroup)이다.
 
 ### 미검증으로 **남겨둔** 것
 
