@@ -1,0 +1,36 @@
+name: quality
+
+# 경로 필터를 두지 않는다. 필터를 두면 스킬·워크플로·문서 변경이 검사를
+# 빠져나가고 그 누락은 조용해서 발견이 늦다. 현재 전체 실행은 수 초 규모다.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 이 워크플로는 읽기만 한다.
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+
+      # lint → build → test:run. 순서가 계약이다:
+      # CSS 계약 테스트가 build 산출물(dist/assets/*.css)을 읽는다.
+      - name: check
+        run: npm run check

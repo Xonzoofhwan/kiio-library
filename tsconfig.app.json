@@ -29,5 +29,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  // 테스트·계약 검사기는 tsconfig.test.json 이 담당한다. node types 가 필요하고,
+  // 그 types 를 앱 코드에 열어주지 않기 위해 프로젝트를 나눈다.
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/testing/**"]
 }
