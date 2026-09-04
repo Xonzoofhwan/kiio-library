@@ -21,8 +21,8 @@ const badgeLabelVariants = cva(
   {
     variants: {
       size: {
-        nano:   'h-[var(--comp-badge-height-nano)] px-[var(--comp-badge-px-nano)] min-w-[var(--comp-badge-min-w-nano)] text-[10px] leading-[12px] font-medium text-center',
-        xSmall: 'h-[var(--comp-badge-height-xs)] px-[var(--comp-badge-px-xs)] min-w-[var(--comp-badge-min-w-xs)] text-[10px] leading-[12px] font-medium text-center',
+        nano:   'h-[var(--comp-badge-height-nano)] px-[var(--comp-badge-px-nano)] min-w-[var(--comp-badge-min-w-nano)] typography-10-medium text-center',
+        xSmall: 'h-[var(--comp-badge-height-xs)] px-[var(--comp-badge-px-xs)] min-w-[var(--comp-badge-min-w-xs)] typography-10-medium text-center',
         small:  'px-[var(--comp-badge-px-sm)] py-[var(--comp-badge-py)] min-w-[var(--comp-badge-min-w-sm)] typography-12-medium',
         medium: 'px-[var(--comp-badge-px-md)] py-[var(--comp-badge-py)] min-w-[var(--comp-badge-min-w-md)] typography-14-medium',
         large:  'px-[var(--comp-badge-px-lg)] py-[var(--comp-badge-py)] min-w-[var(--comp-badge-min-w-lg)] typography-15-medium',

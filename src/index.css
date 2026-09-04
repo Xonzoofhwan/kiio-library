@@ -30,20 +30,34 @@ body {
 
 /* ----------------------------------------------------------
    REDUCED MOTION — Accessibility
-   Removes all non-essential animations for users who prefer
-   reduced motion. Essential animations (spinners, progress)
-   are reduced but not removed via .motion-essential class.
+
+   `prefers-reduced-motion` 이 다루는 것은 전정기관을 자극하는 **움직임**이다.
+   색·투명도 전환까지 끄면 상태 변화가 오히려 덜 보이므로 그대로 둔다.
+   (INTERACTION_DESIGN §A 판단 트리)
+
+   - keyframe 애니메이션: 제거 (shimmer, slide, scale-in/out, press, shake)
+   - press scale: 토큰을 1 로 덮어 움직임 자체를 없앤다 (컴포넌트 8종이 이 둘을 참조)
+   - transform 전환: 위치/크기가 바뀌는 사이트에 motion-reduce:transition-none
+   - color / opacity / box-shadow 전환: **유지**
+   - .motion-essential: 정보 전달에 필수인 애니메이션(스피너 등)은 축소만
    ---------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  :root {
+    /* 눌림 축소를 없앤다. --comp-*-scale-pressed 8개가 이 둘을 참조한다. */
+    --semantic-scale-press-sm: 1;
+    --semantic-scale-press-lg: 1;
+    /* transform 전환 시간을 0 으로. `none` 을 쓰면 Tab 의 합성 transition
+       목록(`color …, var(…)`)이 통째로 무효가 되므로 `transform 0s` 를 쓴다. */
+    --comp-scale-press-transition-in:  transform 0s;
+    --comp-scale-press-transition-out: transform 0s;
   }
   .motion-essential {
     animation-duration: var(--semantic-duration-fast) !important;
-    transition-duration: var(--semantic-duration-fast) !important;
   }
 }
 

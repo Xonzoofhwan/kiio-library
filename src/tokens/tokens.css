@@ -712,7 +712,7 @@
      ---------------------------------------------------------- */
 
   /* ─── Height ─── */
-  --comp-badge-height-nano:          16px;
+  --comp-badge-height-nano:          var(--primitive-spacing-4);      /* 16px */
   --comp-badge-height-xs:            var(--primitive-spacing-5);      /* 20px */
 
   /* ─── Horizontal padding (basic/square shape) ─── */
@@ -810,7 +810,7 @@
   /* ─── Item height ─── */
   --comp-segment-item-height-sm:           var(--primitive-spacing-7);      /* 28px */
   --comp-segment-item-height-md:           var(--primitive-spacing-9);      /* 36px */
-  --comp-segment-item-height-lg:           44px;
+  --comp-segment-item-height-lg:           var(--primitive-spacing-11);     /* 44px — 레일 48 − 패딩 2×2 */
   --comp-segment-item-height-xl:           var(--primitive-spacing-12);     /* 48px */
 
   /* ─── Item border-radius (basic shape) ─── */
@@ -1477,7 +1477,7 @@
   --comp-chip-universal-pressed-selected:        var(--semantic-state-on-dim-70);
 
   /* ─── ChipUniversal: focus ─── */
-  --comp-chip-universal-focus-border:            var(--semantic-primary-300);
+  --comp-chip-universal-focus-border:            var(--semantic-neutral-solid-1000);
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — ChipBadgeLike (color layer)

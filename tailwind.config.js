@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // hover:/group-hover:/peer-hover: 를 모두
+  //   @media (hover: hover) and (pointer: fine) 로 감싼다.
+  // 터치 기기에는 hover 개념이 없어, 가드가 없으면 탭 이후 hover 배경이 남는다.
+  // active:(눌림)와 focus-visible:(키보드)은 감싸지 않는다 — 입력 장치와 무관해야 한다.
+  future: { hoverOnlyWhenSupported: true },
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   safelist: [
     { pattern: /^typography-/ },

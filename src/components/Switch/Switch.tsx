@@ -84,29 +84,54 @@ const placerTranslateMap: Record<SwitchShape, Record<SwitchSize, string>> = {
  *
  * Specificity: when ON+hover, both rule (1) and rule (2) match, but rule (1)'s
  * :not() clause excludes the hover state, so only rule (2) takes effect.
+ *
+ * 입력 장치: `group-hover:` 는 tailwind.config.js 의 hoverOnlyWhenSupported 가
+ * 자동으로 fine pointer 가드 안에 넣지만, 대괄호 안에 :hover 를 직접 쓴
+ * **arbitrary variant 는 감싸주지 않는다.** 그래서 아래는 media 를 손으로 붙인다.
+ * src/testing/cssContract.test.ts 가 빠뜨린 곳을 잡는다.
  */
 const circularKnobSizeMap: Record<SwitchSize, string> = {
   xSmall: cn(
     'size-[var(--comp-switch-knob-circular-xs-compact)]',
-    'group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-xs-expanded)]',
+    // ON-idle → expanded. 입력 장치별로 조건이 다르다:
+    //   fine  — hover 도 active 도 아닐 때
+    //   coarse — 터치는 탭 뒤 :hover 가 들러붙어 :not(:hover) 이 영영 거짓이 된다.
+    //            media 로 감싸기만 하면 규칙이 아예 안 걸려 결과가 같으므로 hover 조건을 뺀다.
+    '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-xs-expanded)]',
+    '[@media(hover:none)]:group-[[data-state=checked]:not(:active)]:size-[var(--comp-switch-knob-circular-xs-expanded)]',
     'group-hover:size-[var(--comp-switch-knob-circular-xs-pressed)]',
     'group-active:size-[var(--comp-switch-knob-circular-xs-pressed)]',
   ),
   small: cn(
     'size-[var(--comp-switch-knob-circular-sm-compact)]',
-    'group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-sm-expanded)]',
+    // ON-idle → expanded. 입력 장치별로 조건이 다르다:
+    //   fine  — hover 도 active 도 아닐 때
+    //   coarse — 터치는 탭 뒤 :hover 가 들러붙어 :not(:hover) 이 영영 거짓이 된다.
+    //            media 로 감싸기만 하면 규칙이 아예 안 걸려 결과가 같으므로 hover 조건을 뺀다.
+    '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-sm-expanded)]',
+    '[@media(hover:none)]:group-[[data-state=checked]:not(:active)]:size-[var(--comp-switch-knob-circular-sm-expanded)]',
     'group-hover:size-[var(--comp-switch-knob-circular-sm-pressed)]',
     'group-active:size-[var(--comp-switch-knob-circular-sm-pressed)]',
   ),
   medium: cn(
     'size-[var(--comp-switch-knob-circular-md-compact)]',
-    'group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-md-expanded)]',
+    // ON-idle → expanded. 입력 장치별로 조건이 다르다:
+    //   fine  — hover 도 active 도 아닐 때
+    //   coarse — 터치는 탭 뒤 :hover 가 들러붙어 :not(:hover) 이 영영 거짓이 된다.
+    //            media 로 감싸기만 하면 규칙이 아예 안 걸려 결과가 같으므로 hover 조건을 뺀다.
+    '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-md-expanded)]',
+    '[@media(hover:none)]:group-[[data-state=checked]:not(:active)]:size-[var(--comp-switch-knob-circular-md-expanded)]',
     'group-hover:size-[var(--comp-switch-knob-circular-md-pressed)]',
     'group-active:size-[var(--comp-switch-knob-circular-md-pressed)]',
   ),
   large: cn(
     'size-[var(--comp-switch-knob-circular-lg-compact)]',
-    'group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-lg-expanded)]',
+    // ON-idle → expanded. 입력 장치별로 조건이 다르다:
+    //   fine  — hover 도 active 도 아닐 때
+    //   coarse — 터치는 탭 뒤 :hover 가 들러붙어 :not(:hover) 이 영영 거짓이 된다.
+    //            media 로 감싸기만 하면 규칙이 아예 안 걸려 결과가 같으므로 hover 조건을 뺀다.
+    '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:not(:hover):not(:active)]:size-[var(--comp-switch-knob-circular-lg-expanded)]',
+    '[@media(hover:none)]:group-[[data-state=checked]:not(:active)]:size-[var(--comp-switch-knob-circular-lg-expanded)]',
     'group-hover:size-[var(--comp-switch-knob-circular-lg-pressed)]',
     'group-active:size-[var(--comp-switch-knob-circular-lg-pressed)]',
   ),
@@ -200,10 +225,10 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           'pointer-events-none absolute inset-0 transition-colors duration-fast ease-enter',
           trackRadiusMap[shape],
           // ON: dim overlays
-          'group-[[data-state=checked]:hover]:bg-[var(--comp-switch-overlay-on-hover)]',
+          '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:hover]:bg-[var(--comp-switch-overlay-on-hover)]',
           'group-[[data-state=checked]:active]:bg-[var(--comp-switch-overlay-on-pressed)]',
           // OFF: bright overlays
-          'group-[[data-state=unchecked]:hover]:bg-[var(--comp-switch-overlay-off-hover)]',
+          '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=unchecked]:hover]:bg-[var(--comp-switch-overlay-off-hover)]',
           'group-[[data-state=unchecked]:active]:bg-[var(--comp-switch-overlay-off-pressed)]',
           // Hide overlay when disabled
           'group-data-[disabled]:hidden',
@@ -226,7 +251,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           // Both shapes center the knob inside the placer (square no longer slides inset)
           'relative flex items-center justify-center',
           // Slide easing matches track bg for unified ON/OFF transition
-          'transition-transform duration-normal ease-comp-switch-toggle',
+          'transition-transform duration-normal ease-comp-switch-toggle motion-reduce:transition-none',
           placerSizeMap[shape][size],
           placerTranslateMap[shape][size],
         )}
@@ -241,7 +266,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
             // Knob color: ON state changes hue on hover/press; OFF state stays white always.
             //   ON default → solid-0 · ON hover → solid-50 · ON press → solid-70
             //   OFF (any)  → solid-0 (no color change — only size + shadow respond)
-            'group-[[data-state=checked]:hover]:bg-[var(--comp-switch-knob-hover)]',
+            '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=checked]:hover]:bg-[var(--comp-switch-knob-hover)]',
             'group-[[data-state=checked]:active]:bg-[var(--comp-switch-knob-pressed)]',
             // Knob shadow: 3 tiers
             //   ON (any)        → 0.12 alpha (constant)
@@ -252,7 +277,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
             // so we use named entries to force correct box-shadow output.
             'shadow-comp-switch-knob-off',
             'group-[[data-state=checked]]:shadow-comp-switch-knob-on',
-            'group-[[data-state=unchecked]:hover]:shadow-comp-switch-knob-off-emphasized',
+            '[@media(hover:hover)_and_(pointer:fine)]:group-[[data-state=unchecked]:hover]:shadow-comp-switch-knob-off-emphasized',
             'group-[[data-state=unchecked]:active]:shadow-comp-switch-knob-off-emphasized',
             // Disabled knob: muted color, no shadow
             'group-data-[disabled]:bg-[var(--comp-switch-knob-disabled)]',
@@ -261,7 +286,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
             // Knob micro-states (size + color + shadow) match hover speed: 100ms / ease-out
             // Both shapes use the same squeeze metaphor; only the size map differs.
             isCircular ? circularKnobSizeMap[size] : squareKnobSizeMap[size],
-            'transition-[width,height,background-color,box-shadow] duration-fast ease-enter',
+            'transition-[width,height,background-color,box-shadow] duration-fast ease-enter motion-reduce:transition-[background-color,box-shadow]',
           )}
         />
       </RadixSwitch.Thumb>

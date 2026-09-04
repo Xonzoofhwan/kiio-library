@@ -3,6 +3,7 @@ import {
   useContext,
   useState,
   useRef,
+  useEffect,
   useCallback,
   type ReactNode,
   type KeyboardEvent,
@@ -105,8 +106,8 @@ const typographyMap: Record<NavVerticalSize, string> = {
 }
 
 const groupTypographyMap: Record<NavVerticalSize, string> = {
-  large: 'text-[13px] leading-[16px] font-medium',
-  small: 'text-[11px] leading-[12px] font-medium',
+  large: 'typography-13-medium',
+  small: 'typography-11-medium',
 }
 
 const groupRadiusMap: Record<NavVerticalShape, Record<NavVerticalSize, string>> = {
@@ -205,13 +206,36 @@ function NavVerticalRoot({
     items[nextIndex]?.focus()
   }, [])
 
+  /**
+   * 선택된 항목이 없으면 **위젯 전체가 tab 순서 밖**이 된다.
+   *
+   * 항목의 tabIndex 는 `isActive ? 0 : -1` 이라, uncontrolled 로 쓰면서
+   * `defaultValue` 를 주지 않으면 모든 항목이 -1 이고 Tab 이 내비게이션을 통째로
+   * 건너뛴다. APG 는 "선택이 없으면 첫 항목을 tab 순서에 둔다"를 요구한다.
+   *
+   * 자식이 임의 구조(그룹 중첩)라 Root 가 항목 목록을 미리 알 수 없으므로 DOM 을
+   * 직접 본다. 의존성 배열이 없는 이유: 항목이 추가·제거·활성 전환될 때마다 다시
+   * 판정해야 하고, 그 시점을 Root 가 아는 방법이 없다. React 가 매 렌더에서
+   * tabIndex 를 원래 값으로 되돌리므로 이 보정은 항상 그 뒤에 다시 적용된다.
+   */
+  useEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+    const items = Array.from(
+      nav.querySelectorAll<HTMLElement>('[data-nav-vertical-item]:not([disabled])'),
+    )
+    if (items.length === 0) return
+    if (items.some((item) => item.tabIndex === 0)) return
+    items[0].tabIndex = 0
+  })
+
   return (
     <NavVerticalContext.Provider
       value={{ size, shape, value: currentValue, onValueChange: handleValueChange }}
     >
+      {/* <nav> 는 이미 navigation role 을 갖는다 — role 을 다시 적지 않는다. */}
       <nav
         ref={navRef}
-        role="navigation"
         onKeyDown={handleKeyDown}
         className={cn('flex flex-col gap-[var(--comp-nav-vertical-gap)]', className)}
       >
@@ -375,7 +399,10 @@ function NavVerticalItem({
     <button
       {...rest}
       type="button"
-      role="menuitem"
+      // role 을 덮지 않는다. ARIA 에서 menuitem 은 **애플리케이션 메뉴**의 항목이라
+      // 조상에 menu/menubar/group 을 요구하고, <nav> 안에서는 그 부모가 존재할 수 없다.
+      // 스크린리더가 "메뉴, 항목 1/2" 로 읽어 페이지 이동 목록이라는 사실을 감춘다.
+      // 네이티브 button role + aria-current="page" 가 사이트 내비게이션의 표준 형태다.
       data-nav-vertical-item=""
       data-active={isActive || undefined}
       disabled={disabled}
