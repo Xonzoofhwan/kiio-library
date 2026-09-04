@@ -274,7 +274,14 @@ function TabPanel({ value, children, className, forceMount }: TabPanelProps) {
     <RadixTabs.Content
       value={value}
       forceMount={forceMount}
-      className={cn('outline-none', className)}
+      className={cn(
+        // Radix 는 패널에 tabIndex=0 을 준다 — 즉 **포커스 스톱**이다.
+        // outline-none 만 걸고 대체 표시를 두지 않으면 키보드 사용자가 위치를 잃는다.
+        'outline-none',
+        'focus-visible:outline-2 focus-visible:outline-offset-2',
+        'focus-visible:outline-[var(--comp-tab-focus-border)]',
+        className,
+      )}
     >
       {children}
     </RadixTabs.Content>
