@@ -183,7 +183,11 @@ export function TextButton({
     <Comp
       {...rest}
       onClick={handleClick}
-      disabled={disabled}
+      // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
+      // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
+      // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.
+      disabled={asChild ? undefined : disabled}
+      tabIndex={asChild && disabled ? -1 : undefined}
       aria-disabled={isInert || undefined}
       aria-busy={loading || undefined}
       className={cn(

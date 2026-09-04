@@ -14,6 +14,7 @@ export const BUTTON_TOC: TocEntry[] = [
   { id: 'button-states', label: 'States' },
   { id: 'button-width', label: 'Width' },
   { id: 'button-icons', label: 'Icons' },
+  { id: 'button-aschild', label: 'asChild' },
   { id: 'button-emphasized', label: 'Emphasized' },
   { id: 'button-emp-colors', label: 'Emp. Colors' },
   { id: 'button-emp-states', label: 'Emp. States' },
@@ -135,6 +136,55 @@ export function ButtonShowcase() {
       {/* ════════════════════════════════════════════════════════════
          EMPHASIZED
          ════════════════════════════════════════════════════════════ */}
+
+        {/* ─── asChild ────────────────────────────────────────────── */}
+        <section id="button-aschild" className="mb-12">
+          <SectionTitle>asChild</SectionTitle>
+          <p className="typography-14-regular text-semantic-text-on-bright-600 mb-6 max-w-[640px]">
+            버튼 스타일은 유지하면서 다른 요소를 루트로 렌더한다. 링크를 버튼처럼 보이게 할 때 쓴다.
+            루트 태그가 소비자가 준 요소로 바뀌므로 href·target 같은 네이티브 속성이 그대로 살아 있다.
+          </p>
+
+          <div className="grid grid-cols-[auto_1fr] gap-y-4 gap-x-6 items-center">
+            <RowHeader>Link</RowHeader>
+            <div className="flex gap-3 flex-wrap items-center">
+              <Button asChild>
+                <a href="#button-hierarchy">앵커로 이동</a>
+              </Button>
+              <Button asChild hierarchy="outlined" iconTrailing={<Icon name="open_in_new" />}>
+                <a href="https://tailwindcss.com/docs" target="_blank" rel="noreferrer">
+                  새 탭에서 열기
+                </a>
+              </Button>
+            </div>
+
+            <RowHeader>Disabled</RowHeader>
+            <div className="flex gap-3 flex-wrap items-center">
+              {/* asChild 는 소비자가 어떤 요소를 줄지 모르므로 네이티브 disabled 대신
+                  tabIndex=-1 로 tab 순서에서 뺀다. 클릭 차단은 onClick 가드가 한다. */}
+              <Button asChild disabled>
+                <a href="#button-hierarchy">비활성 링크</a>
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-2 border border-semantic-divider-solid-100 p-5 max-w-[640px]">
+            <p className="typography-14-semibold text-semantic-text-on-bright-900 mb-2">
+              같은 라벨을 나란히 — 여백 차이를 눈으로 확인한다
+            </p>
+            <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
+              asChild 경로에는 콘텐츠 래퍼가 없다. Radix Slottable 은 Slot 의 최상위 자식이어야 해서
+              텍스트를 감싸는 span 을 둘 수 없기 때문이다. 그래서 래퍼가 주던 좌우 여백(2~4px)이
+              빠져 버튼이 그만큼 좁다. 이것이 이 경로의 유일한 시각 차이다.
+            </p>
+            <div className="flex gap-3 flex-wrap items-center">
+              <Button>기본 경로</Button>
+              <Button asChild>
+                <a href="#button-aschild">기본 경로</a>
+              </Button>
+            </div>
+          </div>
+        </section>
 
       <div>
         <h2 className="typography-20-bold text-semantic-text-on-bright-900 mb-6">Emphasized</h2>

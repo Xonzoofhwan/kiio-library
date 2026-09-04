@@ -438,6 +438,46 @@ describe('Button — asChild', () => {
     expect(root.textContent).toContain('문서')
   })
 
+  it('disabled 는 네이티브 속성 대신 tabIndex 로 tab 순서에서 뺀다', () => {
+    // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
+    // 모르므로 <a disabled=""> 같은 무의미한 속성을 만들지 않는다. 대신 요소 종류와
+    // 무관하게 결과가 같아지는 tabIndex 로 tab 순서에서 뺀다.
+    const { root } = renderAsChild(
+      <Button asChild disabled>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    expect(root.hasAttribute('disabled')).toBe(false)
+    expect(root.getAttribute('tabindex')).toBe('-1')
+    expect(root.getAttribute('aria-disabled')).toBe('true')
+  })
+
+  it('disabled 가 아니면 tabIndex 를 건드리지 않는다', () => {
+    // 강제로 0 을 박으면 소비자가 준 tabIndex 를 덮어쓴다. 필요한 때만 손댄다.
+    const { root } = renderAsChild(
+      <Button asChild>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    expect(root.hasAttribute('tabindex')).toBe(false)
+  })
+
+  it('disabled 상태에서 클릭이 소비자 핸들러에 닿지 않는다', () => {
+    // tabIndex 는 tab 순서만 다룬다. 활성화 차단은 onClick 가드의 몫이다 —
+    // 마우스 클릭과 프로그래밍적 click() 은 tab 순서와 무관하게 일어난다.
+    const onClick = vi.fn()
+    const { root } = renderAsChild(
+      <Button asChild disabled onClick={onClick}>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    root.click()
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
   it('변형 클래스와 소비자 className 이 함께 남는다', () => {
     const { root } = renderAsChild(
       <Button asChild hierarchy="outlined" size="large" className="from-prop">

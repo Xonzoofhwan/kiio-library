@@ -156,7 +156,11 @@ export const ChipUniversal = forwardRef<HTMLButtonElement, ChipUniversalProps>(
         // 팝업의 종류(menu/listbox/dialog)는 칩이 알 수 없으므로 기본값은 'true'(=menu 상당)로 둔다.
         // 정확한 종류는 소비자가 aria-haspopup 을 넘겨 덮는다 — spread 가 마지막이라 그 값이 이긴다.
         aria-haspopup={isTrigger || undefined}
-        disabled={disabled}
+        // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
+        // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
+        // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.
+        disabled={asChild ? undefined : disabled}
+        tabIndex={asChild && disabled ? -1 : undefined}
         className={cn(
           chipUniversalVariants({ size, selected }),
           // asChild 에서는 콘텐츠 래퍼를 쓸 수 없다(Slottable 이 Slot 의 최상위 자식이어야 한다).
