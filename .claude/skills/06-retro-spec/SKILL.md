@@ -152,7 +152,7 @@ SearchField 패턴을 따른다:
 | 목적 | 경로 |
 |------|------|
 | JSON spec 템플릿 | `specs/_TEMPLATE.json` |
-| Wrapper 예시 | `specs/searchfield.json` |
+| Compound 예시 | `specs/tab.json` |
 | 컴포넌트 소스 | `src/components/{Name}/` |
 | 토큰 정의 | `src/tokens/tokens.css` |
 | Barrel export | `src/components/{Name}/index.ts` |

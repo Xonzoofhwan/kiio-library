@@ -320,14 +320,64 @@ const bottomSheetAnimation = {
 | 상태 | 시각적 변화 | 토큰 참조 | 전이 시간 |
 |------|-----------|----------|:--------:|
 | **Idle** | 기본 스타일 | — | — |
-| **Hover** | 배경 오버레이 추가 | `sys-state-on-{bright\|dim}-50` | `duration-fast` |
-| **Pressed** | 더 강한 배경 오버레이 | `sys-state-on-{bright\|dim}-100` | `duration-instant` |
-| **Focused** | 포커스 링 표시 | `border-sys-primary-300` (2px) | `duration-instant` |
+| **Hover** | 배경 오버레이 추가 | `semantic-state-on-{bright\|dim}-50` | `duration-fast` |
+| **Pressed** | 더 강한 배경 오버레이 | `semantic-state-on-{bright\|dim}-100` | `duration-instant` |
+| **Focused** | 포커스 링 표시 | `--comp-{component}-focus-border` (2px) | `duration-instant` |
 | **Focused+Hover** | 포커스 링 + 호버 오버레이 | 위 두 가지 결합 | `duration-fast` |
 | **Disabled** | 투명도 감소 + 커서 변경 | `opacity-40`, `cursor-not-allowed` | `duration-instant` |
 | **Loading** | 콘텐츠 숨김 + 스피너 표시 | `aria-busy="true"`, `aria-disabled="true"` | `duration-fast` |
 
 > Motion 적용 세부사항(duration, easing)은 [A절](#a-motion--timing-원칙)의 Motion 토큰 요약 테이블 참고.
+
+### 입력 장치 규칙
+
+**상태마다 적용되는 입력 장치가 다르다.** 터치에는 hover 개념이 없고, 탭 이후 `:hover` 가 들러붙어 눌린 것처럼 남는다. 그래서 상태별로 장치 범위를 못 박고 검사로 강제한다.
+
+| 상태 | 적용 장치 | 근거 |
+|------|----------|------|
+| **hover** | fine pointer만 — `(hover: hover) and (pointer: fine)` | 터치는 탭 후 hover 잔상이 남아 눌린 것처럼 보인다 |
+| **pressed** (`active:`) | **전 장치** | 터치에서 즉각 피드백이 없으면 사용자는 탭이 안 먹은 줄 안다 |
+| **focus-visible** | **전 장치**, 입력 방식 무관 | 키보드 사용자가 현재 위치를 잃으면 안 된다 |
+| **disabled** | hover·pressed 모두 없음 (우선순위 최상위) | 상호작용 불가를 시각적으로도 일관되게 |
+
+#### 강제 방법 — `hover:` 를 그냥 쓰면 된다
+
+`tailwind.config.js` 에 `future: { hoverOnlyWhenSupported: true }` 가 켜져 있다. `hover:` · `group-hover:` · `peer-hover:` **표준 variant** 는 빌드 시 자동으로 media query 안에 들어간다. 컴포넌트에서 media query 를 손으로 적지 않는다 — 빠뜨리는 곳이 반드시 생긴다.
+
+```tsx
+// ✅ 표준 variant — 자동으로 가드된다
+'group-hover:bg-[var(--comp-button-hover-primary)]'
+'group-active:bg-[var(--comp-button-active-primary)]'   // active 는 가드되지 않는다 (의도된 것)
+```
+
+#### ⚠️ arbitrary variant 는 자동으로 가드되지 않는다
+
+대괄호 안에 `:hover` 를 **직접 써넣은** 경우 Tailwind 는 감싸주지 않는다. 이때는 media 를 직접 붙인다.
+
+```tsx
+// ❌ 가드를 빠져나간다 — 터치에서 hover 배경이 남는다
+'group-[[data-state=checked]:hover]:bg-[var(--comp-switch-overlay-on-hover)]'
+
+// ✅ 임의 media variant 를 앞에 붙인다
+'[@media(hover:hover)and(pointer:fine)]:group-[[data-state=checked]:hover]:bg-[var(--comp-switch-overlay-on-hover)]'
+```
+
+**`:not(:hover)` 는 감싸는 것만으로 안 된다.** "checked 이고 hover 도 active 도 아닐 때"처럼 hover 의 **부재**를 조건으로 쓰면, 터치에서는 hover 가 들러붙어 조건이 영영 거짓이 된다. media 로 감싸면 규칙 자체가 안 걸려 결과가 같다. 장치별로 조건을 나눠야 한다.
+
+```tsx
+// fine: hover 도 active 도 아닐 때
+'[@media(hover:hover)and(pointer:fine)]:group-[[data-state=checked]:not(:hover):not(:active)]:size-[…]'
+// coarse: hover 조건을 아예 빼고 active 만 본다
+'[@media(hover:none)]:group-[[data-state=checked]:not(:active)]:size-[…]'
+```
+
+#### hover 와 pressed 의 순서
+
+같은 요소에 둘 다 있으면 **pressed 가 hover 를 덮어야 한다.** CVA 문자열에서 `active:` 를 `hover:` **뒤에** 둔다. 두 클래스의 특이성이 같으므로 선언 순서가 승자를 정한다.
+
+#### 검사
+
+`src/testing/cssContract.test.ts` 가 빌드된 CSS 를 파싱해 강제한다 — `:hover` 를 포함한 모든 규칙이 가드 안에 있고, `:active` 규칙은 밖에 있는지. 위반하면 셀렉터를 전부 출력하며 실패한다.
 
 ### on-dim / on-bright 오버레이 판단
 

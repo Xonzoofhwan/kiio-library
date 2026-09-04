@@ -1,0 +1,238 @@
+{
+  "component": "Skeleton",
+  "classification": "Primitive (multi-file) + hooks",
+  "description": "Loading affordance family. SkeletonBlock is a shimmering placeholder rectangle with 4 shape presets. TextReservation reserves the exact vertical space a paragraph will occupy by measuring the real string with pretext, so the skeleton → content swap causes zero layout shift. Two hooks support it: usePretext (measurement) and useSkeletonPhase (Defer + Minimum Hold timing policy).",
+  "figmaNode": null,
+  "_comment_figmaNode": "Retro-extracted from source (/retro-spec). No Figma node ID for Skeleton is recorded anywhere in the repo, so it is left null rather than guessed. Fill it together with figmaFileKey (the other specs use 3ZDIVn83opF9OYSzWYE1iF) once confirmed in Figma.",
+
+  "subComponents": [
+    {
+      "name": "SkeletonBlock",
+      "role": "Placeholder rectangle with an optional diagonal shimmer sweep. The atom every other skeleton is built from.",
+      "element": "<div role='presentation' aria-hidden> with a <span aria-hidden> shimmer overlay",
+      "props": {
+        "width": {
+          "type": "number | string",
+          "default": "100%",
+          "description": "Numbers are treated as px; strings pass through as-is. Applied via inline style."
+        },
+        "height": {
+          "type": "number | string",
+          "default": 16,
+          "description": "Numbers are treated as px; strings pass through as-is. Applied via inline style."
+        },
+        "shape": {
+          "type": "'small' | 'medium' | 'large' | 'circular'",
+          "default": "medium",
+          "description": "Border-radius preset. circular is rounded-full (avatars)."
+        },
+        "disableAnimation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Omits the shimmer <span> entirely — not merely paused."
+        },
+        "className": { "type": "string" },
+        "style": {
+          "type": "CSSProperties",
+          "description": "Spread after width/height, so a caller can override both."
+        },
+        "...rest": {
+          "type": "Omit<HTMLAttributes<HTMLDivElement>, 'children'>",
+          "description": "children is deliberately omitted — a skeleton has no content."
+        }
+      }
+    },
+    {
+      "name": "TextReservation",
+      "role": "Reserves the exact space a paragraph will take. Measures the real text with pretext, renders one skeleton bar per measured line, then fades the content in at identical height.",
+      "element": "<div class='relative'> containing either the faded-in content or a column of SkeletonBlock lines",
+      "props": {
+        "text": {
+          "type": "string | null | undefined",
+          "description": "The text to display. null/undefined means the text has not arrived yet → estimation phase."
+        },
+        "typography": {
+          "type": "TypographyKey",
+          "required": true,
+          "description": "Typography token key (e.g. '16-regular', '22-semibold'). Must match the class used inside the children render function — it is the single source for both the measurement font and the skeleton line height."
+        },
+        "ready": {
+          "type": "boolean",
+          "default": true,
+          "description": "false keeps the skeleton visible even when the text is measured, so a hold window can elapse. Driven by useSkeletonPhase.ready."
+        },
+        "children": {
+          "type": "(text: string) => ReactNode",
+          "required": true,
+          "description": "Render function called with the measured text once the content phase is reached."
+        },
+        "estimatedLines": {
+          "type": "number",
+          "default": 3,
+          "description": "Fallback line count for the estimation phase, used only while there is no text to measure."
+        },
+        "lastLineRatio": {
+          "type": "number",
+          "default": 0.6,
+          "description": "Width ratio (0–1) of the last skeleton line in the estimation phase."
+        },
+        "disableAnimation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Forwarded to every SkeletonBlock line."
+        },
+        "className": { "type": "string" },
+        "style": { "type": "CSSProperties" },
+        "...rest": { "type": "Omit<HTMLAttributes<HTMLDivElement>, 'children'>" }
+      }
+    }
+  ],
+
+  "hooks": [
+    {
+      "name": "usePretext",
+      "file": "src/components/Skeleton/usePretext.ts",
+      "role": "Measures text into laid-out lines with @chenglou/pretext, after the web font has loaded.",
+      "options": {
+        "text": "string | undefined | null — null/undefined means no measurement",
+        "font": "string — CSS font shorthand, e.g. \"600 22px 'Geist Sans', sans-serif\"",
+        "maxWidth": "number — container width in px; <= 0 suppresses measurement",
+        "lineHeight": "number — line height in px"
+      },
+      "result": {
+        "fontReady": "boolean — flipped true by document.fonts.ready",
+        "measurement": "{ height, lineCount, lines } | null"
+      },
+      "notes": [
+        "Two separate useMemos: prepareWithSegments depends on (fontReady, text, font); layoutWithLines additionally on (maxWidth, lineHeight). Resizing therefore re-runs line breaking but not segmentation.",
+        "Measurement is computed during render, not in an effect, so the value exists before first paint."
+      ]
+    },
+    {
+      "name": "useSkeletonPhase",
+      "file": "src/lib/useSkeletonPhase.ts",
+      "role": "Enforces the 'Defer + Minimum Hold' loading policy. Lives in src/lib, not src/components/Skeleton — it is a timing policy, not a view.",
+      "options": {
+        "deferMs": "number, default 100 — loading that finishes inside this window never shows a skeleton (anti-flash)",
+        "minHoldMs": "number, default 300 — once shown, a skeleton stays at least this long"
+      },
+      "result": {
+        "showSkeleton": "boolean — mount the skeleton subtree. Stays true through the content fade-in, otherwise there would be nothing to fade.",
+        "ready": "boolean — pass to TextReservation.ready. Skipped-skeleton paths are ready immediately, with no hold."
+      },
+      "notes": [
+        "The isLoading transition resets state during render (React's 'adjust state on prop change' pattern) rather than in an effect, so a new loading cycle never paints one frame of the previous one.",
+        "The defer timer deliberately omits skeletonShownAt from its deps — including it would make the timer restart itself and never expire.",
+        "The hold window is what gives pretext time to measure accurate line widths, which is why the fade-in shifts nothing."
+      ]
+    }
+  ],
+
+  "variants": {
+    "SkeletonBlock": {
+      "shape": {
+        "small": { "radius": "4px → --comp-skeleton-radius-small (primitive-radius-1)" },
+        "medium": { "radius": "8px → --comp-skeleton-radius-medium (primitive-radius-2)" },
+        "large": { "radius": "12px → --comp-skeleton-radius-large (primitive-radius-3)" },
+        "circular": { "radius": "rounded-full (9999px) — Tailwind utility, no component token" }
+      },
+      "_comment": "shape is the only CVA axis. width/height are inline styles, not variants, because a skeleton mirrors arbitrary content dimensions."
+    },
+    "TextReservation": {
+      "phase": {
+        "_comment": "Not a prop — derived each render from (text, fontReady, ready, showContent). Named in the source as TextReservationPhase.",
+        "estimation": "text == null || !fontReady → estimatedLines bars, last one at lastLineRatio width.",
+        "reservation": "text measured but (!ready || !showContent) → one bar per measured line, each at the measured line width (min 20px).",
+        "content": "ready && measured && one rAF elapsed → children(text) inside a fade-in wrapper."
+      },
+      "lineGeometry": {
+        "rowHeight": "Each line row is exactly lineHeight px, taken from the typography token — this is what guarantees zero layout shift.",
+        "barHeight": "Math.round(lineHeight × 0.65) — BAR_HEIGHT_RATIO, a cap-height approximation.",
+        "barShape": "SkeletonBlock shape='small' (4px radius).",
+        "minBarWidth": "20px — Math.max(line.width, 20) keeps a very short last line visible."
+      }
+    }
+  },
+
+  "states": {
+    "_comment": "Skeleton is non-interactive. 'States' here are loading phases, not pointer states.",
+    "hover": "N/A — pointer-transparent placeholder, no hover treatment.",
+    "pressed": "N/A — not interactive.",
+    "focused": "N/A — not focusable.",
+    "disabled": "N/A — no disabled concept.",
+    "loading": "The component *is* the loading state. Phase progression: idle → (deferMs) → skeleton shown → (minHoldMs) → content fade-in. See hooks.useSkeletonPhase."
+  },
+
+  "a11y": {
+    "role": "native: none. SkeletonBlock renders role='presentation' + aria-hidden, so the placeholder is removed from the accessibility tree. TextReservation's wrapper <div> carries no role and no ARIA of its own.",
+    "keyboard": {
+      "Tab": "N/A — nothing inside a skeleton is focusable.",
+      "Enter": "N/A — not interactive.",
+      "Space": "N/A — not interactive.",
+      "Arrow": "N/A — not interactive.",
+      "Escape": "N/A — not a dismissible layer."
+    },
+    "aria": ["aria-hidden (SkeletonBlock root and its shimmer span)"],
+    "focus": "N/A — no focusable element; the skeleton is never a tab stop.",
+    "focusVisible": "N/A — not focusable, so no focus ring is drawn.",
+    "gaps": [
+      "aria-busy is not used anywhere in the Skeleton family (verified: every aria-busy in src/components/ belongs to a Button/IconButton/TextButton loading state; the only other occurrence is a documentation string in BlockCatalogShowcase). TextReservation's wrapper is the natural owner of aria-busy={phase !== 'content'}.",
+      "There is no live region, so the skeleton → content swap is silent to assistive technology: the placeholder is aria-hidden, and the text that replaces it is announced only if the user happens to be reading that area."
+    ]
+  },
+
+  "tokens": {
+    "scope": ":root for radius, [data-theme] for the two colours.",
+    "definitions": {
+      "--comp-skeleton-radius-small": "var(--primitive-radius-1) → 4px",
+      "--comp-skeleton-radius-medium": "var(--primitive-radius-2) → 8px",
+      "--comp-skeleton-radius-large": "var(--primitive-radius-3) → 12px",
+      "--comp-skeleton-bg": "var(--semantic-neutral-solid-100) → gray-100 (light) / gray-700 (dark)",
+      "--comp-skeleton-shimmer": "var(--semantic-neutral-white-alpha-400) → white-alpha-400 (light) / black-alpha-400 (dark)"
+    },
+    "notes": [
+      "The shimmer token flips polarity with the theme, because the neutral-white-alpha family itself remaps to black-alpha under [data-theme='dark']. Light theme sweeps lighter than the base; dark theme sweeps darker.",
+      "The shimmer duration and easing are not tokenized: animate-[shimmer_1.5s_ease-in-out_infinite] hardcodes 1.5s and Tailwind's default ease-in-out instead of --semantic-duration-* / --semantic-easing-*.",
+      "The gradient geometry (110deg, stops at 20% / 60% / 90%) is a hardcoded inline style; only its colour comes from a token."
+    ]
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn (SkeletonBlock) · plain function component + custom hooks (TextReservation). No Slot, no Context.",
+    "shimmer": "Absolute <span aria-hidden> with a diagonal linear-gradient background, animated by the shimmer keyframe (translateX -100% → 100%, defined in src/index.css). GPU-friendly: transform only, no background-position animation.",
+    "reducedMotion": "The global prefers-reduced-motion block collapses animation-duration to 0.01ms, so the shimmer stops while colour and opacity transitions elsewhere survive. The fade-in keyframe is collapsed the same way.",
+    "fadeIn": "animate-[fade-in_var(--semantic-duration-normal)_var(--semantic-easing-enter)] on the content wrapper.",
+    "widthObservation": "ResizeObserver on the TextReservation root feeds containerWidth into usePretext.maxWidth; measurement is suppressed until width > 0.",
+    "typographyResolution": "resolveTypography(key) builds the CSS font shorthand as `${fontWeight} ${fontSize}px ${fontFamily}` and reads lineHeight from the same token. The shorthand cannot carry letter-spacing, so the token's tracking (e.g. -0.012em) is not reflected in the measured widths.",
+    "contentReset": "When text goes away or ready drops, showContent is reset during render (comparing against prevShouldReset) rather than in an effect, so the previous content never survives a frame into the new cycle.",
+    "domStructure": [
+      "div (TextReservation root: relative, ref for ResizeObserver)",
+      "  div (content phase: fade-in wrapper) → children(text)",
+      "  div (skeleton phase: flex flex-col)",
+      "    div (one row per line, height = lineHeight, flex items-center)",
+      "      div (SkeletonBlock: role=presentation aria-hidden, width/height inline)",
+      "        span (shimmer overlay, conditional)"
+    ],
+    "files": [
+      "src/components/Skeleton/SkeletonBlock.tsx",
+      "src/components/Skeleton/TextReservation.tsx",
+      "src/components/Skeleton/usePretext.ts",
+      "src/components/Skeleton/index.ts",
+      "src/lib/useSkeletonPhase.ts"
+    ],
+    "dependencies": [
+      "@chenglou/pretext (prepareWithSegments, layoutWithLines)",
+      "class-variance-authority",
+      "src/lib/utils.ts (cn)",
+      "src/tokens/typography.ts (typography, TypographyKey)"
+    ],
+    "tokenFile": "src/tokens/tokens.css",
+    "exports": [
+      "SkeletonBlock, TextReservation, usePretext (from src/components/Skeleton)",
+      "SkeletonBlockProps, TextReservationProps, UsePretextOptions, UsePretextResult, PretextMeasurement (types)",
+      "SKELETON_BLOCK_SHAPES (as const array), SkeletonBlockShape (derived type)",
+      "useSkeletonPhase, UseSkeletonPhaseOptions, UseSkeletonPhaseResult — exported from src/lib/useSkeletonPhase.ts only; not re-exported by src/components/Skeleton/index.ts"
+    ],
+    "showcaseId": "skeleton"
+  }
+}

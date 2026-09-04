@@ -21,8 +21,8 @@ const componentVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-semantic-primary-500 hover:bg-semantic-primary-600 text-white',
-        secondary: 'bg-semantic-neutral-solid-100 hover:bg-semantic-neutral-solid-200',
+        primary: 'bg-semantic-emphasized-purple-500 hover:bg-semantic-emphasized-purple-600 text-semantic-text-on-dim-900',
+        secondary: 'bg-semantic-neutral-solid-100 hover:bg-semantic-neutral-solid-200 text-semantic-text-on-bright-900',
       },
       size: {
         small: 'p-2 gap-2 typography-14-medium',

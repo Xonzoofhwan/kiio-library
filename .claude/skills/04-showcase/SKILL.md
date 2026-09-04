@@ -52,7 +52,7 @@ argument-hint: "[ComponentName]"
 
 기존 쇼케이스를 참조하여 이 컴포넌트에 적합한 패턴을 파악:
 - `src/showcase/ButtonShowcase.tsx` — 매트릭스형 (variant x size grid)
-- `src/showcase/TextFieldShowcase.tsx` — 입력형 (상태별 데모)
+- `src/showcase/SwitchShowcase.tsx` — 상태형 (on/off·size 조합 데모)
 - `src/showcase/TabShowcase.tsx` — compound형 (사용 패턴별 데모)
 - `src/showcase/BadgeShowcase.tsx` — 디스플레이형 (variant 나열)
 
@@ -188,7 +188,7 @@ export const CARD_TOC: TocEntry[] = [
 | 컴포넌트 소스 | `src/components/{Name}/{Name}.tsx` |
 | 레이아웃 프리미티브 | `src/showcase/shared.tsx` |
 | 매트릭스 쇼케이스 참조 | `src/showcase/ButtonShowcase.tsx` |
-| 입력형 쇼케이스 참조 | `src/showcase/TextFieldShowcase.tsx` |
+| 상태형 쇼케이스 참조 | `src/showcase/SwitchShowcase.tsx` |
 | Compound 쇼케이스 참조 | `src/showcase/TabShowcase.tsx` |
 | 디스플레이 쇼케이스 참조 | `src/showcase/BadgeShowcase.tsx` |
 | TOC 타입 정의 | `src/components/showcase-layout/TableOfContents.tsx` |

@@ -1,0 +1,182 @@
+{
+  "component": "ChipUniversal",
+  "classification": "Primitive (single file)",
+  "description": "Interactive neutral chip. A pill-shaped button with a binary selected look, 2 sizes, leading/trailing icon slots and an optional corner badge. Unlike ChipBadgeLike (a display <span> with an optional close button), ChipUniversal is a real <button> — used for filter toggles, dropdown triggers and quick-select rows. The toggle semantics are the consumer's: the component only paints `selected`.",
+  "figmaNode": null,
+  "_comment_figmaNode": "Retro-extracted from source (/retro-spec). No Figma node ID for ChipUniversal is recorded anywhere in the repo, so it is left null rather than guessed. Fill it together with figmaFileKey (the other specs use 3ZDIVn83opF9OYSzWYE1iF) once confirmed in Figma.",
+
+  "variantMetadata": {
+    "CHIP_UNIVERSAL_SIZES": ["large", "medium"],
+    "_comment": "Declared in src/components/Chip/shared.tsx and re-exported from ChipUniversal.tsx, so both import paths resolve to the same array. There is no shape axis — the chip is always rounded-full."
+  },
+
+  "props": {
+    "selected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Visual selection state. Drives the CVA `selected` variant and aria-pressed. Toggle/dropdown behaviour is the consumer's job via onClick."
+    },
+    "size": {
+      "type": "'large' | 'medium'",
+      "default": "large",
+      "description": "Size variant."
+    },
+    "iconLeading": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Leading icon slot. Sized internally from the size variant."
+    },
+    "iconTrailing": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Trailing icon slot. Sits outside the inner icon+text group, so the outer gap applies to it."
+    },
+    "badge": {
+      "type": "ReactNode",
+      "default": null,
+      "description": "Corner badge content. Rendered as BadgeLabel size='nano' shape='circular' weight='heavy' color='red', absolutely positioned at the top-right."
+    },
+    "asChild": {
+      "type": "boolean",
+      "default": false,
+      "description": "Radix Slot — renders the child element with the chip styles. type='button' is dropped when asChild is set."
+    },
+    "disabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Native button disabled attribute plus pointer-events-none and opacity-50. Inherited from ButtonHTMLAttributes, not declared explicitly."
+    },
+    "children": {
+      "type": "ReactNode",
+      "required": true,
+      "description": "Label content. Wrapped in a span with px-1 (4px each side)."
+    },
+    "className": { "type": "string" },
+    "...rest": {
+      "type": "Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'>",
+      "description": "'color' is omitted to avoid colliding with the HTML color attribute. Spread last, so a consumer can override aria-pressed or type."
+    },
+    "ref": {
+      "type": "Ref<HTMLButtonElement>",
+      "description": "forwardRef. displayName = 'ChipUniversal'."
+    }
+  },
+
+  "variants": {
+    "size": {
+      "large": {
+        "height": "40px → --comp-chip-universal-height-lg (primitive-spacing-10)",
+        "paddingX": "12px → --comp-chip-universal-px-lg (primitive-spacing-3)",
+        "typography": "typography-14-semibold",
+        "gap": "6px → --comp-chip-universal-gap-lg (primitive-spacing-1.5) — between the icon+text group and iconTrailing",
+        "innerGap": "2px → --comp-chip-universal-inner-gap-lg (primitive-spacing-0.5) — between iconLeading and the text",
+        "iconSize": "18px → --comp-chip-universal-icon-lg (px literal, no primitive reference)",
+        "textMarginX": "px-1 (4px)"
+      },
+      "medium": {
+        "height": "32px → --comp-chip-universal-height-md (primitive-spacing-8)",
+        "paddingX": "10px → --comp-chip-universal-px-md (primitive-spacing-2.5)",
+        "typography": "typography-12-semibold",
+        "gap": "4px → --comp-chip-universal-gap-md (primitive-spacing-1)",
+        "innerGap": "0px → --comp-chip-universal-inner-gap-md (px literal)",
+        "iconSize": "16px → --comp-chip-universal-icon-md (px literal, no primitive reference)",
+        "textMarginX": "px-1 (4px)"
+      }
+    },
+    "selected": {
+      "false": {
+        "background": "--comp-chip-universal-bg (semantic-neutral-black-alpha-70)",
+        "content": "--comp-chip-universal-content (semantic-neutral-black-alpha-600)",
+        "stateOverlayType": "on-bright"
+      },
+      "true": {
+        "background": "--comp-chip-universal-bg-selected (semantic-neutral-black-alpha-950)",
+        "content": "--comp-chip-universal-content-selected (semantic-neutral-solid-0)",
+        "stateOverlayType": "on-dim"
+      }
+    },
+    "shape": {
+      "_comment": "No shape prop. rounded-full is hardcoded in the CVA base string and repeated on the focus ring and state overlay spans. There is no --comp-chip-universal-radius-* token."
+    }
+  },
+
+  "states": {
+    "hover": {
+      "unselected": "state overlay: --comp-chip-universal-hover (semantic-state-on-bright-50)",
+      "selected": "state overlay: --comp-chip-universal-hover-selected (semantic-state-on-dim-50)"
+    },
+    "pressed": {
+      "unselected": "state overlay: --comp-chip-universal-pressed (semantic-state-on-bright-70)",
+      "selected": "state overlay: --comp-chip-universal-pressed-selected (semantic-state-on-dim-70)",
+      "scale": "active:scale-[var(--comp-chip-universal-scale-pressed)] → --semantic-scale-press-lg → --primitive-scale-99 → 0.99. The transition is composed inline: --comp-scale-press-transition-out on release, -in on press, sharing the list with the colour transition."
+    },
+    "focused": {
+      "all": "border-2 border-[var(--comp-chip-universal-focus-border)] (semantic-neutral-solid-1000) on a dedicated rounded-full span, shown on group-focus-visible only.",
+      "note": "This token read var(--semantic-primary-300) until Phase 2 — a family that never existed, so the ring fell back to currentColor. It now matches the Button/Tab/ChipBadgeLike/NavVertical convention (neutral-solid-1000)."
+    },
+    "disabled": {
+      "description": "pointer-events-none + opacity-50, plus the native disabled attribute on the <button>. No separate disabled colour tokens — unlike Button, the chip dims rather than recolouring."
+    },
+    "loading": "N/A — ChipUniversal has no loading state or spinner."
+  },
+
+  "a11y": {
+    "role": "native: <button type='button'>. With asChild the element is whatever the consumer renders, and no role is imposed on it.",
+    "keyboard": {
+      "Tab": "Sequential — one tab stop, in DOM order. A chip row is plain DOM, not a composite widget.",
+      "Enter": "Native button activation → onClick.",
+      "Space": "Native button activation → onClick.",
+      "Arrow": "N/A — a standalone control with no group semantics. Roving focus would require a wrapper this component does not provide.",
+      "Escape": "N/A — not a dismissible layer."
+    },
+    "aria": ["aria-pressed"],
+    "focus": "sequential",
+    "focusVisible": "Custom ring only: the CVA base sets outline-none, and an absolute <span aria-hidden> with border-2 rounded-full fades in on group-focus-visible (transition-opacity duration-fast ease-enter).",
+    "gaps": [
+      "aria-pressed={selected} is emitted unconditionally, including for the dropdown-trigger use the `selected` JSDoc explicitly names. A trigger should expose aria-expanded/aria-haspopup instead; a consumer can only fix this by overriding through the trailing spread.",
+      "The badge renders BadgeLabel, a plain <span> with no aria-hidden, so its number is folded into the button's accessible name with no unit (e.g. '필터 3'). Compare BadgeDot, which is aria-hidden.",
+      "With asChild, `disabled` is forwarded to the Slot child. On a non-button child it has no effect, leaving only pointer-events-none and opacity-50 — the element stays focusable and Enter still activates it."
+    ]
+  },
+
+  "implementation": {
+    "pattern": "CVA + cn + @radix-ui/react-slot + forwardRef",
+    "stateOverlay": "Single absolute <span aria-hidden> inset-0 rounded-full. The hover/active token pair is chosen in JS from `selected` rather than with group-data attributes, because the chip has no data-state.",
+    "focusRing": "Separate absolute <span aria-hidden> with border-2, opacity toggled by group-focus-visible. No pointerRef — unlike Button, this relies on the CSS :focus-visible pseudo-class alone.",
+    "iconSizing": "Icon containers get size-[var(--comp-chip-universal-icon-{lg|md})] plus flex-shrink-0 and [&>*]:[font-size:inherit], with an inline style={{ fontSize: size === 'large' ? 18 : 16 }}. The inline value is a raw number, not var(--comp-chip-universal-icon-*), so it duplicates the token value in JS — the Button family uses iconFontSizeVar with var() references instead.",
+    "badgePosition": "Absolute -top-1 -right-1 (−4px) z-[2] wrapper. Sits outside the content span, so it is unaffected by the content gaps.",
+    "domStructure": [
+      "button (root: bg, height, px, rounded-full, group relative, outline-none, press scale)",
+      "  span (focus ring: absolute inset-0, rounded-full, border-2, group-focus-visible)",
+      "  span (state overlay: absolute inset-0, rounded-full, group-hover/group-active)",
+      "  span (content: relative z-1, inline-flex, outer gap)",
+      "    span (inner: inline-flex, inner gap)",
+      "      span (iconLeading container, conditional)",
+      "      span (text, px-1)",
+      "    span (iconTrailing container, conditional)",
+      "  span (badge wrapper: absolute -top-1 -right-1 z-2, conditional) → BadgeLabel"
+    ],
+    "files": [
+      "src/components/Chip/ChipUniversal.tsx",
+      "src/components/Chip/shared.tsx",
+      "src/components/Chip/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "class-variance-authority",
+      "src/lib/utils.ts (cn)",
+      "@/components/Badge (BadgeLabel)"
+    ],
+    "tokenFile": "src/tokens/tokens.css",
+    "tokenNotes": {
+      "literals": "--comp-chip-universal-icon-lg (18px), --comp-chip-universal-icon-md (16px) and --comp-chip-universal-inner-gap-md (0px) are px literals with no primitive reference. 16px has an equal-valued --primitive-spacing-4 and 0px has --primitive-spacing-0; 18px has no primitive counterpart (the spacing scale steps 16 → 20).",
+      "missing": "No radius token — rounded-full is written directly into three class strings."
+    },
+    "exports": [
+      "ChipUniversal (from src/components/Chip/index.ts)",
+      "ChipUniversalProps, ChipUniversalSize (types)",
+      "CHIP_UNIVERSAL_SIZES (as const array)"
+    ],
+    "showcaseId": "chip-universal"
+  }
+}

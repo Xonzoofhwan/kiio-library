@@ -236,19 +236,19 @@ Ref (Primitive) → Sys (Semantic) → Component
 
 ### 모션 원칙
 
-색상·스페이싱과 동일하게 모션도 Ref → Sys 토큰 계층을 따른다.
+색상과 동일하게 모션도 **Primitive → Semantic** 2계층을 따른다. (`ref`/`sys`는 옛 접두사이고, 현재 이름은 `primitive`/`semantic`이다.)
 
-| 카테고리 | Ref (직접 사용 금지) | Sys (컴포넌트에서 사용) | Tailwind |
+| 카테고리 | Primitive (직접 사용 금지) | Semantic (컴포넌트에서 사용) | Tailwind |
 |---------|:-------------------:|:---------------------:|---------|
-| **Duration** | `ref-duration-{0\|100\|200\|300\|500}` | `sys-duration-{instant\|fast\|normal\|slow\|slower}` | `duration-{instant\|fast\|normal\|slow\|slower}` |
-| **Easing** | `ref-easing-{ease-out\|ease-in\|ease-in-out\|linear}` | `sys-easing-{enter\|exit\|move\|linear}` | `ease-{enter\|exit\|move\|linear}` |
+| **Duration** | `primitive-duration-{0\|100\|150\|200\|300\|500}` | `semantic-duration-{instant\|fast\|medium\|normal\|slow\|slower}` | `duration-{instant\|fast\|medium\|normal\|slow\|slower}` |
+| **Easing** | `primitive-easing-{ease-out\|ease-in\|ease-in-out\|linear}` | `semantic-easing-{enter\|exit\|move\|linear}` | `ease-{enter\|exit\|move\|linear}` |
 
-1. **모션에도 ref 직접 사용 금지**
+1. **모션에도 primitive 직접 사용 금지**
    ```tsx
    // DO NOT
    className="duration-100 ease-out"
 
-   // DO — sys 토큰 사용
+   // DO — semantic 토큰 사용
    className="duration-fast ease-enter"
    ```
 
@@ -257,8 +257,8 @@ Ref (Primitive) → Sys (Semantic) → Component
    - 퇴장은 진입의 2/3 시간: 진입 `duration-slow` → 퇴장 `duration-normal`
 
 3. **테마별 모션 조절 가능**
-   - sys 토큰이 CSS 변수이므로 `data-theme` 셀렉터에서 재매핑 가능
-   - 예: 한 테마에서 전체적으로 빠른 모션을 원하면 `--sys-duration-normal: var(--ref-duration-100)`
+   - semantic 모션 토큰은 테마 불변이라 오늘 `:root`에 선언돼 있다. 그래도 CSS 변수이므로 `[data-theme]` 셀렉터에서 덮을 수 있다
+   - 예: 한 테마에서 전체적으로 빠른 모션을 원하면 `[data-theme="x"] { --semantic-duration-normal: var(--primitive-duration-100) }`
 
 > 모션 토큰의 전체 스케일, 판단 트리, 진입/퇴장 패턴, `prefers-reduced-motion` 대응은 [INTERACTION_DESIGN.md §A](./INTERACTION_DESIGN.md#a-motion--timing-원칙) 참고.
 
@@ -270,7 +270,7 @@ Ref (Primitive) → Sys (Semantic) → Component
    const bg = theme === 'foo' ? 'bg-purple-500' : 'bg-orange-500'
 
    // DO — semantic 토큰이 자동 처리
-   className="bg-semantic-primary-500"
+   className="bg-semantic-emphasized-purple-500"
    ```
 
 2. **light와 dark 모드 모두에서 검증 필수**

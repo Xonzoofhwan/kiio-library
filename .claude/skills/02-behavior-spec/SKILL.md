@@ -176,6 +176,6 @@ Props Decision Tree를 순차적으로 적용한다:
 | CVA + cn, Icon, Loading, asChild | `docs/COMPONENT_PATTERNS.md` |
 | 모션 토큰, 상태 전이 | `docs/INTERACTION_DESIGN.md` |
 | Gold standard (Primitive) | `src/components/Button/Button.tsx` |
-| Input-based 참조 | `src/components/TextField/TextField.tsx` |
+| Radix 래핑 참조 | `src/components/Tooltip/Tooltip.tsx` |
 | Compound 참조 | `src/components/Tab/Tab.tsx` |
 | 기존 컴포넌트 토큰 | `src/tokens/tokens.css` |

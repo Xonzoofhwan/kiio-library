@@ -1,5 +1,7 @@
 ---
+name: skill-metabolism
 description: "스킬 구조 건강성 점검 및 리구조화 (Skill Metabolism). 다음 상황에서 활성화: (1) lesson-learnings Active 항목 10개 이상 축적, (2) SKILL.md 또는 참조 파일이 비대화, (3) 분기별 정기 점검, (4) 사용자가 /skill-metabolism 호출"
+argument-hint: "[SkillName?]"
 ---
 
 # Skill Metabolism — 스킬 자가 발전 프로세스

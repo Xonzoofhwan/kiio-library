@@ -130,6 +130,21 @@
     }
   },
 
+  "a11y": {
+    "_comment": "Keyboard and ARIA contract. Agreed here, at spec time — a contract that is not agreed before implementation gets bolted on after it. Fill every field: \"N/A - <reason>\" is a valid answer, an empty field is not. /behavior-spec fills this block; the cases in src/testing/keyboardContract.test.tsx are derived from it.",
+    "role": "tablist | radiogroup | button | … (write 'native: <button>' when the native element already supplies the role)",
+    "keyboard": {
+      "Tab": "How focus enters the component and where it goes next.",
+      "Enter": "…",
+      "Space": "…",
+      "Arrow": "Which arrow keys move focus or selection, whether the list loops, and what Home/End do.",
+      "Escape": "…"
+    },
+    "aria": ["aria-selected", "aria-controls", "…"],
+    "focus": "roving | sequential",
+    "focusVisible": "What draws the focus ring — element, token, and whether the UA outline is suppressed."
+  },
+
   "implementation": {
     "_comment": "Implementation notes.",
     "pattern": "CVA + cn + @radix-ui/react-slot",

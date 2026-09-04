@@ -18,9 +18,11 @@ Figma 디자인을 구조화된 JSON 스펙으로 변환하고, 일관된 토큰
 ```bash
 npm install        # 의존성 설치
 npm run dev        # 개발 서버 (http://localhost:5173)
-npm run build      # 프로덕션 빌드
-npm run lint       # ESLint 실행
+npm run check      # 게이트 — lint → build → test:run
 ```
+
+개별 검사: `npm run lint` · `npm run build` · `npm run test` (watch) · `npm run test:run`.
+`check` 의 순서는 계약이다 — CSS 계약 테스트가 `dist/assets/*.css` 를 읽으므로 `test:run` 은 `build` 뒤에 온다.
 
 ## Token Architecture
 

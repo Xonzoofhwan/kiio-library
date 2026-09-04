@@ -14,16 +14,25 @@ React 19 + TypeScript design system library. Provides design tokens and styled U
 ---
 ## Development Commands
 ```bash
+# 게이트 — 커밋 전에 이것 하나만 통과시키면 된다
+npm run check         # lint → build → test:run (순서가 계약이다)
+
 # Development
-npm run dev           # Start Vite dev server (http://localhost:5173)
-# Build
-npm run build         # Compile TypeScript and build for production
-npm run preview       # Preview production build locally
-# Code Quality
-npm run lint          # Run ESLint
-npm run lint:fix      # Auto-fix ESLint issues (if configured)
-npm run typecheck     # Run TypeScript compiler check (if configured)
+npm run dev           # Vite 개발 서버 (http://localhost:5173)
+npm run preview       # 프로덕션 빌드 미리보기
+
+# 개별 검사
+npm run lint          # ESLint
+npm run lint:fix      # ESLint 자동 수정
+npm run typecheck     # tsc -b (build 가 이미 같은 일을 한다 — 편의용)
+npm run build         # tsc -b && vite build
+npm run test          # vitest watch
+npm run test:run      # vitest 1회 실행
 ```
+
+**`npm run check` 의 순서가 계약이다.** CSS 계약 테스트가 `dist/assets/*.css` 를 읽으므로 `test:run` 은 `build` 뒤에 와야 한다. `test:run` 을 단독으로 돌리면 그 테스트는 skip 이 아니라 **실패**하며 `npm run build` 를 먼저 하라고 알려준다.
+
+**green 의 기준**은 "명령이 끝났다"가 아니라 **출력을 읽고 실패·경고·skip 이 없음을 확인한 것**이다. 보고는 수치로 한다 (`0 problems`, `N passed`).
 **Quick Start**:
 1. `npm install` - Install dependencies
 2. `npm run dev` - Start development server
@@ -34,7 +43,7 @@ npm run typecheck     # Run TypeScript compiler check (if configured)
 이 저장소는 **public**이다. 커밋/푸시 전 반드시 확인:
 
 **커밋 전 체크리스트**:
-- [ ] `npm run build` 성공 확인
+- [ ] `npm run check` 성공 확인 (lint 0 problems + build + 테스트 전부 통과)
 - [ ] `.env`, API 키, 시크릿, 개인정보가 스테이징에 포함되지 않았는지 `git diff --cached` 로 확인
 - [ ] 대용량 바이너리 파일 (이미지, 폰트, 영상 등)이 포함되지 않았는지 확인
 - [ ] `git add -A` 대신 **변경된 파일만 명시적으로** `git add <파일>` 사용 권장
@@ -106,6 +115,9 @@ kiio-library/
 | [token-reference.md](./docs/token-reference.md) | `docs/` | 토큰 전체 값, CSS 변수, Tailwind config 매핑 |
 | [ROADMAP.md](./docs/ROADMAP.md) | `docs/` | 컴포넌트 개발 로드맵 (Phase 1–6) |
 | [SHOWCASE_TEMPLATE.md](./docs/SHOWCASE_TEMPLATE.md) | `docs/` | 쇼케이스 페이지 작성 가이드 (레이아웃, 탭 구조, 섹션 카탈로그, 티어 시스템) |
+| [QUALITY_GATES_PLAN.md](./docs/QUALITY_GATES_PLAN.md) | `docs/` | 품질 게이트 도입 계획 — 산문 규칙을 실행 검사로 옮기는 Phase 0–6, 실측 결함 목록, 구현 상태 |
+| [ANATOMY.md](./docs/ANATOMY.md) | `docs/` | 파트 명명 표준 — 어휘, prop 문법, 해체 절차, 컴포넌트 전수 해체표 |
+| [rfcs/](./docs/rfcs/) | `docs/` | 설계 **결정**의 기록. 새 RFC 는 [TEMPLATE.md](./docs/rfcs/TEMPLATE.md)를 복사해 시작 |
 | Skill commands | `.claude/skills/` | 4-phase 컴포넌트 개발 워크플로: `/visual-spec` → `/behavior-spec` → `/implement` → `/showcase` + `/verify` |
 | Commit skill | `.claude/skills/07-commit/` | 커밋 자동화: 빌드 확인 → 보안 검사 → 작업 분리 → 커밋 생성 |
 | Code review skill | `.claude/skills/08-frontend-review/` | 컴포넌트 코드 품질 리뷰: React 성능, 클린 코드, 안티패턴 검사 |
@@ -128,25 +140,32 @@ Three-layer token system: **Primitive → Semantic → Component**. All tokens e
 - CSS: `--primitive-{color}-{shade}` (e.g., `--primitive-indigo-500`)
 - Tailwind: `bg-primitive-indigo-500`, `text-primitive-gray-800`
 - **Do NOT use primitive tokens directly in components** — use semantic tokens instead.
+  - 유일한 예외는 `Badge` 다. **팔레트 자체가 공개 API**(`color="blue"`)라 semantic 계층에 대응물이 없다. 대신 **테마를 따라가지 않는다** — [DEVIATIONS.md](./docs/DEVIATIONS.md)에 기록돼 있고 `tokenContract` T7 의 예외 목록이 이 하나만 담고 있다. **예외 목록은 줄이기만 한다.**
 ### Semantic Tokens
 `src/tokens/semantic.ts` — Theme-aware semantic tokens mapped from primitive tokens. Switched via `data-theme="light"` or `data-theme="dark"` on an ancestor element.
 Categories and Tailwind usage:
-| Category | Example class | Notes |
-|----------|--------------|-------|
-| primary | `bg-semantic-primary-500` | Brand color, 50–900 |
+| Category | Example class | Shades |
+|----------|--------------|--------|
+| emphasized.purple | `bg-semantic-emphasized-purple-500` | 50–900 |
+| emphasized.blue | `bg-semantic-emphasized-blue-500` | 50–900 |
+| emphasized.orange | `bg-semantic-emphasized-orange-500` | 50–900 |
 | success | `text-semantic-success-700` | 50–900 |
 | warning | `border-semantic-warning-400` | 50–900 |
 | error | `bg-semantic-error-100` | 50–900 |
-| neutral.solid | `bg-semantic-neutral-solid-100` | 0, 50, 70, 100–950 |
-| neutral.black-alpha | `bg-semantic-neutral-black-alpha-200` | Transparent black |
-| neutral.white-alpha | `bg-semantic-neutral-white-alpha-200` | Transparent white |
+| neutral.solid | `bg-semantic-neutral-solid-100` | 0, 50, 70, 100–1000 |
+| neutral.black-alpha | `bg-semantic-neutral-black-alpha-200` | 0, 50, 70, 100–950 |
+| neutral.white-alpha | `bg-semantic-neutral-white-alpha-200` | 0, 50, 70, 100–950 |
 | background | `bg-semantic-background-0` | 0, 50, 70 |
-| divider.solid | `border-semantic-divider-solid-100` | 50–300 |
-| divider.alpha | `border-semantic-divider-alpha-100` | 50–300 |
-| text.on-bright | `text-semantic-text-on-bright-900` | For light backgrounds, 400–950 |
-| text.on-dim | `text-semantic-text-on-dim-900` | For dark backgrounds, 400–950 |
-| state.on-bright | `bg-semantic-state-on-bright-70` | Hover/press states, 50–100 |
-| state.on-dim | `bg-semantic-state-on-dim-70` | Hover/press states, 50–100 |
+| divider.solid | `border-semantic-divider-solid-100` | 50, 70, 100–300 |
+| divider.alpha | `border-semantic-divider-alpha-100` | 50, 70, 100–300 |
+| text.on-bright | `text-semantic-text-on-bright-900` | 밝은 배경 위. 300–950 |
+| text.on-dim | `text-semantic-text-on-dim-900` | 어두운 배경 위. 300–950 |
+| state.on-bright | `bg-semantic-state-on-bright-70` | hover/press 오버레이. 50, 70, 100 |
+| state.on-dim | `bg-semantic-state-on-dim-70` | hover/press 오버레이. 50, 70, 100 |
+
+> **`semantic-primary` 는 없다.** 2026-03-24(`b843d30`)에 `emphasized-*` 로 재편됐다. 브랜드 강조색이 필요하면 `emphasized-purple` 을 쓴다. `tokenContract` T1 이 존재하지 않는 토큰 참조를 잡는다.
+
+> 위 표는 **손으로 유지한다.** 실제 정의는 `src/tokens/tokens.css` 의 `[data-theme="light"]`·`[data-theme="dark"]` 블록이 소유하며, 두 블록은 **같은 토큰 집합**을 정의해야 한다(`tokenContract` T3).
 ### Component Tokens
 Component-level tokens map semantic tokens to specific component roles. Defined in `src/tokens/tokens.css` as CSS custom properties, consumed in CVA via Tailwind arbitrary values.
 
@@ -178,7 +197,9 @@ size: {
 2. **`tokens.css`에 CSS 변수 정의** — `--comp-{name}-{property}-{variant}` 패턴.
    - **색상 토큰** (`bg`, `content`, `border`, `state`, `focus`): `[data-theme]` 스코프에 선언 (semantic 토큰 참조)
    - **크기/스페이싱 토큰** (`height`, `px`, `gap`, `icon`, `radius`): `:root`에 선언 (spacing/radius 토큰 참조)
-   - ⚠️ `:root`에서 `var(--semantic-*)` 참조 금지 — var() 체인이 끊어져 값이 비어짐
+   - ⚠️ `:root`에서 **`[data-theme]` 스코프에만 정의된** semantic 토큰(색 계열) 참조 금지 — var() 체인이 끊어져 값이 조용히 비어진다
+     - `--semantic-duration-*`·`--semantic-easing-*`·`--semantic-scale-press-*`처럼 **`:root`에 정의된** 테마 불변 semantic 토큰은 참조해도 된다. 같은 스코프라 체인이 멀쩡하다
+     - 판정은 이름이 아니라 **정의 위치**로 한다. `tokenContract` T2가 강제한다
 3. **CVA에서 arbitrary value로 교체** — `{utility}-[var(--comp-{name}-{property}-{variant})]`
 4. **상태 토큰 추가** — disabled, hover, active, focus 각각 별도 토큰
 5. **빌드 확인 + 시각 검증** — `npm run build`, 브라우저에서 모든 variant/state/theme 확인
@@ -202,6 +223,7 @@ size: {
 |---------|:-----:|-------|
 | `duration-instant` | 0ms | Instant changes (color swap) |
 | `duration-fast` | 100ms | Hover, focus micro-states |
+| `duration-medium` | 150ms | Press 해제 등 짧은 되돌림 |
 | `duration-normal` | 200ms | Element enter/exit, dropdown open |
 | `duration-slow` | 300ms | Modal, overlay enter/exit |
 | `duration-slower` | 500ms | Page transitions, complex layout |
@@ -245,7 +267,7 @@ export type { ButtonProps } from './Button'
 **DO:**
 ```tsx
 // Use semantic tokens for colors
-className="bg-semantic-primary-500 text-semantic-text-on-bright-900"
+className="bg-semantic-emphasized-purple-500 text-semantic-text-on-dim-900"
 // Use typography tokens (composite)
 className="typography-16-medium"
 // Use spacing tokens
@@ -258,9 +280,10 @@ className="duration-normal ease-move"
 // Use CVA for variant logic
 const buttonVariants = cva('base-classes', {
   variants: {
-    variant: {
-      primary: 'bg-semantic-primary-500 hover:bg-semantic-primary-600',
-      secondary: 'bg-semantic-secondary-500 hover:bg-semantic-secondary-600'
+    // variant 이름은 시각적 스타일이 아니라 **용도**를 설명한다
+    hierarchy: {
+      primary:   'bg-[var(--comp-button-bg-primary)] text-[var(--comp-button-content-primary)]',
+      secondary: 'bg-[var(--comp-button-bg-secondary)] text-[var(--comp-button-content-secondary)]'
     }
   }
 })
@@ -323,6 +346,16 @@ export type { ButtonHierarchy, ButtonSize } from './Button'
 - JSDoc: 각 exported prop에 동작 설명 + `@default` + `@see {AS_CONST_ARRAY}` 포함
 
 > JSDoc 전체 템플릿 예시는 기존 컴포넌트(`src/components/Button/Button.tsx`) 참고.
+
+### Testing Conventions
+
+Vitest + @testing-library/react (jsdom). 테스트 헬퍼는 `src/testing/` 에 두고 **어떤 `index.ts` 에서도 export 하지 않는다** — 라이브러리 표면이 아니다.
+
+- `describe` / `it` 설명은 **한국어**로 쓴다. 무엇을 보장하는지가 실패 메시지에서 바로 읽혀야 한다.
+- **jest-dom matcher 를 쓰지 않는다.** `expect(el.getAttribute('aria-pressed')).toBe('true')` 처럼 DOM API 를 직접 읽는다 — 단언이 무엇을 보는지 명시적이고 의존성이 하나 줄어든다.
+- **새 검사를 쓸 때는 red 를 먼저 보여준다.** 결함을 주입해 실제로 실패하는 것을 확인하고 그 건수를 기록한다. 통과만 보고된 검사는 아무것도 검사하지 않아도 통과한다.
+- **"미검증"과 "통과"를 구분한다.** 검사가 보지 못하는 항목은 별도 목록(`UNMEASURED_*`)에 두고, 그 목록이 비어 있지 않으면 "전부 통과"라고 쓰지 않는다.
+- 예외 목록은 **줄이기만 한다.** 예외를 추가해야 하는 순간이 곧 승인을 받아야 하는 시점이다.
 ### Theme Support
 
 Color theme via `data-theme` attribute on an ancestor element. `light`/`dark` 두 모드 지원. 컴포넌트는 시맨틱 토큰만 사용하며, 테마 이름을 직접 참조하지 않는다.
@@ -333,7 +366,7 @@ Color theme via `data-theme` attribute on an ancestor element. `light`/`dark` �
 
 ```tsx
 // Correct: token-only
-className="bg-semantic-primary-500 rounded-[var(--comp-button-radius-md)]"
+className="bg-[var(--comp-button-bg-primary)] rounded-[var(--comp-button-radius-md)]"
 
 // Wrong: theme branching in component
 const color = theme === 'foo' ? 'bg-purple-500' : 'bg-red-500'

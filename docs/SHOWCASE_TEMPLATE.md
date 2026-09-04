@@ -295,7 +295,7 @@ Tooltip.Provider          — 전역 delay/hover 설정
 
 | Component Token | Semantic | Light (Primitive → Hex) | Dark (Primitive → Hex) |
 |----------------|----------|------------------------|----------------------|
-| `--comp-button-bg-primary` | `--semantic-primary-500` | `indigo-500` `#5B4FFF` | `indigo-400` `#7B71FF` |
+| `--comp-button-bg-primary` | `--semantic-neutral-solid-950` | `gray-950` `#1d1e22` | `gray-0` `#fdfefe` |
 
 - Design Tokens (Spec)과의 차이: Spec은 목록, Token Chain은 **3레이어 추적 + 테마 비교**
 

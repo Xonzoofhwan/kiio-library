@@ -2,7 +2,7 @@
 
 > 3-Layer Token Architecture: **Primitive** → **Semantic** → **Component**
 >
-> Generated: 2026-03-08
+> Generated: 2026-03-08 · 소스 대조 2026-09-05 (`src/tokens/tokens.css`, `tailwind.config.js`)
 
 ---
 
@@ -16,8 +16,8 @@
   - [Typography](#primitive-typography)
   - [Motion](#primitive-motion)
 - [Layer 2: Semantic Tokens](#layer-2-semantic-tokens)
-  - [Theme-Varying](#theme-varying-categories)
-  - [Theme-Shared](#theme-shared-categories)
+  - [Accent Colors](#accent-colors-lightdark-공통)
+  - [Surface Categories](#surface-categories-lightdark-차이)
   - [Motion](#semantic-motion)
 - [Layer 3: Component Tokens](#layer-3-component-tokens)
   - [Button](#button-component-tokens)
@@ -38,8 +38,9 @@
 │   CSS: --semantic-{category}-{shade}                            │
 │   테마별 전환: data-theme 스코프                                   │
 ├─────────────────────────────────────────────────────────────────┤
-│ Component (역할 바인딩, :root)                                    │
+│ Component (역할 바인딩)                                          │
 │   CSS: --comp-{component}-{property}-{variant}[-{state}]        │
+│   색상 = [data-theme] 스코프 / 크기·모션 = :root 스코프            │
 │   CVA에서 arbitrary value로 소비                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -62,7 +63,7 @@
 
 ### Primitive Color
 
-22개 색상 패밀리, 각 14단계 shade: `0, 50, 70, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000`
+23개 색상 패밀리(gray·black-alpha·white-alpha 포함), 각 14단계 shade: `0, 50, 70, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000`
 
 CSS: `--primitive-{family}-{shade}` / Tailwind: `bg-primitive-{family}-{shade}` (컴포넌트 사용 금지)
 
@@ -534,12 +535,13 @@ CSS: `--primitive-radius-{key}` / Tailwind: `rounded-2` (8px), `rounded-3` (12px
 |-----|-------|-----|-------|-----|-------|
 | px | 1px | 0 | 0px | 0.5 | 2px |
 | 1 | 4px | 1.5 | 6px | 2 | 8px |
-| 2.5 | 10px | 3 | 12px | 3.5 | 14px |
-| 4 | 16px | 5 | 20px | 6 | 24px |
-| 7 | 28px | 8 | 32px | 9 | 36px |
-| 10 | 40px | 11 | 44px | 12 | 48px |
-| 14 | 56px | 16 | 64px | 18 | 72px |
-| 20 | 80px | 24 | 96px | | |
+| 2.5 | 10px | 3 | 12px | 4 | 16px |
+| 5 | 20px | 6 | 24px | 7 | 28px |
+| 8 | 32px | 10 | 40px | 12 | 48px |
+| 16 | 64px | 20 | 80px | 24 | 96px |
+
+> Spacing 과 달리 radius 는 **18단계**뿐이다. `3.5`·`9`·`11`·`14`·`18` 은 spacing 에만 있고
+> radius 에는 없으므로 `rounded-3.5` 같은 클래스는 만들어지지 않는다.
 
 ---
 
@@ -551,23 +553,27 @@ CSS: `--text-size-{n}`, `--text-lh-{n}`, `--text-ls-{n}`
 
 | Size | fontSize | lineHeight | letterSpacing |
 |------|----------|------------|---------------|
+| 64 | 4rem | 72px | -0.012em |
+| 48 | 3rem | 56px | -0.012em |
 | 40 | 2.5rem | 48px | -0.012em |
 | 32 | 2rem | 38px | -0.012em |
 | 28 | 1.75rem | 34px | -0.010em |
 | 24 | 1.5rem | 30px | -0.008em |
 | 22 | 1.375rem | 28px | -0.016em |
 | 20 | 1.25rem | 28px | -0.024em |
-| 18 | 1.125rem | 26px | -0.024em |
-| 17 | 1.0625rem | 24px | -0.020em |
-| 16 | 1rem | 24px | -0.018em |
-| 15 | 0.9375rem | 22px | -0.008em |
+| 18 | 1.125rem | 28px | -0.012em |
+| 17 | 1.0625rem | 24px | -0.010em |
+| 16 | 1rem | 24px | -0.009em |
+| 15 | 0.9375rem | 24px | -0.004em |
 | 14 | 0.875rem | 20px | 0em |
-| 13 | 0.8125rem | 18px | 0em |
+| 13 | 0.8125rem | 16px | 0em |
 | 12 | 0.75rem | 16px | 0em |
+| 11 | 0.6875rem | 12px | 0em |
+| 10 | 0.625rem | 12px | 0em |
 
 **Weights**: regular (400), medium (500), semibold (600), bold (700)
 
-**Tailwind**: `typography-{size}-{weight}` (예: `typography-20-semibold`) → 13 sizes x 4 weights = **52 유틸리티**
+**Tailwind**: `typography-{size}-{weight}` (예: `typography-20-semibold`) → 17 sizes x 4 weights = **68 유틸리티**
 
 > `text-` 접두사는 color 전용. Typography composite는 반드시 `typography-` 접두사 사용.
 
@@ -581,9 +587,18 @@ CSS: `--primitive-duration-{n}`, `--primitive-easing-{name}`
 |-------------|-------|
 | 0 | 0ms |
 | 100 | 100ms |
+| 150 | 150ms |
 | 200 | 200ms |
 | 300 | 300ms |
 | 500 | 500ms |
+
+CSS: `--primitive-scale-{n}`
+
+| Scale Key | Value |
+|-----------|-------|
+| 96 | 0.96 |
+| 98 | 0.98 |
+| 99 | 0.99 |
 
 | Easing Key | Value |
 |-----------|-------|
@@ -596,28 +611,66 @@ CSS: `--primitive-duration-{n}`, `--primitive-easing-{name}`
 
 ## Layer 2: Semantic Tokens
 
-CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
+CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-emphasized-purple-500`
 
-테마 스코프: `[data-theme]` selector
+테마 스코프: 색상은 `[data-theme]` selector, 모션·scale은 `:root` (테마 불변)
 
 ### Accent Colors (light/dark 공통)
 
-> Primary, Success, Warning, Error는 light와 dark 모드에서 동일한 primitive를 참조합니다.
+> Emphasized(Purple·Blue·Orange), Success, Warning, Error는 light와 dark 모드에서 동일한 primitive를 참조합니다.
+> 즉 테마를 바꿔도 이 계열의 색은 변하지 않습니다.
 
-#### Primary → Purple
+> ⚠️ **브랜드/강조 색의 semantic 이름은 `emphasized-{purple|blue|orange}` 하나뿐입니다.**
+> `b843d30`(2026-03-24)에서 이 이름으로 재편됐고, 재편 이전의 계열 이름은 `tokens.css`에 더 이상
+> 정의돼 있지 않습니다. 정의되지 않은 이름을 `var()`로 참조하면 체인이 끊어져 값이 비고,
+> 색 속성은 `currentColor` 등으로 폴백합니다.
+
+#### Emphasized.Purple → Purple
 
 | Semantic | Primitive Source | Value |
 |----------|-----------------|-------|
-| `primary-50` | purple-50 | `#f5efff` |
-| `primary-100` | purple-100 | `#e5d8fc` |
-| `primary-200` | purple-200 | `#d8c6fb` |
-| `primary-300` | purple-300 | `#c9b1f8` |
-| `primary-400` | purple-400 | `#b898f6` |
-| `primary-500` | purple-500 | `#a37af3` |
-| `primary-600` | purple-600 | `#8657dc` |
-| `primary-700` | purple-700 | `#6933c5` |
-| `primary-800` | purple-800 | `#4c11af` |
-| `primary-900` | purple-900 | `#370c7b` |
+| `emphasized-purple-50` | purple-50 | `#f5efff` |
+| `emphasized-purple-100` | purple-100 | `#e5d8fc` |
+| `emphasized-purple-200` | purple-200 | `#d8c6fb` |
+| `emphasized-purple-300` | purple-300 | `#c9b1f8` |
+| `emphasized-purple-400` | purple-400 | `#b898f6` |
+| `emphasized-purple-500` | purple-500 | `#a37af3` |
+| `emphasized-purple-600` | purple-600 | `#8657dc` |
+| `emphasized-purple-700` | purple-700 | `#6933c5` |
+| `emphasized-purple-800` | purple-800 | `#4c11af` |
+| `emphasized-purple-900` | purple-**950** | `#200746` ⚠️ |
+
+> ⚠️ 900에서 shade offset: semantic 900 → primitive 950 (Blue·Orange도 동일)
+
+#### Emphasized.Blue → Blue
+
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `emphasized-blue-50` | blue-50 | `#eff6ff` |
+| `emphasized-blue-100` | blue-100 | `#cde4ff` |
+| `emphasized-blue-200` | blue-200 | `#a4ceff` |
+| `emphasized-blue-300` | blue-300 | `#73b2fe` |
+| `emphasized-blue-400` | blue-400 | `#4096fd` |
+| `emphasized-blue-500` | blue-500 | `#1880fc` |
+| `emphasized-blue-600` | blue-600 | `#0265e3` |
+| `emphasized-blue-700` | blue-700 | `#014db5` |
+| `emphasized-blue-800` | blue-800 | `#013788` |
+| `emphasized-blue-900` | blue-**950** | `#00102b` ⚠️ |
+
+#### Emphasized.Orange → RedOrange
+
+| Semantic | Primitive Source | Value |
+|----------|-----------------|-------|
+| `emphasized-orange-50` | red-orange-50 | `#ffefea` |
+| `emphasized-orange-100` | red-orange-100 | `#ffd0c2` |
+| `emphasized-orange-200` | red-orange-200 | `#ffb7a4` |
+| `emphasized-orange-300` | red-orange-300 | `#ff9d85` |
+| `emphasized-orange-400` | red-orange-400 | `#ff8467` |
+| `emphasized-orange-500` | red-orange-500 | `#fe542e` |
+| `emphasized-orange-600` | red-orange-600 | `#d23c19` |
+| `emphasized-orange-700` | red-orange-700 | `#ad3014` |
+| `emphasized-orange-800` | red-orange-800 | `#872710` |
+| `emphasized-orange-900` | red-orange-**950** | `#330d05` ⚠️ |
 
 #### Success → Forest
 
@@ -651,20 +704,20 @@ CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
 
 > ⚠️ 600 이상에서 shade offset: semantic 600 → primitive 700, 700→800, 800→900, 900→950
 
-#### Error → RedBright
+#### Error → RedDark
 
 | Semantic | Primitive Source | Value |
 |----------|-----------------|-------|
-| `error-50` | red-bright-50 | `#ffefed` |
-| `error-100` | red-bright-100 | `#fed3cf` |
-| `error-200` | red-bright-200 | `#fdb9b4` |
-| `error-300` | red-bright-300 | `#fa958d` |
-| `error-400` | red-bright-400 | `#f9756c` |
-| `error-500` | red-bright-500 | `#f6493e` |
-| `error-600` | red-bright-600 | `#df3b31` |
-| `error-700` | red-bright-700 | `#bd261e` |
-| `error-800` | red-bright-800 | `#960f08` |
-| `error-900` | red-bright-**950** | `#360503` ⚠️ |
+| `error-50` | red-dark-50 | `#fff1ef` |
+| `error-100` | red-dark-100 | `#fececb` |
+| `error-200` | red-dark-200 | `#f7aeab` |
+| `error-300` | red-dark-300 | `#f48684` |
+| `error-400` | red-dark-400 | `#ed605e` |
+| `error-500` | red-dark-500 | `#de2d2c` |
+| `error-600` | red-dark-600 | `#b72321` |
+| `error-700` | red-dark-700 | `#921817` |
+| `error-800` | red-dark-800 | `#6e1615` |
+| `error-900` | red-dark-**950** | `#2a0505` ⚠️ |
 
 > ⚠️ 900에서 shade offset: semantic 900 → primitive 950
 
@@ -686,11 +739,15 @@ CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
 | `neutral-solid-200` | gray-200 | `#d4d4d5` |
 | `neutral-solid-300` | gray-300 | `#b8b9b9` |
 | `neutral-solid-400` | gray-400 | `#9b9e9e` |
+| `neutral-solid-500` | gray-500 | `#7d8284` |
 | `neutral-solid-600` | gray-600 | `#616569` |
+| `neutral-solid-700` | gray-700 | `#53565c` |
 | `neutral-solid-800` | gray-800 | `#383a3f` |
+| `neutral-solid-900` | gray-900 | `#2a2b31` |
 | `neutral-solid-950` | gray-950 | `#1d1e22` |
+| `neutral-solid-1000` | gray-1000 | `#101013` |
 
-> 500, 700, 900 shade 의도적 생략 (축소 서브셋)
+> 14단계 전부 존재한다. `1000`은 focus ring 전용으로 쓰인다 (`--comp-*-focus-border`).
 
 #### Neutral.BlackAlpha → BlackAlpha
 
@@ -754,21 +811,28 @@ CSS: `--semantic-{category}-{shade}` / Tailwind: `bg-semantic-primary-500`
 
 | Semantic Token | Primitive Source | Opacity |
 |---------------|-----------------|---------|
+| `text-on-bright-300` | black-alpha-300 | 0.3 |
 | `text-on-bright-400` | black-alpha-400 | 0.42 |
+| `text-on-bright-500` | black-alpha-500 | 0.54 |
 | `text-on-bright-600` | black-alpha-600 | 0.64 |
 | `text-on-bright-800` | black-alpha-800 | 0.82 |
 | `text-on-bright-900` | black-alpha-900 | 0.88 |
 | `text-on-bright-950` | black-alpha-950 | 0.94 |
 
+> `700` shade 는 정의돼 있지 않다 — 이 계열에서 `700`을 쓰면 var() 체인이 끊어져 값이 빈다.
+
 #### Text.OnDim → WhiteAlpha (어두운 배경 위 텍스트)
 
 | Semantic Token | Primitive Source | Opacity | Offset |
 |---------------|-----------------|---------|--------|
+| `text-on-dim-300` | white-alpha-**400** | 0.38 | +100 |
 | `text-on-dim-400` | white-alpha-**500** | 0.46 | +100 |
 | `text-on-dim-600` | white-alpha-**700** | 0.68 | +100 |
 | `text-on-dim-800` | white-alpha-**900** | 0.86 | +100 |
 | `text-on-dim-900` | white-alpha-**950** | 0.94 | +50 |
 | `text-on-dim-950` | white-alpha-**1000** | 0.99 | +50 |
+
+> `500`·`700`은 정의돼 있지 않다.
 
 #### State.OnBright → BlackAlpha (밝은 표면 hover/active 오버레이)
 
@@ -807,22 +871,33 @@ Dark 모드에서는 표면 토큰이 반전됩니다:
 
 ### Semantic Motion
 
-| Semantic Duration | Primitive Source | Value |
-|------------------|-----------------|-------|
-| `duration-instant` | duration-0 | 0ms |
-| `duration-fast` | duration-100 | 100ms |
-| `duration-normal` | duration-200 | 200ms |
-| `duration-slow` | duration-300 | 300ms |
-| `duration-slower` | duration-500 | 500ms |
+| Semantic Duration | Primitive Source | Value | Tailwind |
+|------------------|-----------------|-------|----------|
+| `duration-instant` | duration-0 | 0ms | `duration-instant` |
+| `duration-fast` | duration-100 | 100ms | `duration-fast` |
+| `duration-medium` | duration-150 | 150ms | `duration-medium` |
+| `duration-normal` | duration-200 | 200ms | `duration-normal` |
+| `duration-slow` | duration-300 | 300ms | `duration-slow` |
+| `duration-slower` | duration-500 | 500ms | `duration-slower` |
 
-| Semantic Easing | Primitive Source | Value |
-|----------------|-----------------|-------|
-| `easing-enter` | easing-ease-out | `cubic-bezier(0.0, 0.0, 0.2, 1)` |
-| `easing-exit` | easing-ease-in | `cubic-bezier(0.4, 0.0, 1, 1)` |
-| `easing-move` | easing-ease-in-out | `cubic-bezier(0.4, 0.0, 0.2, 1)` |
-| `easing-linear` | easing-linear | `linear` |
+> `duration-medium`(150ms)은 press scale의 **복귀(out)** 전용이다 — 눌림은 빠르게(fast) 들어가고
+> 조금 느리게 풀린다. 그래서 CLAUDE.md의 모션 표(5단계)에는 나오지 않는다.
 
-Tailwind: `duration-fast`, `duration-normal`, `ease-enter`, `ease-exit`, `ease-move`
+| Semantic Easing | Primitive Source | Value | Tailwind |
+|----------------|-----------------|-------|----------|
+| `easing-enter` | easing-ease-out | `cubic-bezier(0.0, 0.0, 0.2, 1)` | `ease-enter` |
+| `easing-exit` | easing-ease-in | `cubic-bezier(0.4, 0.0, 1, 1)` | `ease-exit` |
+| `easing-move` | easing-ease-in-out | `cubic-bezier(0.4, 0.0, 0.2, 1)` | `ease-move` |
+| `easing-linear` | easing-linear | `linear` | `ease-linear` |
+
+| Semantic Scale | Primitive Source | Value | 용도 |
+|---------------|-----------------|-------|------|
+| `scale-press-sm` | scale-98 | 0.98 | 작은/hug 요소 |
+| `scale-press-lg` | scale-99 | 0.99 | 넓은/fill 요소 |
+
+> Motion·Scale semantic 은 테마에 따라 변하지 않으므로 **`:root`에 정의**된다. 색상 semantic 만 `[data-theme]`에 있다.
+> `prefers-reduced-motion`에서는 `--semantic-scale-press-*`를 `1`로 덮는 것만으로 이를 참조하는
+> `--comp-*-scale-pressed` 9개가 전부 따라온다 (Button 2 · TextButton · Chip.Universal · Chip.BadgeLike · SegmentBar 2 · Tab · NavVertical).
 
 ---
 
@@ -830,7 +905,19 @@ Tailwind: `duration-fast`, `duration-normal`, `ease-enter`, `ease-exit`, `ease-m
 
 CSS: `--comp-{component}-{property}-{variant}[-{state}]`
 
-현재 **Button**만 Component Token이 구현되어 있습니다.
+`tokens.css`에 **386개**의 component token이 정의돼 있습니다 (2026-09-05 실측).
+
+| 그룹 | 개수 | 그룹 | 개수 |
+|------|:----:|------|:----:|
+| Switch | 71 | Callout | 24 |
+| Button (IconButton 공유) | 53 | Badge (Label 23 + Dot 2) | 25 |
+| Chip.BadgeLike | 41 | Chip.Universal | 20 |
+| Tab | 32 | Tooltip | 15 |
+| NavVertical | 28 | Radio / Checkbox | 13 / 13 |
+| SegmentBar (item + bar) | 27 + 10 | TextButton | 7 |
+| Skeleton | 5 | 공유 press scale | 2 |
+
+아래 표는 그중 **Button**을 대표 사례로 전개한 것입니다. 나머지 그룹은 `src/tokens/tokens.css`가 원본입니다.
 
 ### Button Component Tokens
 
@@ -838,78 +925,89 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 
 #### Background
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-bg-primary` | `neutral-solid-950` | `#1d1e22` |
-| `--comp-button-bg-secondary` | `neutral-black-alpha-70` | `rgba(…, 0.08)` |
-| `--comp-button-bg-outlined` | — | `transparent` |
-| `--comp-button-bg-ghost` | — | `transparent` |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-bg-primary` | `neutral-solid-950` | `#1d1e22` | `#fdfefe` |
+| `--comp-button-bg-secondary` | `neutral-black-alpha-70` | `rgba(16, 16, 19, 0.08)` | `rgba(253, 254, 254, 0.08)` |
+| `--comp-button-bg-outlined` | — | `transparent` | `transparent` |
+| `--comp-button-bg-ghost` | — | `transparent` | `transparent` |
 
 #### Content (text + icon)
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-content-primary` | `neutral-solid-0` | `#fdfefe` |
-| `--comp-button-content-secondary` | `neutral-solid-950` | `#1d1e22` |
-| `--comp-button-content-outlined` | `neutral-black-alpha-600` | `rgba(…, 0.64)` |
-| `--comp-button-content-ghost` | `neutral-black-alpha-600` | `rgba(…, 0.64)` |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-content-primary` | `neutral-solid-0` | `#fdfefe` | `#1d1e22` |
+| `--comp-button-content-secondary` | `neutral-solid-800` | `#383a3f` | `#eceded` |
+| `--comp-button-content-outlined` | `neutral-black-alpha-600` | `rgba(16, 19, 17, 0.64)` | `rgba(253, 254, 254, 0.58)` |
+| `--comp-button-content-ghost` | `neutral-black-alpha-600` | `rgba(16, 19, 17, 0.64)` | `rgba(253, 254, 254, 0.58)` |
 
 #### Border
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-border-primary` | — | `transparent` |
-| `--comp-button-border-secondary` | — | `transparent` |
-| `--comp-button-border-outlined` | `neutral-black-alpha-200` | `rgba(…, 0.18)` |
-| `--comp-button-border-ghost` | — | `transparent` |
+outlined 계층만 실제 border 를 그린다. 나머지 3계층에는 border 토큰이 **없다** — `transparent` 토큰조차 정의하지 않는다.
+
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-border-outlined` | `neutral-black-alpha-200` | `rgba(16, 16, 19, 0.18)` | `rgba(253, 254, 254, 0.2)` |
 
 #### Disabled: Background
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-bg-primary-disabled` | `neutral-solid-300` | `#b8b9b9` |
-| `--comp-button-bg-secondary-disabled` | `neutral-black-alpha-70` | `rgba(…, 0.08)` |
-| `--comp-button-bg-outlined-disabled` | `neutral-black-alpha-50` | `rgba(…, 0.04)` |
-| `--comp-button-bg-ghost-disabled` | — | `transparent` |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-bg-primary-disabled` | `neutral-solid-300` | `#b8b9b9` | `#7d8284` |
+| `--comp-button-bg-secondary-disabled` | `neutral-black-alpha-70` | `rgba(16, 16, 19, 0.08)` | `rgba(253, 254, 254, 0.08)` |
+| `--comp-button-bg-outlined-disabled` | `neutral-black-alpha-50` | `rgba(16, 16, 19, 0.04)` | `rgba(253, 254, 254, 0.04)` |
+| `--comp-button-bg-ghost-disabled` | — | `transparent` | `transparent` |
 
 #### Disabled: Content
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-content-primary-disabled` | `neutral-white-alpha-400` | `rgba(…, 0.38)` |
-| `--comp-button-content-secondary-disabled` | `neutral-black-alpha-200` | `rgba(…, 0.18)` |
-| `--comp-button-content-outlined-disabled` | `neutral-black-alpha-200` | `rgba(…, 0.18)` |
-| `--comp-button-content-ghost-disabled` | `neutral-black-alpha-200` | `rgba(…, 0.18)` |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-content-primary-disabled` | `neutral-white-alpha-400` | `rgba(253, 254, 254, 0.38)` | `rgba(16, 19, 16, 0.42)` |
+| `--comp-button-content-secondary-disabled` | `neutral-black-alpha-200` | `rgba(16, 16, 19, 0.18)` | `rgba(253, 254, 254, 0.2)` |
+| `--comp-button-content-outlined-disabled` | `neutral-black-alpha-200` | `rgba(16, 16, 19, 0.18)` | `rgba(253, 254, 254, 0.2)` |
+| `--comp-button-content-ghost-disabled` | `neutral-black-alpha-200` | `rgba(16, 16, 19, 0.18)` | `rgba(253, 254, 254, 0.2)` |
 
 #### Disabled: Border
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-border-outlined-disabled` | `neutral-black-alpha-100` | `rgba(…, 0.12)` |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-border-outlined-disabled` | `neutral-black-alpha-100` | `rgba(16, 16, 19, 0.12)` | `rgba(253, 254, 254, 0.14)` |
 
 #### State Overlay (hover/active)
 
-| Token | Semantic Reference | Usage | Resolved |
-|-------|-------------------|-------|----------|
-| `--comp-button-hover-on-dim` | `state-on-dim-50` | primary | `rgba(…, 0.08)` |
-| `--comp-button-active-on-dim` | `state-on-dim-100` | primary | `rgba(…, 0.2)` |
-| `--comp-button-hover-on-bright` | `state-on-bright-50` | secondary/outlined/ghost | `rgba(…, 0.04)` |
-| `--comp-button-active-on-bright` | `state-on-bright-70` | secondary/outlined/ghost | `rgba(…, 0.08)` |
+토큰 이름은 `on-dim`/`on-bright`가 아니라 **계층 이름**으로 끝난다. 어떤 상태 팔레트를 쓰는지는 값이 말해 준다.
+
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-hover-primary` | `state-on-dim-50` | `rgba(253, 254, 254, 0.08)` | `rgba(16, 16, 19, 0.04)` |
+| `--comp-button-hover-secondary` | `state-on-bright-50` | `rgba(16, 16, 19, 0.04)` | `rgba(253, 254, 254, 0.08)` |
+| `--comp-button-hover-outlined` | `state-on-bright-50` | `rgba(16, 16, 19, 0.04)` | `rgba(253, 254, 254, 0.08)` |
+| `--comp-button-hover-ghost` | `state-on-bright-50` | `rgba(16, 16, 19, 0.04)` | `rgba(253, 254, 254, 0.08)` |
+
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-active-primary` | `state-on-dim-100` | `rgba(253, 254, 254, 0.2)` | `rgba(16, 16, 19, 0.12)` |
+| `--comp-button-active-secondary` | `state-on-bright-70` | `rgba(16, 16, 19, 0.08)` | `rgba(253, 254, 254, 0.14)` |
+| `--comp-button-active-outlined` | `state-on-bright-70` | `rgba(16, 16, 19, 0.08)` | `rgba(253, 254, 254, 0.14)` |
+| `--comp-button-active-ghost` | `state-on-bright-70` | `rgba(16, 16, 19, 0.08)` | `rgba(253, 254, 254, 0.14)` |
 
 > State는 `group relative` + absolute `<span>` 오버레이 패턴으로 구현됩니다.
 
 #### Focus
 
-| Token | Semantic Reference | Resolved |
-|-------|-------------------|----------|
-| `--comp-button-focus-border` | `primary-300` | 테마별 자동 전환 |
+| Token | Semantic Reference | Light | Dark |
+|-------|-------------------|-------|------|
+| `--comp-button-focus-border` | `neutral-solid-1000` | `#101013` | `#fdfefe` |
 
-> 유일하게 테마에 따라 달라지는 component token (semantic-primary 참조)
+> Button·Tab·Chip.Universal·Chip.BadgeLike·NavVertical·Switch·Checkbox·Radio 8개의 `focus-border`가
+> 전부 이 한 토큰을 가리킨다. 예외는 SegmentBar 하나로, `--comp-segment-item-focus-border`만
+> accent(`emphasized-purple-300`)를 쓴다 — [DEVIATIONS.md](./DEVIATIONS.md)에 2026-09-05자로 기록돼 있고
+> 디자이너 확인이 남아 있다.
 
 #### Height (size)
 
-| Token | Spacing Reference | Resolved |
-|-------|------------------|----------|
+| Token | Reference | Resolved |
+|-------|-----------|----------|
 | `--comp-button-height-xl` | `--primitive-spacing-14` | 56px |
 | `--comp-button-height-lg` | `--primitive-spacing-12` | 48px |
 | `--comp-button-height-md` | `--primitive-spacing-10` | 40px |
@@ -917,26 +1015,35 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 
 #### Padding-X (size)
 
-| Token | Spacing Reference | Resolved |
-|-------|------------------|----------|
-| `--comp-button-px-xl` | `--primitive-spacing-4` | 16px |
-| `--comp-button-px-lg` | `--primitive-spacing-3` | 12px |
-| `--comp-button-px-md` | `--primitive-spacing-2.5` | 10px |
-| `--comp-button-px-sm` | `--primitive-spacing-2` | 8px |
+| Token | Reference | Resolved |
+|-------|-----------|----------|
+| `--comp-button-px-xl` | `--primitive-spacing-5` | 20px |
+| `--comp-button-px-lg` | `--primitive-spacing-4` | 16px |
+| `--comp-button-px-md` | `--primitive-spacing-3` | 12px |
+| `--comp-button-px-sm` | `--primitive-spacing-2.5` | 10px |
 
 #### Gap (size)
 
-| Token | Spacing Reference | Resolved |
-|-------|------------------|----------|
+| Token | Reference | Resolved |
+|-------|-----------|----------|
 | `--comp-button-gap-xl` | `--primitive-spacing-2` | 8px |
 | `--comp-button-gap-lg` | `--primitive-spacing-1.5` | 6px |
-| `--comp-button-gap-md` | `--primitive-spacing-1.5` | 6px |
-| `--comp-button-gap-sm` | `--primitive-spacing-1` | 4px |
+| `--comp-button-gap-md` | `--primitive-spacing-0.5` | 2px |
+| `--comp-button-gap-sm` | `--primitive-spacing-0.5` | 2px |
+
+#### Text Margin-X (size)
+
+| Token | Reference | Resolved |
+|-------|-----------|----------|
+| `--comp-button-text-mx-xl` | `--primitive-spacing-1` | 4px |
+| `--comp-button-text-mx-lg` | `--primitive-spacing-1` | 4px |
+| `--comp-button-text-mx-md` | `--primitive-spacing-1` | 4px |
+| `--comp-button-text-mx-sm` | `--primitive-spacing-0.5` | 2px |
 
 #### Radius (size)
 
-| Token | Radius Reference | Resolved |
-|-------|-----------------|----------|
+| Token | Reference | Resolved |
+|-------|-----------|----------|
 | `--comp-button-radius-xl` | `--primitive-radius-3` | 12px |
 | `--comp-button-radius-lg` | `--primitive-radius-3` | 12px |
 | `--comp-button-radius-md` | `--primitive-radius-3` | 12px |
@@ -944,24 +1051,37 @@ CVA에서 `bg-[var(--comp-button-bg-primary)]` 형태로 소비됩니다.
 
 #### Icon Size (size)
 
-| Token | Spacing Reference | Resolved |
-|-------|------------------|----------|
-| `--comp-button-icon-xl` | `--primitive-spacing-6` | 24px |
-| `--comp-button-icon-lg` | `--primitive-spacing-6` | 24px |
-| `--comp-button-icon-md` | `--primitive-spacing-5` | 20px |
-| `--comp-button-icon-sm` | `--primitive-spacing-5` | 20px |
+| Token | Reference | Resolved |
+|-------|-----------|----------|
+| `--comp-button-icon-xl` | **리터럴** | 24px |
+| `--comp-button-icon-lg` | **리터럴** | 20px |
+| `--comp-button-icon-md` | **리터럴** | 18px |
+| `--comp-button-icon-sm` | **리터럴** | 16px |
+
+> ⚠️ `--comp-button-icon-*` 4개는 primitive 참조가 아니라 **px 리터럴**이다. 24·20·16은
+> `--primitive-spacing-6`·`-5`·`-4`와 값이 같아 참조로 바꿀 수 있지만, 18px에 대응하는 spacing 토큰은 없다.
+
+#### Press Scale
+
+| Token | Semantic Reference | Resolved |
+|-------|-------------------|----------|
+| `--comp-button-scale-pressed` | `scale-press-sm` | 0.98 |
+| `--comp-button-scale-pressed-fill` | `scale-press-lg` | 0.99 |
 
 ---
 
 ## Token Flow Diagrams
 
-### Color (테마 변동)
+### Accent Color (light/dark 공통)
+
+accent 계열은 두 테마가 **같은 primitive** 를 가리킨다. 테마를 바꿔도 색이 유지된다.
 
 ```
-Primitive (:root)                Semantic ([data-theme])           Component (:root)
-─────────────────                ─────────────────────             ──────────────────
---primitive-{color}-500          --semantic-primary-500            --comp-button-focus-border
-                       ──[data-theme]──►  var(--primitive-{color}-500)   = var(--semantic-primary-300)
+Primitive (:root)              Semantic ([data-theme])              Component ([data-theme])
+─────────────────              ───────────────────────              ────────────────────────
+--primitive-purple-300         --semantic-emphasized-purple-300     --comp-segment-item-focus-border
+  #c9b1f8          ─light─►      var(--primitive-purple-300)   ───►   var(--semantic-emphasized-purple-300)
+                   ─dark──►      var(--primitive-purple-300)
 ```
 
 ### Neutral Color (light/dark 반전)
@@ -991,7 +1111,7 @@ Primitive (:root)                Tailwind Plugin
 ─────────────────                ───────────────
 --text-size-16: 1rem    ──────►  .typography-16-semibold {
 --text-lh-16: 24px                 font-size: var(--text-size-16);
---text-ls-16: -0.018em             line-height: var(--text-lh-16);
+--text-ls-16: -0.009em             line-height: var(--text-lh-16);
                                    letter-spacing: var(--text-ls-16);
                                    font-weight: 600;
                                  }
@@ -1006,7 +1126,7 @@ Primitive (:root)                Tailwind Plugin
 | Config Path | Token Layer | 예시 |
 |-------------|-------------|------|
 | `theme.extend.colors.primitive.*` | Primitive | `bg-primitive-gray-500` (컴포넌트 금지) |
-| `theme.extend.colors.semantic.*` | Semantic | `bg-semantic-primary-500` |
+| `theme.extend.colors.semantic.*` | Semantic | `bg-semantic-emphasized-purple-500` |
 | `theme.extend.spacing` | Primitive | `p-4`, `gap-6` |
 | `theme.extend.borderRadius` | Primitive | `rounded-3` |
 | `theme.extend.transitionDuration` | Semantic | `duration-fast` |
@@ -1020,28 +1140,32 @@ Primitive (:root)                Tailwind Plugin
 
 ## Token Statistics
 
+> 2026-09-05 `src/tokens/tokens.css` 실측. 값이 바뀌면 이 표부터 다시 센다.
+
 | Layer | Category | Count |
 |-------|----------|-------|
-| **Primitive** | Color families | 22 families x 14 shades = **308** |
-| | Spacing | **37** |
-| | Radius | **23** |
-| | Typography sizes | **13** (x4 weights = 52 utilities) |
-| | Motion duration | **5** |
+| **Primitive** | Color families | 23 families x 14 shades = **322** |
+| | Spacing | **36** (`px`, `0`~`96`) |
+| | Radius | **18** (`px`, `0`~`24`) |
+| | Typography sizes | **17** (x4 weights = **68** utilities) |
+| | Motion duration | **6** (0·100·150·200·300·500ms) |
 | | Motion easing | **4** |
-| **Semantic** | Primary | 10 shades (light/dark 공통) |
+| | Press scale | **3** (0.96·0.98·0.99) |
+| **Semantic** | Emphasized.Purple / Blue / Orange | 10 shades씩 (light/dark 공통) |
 | | Success | 10 shades (light/dark 공통) |
 | | Warning | 10 shades (light/dark 공통) |
 | | Error | 10 shades (light/dark 공통) |
-| | Neutral.Solid | 10 shades (light/dark 반전) |
+| | Neutral.Solid | **14** shades (light/dark 반전) |
 | | Neutral.BlackAlpha | 10 shades (light/dark 반전) |
 | | Neutral.WhiteAlpha | 10 shades (light/dark 반전) |
 | | Background | 3 shades (light/dark 반전) |
 | | Divider.Solid | 5 shades (light/dark 반전) |
 | | Divider.Alpha | 5 shades (light/dark 반전) |
-| | Text.OnBright | 5 shades (light/dark 반전) |
-| | Text.OnDim | 5 shades (light/dark 반전) |
+| | Text.OnBright | **7** shades (light/dark 반전) |
+| | Text.OnDim | **6** shades (light/dark 반전) |
 | | State.OnBright | 3 shades (light/dark 반전) |
 | | State.OnDim | 3 shades (light/dark 반전) |
-| | Motion duration | 5 (shared) |
-| | Motion easing | 4 (shared) |
-| **Component** | Button | **~40 tokens** (bg, content, border, disabled, state, focus, height, px, gap, radius, icon) |
+| | Motion duration | 6 (`:root`, 테마 불변) |
+| | Motion easing | 4 (`:root`, 테마 불변) |
+| | Press scale | 2 (`:root`, 테마 불변) |
+| **Component** | 전체 | **386 tokens** / 15개 그룹 — 그룹별 개수는 [Layer 3](#layer-3-component-tokens) 참고 |

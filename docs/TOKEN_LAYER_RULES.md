@@ -19,12 +19,20 @@
 | 레이어 | 역할 | 질문 | CSS 스코프 |
 |--------|------|------|------------|
 | **Primitive** | 원시값 (hex, px, ms) | "팔레트에 어떤 값들이 존재하는가?" | `:root`, 테마 불변 |
-| **Semantic** | 의미 부여 + 시스템 전체 옵션 정의 | "이 모드/브랜드에서 'primary'란 무엇인가?" | `[data-theme]`, 테마별 전환 |
-| **Component** | 컴포넌트별 역할 바인딩 (좌표계) | "이 컴포넌트의 이 부분은 어떤 옵션을 쓰는가?" | `:root` 기본, `[data-theme]` 예외 오버라이드 |
+| **Semantic** | 의미 부여 + 시스템 전체 옵션 정의 | "이 모드에서 '강조색'·'본문 텍스트'란 무엇인가?" | 색상은 `[data-theme]`(테마별 전환), 모션·scale은 `:root`(테마 불변) |
+| **Component** | 컴포넌트별 역할 바인딩 (좌표계) | "이 컴포넌트의 이 부분은 어떤 옵션을 쓰는가?" | 색상은 `[data-theme]`, 크기·모션은 `:root`. 테마별 예외는 `[data-theme="dark"]` 오버라이드 |
 
-> ⚠️ **주의**: 컴포넌트 토큰이 `var(--semantic-*)`를 참조하면 반드시 `[data-theme]` 스코프에 선언해야 한다.
-> `:root`에 선언하면 시맨틱 토큰이 해당 스코프에 존재하지 않아 var() 체인이 끊어진다.
-> 크기/스페이싱 토큰(`var(--primitive-spacing-*)`, `var(--primitive-radius-*)`)은 `:root`에 정의되므로 `:root`에 선언 가능.
+> ⚠️ **스코프 규칙은 "참조 대상이 어디에 정의됐는가"로 판단한다.** 참조자가 아니라 피참조자의 위치가 기준이다.
+>
+> | 컴포넌트 토큰이 참조하는 것 | 그 값이 정의된 곳 | 컴포넌트 토큰을 선언할 곳 |
+> |---|---|---|
+> | `var(--semantic-{색상 계열}-*)` | `[data-theme="light"]` / `[data-theme="dark"]` | **`[data-theme]`** |
+> | `var(--primitive-spacing-*)`, `var(--primitive-radius-*)` | `:root` | `:root` |
+> | `var(--semantic-duration-*)`, `var(--semantic-easing-*)`, `var(--semantic-scale-press-*)` | `:root` (테마 불변) | `:root` |
+>
+> 색상 semantic 은 `[data-theme]` 안에만 존재하므로, 그것을 참조하는 컴포넌트 토큰을 `:root`에 두면
+> var() 체인이 끊어져 값이 빈다. 반대로 모션·scale semantic 은 `:root`에 있으므로 `:root`에서 참조해도 멀쩡하다
+> — 실제로 `--comp-scale-press-transition-in`이 `:root`에서 `var(--semantic-duration-fast)`를 쓰고 있다.
 
 **비유**: Semantic = **옵션 메뉴** (어떤 선택지가 있는가), Component = **메뉴에서 선택** (이 컴포넌트는 어떤 선택지를 쓰는가)
 
@@ -34,7 +42,7 @@
 
 | 상황 | 어디서 분기? | 예시 |
 |------|------------|------|
-| 브랜드 전체 색상이 달라짐 | **Semantic** | `--semantic-primary-500`: 테마별 primitive 매핑 |
+| 색상이 테마 전체에서 달라짐 | **Semantic** | `--semantic-neutral-solid-950`: light=`gray-950` / dark=`gray-0` 로 테마별 primitive 매핑 |
 | 시스템 전체 radius 방향이 달라짐 | **Semantic** | `--semantic-radius-default`, `--semantic-radius-full` 추가 |
 | 특정 컴포넌트만 테마별로 다름 | **Component 오버라이드** | `[data-theme="X"] { --comp-button-radius-md: ... }` |
 
@@ -92,21 +100,25 @@
   --semantic-radius-full: var(--primitive-radius-24);       /* pill 형태 */
 }
 
-/* Component: 각 컴포넌트가 어떤 옵션을 쓸지 선택 */
-:root {
+/* Component: 각 컴포넌트가 어떤 옵션을 쓸지 선택
+   — semantic 을 참조하므로 :root 가 아니라 [data-theme] 스코프에 둔다 (위 ⚠️ 참고) */
+[data-theme] {
   --comp-button-radius-md: var(--semantic-radius-default);  /* 각진 */
   --comp-chip-radius: var(--semantic-radius-full);          /* 둥근 */
   --comp-tab-radius: var(--semantic-radius-full);           /* 둥근 */
 }
 ```
 
+> 위 `--semantic-radius-*` 는 아직 존재하지 않는 **가상의 예시**다. 오늘 radius 는 semantic 레이어 없이
+> `--comp-*-radius-*` → `var(--primitive-radius-*)` 로 곧장 내려간다.
+
 ---
 
 ## Semantic 없이 Component만 쓰면 안 되는 이유
 
 1. **중복 폭발**: 컴포넌트 N개 x 테마 M개 = N x M 벌 선언. 대부분 동일한 값이 반복됨.
-2. **일관성 파괴**: `--comp-button-focus: purple-300`, `--comp-input-focus: purple-400` 같은 불일치가 구조적으로 발생 가능. Semantic이 있으면 둘 다 `var(--semantic-primary-300)`을 참조하므로 불일치 불가.
-3. **변경 비용**: "primary 색 변경" 시 모든 컴포넌트를 찾아다녀야 함. Semantic이 있으면 1곳만 수정.
+2. **일관성 파괴**: `--comp-button-focus-border: gray-1000`, `--comp-tab-focus-border: gray-900` 같은 불일치가 구조적으로 발생 가능. Semantic이 있으면 둘 다 `var(--semantic-neutral-solid-1000)`을 참조하므로 불일치 불가. 실제로 Button·Tab·Chip(Universal·BadgeLike)·NavVertical·Switch·Checkbox·Radio의 `focus-border` **8개**가 전부 이 한 토큰을 가리킨다. 예외는 SegmentBar 하나뿐이다.
+3. **변경 비용**: "accent 색 변경" 시 모든 컴포넌트를 찾아다녀야 함. Semantic이 있으면 1곳만 수정.
 
 ---
 
@@ -119,14 +131,17 @@
    → Yes → Primitive (:root에 hex/px/ms)
 
 2. "이 값이 바뀌면 여러 컴포넌트가 함께 바뀌어야 하는가?"
-   → Yes → Semantic ([data-theme]에 의미 역할 정의)
+   → Yes → Semantic (색상은 [data-theme]에, 테마 불변인 것(duration·easing·scale)은 :root에)
 
 3. "이 값은 특정 컴포넌트의 특정 부위에만 쓰이는가?"
-   → Yes → Component (:root에 역할 바인딩)
+   → Yes → Component (역할 바인딩)
 
-4. "이 Component 토큰이 테마별로 달라야 하는가?"
-   → Yes → [data-theme] 오버라이드 추가
-   → No → :root에만 선언
+4. "이 Component 토큰의 값이 var(--semantic-*)인가?"
+   → Yes → [data-theme] 스코프에 선언 (색상 토큰은 전부 여기)
+   → No (var(--primitive-spacing/radius-*) 등) → :root에 선언
+
+5. "특정 테마에서만 값이 달라야 하는가?"
+   → Yes → [data-theme="dark"] 오버라이드를 **차이점만** 추가
 ```
 
 ---
@@ -136,9 +151,11 @@
 ### 색상 (테마 변동, Semantic 경유)
 
 ```
-Primitive          →  Semantic              →  Component                →  CVA
---primitive-gray-950   --semantic-neutral-950    --comp-button-bg-primary    bg-[var(--comp-...)]
-#1d1e22                var(--primitive-gray-950) var(--semantic-neutral-950)
+Primitive (:root)      →  Semantic ([data-theme])       →  Component ([data-theme])              →  CVA
+--primitive-gray-950      --semantic-neutral-solid-950     --comp-button-bg-primary                 bg-[var(--comp-button-bg-primary)]
+  #1d1e22        ─light─►   var(--primitive-gray-950)  ───►  var(--semantic-neutral-solid-950)
+--primitive-gray-0
+  #fdfefe        ─dark──►   var(--primitive-gray-0)
 ```
 
 ### 크기 (테마 불변, Semantic 생략)
@@ -149,11 +166,18 @@ Primitive          →  Component                →  CVA
 40px                  var(--primitive-spacing-10)
 ```
 
-### 색상 (테마 변동, Component가 Semantic primary 참조)
+### 색상 (accent — 테마 불변, Component가 Semantic accent 참조)
 
 ```
---semantic-primary-300 → var(--primitive-purple-300) (light/dark 공통 accent palette)
+--semantic-emphasized-purple-300 → var(--primitive-purple-300)   #c9b1f8 (light/dark 동일)
 
---comp-button-focus-border: var(--semantic-primary-300)
-→ data-theme="light"/"dark" 전환만으로 focus 색상 자동 변경
+--comp-segment-item-focus-border: var(--semantic-emphasized-purple-300)
+→ accent 팔레트는 두 테마가 같은 primitive 를 가리키므로 테마를 바꿔도 색이 유지된다.
+```
+
+대비: 같은 focus 역할이라도 neutral 을 참조하면 테마에 따라 반전된다.
+
+```
+--comp-button-focus-border: var(--semantic-neutral-solid-1000)
+→ light = gray-1000 #101013 / dark = gray-0 #fdfefe
 ```

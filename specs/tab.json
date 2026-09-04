@@ -1,0 +1,259 @@
+{
+  "component": "Tab",
+  "classification": "Compound (Object.assign + Context) over @radix-ui/react-tabs",
+  "description": "Tab bar with two visual variants. 'circular' is a pill-shaped tab row with 2 sizes; 'underlined' is a baseline-bordered row whose active tab is marked by a 2px bottom border. Selection state, roving focus and the ARIA wiring come from Radix Tabs; this component supplies tokens, state overlays, the focus ring, the press scale and an optional badge dot.",
+  "figmaNode": null,
+  "_comment_figmaNode": "Retro-extracted from source (/retro-spec). No Figma node ID for Tab is recorded anywhere in the repo, so it is left null rather than guessed. Fill it together with figmaFileKey (the other specs use 3ZDIVn83opF9OYSzWYE1iF) once confirmed in Figma.",
+
+  "subComponents": [
+    {
+      "name": "Tab",
+      "role": "Root. Provides TabContext (variant, size) and forwards selection state to RadixTabs.Root. Renders no styling of its own beyond className.",
+      "element": "RadixTabs.Root (renders <div>)",
+      "props": {
+        "variant": {
+          "type": "'circular' | 'underlined'",
+          "default": "circular",
+          "description": "Style variant of the tab bar. Read from context by Tab.List and Tab.Item."
+        },
+        "size": {
+          "type": "'large' | 'small'",
+          "default": "large",
+          "description": "Size variant. Only affects the circular variant — see variants.size."
+        },
+        "value": {
+          "type": "string",
+          "description": "Controlled active tab value."
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "Default active tab for uncontrolled mode."
+        },
+        "onValueChange": {
+          "type": "(value: string) => void",
+          "description": "Callback fired when the active tab changes. Not guarded — Radix Tabs never deselects, so no empty-string guard is needed (unlike SegmentBar)."
+        },
+        "activationMode": {
+          "type": "'automatic' | 'manual'",
+          "default": "automatic",
+          "description": "automatic: arrow-key focus activates the tab it lands on. manual: arrow keys move focus only; Enter/Space activates. See a11y.keyboard."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "Tab.List",
+      "role": "Tab bar container. Consumes context.variant for the item gap and, in the underlined variant, the baseline border.",
+      "element": "RadixTabs.List (renders <div role='tablist'>)",
+      "props": {
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" }
+      }
+    },
+    {
+      "name": "Tab.Item",
+      "role": "Individual tab trigger. Consumes context for variant/size and renders the focus ring, state overlay, content and (underlined only) the bottom indicator.",
+      "element": "RadixTabs.Trigger (renders <button type='button' role='tab'>)",
+      "props": {
+        "value": {
+          "type": "string",
+          "required": true,
+          "description": "Unique value identifying this tab. Must match a Tab.Panel value."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disables this tab. Applies pointer-events-none + opacity-50 and passes disabled to Radix, which removes the tab from roving focus."
+        },
+        "badge": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show a red BadgeDot indicator (size 8). Position depends on variant and size."
+        }
+      }
+    },
+    {
+      "name": "Tab.Panel",
+      "role": "Content region for one tab value.",
+      "element": "RadixTabs.Content (renders <div role='tabpanel' tabIndex={0}>)",
+      "props": {
+        "value": {
+          "type": "string",
+          "required": true,
+          "description": "Value matching a Tab.Item."
+        },
+        "children": { "type": "ReactNode" },
+        "className": { "type": "string" },
+        "forceMount": {
+          "type": "true",
+          "description": "Keep the panel mounted when inactive. Type is literal true (Radix convention) — omit rather than pass false."
+        }
+      }
+    }
+  ],
+
+  "context": {
+    "name": "TabContext",
+    "fields": {
+      "variant": "TabVariant",
+      "size": "TabSize"
+    },
+    "defaultValue": "{ variant: 'circular', size: 'large' } — a Tab.Item rendered outside a Tab root silently falls back to these instead of throwing."
+  },
+
+  "variantMetadata": {
+    "TAB_VARIANTS": ["circular", "underlined"],
+    "TAB_SIZES": ["large", "small"]
+  },
+
+  "variants": {
+    "variant": {
+      "circular": {
+        "shape": "rounded-full + overflow-hidden",
+        "background": "--comp-tab-bg-circular (semantic-neutral-black-alpha-70)",
+        "text": "--comp-tab-text-circular (semantic-text-on-bright-600)",
+        "background-active": "--comp-tab-bg-circular-active (semantic-neutral-solid-950)",
+        "text-active": "--comp-tab-text-circular-active (semantic-neutral-solid-0)",
+        "listGap": "8px → --comp-tab-list-gap-circular (primitive-spacing-2)",
+        "listBorder": "none",
+        "badge": "BadgeDot size=8 color='red', absolute, offset by --comp-tab-badge-offset-{lg|sm}"
+      },
+      "underlined": {
+        "shape": "flex-col, no radius, no background",
+        "text": "--comp-tab-text-underlined (semantic-text-on-bright-600)",
+        "text-active": "--comp-tab-text-underlined-active (semantic-neutral-black-alpha-800)",
+        "indicator": "Bottom <span>, height 2px → --comp-tab-underline-border (literal 2px, no primitive token). Color --comp-tab-border-underlined (semantic-neutral-black-alpha-0, i.e. transparent) → --comp-tab-border-underlined-active (semantic-neutral-black-alpha-800).",
+        "contentPadding": "pt 6px → --comp-tab-underline-pt (primitive-spacing-1.5) · pb 8px → --comp-tab-underline-gap (primitive-spacing-2)",
+        "listGap": "16px → --comp-tab-list-gap-underlined (primitive-spacing-4)",
+        "listBorder": "1px bottom → --comp-tab-list-border-underlined (semantic-divider-alpha-70)",
+        "badge": "BadgeDot size=8 color='red' at top 4px → --comp-tab-badge-top-underlined (primitive-spacing-1), right -4px → --comp-tab-badge-right-underlined (literal -4px)"
+      }
+    },
+    "size": {
+      "_comment": "Applied through compoundVariants (variant × size). size is inert on the underlined variant: both sizes resolve to typography-17-semibold, and the underlined branch reads neither the height/px tokens nor the badge-offset map.",
+      "large": {
+        "circular": {
+          "height": "40px → --comp-tab-height-lg (primitive-spacing-10)",
+          "paddingX": "16px → --comp-tab-px-lg (primitive-spacing-4)",
+          "typography": "typography-16-semibold",
+          "badgeOffset": "top/right 8px → --comp-tab-badge-offset-lg (primitive-spacing-2)"
+        },
+        "underlined": {
+          "height": "auto — content height + underline padding",
+          "typography": "typography-17-semibold",
+          "note": "Identical to size='small'."
+        }
+      },
+      "small": {
+        "circular": {
+          "height": "32px → --comp-tab-height-sm (primitive-spacing-8)",
+          "paddingX": "14px → --comp-tab-px-sm (primitive-spacing-3.5)",
+          "typography": "typography-14-semibold",
+          "badgeOffset": "top/right 6px → --comp-tab-badge-offset-sm (primitive-spacing-1.5)"
+        },
+        "underlined": {
+          "height": "auto — content height + underline padding",
+          "typography": "typography-17-semibold",
+          "note": "Identical to size='large'."
+        }
+      }
+    }
+  },
+
+  "states": {
+    "default": {
+      "circular": "bg --comp-tab-bg-circular, text --comp-tab-text-circular",
+      "underlined": "no background, text --comp-tab-text-underlined, indicator transparent (--comp-tab-border-underlined = semantic-neutral-black-alpha-0)"
+    },
+    "hover": {
+      "circular-inactive": "overlay --comp-tab-hover-circular (semantic-state-on-bright-50)",
+      "circular-active": "overlay --comp-tab-hover-circular-active (semantic-state-on-dim-50)",
+      "underlined": "overlay --comp-tab-hover-underlined (semantic-state-on-bright-50), same for active and inactive",
+      "method": "State overlay <span aria-hidden> with group-hover. Circular renders two overlays and toggles them with group-data-[state=active]:hidden / hidden group-data-[state=active]:block, because the active pill is dark and needs on-dim overlays."
+    },
+    "pressed": {
+      "circular-inactive": "overlay --comp-tab-pressed-circular (semantic-state-on-bright-70)",
+      "circular-active": "overlay --comp-tab-pressed-circular-active (semantic-state-on-dim-70)",
+      "underlined": "overlay --comp-tab-pressed-underlined (semantic-state-on-bright-70)",
+      "scale": "active:scale-[var(--comp-tab-scale-pressed)] → --semantic-scale-press-lg → --primitive-scale-99 → 0.99. Transition swaps --comp-scale-press-transition-in on press and -out on release, composed with the color transition in one [transition:…] list.",
+      "method": "Same overlay spans as hover, via group-active."
+    },
+    "active": {
+      "circular": "bg --comp-tab-bg-circular-active, text --comp-tab-text-circular-active",
+      "underlined": "text --comp-tab-text-underlined-active, indicator --comp-tab-border-underlined-active",
+      "method": "data-[state=active] attribute from Radix Tabs."
+    },
+    "focused": {
+      "all": "Absolute <span aria-hidden> with border-2 border-[var(--comp-tab-focus-border)] (semantic-neutral-solid-1000), opacity 0 → 1 on group-focus-visible, transition-opacity duration-fast ease-enter. rounded-full for circular; square for underlined.",
+      "note": "Tab.Item does not set outline-none, so the UA focus outline renders in addition to this ring. Tab.Panel does set outline-none while Radix gives it tabIndex=0 — the panel is focusable with no visible indicator. See a11y.focusVisible."
+    },
+    "disabled": {
+      "opacity": 0.5,
+      "interaction": "pointer-events-none",
+      "method": "disabled && 'pointer-events-none opacity-50' plus the native disabled attribute via Radix; RovingFocusGroup sets focusable=false so the tab is skipped by arrow keys."
+    },
+    "loading": "N/A — Tab has no loading state."
+  },
+
+  "a11y": {
+    "role": "Supplied entirely by Radix Tabs — Tab (root) has no role; Tab.List role='tablist' + aria-orientation; Tab.Item role='tab'; Tab.Panel role='tabpanel'.",
+    "keyboard": {
+      "Tab": "One Tab press enters the tab list at the active tab (roving tabIndex). The next Tab press leaves the list and lands on the active panel, which Radix gives tabIndex=0.",
+      "Enter": "Activates the focused tab (Radix Trigger onKeyDown). Observable only with activationMode='manual' — under 'automatic' focus has already activated it.",
+      "Space": "Same as Enter — Radix handles ' ' and 'Enter' identically.",
+      "Arrow": "ArrowLeft/ArrowRight move focus within the list and loop (RovingFocusGroup loop defaults to true, and Tab.List does not override it). Home/End jump to the first/last enabled tab. ArrowUp/ArrowDown do nothing: orientation defaults to 'horizontal' and Tab exposes neither an orientation nor a dir prop. With activationMode='automatic' (default) the tab focus lands on is activated immediately; with 'manual' it only receives focus.",
+      "Escape": "N/A — the tab list is not a dismissible layer."
+    },
+    "aria": ["aria-orientation", "aria-selected", "aria-controls", "aria-labelledby"],
+    "focus": "roving — RovingFocusGroup keeps exactly one tab in the tab order (tabIndex=0 on the active tab, -1 on the rest). Disabled tabs are passed focusable=false and are skipped.",
+    "focusVisible": "Custom ring: absolute <span aria-hidden> with border-2 border-[var(--comp-tab-focus-border)], rounded-full for circular and square for underlined, faded in on group-focus-visible.",
+    "gaps": [
+      "Tab.Item does not set outline-none, so the UA focus outline draws on top of the custom ring. Button and TextButton share this; Checkbox, Radio, Switch, Chip, SegmentBar and NavVertical all suppress it — the convention is split, not settled.",
+      "Tab.Panel sets outline-none (Tab.tsx:277) on an element Radix gives tabIndex=0. That focus stop therefore has no visible focus indicator at all."
+    ]
+  },
+
+  "implementation": {
+    "pattern": "Compound Component (Object.assign) + Context + CVA + @radix-ui/react-tabs",
+    "stateOverlay": "Sibling <span aria-hidden> with pointer-events-none absolute inset-0. Circular uses two mutually exclusive overlays (inactive/active) so the active pill gets on-dim tokens; underlined uses one.",
+    "focusRing": "Separate absolute <span aria-hidden> with border-2, opacity toggled by group-focus-visible. No pointerRef — unlike Button, this relies on the CSS :focus-visible pseudo-class alone.",
+    "pressScale": "active:scale-[var(--comp-tab-scale-pressed)] with the transition composed inline as [transition:color …, var(--comp-scale-press-transition-out)]. The composed list is why --comp-scale-press-transition-* must stay 'transform 0s' and never 'none' under reduced motion.",
+    "badgeComponent": "BadgeDot from @/components/Badge, hardcoded size={8} color=\"red\". The --comp-tab-badge-size and --comp-tab-badge-bg tokens exist but are referenced nowhere — see tokenNotes.",
+    "domStructure": [
+      "div (Tab root: RadixTabs.Root, no styling)",
+      "  div[role=tablist] (Tab.List: flex, variant gap, underlined baseline border)",
+      "    button[role=tab] (Tab.Item: group relative, variant/size classes, press scale)",
+      "      span (focus ring: absolute, border-2, group-focus-visible)",
+      "      span × 1–2 (state overlay: absolute inset-0, group-hover/group-active)",
+      "      span (content: relative z-1; underlined adds pt/pb)",
+      "      BadgeDot (absolute z-2, conditional)",
+      "      span (underlined only: bottom indicator, absolute, h 2px)",
+      "  div[role=tabpanel] (Tab.Panel: outline-none)"
+    ],
+    "files": [
+      "src/components/Tab/Tab.tsx",
+      "src/components/Tab/index.ts"
+    ],
+    "dependencies": [
+      "@radix-ui/react-tabs",
+      "class-variance-authority",
+      "src/lib/utils.ts (cn)",
+      "@/components/Badge (BadgeDot)"
+    ],
+    "tokenFile": "src/tokens/tokens.css",
+    "tokenNotes": {
+      "orphans": "--comp-tab-badge-size (8px) and --comp-tab-badge-bg (var(--primitive-red-bright-500)) are declared but referenced by no source file — BadgeDot takes size and color as props instead. --comp-tab-badge-bg is also the only Tab colour token that points at a primitive rather than a semantic token.",
+      "literals": "--comp-tab-underline-border (2px) and --comp-tab-badge-right-underlined (-4px) are px literals with no primitive reference. 2px has an equal-valued --primitive-spacing-0.5; -4px is negative and has no primitive counterpart."
+    },
+    "exports": [
+      "Tab (compound: TabGroup + { List, Item, Panel })",
+      "TabGroupProps, TabListProps, TabItemProps, TabPanelProps (types)",
+      "TAB_VARIANTS, TAB_SIZES (as const arrays)",
+      "TabVariant, TabSize (derived types)"
+    ],
+    "showcaseId": "tab"
+  }
+}
