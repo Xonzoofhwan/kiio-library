@@ -1,5 +1,5 @@
-import { type ButtonHTMLAttributes, type ReactNode } from 'react'
-import { Slot } from '@radix-ui/react-slot'
+import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Spinner } from '@/components/icons'
@@ -102,17 +102,24 @@ export interface ButtonProps
   /** Stretch to fill parent width.
    * @default false */
   fullWidth?: boolean
-  /** Inactive state. Prevents interaction.
+  /** Inactive state. Sets the native `disabled` attribute, so the button also
+   * leaves the tab order.
    * @default false */
   disabled?: boolean
-  /** Shows spinner, hides content, disables interaction.
+  /** In-flight state. Shows a spinner, hides the content and blocks activation, but
+   * **keeps focus and the tab order** (`aria-disabled` + `aria-busy`) — a focused button
+   * entering loading must not drop the keyboard user to `<body>`.
+   * With `asChild` the child's own content cannot be hidden; see `asChild`.
    * @default false */
   loading?: boolean
   /** Leading icon slot. Component handles sizing internally. */
   iconLeading?: ReactNode
   /** Trailing icon slot. */
   iconTrailing?: ReactNode
-  /** Radix Slot — renders child element with component styles.
+  /** Radix Slot — renders the child element with this component's styles.
+   * The child (a single element) becomes the root: ring, overlay, icons and spinner are
+   * placed inside it. There is no content wrapper on this path, so `loading` hides the
+   * icon slots but not the child's own content — hide that yourself.
    * @default false */
   asChild?: boolean
 }
@@ -131,23 +138,61 @@ export function Button({
   asChild = false,
   className,
   children,
+  onClick,
   ...rest
 }: ButtonProps) {
   const Comp = asChild ? Slot : 'button'
   const isInert = disabled || loading
 
+  // aria-disabled 는 상태를 알릴 뿐 활성화를 막지 못하고, pointer-events-none 은 CSS 라
+  // 키보드 Enter/Space 에 무력하다. 브라우저가 Enter/Space 를 click 으로 바꿔 주므로
+  // 여기 한 곳에서 막으면 포인터와 키보드가 함께 덮인다.
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (isInert) {
+      // type 을 지정하지 않아 form 안에서는 기본값이 submit 이다 — click 의 기본 동작을
+      // 막는 것이 곧 제출을 막는 것이다. 네이티브 disabled 는 click 을 아예 발생시키지
+      // 않으므로, 조상이 대신 반응하지 않도록 전파까지 끊어 그 동작에 맞춘다.
+      event.preventDefault()
+      event.stopPropagation()
+      return
+    }
+    onClick?.(event)
+  }
+
   const resolvedRadius = radiusMap[shape][size]
+
+  // 아이콘 슬롯. asChild 경로에는 감춰 줄 콘텐츠 래퍼가 없으므로 invisible 을 직접 건다.
+  const iconSlot = (icon: ReactNode) =>
+    icon ? (
+      <span
+        className={cn(
+          'flex-shrink-0 flex items-center justify-center',
+          iconSizeMap[size],
+          asChild && loading && 'invisible',
+        )}
+        style={{ fontSize: iconFontSizeVar[size] }}
+      >
+        {icon}
+      </span>
+    ) : null
 
   return (
     <Comp
       {...rest}
-      disabled={isInert}
+      // rest 스프레드보다 뒤에 둬야 소비자 onClick 이 가드를 덮어쓰지 않는다.
+      onClick={handleClick}
+      disabled={disabled}
       aria-disabled={isInert || undefined}
       aria-busy={loading || undefined}
       className={cn(
         buttonVariants({ hierarchy, size, shape, fullWidth }),
         disabled && disabledMap[hierarchy],
         isInert && 'pointer-events-none',
+        // asChild 경로엔 콘텐츠 래퍼가 없다(Slottable 은 Slot 의 최상위 자식이어야 한다).
+        // 간격은 루트로 올리고, isolate 로 스태킹 컨텍스트를 만들어 링·오버레이를 -z-10 으로
+        // 콘텐츠 뒤에 둔다 — 소비자 텍스트는 텍스트 노드라 relative 를 걸 방법이 없기 때문이다.
+        asChild && 'isolate',
+        asChild && gapMap[size],
         className,
       )}
     >
@@ -159,6 +204,7 @@ export function Button({
           resolvedRadius,
           hierarchy === 'outlined' && '-inset-px',
           'group-focus-visible:opacity-100',
+          asChild && '-z-10',
         )}
       />
 
@@ -170,30 +216,26 @@ export function Button({
             'pointer-events-none absolute inset-0 transition-colors duration-fast ease-enter',
             resolvedRadius,
             stateOverlayMap[hierarchy],
+            asChild && '-z-10',
           )}
         />
       )}
 
-      {/* Content wrapper */}
-      <span className={cn('relative flex items-center', gapMap[size], loading && 'invisible')}>
-        {iconLeading && (
-          <span
-            className={cn('flex-shrink-0 flex items-center justify-center', iconSizeMap[size])}
-            style={{ fontSize: iconFontSizeVar[size] }}
-          >
-            {iconLeading}
-          </span>
-        )}
-        <span className={textMarginMap[size]}>{children}</span>
-        {iconTrailing && (
-          <span
-            className={cn('flex-shrink-0 flex items-center justify-center', iconSizeMap[size])}
-            style={{ fontSize: iconFontSizeVar[size] }}
-          >
-            {iconTrailing}
-          </span>
-        )}
-      </span>
+      {/* Content — asChild 여부로 갈린다.
+          Radix 는 children 을 한 겹만 훑어 Slottable 을 찾으므로(Children.toArray().find),
+          Fragment 나 래퍼 span 안에 넣으면 발견되지 않고 그대로 던진다. 그래서 asChild 경로는
+          아이콘과 소비자 자식을 루트 직계 형제로 편다. */}
+      {asChild ? iconSlot(iconLeading) : null}
+      {asChild ? (
+        <Slottable>{children}</Slottable>
+      ) : (
+        <span className={cn('relative flex items-center', gapMap[size], loading && 'invisible')}>
+          {iconSlot(iconLeading)}
+          <span className={textMarginMap[size]}>{children}</span>
+          {iconSlot(iconTrailing)}
+        </span>
+      )}
+      {asChild ? iconSlot(iconTrailing) : null}
 
       {/* Loading spinner */}
       {loading && (

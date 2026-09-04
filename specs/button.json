@@ -25,12 +25,12 @@
     "disabled": {
       "type": "boolean",
       "default": false,
-      "description": "Inactive state. Prevents interaction."
+      "description": "Inactive state. Sets the native disabled attribute, so the button also leaves the tab order."
     },
     "loading": {
       "type": "boolean",
       "default": false,
-      "description": "Shows spinner, hides content, disables interaction."
+      "description": "In-flight state. Shows spinner, hides content and blocks activation, but keeps focus and the tab order (aria-disabled + aria-busy)."
     },
     "iconLeading": {
       "type": "ReactNode",
@@ -45,7 +45,7 @@
     "asChild": {
       "type": "boolean",
       "default": false,
-      "description": "Radix Slot — renders child element with component styles."
+      "description": "Radix Slot — the child element becomes the root and receives the component styles. The consumer child is wrapped in Radix Slottable, which must stay a top-level child of Slot; that is why this path has no content wrapper (gap moves to the root, and loading cannot hide the child's own content)."
     }
   },
 
@@ -168,7 +168,9 @@
       }
     },
     "loading": {
-      "description": "Content becomes invisible (opacity-0), spinner absolute centered at same icon size. Interaction disabled (pointer-events-none + aria-disabled + aria-busy)."
+      "description": "Content wrapper becomes invisible, spinner absolute centered at the same icon size.",
+      "focus": "Keeps focus and the tab order — the native disabled attribute is NOT set, only aria-disabled + aria-busy. A button that enters loading while focused must not drop the keyboard user to <body>.",
+      "activation": "Blocked by an onClick guard that calls preventDefault + stopPropagation and never forwards to the consumer handler. aria-disabled is semantics only and pointer-events-none is CSS, so neither stops Enter/Space; the browser turns those into click, so one guard covers pointer and keyboard. preventDefault also stops implicit form submission (this component does not set type, so the HTML default is submit)."
     }
   },
 

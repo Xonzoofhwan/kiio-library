@@ -65,12 +65,6 @@ const KNOWN_KEYBOARD_DEBT = {
     'ARIA 는 radio 의 소유자로 radiogroup 을 요구하므로(aria-required-parent) 보조기술이 ',
     '"3개 중 1번째" 같은 위치 정보를 읽어주지 못한다.',
   ].join(''),
-  'Button.loading이_탭_순서에서_빠짐': [
-    'loading 은 native `disabled` 까지 켠다(`disabled={disabled || loading}`). 그래서 ',
-    'aria-disabled·aria-busy 를 달아 놓고도 요소가 tab 순서에서 사라진다. 눌러 놓은 버튼이 ',
-    '로딩으로 들어가는 순간 포커스가 body 로 떨어져 키보드 사용자가 자리를 잃고, ',
-    'aria-busy 는 아무도 읽지 않는다. aria-disabled 로 막고 포커스는 남기는 것이 의도였을 것이다.',
-  ].join(''),
 } as const
 
 type DebtId = keyof typeof KNOWN_KEYBOARD_DEBT
@@ -576,15 +570,29 @@ describe('Button — 활성화 키와 탭 순서', () => {
     ])
   })
 
-  it(`${debt('Button.loading이_탭_순서에서_빠짐')} loading 버튼도 native disabled 라 tab 순서에서 빠진다`, async () => {
+  it('loading 버튼은 tab 순서에 남는다 — disabled 와 갈리는 지점', async () => {
+    // 눌러 놓은 버튼이 로딩에 들어가는 순간 포커스가 body 로 떨어지면 키보드 사용자가
+    // 자리를 잃고, 스크린리더는 aria-busy 를 읽을 대상 자체를 잃는다.
+    // 그래서 loading 은 native disabled 를 켜지 않고 aria-disabled 로만 막는다.
     const user = setup()
     render(withBoundaries(<Button loading>저장</Button>))
 
     const loadingButton = screen.getByRole('button', { name: '저장' })
     expect(loadingButton.getAttribute('aria-busy')).toBe('true')
     expect(loadingButton.getAttribute('aria-disabled')).toBe('true')
-    // aria-disabled 만 달렸다면 여기서 tab 순서에 남아야 한다. native disabled 가 함께 붙는다.
-    expect(loadingButton.hasAttribute('disabled')).toBe(true)
+    expect(loadingButton.hasAttribute('disabled')).toBe(false)
+
+    expect(await focusOrder(user, ['{Tab}', '{Tab}'])).toEqual(['앞 [button]', '저장 [button]'])
+  })
+
+  it('disabled 버튼은 tab 순서에서 빠진다 — loading 과의 대조', async () => {
+    // 같은 inert 처럼 보여도 둘은 다르다. disabled 는 "지금 쓸 수 없다"라 건너뛰는 것이 맞고,
+    // loading 은 "곧 다시 쓸 수 있다"라 자리를 지켜야 한다.
+    const user = setup()
+    render(withBoundaries(<Button disabled>저장</Button>))
+
+    const disabledButton = screen.getByRole('button', { name: '저장' })
+    expect(disabledButton.hasAttribute('disabled')).toBe(true)
 
     expect(await focusOrder(user, ['{Tab}', '{Tab}'])).toEqual(['앞 [button]', '뒤 [button]'])
   })
@@ -604,7 +612,6 @@ describe('부채·미검증 목록', () => {
     expect(Object.keys(KNOWN_KEYBOARD_DEBT)).toEqual([
       'NavVertical.탭스톱이_포커스를_따라가지_않음',
       'SegmentBar.radio가_radiogroup_밖',
-      'Button.loading이_탭_순서에서_빠짐',
     ])
     for (const reason of Object.values(KNOWN_KEYBOARD_DEBT)) {
       expect(reason.length).toBeGreaterThan(40)

@@ -1,17 +1,17 @@
 /**
  * `Button` 공개 계약 테스트.
  *
- * Button 은 이 라이브러리에서 가장 많이 복제된 구조다. `const isInert = disabled || loading`
- * 한 줄과 같은 레이어 배치(포커스 링 span · 상태 오버레이 span · 콘텐츠 span · 스피너 span)를
+ * Button 은 이 라이브러리에서 가장 많이 복제된 구조다. `isInert = disabled || loading` 과
+ * 같은 레이어 배치(포커스 링 span · 상태 오버레이 span · 콘텐츠 span · 스피너 span)를
  * ButtonEmphasized·ButtonError·IconButton·IconButtonEmphasized·IconButtonError·TextButton 이
  * 그대로 복사해 쓴다(2026-09-05 기준 7개). 여기서 깨지는 계약은 한 컴포넌트의 문제가 아니다.
- * 다만 이 파일이 **실제로 렌더해 보는 것은 Button 하나**이고, 나머지 6개는 같은 패턴을
+ * 다만 이 파일이 **실제로 렌더해 보는 것은 Button 하나**이고, 나머지는 같은 패턴을
  * 공유한다는 사실만 근거다 — 나머지의 검증은 여기서 통과한 것이 아니다.
  *
  * ## 보장하는 것
  * 1. `loading` / `disabled` 의 DOM·ARIA 표면과 **둘의 차이**
  * 2. 클릭·탭 순서에서 두 상태가 실제로 어떻게 다른가(추정이 아니라 렌더 결과)
- * 3. `asChild` 의 **현재** 동작
+ * 3. `asChild` 가 소비자 요소를 루트로 삼고, 우리 레이어를 그 안에 넣는다
  * 4. `iconLeading`/`iconTrailing` 의 렌더 위치와 size → 아이콘 토큰 매핑
  * 5. `BUTTON_HIERARCHIES` × `BUTTON_SIZES` × `BUTTON_SHAPES` 전 조합이 던지지 않고,
  *    루트·포커스 링·상태 오버레이의 radius 가 서로 일치한다
@@ -20,11 +20,12 @@
  * **시각 결과 전부.** jsdom 은 Tailwind 스타일시트를 로드하지 않으므로
  * `pointer-events-none`·`invisible`·`group-focus-visible:opacity-100` 은 전부 그냥
  * 문자열이다. 여기서 확인하는 것은 "클래스가 붙었다"이지 "그렇게 보인다/동작한다"가
- * 아니다. 실제 클릭 차단이 확인되는 경로는 네이티브 `disabled` 하나뿐이다.
+ * 아니다. 실제 차단이 관찰되는 경로는 네이티브 `disabled` 와 `onClick` 가드 둘뿐이다 —
+ * `pointer-events-none` 은 여전히 문자열이다.
  * 재지 못한 항목은 `UNMEASURED_ASPECTS` 에 사유와 함께 둔다.
  *
  * ## 소스와 브리프가 갈린 지점
- * 이 파일은 소스가 실제로 하는 일만 단언한다. 소스가 이상해 보이는 두 곳은
+ * 이 파일은 소스가 실제로 하는 일만 단언한다. 소스가 이상해 보이는 곳은
  * `KNOWN_DEFECTS` 에 등록하고, 현재 동작을 그대로 못 박는 특성화 테스트를 둔다.
  * 결함이 고쳐지면 그 단언이 실패한다 — 그때 케이스와 등록 항목을 함께 지운다.
  *
@@ -52,10 +53,6 @@ import {
  * 아래 특성화 테스트가 현재 동작을 고정하므로, 고치는 순간 red 가 나서 이 목록도 함께 정리된다.
  */
 const KNOWN_DEFECTS: Record<string, string> = {
-  'asChild 가 항상 던진다':
-    'Button 은 포커스 링 span 과 콘텐츠 span 을 항상 함께 렌더한다. Radix Slot 의 SlotClone 은 ' +
-    '자식이 2개 이상이면 React.Children.only(null) 로 던지므로, 공개 prop 인 asChild 를 켜는 ' +
-    '즉시 렌더가 실패한다. 고치려면 Radix Slottable 로 소비자 자식을 감싸야 한다.',
   'type 을 지정하지 않는다':
     '같은 저장소의 ChipUniversal 은 type={asChild ? undefined : "button"} 을 준다. Button 은 ' +
     '주지 않아 HTML 기본값인 submit 이 되고, form 안에 놓으면 클릭이 곧 제출이다.',
@@ -68,7 +65,13 @@ const KNOWN_DEFECTS: Record<string, string> = {
 const UNMEASURED_ASPECTS: Record<string, string> = {
   'pointer-events-none 의 실제 효력':
     'jsdom 은 Tailwind 스타일시트를 로드하지 않아 computed pointer-events 가 늘 auto 다. ' +
-    '클릭 차단이 실제로 확인되는 경로는 네이티브 disabled 뿐이다.',
+    '여기서 관찰되는 차단은 네이티브 disabled 와 onClick 가드뿐이고, pointer-events-none 이 ' +
+    '포인터를 실제로 통과시키는지는 브라우저에서만 확인된다.',
+  'asChild 경로의 도장 순서':
+    'asChild 는 콘텐츠 래퍼를 쓸 수 없어(Slottable 은 Slot 의 최상위 자식이어야 한다) 링·오버레이를 ' +
+    'isolate + -z-10 으로 콘텐츠 뒤에 둔다. 클래스가 붙었다는 것만 볼 수 있고, 실제 z-index 계산과 ' +
+    '소비자 텍스트가 오버레이 위에 오는지는 브라우저의 몫이다. 콘텐츠 래퍼가 없어 텍스트 좌우 여백' +
+    '(textMarginMap)도 빠지는데, 그 폭 차이 역시 여기서는 재지 못한다.',
   '포커스 링·상태 오버레이의 표시 여부':
     'group-focus-visible:/group-hover: 는 CSS 로만 켜진다. 여기서는 클래스 존재까지만 본다.',
   '아이콘의 실제 픽셀 크기':
@@ -235,7 +238,8 @@ describe('Button — loading', () => {
     const root = renderButton(<Button loading>저장</Button>)
 
     expect(readInertness(root)).toEqual({
-      nativeDisabled: true,
+      // 로딩은 비활성이 아니라 진행 중이다. 네이티브 disabled 를 걸지 않아 포커스가 남는다.
+      nativeDisabled: false,
       ariaDisabled: 'true',
       ariaBusy: 'true',
       pointerEventsNone: true,
@@ -255,7 +259,7 @@ describe('Button — loading', () => {
     expect(root.className).not.toContain('--comp-button-bg-primary-disabled')
   })
 
-  it('클릭이 무시된다', async () => {
+  it('클릭이 무시된다 — onClick 가드가 소비자 핸들러를 부르지 않는다', async () => {
     const user = userEvent.setup()
     const onClick = vi.fn()
     const root = renderButton(
@@ -268,9 +272,26 @@ describe('Button — loading', () => {
     expect(onClick).not.toHaveBeenCalled()
   })
 
-  it('탭 순서에서 빠진다 — 네이티브 disabled 가 걸리기 때문이다', async () => {
-    // 브리프의 가정("loading 은 disabled 속성이 아니므로 탭 순서에 남는다")과 **다르다.**
-    // 소스는 disabled={disabled || loading} 이므로 loading 도 네이티브 disabled 를 건다.
+  it('키보드 활성화(Enter·Space)도 같은 가드가 막는다', async () => {
+    // 브라우저는 버튼의 Enter/Space 를 click 이벤트로 바꿔 준다. 그래서 onClick 가드
+    // 하나가 포인터와 키보드를 함께 덮는다 — 이 케이스가 그 전제를 확인한다.
+    const user = userEvent.setup()
+    const onClick = vi.fn()
+    const root = renderButton(
+      <Button loading onClick={onClick}>
+        저장
+      </Button>,
+    )
+
+    root.focus()
+    await user.keyboard('{Enter}')
+    await user.keyboard(' ')
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('탭 순서에 남고 포커스를 잃지 않는다', async () => {
+    // 이것이 E2 의 목적이다. 네이티브 disabled 를 걸면 눌러 놓은 버튼이 로딩에 들어가는
+    // 순간 포커스가 body 로 떨어지고, aria-busy 를 읽을 대상 자체가 사라진다.
     const user = userEvent.setup()
     const { container } = render(
       <>
@@ -279,29 +300,80 @@ describe('Button — loading', () => {
         <button data-testid="after">after</button>
       </>,
     )
+    const loadingButton = container.querySelector('button[aria-busy="true"]')
 
     await user.tab()
     expect(document.activeElement).toBe(container.querySelector('[data-testid="before"]'))
     await user.tab()
+    expect(document.activeElement).toBe(loadingButton)
+    await user.tab()
     expect(document.activeElement).toBe(container.querySelector('[data-testid="after"]'))
+  })
+
+  it('form 안에서 제출을 일으키지 않는다', async () => {
+    // Button 은 type 을 지정하지 않아 기본값이 submit 이다(KNOWN_DEFECTS). 네이티브
+    // disabled 를 뗀 이상 제출을 막는 것은 가드의 preventDefault 뿐이다.
+    const user = userEvent.setup()
+    const onSubmit = vi.fn((event: { preventDefault: () => void }) => event.preventDefault())
+    const { container } = render(
+      <form onSubmit={onSubmit}>
+        <Button loading>저장</Button>
+      </form>,
+    )
+
+    await user.click(container.querySelector('button')!)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('로딩이 아니면 제출된다 — 가드가 항상 막는 것이 아니다', async () => {
+    // 위 케이스의 대조군. 가드가 무조건 preventDefault 하도록 잘못 짜여도 그 쪽은 통과하므로,
+    // "막지 않아야 할 때 막지 않는가"를 함께 본다.
+    const user = userEvent.setup()
+    const onSubmit = vi.fn((event: { preventDefault: () => void }) => event.preventDefault())
+    const { container } = render(
+      <form onSubmit={onSubmit}>
+        <Button>저장</Button>
+      </form>,
+    )
+
+    await user.click(container.querySelector('button')!)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('클릭이 조상으로 전파되지 않는다', async () => {
+    // 네이티브 disabled 는 click 을 아예 발생시키지 않는다. 가드는 그 동작에 맞춰
+    // 전파까지 끊는다 — 끊지 않으면 카드·행 같은 조상이 대신 반응한다.
+    const user = userEvent.setup()
+    const onAncestorClick = vi.fn()
+    const { container } = render(
+      <div onClick={onAncestorClick}>
+        <Button loading>저장</Button>
+      </div>,
+    )
+
+    await user.click(container.querySelector('button')!)
+    expect(onAncestorClick).not.toHaveBeenCalled()
   })
 })
 
 describe('Button — disabled 와 loading 의 대조', () => {
-  it('상호작용 차단 방식은 같고, 알리는 내용과 시각 표면이 다르다', () => {
+  it('차단 수단이 다르다 — disabled 는 네이티브, loading 은 aria + 가드다', () => {
     const disabled = renderButton(<Button disabled>저장</Button>)
     const loading = renderButton(<Button loading>저장</Button>)
 
     const disabledReport = readInertness(disabled)
     const loadingReport = readInertness(loading)
 
-    // 같은 것: 차단 수단. 둘 다 네이티브 disabled 라 탭 순서와 클릭에서 동일하게 빠진다.
-    expect(disabledReport.nativeDisabled).toBe(loadingReport.nativeDisabled)
+    // 같은 것: "지금 누를 수 없다"는 표시와, 상태 오버레이를 마운트하지 않는 것.
     expect(disabledReport.ariaDisabled).toBe(loadingReport.ariaDisabled)
     expect(disabledReport.pointerEventsNone).toBe(loadingReport.pointerEventsNone)
     expect(disabledReport.stateOverlays).toBe(loadingReport.stateOverlays)
 
-    // 다른 것: 진행 중임을 알리는 aria-busy, 감춘 콘텐츠, 스피너.
+    // 다른 것 ①: 네이티브 disabled. disabled 만 탭 순서 밖으로 나가고, loading 은 남는다.
+    expect(disabledReport.nativeDisabled).toBe(true)
+    expect(loadingReport.nativeDisabled).toBe(false)
+
+    // 다른 것 ②: 진행 중임을 알리는 aria-busy, 감춘 콘텐츠, 스피너.
     expect(disabledReport.ariaBusy).toBeNull()
     expect(loadingReport.ariaBusy).toBe('true')
     expect(disabledReport.contentHidden).toBe(false)
@@ -342,17 +414,108 @@ describe('Button — disabled 와 loading 의 대조', () => {
 })
 
 describe('Button — asChild', () => {
-  it('[알려진 결함] Slot 이 자식 하나만 받으므로 렌더가 던진다', () => {
-    // KNOWN_DEFECTS['asChild 가 항상 던진다'] 를 고정한다.
-    // Button 은 포커스 링 span 과 콘텐츠 span 을 항상 함께 넘기므로 SlotClone 의
-    // React.Children.only 가 걸린다. 고쳐지면 이 단언이 실패한다.
-    expect(() =>
-      render(
-        <Button asChild>
-          <a href="/docs">문서</a>
-        </Button>,
-      ),
-    ).toThrow(/single React element child/)
+  /**
+   * asChild 경로의 루트는 **소비자가 준 요소**다. button 이 아니므로 `renderButton` 을 쓸 수 없다.
+   * 이 헬퍼가 a 를 찾지 못하면 던지므로, 렌더가 조용히 빈 결과를 내는 경우도 함께 걸린다.
+   */
+  function renderAsChild(ui: ReactElement) {
+    const { container } = render(ui)
+    const root = container.querySelector('a')
+    if (!root) throw new Error('소비자 요소(a)가 렌더되지 않았다')
+    return { root, container }
+  }
+
+  it('소비자 요소가 루트가 되고 button 은 만들어지지 않는다', () => {
+    const { root, container } = renderAsChild(
+      <Button asChild>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    expect(root.tagName).toBe('A')
+    expect(root.getAttribute('href')).toBe('/docs')
+    expect(container.querySelector('button')).toBeNull()
+    expect(root.textContent).toContain('문서')
+  })
+
+  it('변형 클래스와 소비자 className 이 함께 남는다', () => {
+    const { root } = renderAsChild(
+      <Button asChild hierarchy="outlined" size="large" className="from-prop">
+        <a href="/docs" className="from-child">
+          문서
+        </a>
+      </Button>,
+    )
+
+    expect(root.className).toContain('bg-[var(--comp-button-bg-outlined)]')
+    expect(root.className).toContain('h-[var(--comp-button-height-lg)]')
+    // Radix mergeProps 는 두 className 을 이어 붙인다 — 한쪽이 사라지면 안 된다.
+    expect(root.className).toContain('from-prop')
+    expect(root.className).toContain('from-child')
+  })
+
+  it('상태 표면(aria)과 우리 레이어가 소비자 요소 안으로 들어간다', () => {
+    const { root } = renderAsChild(
+      <Button asChild loading>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    expect(root.getAttribute('aria-busy')).toBe('true')
+    expect(root.getAttribute('aria-disabled')).toBe('true')
+    // 포커스 링은 남고(inert 라 상태 오버레이는 마운트되지 않는다), 스피너가 올라간다.
+    expect(root.querySelectorAll(':scope > span[aria-hidden="true"]')).toHaveLength(1)
+    expect(root.querySelector('svg')).not.toBeNull()
+  })
+
+  it('아이콘은 콘텐츠 래퍼 없이 루트 직계 형제로, leading·자식·trailing 순서로 놓인다', () => {
+    const { root } = renderAsChild(
+      <Button asChild iconLeading={<i data-testid="lead" />} iconTrailing={<i data-testid="trail" />}>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    // Slottable 은 Slot 의 최상위 자식이어야 발견된다. 콘텐츠 래퍼로 감싸는 순간 다시
+    // 던지므로, **래퍼가 없다는 것 자체가 계약**이다.
+    expect(findContentWrapper(root)).toBeNull()
+
+    const marks = Array.from(root.childNodes).map((node) => {
+      if (!(node instanceof HTMLElement)) return node.textContent
+      if (node.querySelector('[data-testid="lead"]')) return 'lead'
+      if (node.querySelector('[data-testid="trail"]')) return 'trail'
+      return 'layer'
+    })
+    expect(marks).toEqual(['layer', 'layer', 'lead', '문서', 'trail'])
+  })
+
+  it('콘텐츠 래퍼가 없어진 만큼 간격을 루트가 갖는다', () => {
+    const { root } = renderAsChild(
+      <Button asChild size="small">
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    // 래퍼가 없으면 gap 도 함께 사라져 아이콘이 텍스트에 붙는다. 그래서 루트로 올린다.
+    expect(root.className).toContain('gap-[var(--comp-button-gap-sm)]')
+    // 링·오버레이를 콘텐츠 뒤로 보내기 위한 스태킹 컨텍스트(표시 여부는 UNMEASURED).
+    expect(root.className).toContain('isolate')
+  })
+
+  it('가드가 소비자 핸들러와 기본 동작(이동)을 함께 막는다', () => {
+    const onClick = vi.fn()
+    const { root } = renderAsChild(
+      <Button asChild loading onClick={onClick}>
+        <a href="/docs">문서</a>
+      </Button>,
+    )
+
+    // 링크의 기본 동작은 이동이다. user.click 은 defaultPrevented 를 돌려주지 않으므로
+    // 네이티브 이벤트를 직접 던져 그 값을 읽는다.
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true })
+    root.dispatchEvent(event)
+
+    expect(onClick).not.toHaveBeenCalled()
+    expect(event.defaultPrevented).toBe(true)
   })
 })
 
@@ -430,7 +593,7 @@ describe('Button — 부채·미검증 목록', () => {
     const defects = Object.keys(KNOWN_DEFECTS)
     for (const name of defects) expect(KNOWN_DEFECTS[name].length).toBeGreaterThan(0)
     // 비어 있지 않은 한 이 파일의 green 을 "Button 계약 이상 없음"으로 읽으면 안 된다.
-    expect(defects).toEqual(['asChild 가 항상 던진다', 'type 을 지정하지 않는다'])
+    expect(defects).toEqual(['type 을 지정하지 않는다'])
   })
 
   it('미검증 항목은 사유와 함께 남아 있다', () => {

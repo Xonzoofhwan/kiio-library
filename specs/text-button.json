@@ -26,12 +26,12 @@
     "disabled": {
       "type": "boolean",
       "default": false,
-      "description": "Inactive state. Prevents interaction."
+      "description": "Inactive state. Native disabled — removed from tab order, never submitted."
     },
     "loading": {
       "type": "boolean",
       "default": false,
-      "description": "Shows spinner, hides content, disables interaction."
+      "description": "In-flight state. Shows spinner, hides content, blocks activation — but keeps focus and tab order (aria-disabled + aria-busy, not native disabled). With asChild the spinner is not rendered; semantics only."
     },
     "iconLeading": {
       "type": "ReactNode",
@@ -46,7 +46,7 @@
     "asChild": {
       "type": "boolean",
       "default": false,
-      "description": "Radix Slot — renders child element with component styles."
+      "description": "Radix Slot — renders the single child element with component styles. Consumer children are wrapped in Slottable so the ring/icon layers become children of that element."
     }
   },
 
@@ -120,17 +120,19 @@
       "all": "border-2 border-[var(--comp-button-focus-border)] (focus-visible only, no radius)"
     },
     "disabled": {
-      "description": "Low-contrast text color. pointer-events-none + aria-disabled."
+      "description": "Low-contrast text color. Native disabled + aria-disabled + pointer-events-none. Out of tab order."
     },
     "loading": {
-      "description": "Content becomes invisible, spinner centered. Component size preserved. Interaction disabled (pointer-events-none + aria-disabled + aria-busy)."
+      "description": "Content becomes invisible, spinner centered. Component size preserved. Stays focusable and in tab order — aria-disabled + aria-busy + pointer-events-none, no native disabled. Activation is blocked by an onClick guard that preventDefault/stopPropagation (Enter/Space arrive as click, so mouse and keyboard are both covered; preventDefault also cancels the default form submit)."
     }
   },
 
   "implementation": {
     "pattern": "CVA + cn + @radix-ui/react-slot",
     "stateOverlay": "None — text color changes directly via hover:/active: pseudo-class utilities on root element.",
-    "loadingStrategy": "Content marked invisible, Spinner absolute centered.",
+    "loadingStrategy": "Content wrapper marked invisible, Spinner absolute centered. Never native disabled: loading keeps focus (aria-disabled + aria-busy) and an onClick guard swallows activation.",
+    "asChildStrategy": "Slottable wraps the consumer children and must stay a top-level child of Slot — Radix scans only one level (React.Children.toArray(children).find(isSlottable)), so a Fragment or wrapper span makes it throw React.Children.only. The content wrapper therefore does not exist on the asChild path: icon gap moves onto the root and icons render as direct siblings of the consumer text.",
+    "asChildLoadingLimitation": "asChild + loading renders no spinner and does not hide content. The invisible class lives on the content wrapper, which the asChild path cannot have, and the consumer element is revived by cloneElement so no class can be attached to its text. Overlaying a spinner on visible text makes both unreadable, so this combination keeps only the semantics (aria-busy, aria-disabled, click guard).",
     "sharedImports": [
       "iconSizeMap from Button/shared",
       "iconFontSizeVar from Button/shared",
