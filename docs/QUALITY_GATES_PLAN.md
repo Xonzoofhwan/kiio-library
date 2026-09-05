@@ -78,7 +78,7 @@
 **해소된 부채** — 목록이 줄어든 것을 각 목록의 키 대조 단언이 확인한다:
 `KNOWN_DEFECTS['asChild가 항상 던진다']` · `KNOWN_KEYBOARD_DEBT['Button.loading이_탭_순서에서_빠짐']`
 · `KNOWN_A11Y_DEBT` 3건(앞서 해소). 남은 부채는 `KNOWN_DEFECTS['type을 지정하지 않는다']` ·
-`KNOWN_KEYBOARD_DEBT` 2건(NavVertical 탭스톱·SegmentBar radiogroup)이다.
+`KNOWN_KEYBOARD_DEBT` 2건(NavVertical 탭스톱·SegmentBar radiogroup)이었다. **넷 다 이후 해소돼 목록이 비었다.**
 
 ### 육안 확인 — 실행 결과 (2026-09-05)
 
@@ -98,8 +98,8 @@
 
 - **T4 미측정 컨트롤 3종** — Checkbox·Radio(visual + inset 구조라 소스만으로 높이 확정 불가), NavVertical(높이를 선언하지 않음). `UNMEASURED_CONTROLS`에 사유와 함께 등록돼 있고, 목록이 비어 있지 않은 한 "전부 통과"라고 쓰지 않는다.
 - **시각 회귀** — 타이포 토큰 교체(5곳)와 reduced-motion 변경은 값 등가를 소스로 확인했을 뿐 픽셀 대조는 하지 않았다. 육안 확인이 남아 있다.
-- **`specs/segment-bar.json:125` 패딩 4px vs 토큰 2px** — Figma 대조 필요 (§2.3 D1).
-- **`KNOWN_KEYBOARD_DEBT` 1건 (`NavVertical.탭스톱이_포커스를_따라가지_않음`) · `KNOWN_DEFECTS` 0건** — 현재 동작을 고정해 회귀는 막지만 **통과가 아니다.** 각 목록은 인용되지 않은 항목(죽은 부채)을 잡는 단언과 키 목록 대조를 함께 갖는다 — 승인 없이 늘면 그 단언이 먼저 깨진다.
+- ~~`specs/segment-bar.json` 패딩 4px vs 토큰 2px~~ — **Figma 확인 완료 (2026-09-05).** node `12582:14159`(SegmentBar.Large)의 레일 높이가 48이고 아이템이 44이므로 패딩은 2px다. **토큰이 맞고 스펙의 4px이 오기였다.** 네 사이즈 전수 대조도 일치 — 상세는 [RFC 컨트롤 높이](./rfcs/2026-09-control-height.md). Figma가 프레임 높이로 기록해 둔 값이 정확히 "레일"이라는 점이 §2.3의 측정 축을 독립적으로 검증한다.
+- **부채 목록이 전부 비었다** — `KNOWN_KEYBOARD_DEBT` 0건 · `KNOWN_DEFECTS` 0건 · `KNOWN_A11Y_DEBT` 0건. 비었다는 것은 "문제가 없다"가 아니라 **"목록에 적힌 것이 없다"**는 뜻이다. 각 목록은 키 대조 단언을 갖고 있어 승인 없이 늘면 먼저 깨진다. 부채를 다시 등록할 때 되살릴 인용 가드 코드는 `keyboardContract.test.tsx`의 주석에 남겨 뒀다.
 - **`UNMEASURED_*` 4개 목록** — `tokenContract`(컨트롤 3종) · `a11ySmoke`(색 대비 등 5) · `keyboardContract`(3) · `docs-check`(5). 비어 있지 않은 한 "전부 통과"라고 쓰지 않는다.
 - **시각 회귀 전반** — 계약 검사는 선언의 **위치**와 **값**만 본다.
 
