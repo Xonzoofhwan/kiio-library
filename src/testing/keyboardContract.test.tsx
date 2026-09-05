@@ -54,23 +54,26 @@ import { NO_FOCUS, describeElement, focusOrder, inspectRovingTabIndex } from './
  * "통과했다"는 뜻이 아니다. 해소되면 케이스를 옳은 기대로 바꾸고 여기서 뺀다.
  * **새 항목을 추가하는 순간이 곧 승인을 받아야 하는 시점이다.**
  */
-const KNOWN_KEYBOARD_DEBT = {
-  'NavVertical.탭스톱이_포커스를_따라가지_않음': [
-    'APG roving tabindex 는 tabIndex=0 을 **마지막으로 포커스한** 항목에 둔다. 이 구현은 ',
-    '**선택된** 항목에 둔다. 그래서 방향키로 이동만 하고 활성화하지 않은 채 Tab 으로 나갔다 ',
-    '돌아오면, 사용자가 있던 자리가 아니라 선택된 항목으로 돌아온다.',
-  ].join(''),
-} as const
-
-type DebtId = keyof typeof KNOWN_KEYBOARD_DEBT
-
-/** 케이스 제목에서 인용된 부채 id. 인용되지 않은 항목(=죽은 부채)을 아래에서 잡는다. */
-const citedDebt = new Set<DebtId>()
-
-/** 존재하지 않는 부채를 인용하면 **타입 에러**가 난다. 목록과 케이스가 어긋날 수 없다. */
-function debt(id: DebtId): string {
-  citedDebt.add(id)
-  return `[부채 ${id}]`
+const KNOWN_KEYBOARD_DEBT: Record<string, string> = {
+  // **현재 비어 있다.** 등록됐던 4건은 전부 해소됐다 (2026-09-05):
+  // - NavVertical.활성값없음 → 선택이 없으면 첫 항목을 tab 순서에 둔다 (APG 보완 규칙)
+  // - NavVertical.탭스톱이_포커스를_따라가지_않음 → tab 스톱이 마지막 포커스 항목을 따라간다
+  // - SegmentBar.radio가_radiogroup_밖 → 루트에 role="radiogroup" 을 명시
+  // - Button.loading이_탭_순서에서_빠짐 → native disabled 대신 aria-disabled + onClick 가드
+  //
+  // 비었다는 것은 "키보드 계약에 문제가 없다"가 아니라 "여기 적힌 것이 없다"는 뜻이다.
+  // UNMEASURED_KEYBOARD 를 함께 읽어라.
+  //
+  // **부채를 다시 등록할 때는 인용 가드도 함께 되살린다.** 목록만 두면 해소된 뒤에도
+  // 항목이 남아 "아직 문제가 있다"고 거짓 보고한다. 되살릴 코드:
+  //
+  //   type DebtId = keyof typeof KNOWN_KEYBOARD_DEBT
+  //   const citedDebt = new Set<DebtId>()
+  //   function debt(id: DebtId): string { citedDebt.add(id); return `[부채 ${id}]` }
+  //
+  // 케이스 제목에 `${debt('id')}` 로 인용하고, 아래 「부채·미검증 목록」에
+  // 인용되지 않은 항목을 잡는 단언을 되살린다. `DebtId` 가 keyof 라서 존재하지 않는
+  // id 를 인용하면 타입 에러가 나므로 목록과 케이스가 어긋날 수 없다.
 }
 
 /**
@@ -223,14 +226,42 @@ describe('NavVertical — 직접 구현한 roving tabindex', () => {
     expect(await focusOrder(user, ['{Tab}', '{Tab}'])).toEqual(['앞 [button]', '알파 [button]'])
   })
 
-  it(`${debt('NavVertical.탭스톱이_포커스를_따라가지_않음')} 방향키로 옮긴 포커스를 tab 스톱이 따라가지 않는다`, async () => {
+  it('방향키로 옮긴 포커스를 tab 스톱이 따라간다', async () => {
+    // APG roving tabindex: tab 스톱은 **마지막으로 포커스한** 항목에 둔다.
+    // 선택에 묶어 두면 방향키로 이동만 하고 Tab 으로 나갔다 돌아왔을 때
+    // 사용자가 있던 자리가 아니라 선택 항목으로 돌아간다.
     const user = setup()
     renderNav({ defaultValue: 'a' })
 
     await user.keyboard('{Tab}{Tab}{ArrowDown}')
     expect(describeElement(document.activeElement)).toBe('브라보 [button]')
-    // 포커스는 브라보인데 tab 스톱은 선택된 알파에 그대로 있다.
-    expect(inspectRovingTabIndex(navItems()).focusable).toEqual(['알파 [button]'])
+    expect(inspectRovingTabIndex(navItems()).focusable).toEqual(['브라보 [button]'])
+  })
+
+  it('나갔다 돌아오면 있던 자리로 돌아온다 — 선택 항목이 아니라', async () => {
+    // 위 계약이 실제로 사용자에게 무엇을 주는지. 이것이 깨지면 방향키 내비게이션이
+    // Tab 한 번에 리셋되어 긴 목록에서 자리를 계속 잃는다.
+    const user = setup()
+    renderNav({ defaultValue: 'a' })
+
+    await user.keyboard('{Tab}{Tab}{ArrowDown}{ArrowDown}')
+    expect(describeElement(document.activeElement)).toBe('찰리 [button]')
+
+    // 위젯 밖으로 나갔다가 Shift+Tab 으로 되돌아온다.
+    await user.keyboard('{Tab}')
+    expect(describeElement(document.activeElement)).toBe('뒤 [button]')
+    await user.keyboard('{Shift>}{Tab}{/Shift}')
+    expect(describeElement(document.activeElement)).toBe('찰리 [button]')
+  })
+
+  it('선택하면 tab 스톱도 그 항목으로 간다', async () => {
+    // 선택은 포커스를 동반하므로 둘이 갈리지 않는다.
+    const user = setup()
+    renderNav({ defaultValue: 'a' })
+
+    await user.keyboard('{Tab}{Tab}{ArrowDown}{Enter}')
+    expect(navItems().map((i) => i.getAttribute('aria-current'))).toEqual([null, 'page', null])
+    expect(inspectRovingTabIndex(navItems()).focusable).toEqual(['브라보 [button]'])
   })
 })
 
@@ -600,17 +631,10 @@ describe('Button — 활성화 키와 탭 순서', () => {
 /* ═══ 부채·미검증 목록 자체를 검사한다 ════════════════════════════════════ */
 
 describe('부채·미검증 목록', () => {
-  it('모든 부채 항목이 실제 케이스에서 인용된다', () => {
-    // 인용되지 않은 부채는 해소됐거나 잘못 적힌 것이다. 어느 쪽이든 목록에서 빠져야 한다.
-    const uncited = (Object.keys(KNOWN_KEYBOARD_DEBT) as DebtId[]).filter((id) => !citedDebt.has(id))
-    expect(uncited).toEqual([])
-  })
-
-  it('부채 목록이 2026-09-05 실측 그대로다', () => {
+  it('부채 목록이 비어 있다', () => {
     // 목록이 늘어나면 이 단언이 먼저 깨진다 — 승인 없이 부채가 쌓이는 것을 막는다.
-    expect(Object.keys(KNOWN_KEYBOARD_DEBT)).toEqual([
-      'NavVertical.탭스톱이_포커스를_따라가지_않음',
-    ])
+    // 항목을 다시 넣을 때는 KNOWN_KEYBOARD_DEBT 주석의 인용 가드도 함께 되살린다.
+    expect(Object.keys(KNOWN_KEYBOARD_DEBT)).toEqual([])
     for (const reason of Object.values(KNOWN_KEYBOARD_DEBT)) {
       expect(reason.length).toBeGreaterThan(40)
     }

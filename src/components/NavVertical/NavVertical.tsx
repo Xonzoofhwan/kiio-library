@@ -7,6 +7,7 @@ import {
   useCallback,
   type ReactNode,
   type KeyboardEvent,
+  type FocusEvent,
   type ButtonHTMLAttributes,
 } from 'react'
 import * as Collapsible from '@radix-ui/react-collapsible'
@@ -206,27 +207,54 @@ function NavVerticalRoot({
     items[nextIndex]?.focus()
   }, [])
 
-  /**
-   * 선택된 항목이 없으면 **위젯 전체가 tab 순서 밖**이 된다.
-   *
-   * 항목의 tabIndex 는 `isActive ? 0 : -1` 이라, uncontrolled 로 쓰면서
-   * `defaultValue` 를 주지 않으면 모든 항목이 -1 이고 Tab 이 내비게이션을 통째로
-   * 건너뛴다. APG 는 "선택이 없으면 첫 항목을 tab 순서에 둔다"를 요구한다.
-   *
-   * 자식이 임의 구조(그룹 중첩)라 Root 가 항목 목록을 미리 알 수 없으므로 DOM 을
-   * 직접 본다. 의존성 배열이 없는 이유: 항목이 추가·제거·활성 전환될 때마다 다시
-   * 판정해야 하고, 그 시점을 Root 가 아는 방법이 없다. React 가 매 렌더에서
-   * tabIndex 를 원래 값으로 되돌리므로 이 보정은 항상 그 뒤에 다시 적용된다.
-   */
-  useEffect(() => {
+  /** 마지막으로 포커스한 항목. tab 스톱이 여기 붙는다. */
+  const rovingRef = useRef<HTMLElement | null>(null)
+
+  const listItems = useCallback(() => {
     const nav = navRef.current
-    if (!nav) return
-    const items = Array.from(
+    if (!nav) return []
+    return Array.from(
       nav.querySelectorAll<HTMLElement>('[data-nav-vertical-item]:not([disabled])'),
     )
+  }, [])
+
+  /**
+   * **tab 스톱은 마지막으로 포커스한 항목에 둔다** (APG roving tabindex).
+   *
+   * 선택에 묶어 두면(`tabIndex={isActive ? 0 : -1}`) 방향키로 이동만 하고 Tab 으로
+   * 나갔다 돌아왔을 때 사용자가 있던 자리가 아니라 **선택된 항목**으로 돌아간다.
+   * 이 위젯은 방향키가 포커스만 옮기고 선택은 Enter/Space 로 하므로 둘이 갈릴 수 있다.
+   */
+  const handleFocusIn = useCallback(
+    (e: FocusEvent<HTMLElement>) => {
+      const item = (e.target as HTMLElement).closest<HTMLElement>('[data-nav-vertical-item]')
+      if (!item || item.hasAttribute('disabled')) return
+      rovingRef.current = item
+      for (const el of listItems()) el.tabIndex = el === item ? 0 : -1
+    },
+    [listItems],
+  )
+
+  /**
+   * 매 렌더 뒤 tab 스톱을 **정확히 하나**로 정리한다.
+   *
+   * React 는 렌더마다 `tabIndex` 를 `isActive ? 0 : -1` 로 되돌리므로 이 보정이 항상
+   * 그 뒤에 온다. 우선순위는 (1) 마지막 포커스 항목 (2) React 가 0 을 준 항목(=선택)
+   * (3) 첫 항목이다. (3) 이 없으면 선택이 없을 때 모든 항목이 -1 이 되어 **위젯 전체가
+   * tab 순서 밖**이 된다 — APG 의 "선택이 없으면 첫 항목을 tab 순서에" 규칙이다.
+   *
+   * 의존성 배열이 없는 이유: 항목이 추가·제거·활성 전환될 때마다 다시 판정해야 하고,
+   * 자식이 임의 구조(그룹 중첩)라 Root 가 그 시점을 아는 방법이 없다.
+   */
+  useEffect(() => {
+    const items = listItems()
     if (items.length === 0) return
-    if (items.some((item) => item.tabIndex === 0)) return
-    items[0].tabIndex = 0
+    const roving = rovingRef.current
+    const stop =
+      (roving && items.includes(roving) ? roving : null) ??
+      items.find((item) => item.tabIndex === 0) ??
+      items[0]
+    for (const el of items) el.tabIndex = el === stop ? 0 : -1
   })
 
   return (
@@ -237,6 +265,8 @@ function NavVerticalRoot({
       <nav
         ref={navRef}
         onKeyDown={handleKeyDown}
+        // React 의 onFocus 는 focusin 처럼 버블한다 — 항목 각각에 붙이지 않아도 된다.
+        onFocus={handleFocusIn}
         className={cn('flex flex-col gap-[var(--comp-nav-vertical-gap)]', className)}
       >
         {children}

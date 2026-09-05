@@ -122,7 +122,7 @@
       },
       "large": {
         "container": {
-          "_comment_padding": "토큰 기준으로 정정함 (기존 스펙 표기 4px → 2px) · Figma 재확인 필요. tokens.css 의 --comp-segment-bar-padding-lg 가 2px 이고 그것이 실제로 렌더되는 값이다. 4px 이면 레일 높이가 44 + 4×2 = 52 가 되어 허용 집합(20·24·28·32·36·40·48·56) 밖이다 — docs/rfcs/2026-09-control-height.md 참고.",
+          "_comment_padding": "Figma 확인 완료 (2026-09-05, node 12582:14159 SegmentBar.Large). 레일 높이 48 · 아이템 44 → 패딩 (48-44)/2 = 2px. 기존 스펙의 4px 은 오기였다. 네 사이즈 전수 대조: sm 32=28+2×2 · md 40=36+2×2 · lg 48=44+2×2 · xl 56=48+4×2 — 전부 일치.",
           "padding": "2px → --comp-segment-bar-padding-lg",
           "radius-basic": "16px → --comp-segment-bar-radius-lg (primitive-radius-4)"
         },
