@@ -2,6 +2,9 @@
   "component": "Callout",
   "description": "Radix UI Popover 기반의 콜아웃 컴포넌트. black/white 2가지 색상 variant, large/medium 2가지 사이즈, basic/square 2가지 shape, manual/auto/none 3가지 닫힘 정책(dismiss mode)을 지원한다. 텍스트, 닫기 버튼, 액션 버튼, 화살표 등 서브 컴포넌트를 조합하여 구성하며, Portal 렌더링 시 앵커 조상의 테마 속성을 자동 전파한다.",
   "classification": "Compound",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "10054:6881",
+  "_comment_figmaNode": "Kiio-Library 의 ❖ Tooltip 페이지(8033:42206) → Tooltip 섹션(10044:5667) 안의 컴포넌트 세트 `Tooltip/callOut`. 2026-09-14 확인.",
   "subComponents": [
     {
       "name": "Callout",

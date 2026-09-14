@@ -9,9 +9,11 @@ import {
   Children,
   isValidElement,
   useId,
+  type RefObject,
 } from 'react'
 import * as RadixPopover from '@radix-ui/react-popover'
 import { useAncestorTheme } from '@/hooks/useAncestorTheme'
+import { useComposedRefs } from '@/lib/composeRefs'
 import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -203,16 +205,16 @@ export interface CalloutAnchorProps {
 export const CalloutAnchor = forwardRef<HTMLButtonElement, CalloutAnchorProps>(
   ({ asChild = true, children, className, ...props }, ref) => {
     const { anchorRef } = useContext(CalloutThemeContext)
-    const internalRef = useRef<HTMLButtonElement>(null)
-
-    useEffect(() => {
-      const el = (ref && typeof ref === 'object' ? ref.current : null) ?? internalRef.current
-      if (el) anchorRef.current = el
-    })
+    // 소비자 ref 와 컨텍스트의 anchorRef 를 한 callback ref 로 합쳐 둘 다 채운다 —
+    // Tooltip.Trigger 와 같은 이유·같은 캐스트(그쪽 주석 참고).
+    const composedRef = useComposedRefs<HTMLButtonElement>(
+      ref,
+      anchorRef as RefObject<HTMLButtonElement | null>,
+    )
 
     return (
       <RadixPopover.Trigger
-        ref={ref ?? internalRef}
+        ref={composedRef}
         asChild={asChild}
         className={className}
         {...props}
@@ -312,7 +314,7 @@ export const CalloutContent = forwardRef<HTMLDivElement, CalloutContentProps>(
 
     return (
       <RadixPopover.Portal>
-        <div data-theme={theme} className="font-geist">
+        <div data-theme={theme} className="font-sans">
           <RadixPopover.Content
             ref={ref}
             aria-labelledby={autoLabelId}
@@ -398,7 +400,9 @@ export function CalloutText({ children, className }: CalloutTextProps) {
         'flex-1 min-w-0',
         size === 'large' ? 'pl-[var(--comp-callout-px-lg)]' : 'pl-[var(--comp-callout-px-md)]',
         size === 'large' ? 'py-[var(--comp-callout-py-lg)]' : 'py-[var(--comp-callout-py-md)]',
-        size === 'large' ? 'pr-1.5' : 'pr-0.5',
+        // 오른쪽 여백은 두 사이즈 모두 6px 이다 — Figma 의 Text 프레임 실측(16: 133−14−113, 14: 116−10−100).
+        // 사이즈로 갈리는 것은 왼쪽 여백뿐이고 그것은 위 줄이 이미 처리한다.
+        'pr-1.5',
         className,
       )}
     >
@@ -477,7 +481,7 @@ export function CalloutAction({
           if (closeOnClick) onClose()
         }}
         className={cn(
-          'inline-flex items-center gap-1 typography-14-medium cursor-pointer bg-transparent border-none p-0 transition-opacity duration-fast ease-enter hover:opacity-80',
+          'inline-flex items-center gap-1 typography-12-medium cursor-pointer bg-transparent border-none p-0 transition-opacity duration-fast ease-enter hover:opacity-80',
           surface === 'bright'
             ? 'text-[var(--comp-callout-action-white)]'
             : 'text-[var(--comp-callout-action-black)]',
@@ -485,7 +489,9 @@ export function CalloutAction({
         )}
       >
         {children}
-        <ArrowForwardIcon className="w-4 h-4 flex-shrink-0" />
+        {/* 크기는 토큰에서 온다. 하드코딩해 두면 `--comp-callout-action-icon` 이 아무도 안 읽는
+            죽은 토큰이 되고, 토큰만 고쳤을 때 화면이 따라오지 않는다. */}
+        <ArrowForwardIcon className="size-[var(--comp-callout-action-icon)] flex-shrink-0" />
       </button>
     </div>
   )

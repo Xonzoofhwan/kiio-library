@@ -73,7 +73,7 @@ export function ChipBadgeLikeUniversal({
         s.height, s.px, s.typography,
         radius,
         weightClasses[weight],
-        'gap-[var(--comp-chip-badgelike-gap)]',
+        s.gap,
         disabled && 'pointer-events-none opacity-50',
         className,
       )}

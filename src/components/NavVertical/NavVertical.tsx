@@ -352,6 +352,7 @@ function NavVerticalGroup({
           aria-hidden
           className={cn(
             'relative z-[1] flex-shrink-0 flex items-center justify-center transition-transform duration-normal ease-move',
+            'text-[var(--comp-nav-vertical-group-chevron)]',
             chevronSizeMap[size],
             'group-data-[state=open]:rotate-180',
           )}

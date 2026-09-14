@@ -475,12 +475,10 @@ export default {
               200: 'var(--semantic-neutral-solid-200)',
               300: 'var(--semantic-neutral-solid-300)',
               400: 'var(--semantic-neutral-solid-400)',
-              500: 'var(--semantic-neutral-solid-500)',
               600: 'var(--semantic-neutral-solid-600)',
-              700: 'var(--semantic-neutral-solid-700)',
               800: 'var(--semantic-neutral-solid-800)',
-              900: 'var(--semantic-neutral-solid-900)',
               950: 'var(--semantic-neutral-solid-950)',
+              1000: 'var(--semantic-neutral-solid-1000)',
             },
             'black-alpha': {
               0:   'var(--semantic-neutral-black-alpha-0)',
@@ -641,10 +639,12 @@ export default {
 
       // --------------------------------------------------------
       // FONT FAMILY TOKEN
-      // Usage: font-geist
+      // Tailwind 기본 `sans` 를 덮는다 — `font-sans` 한 이름으로 통일한다.
+      // Wanted Sans 는 라틴과 한글을 한 패밀리에서 제공한다(본고딕 기반 한글 + 기하학적 라틴).
+      // 실제 폰트 파일은 index.html 이 로드한다.
       // --------------------------------------------------------
       fontFamily: {
-        geist: ['Geist Sans', 'sans-serif'],
+        sans: ['Wanted Sans Variable', 'Wanted Sans', 'system-ui', 'Apple SD Gothic Neo', 'sans-serif'],
       },
 
       // --------------------------------------------------------
@@ -719,7 +719,7 @@ export default {
     // --------------------------------------------------------
     // TYPOGRAPHY TOKENS — Composite (size + weight)
     // Source: Figma Design-System-v3, node 6089-461
-    // Font: Pretendard Variable
+    // Font: Wanted Sans (index.html 이 로드)
     // Usage: typography-{size}-{weight}
     //   e.g. typography-40-bold, typography-16-semibold, typography-14-regular
     // Each class sets: font-size + line-height + letter-spacing + font-weight

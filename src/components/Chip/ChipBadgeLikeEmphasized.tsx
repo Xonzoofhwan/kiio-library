@@ -72,7 +72,7 @@ export function ChipBadgeLikeEmphasized({
         s.height, s.px, s.typography,
         radius,
         colorStyles.bg, colorStyles.content,
-        'gap-[var(--comp-chip-badgelike-gap)]',
+        s.gap,
         disabled && 'pointer-events-none opacity-50',
         className,
       )}

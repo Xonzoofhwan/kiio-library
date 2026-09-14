@@ -115,7 +115,7 @@
           "px-fill": "16px → --comp-segment-item-px-fill-md (primitive-spacing-4)",
           "px-hug": "10px → --comp-segment-item-px-hug-md (primitive-spacing-2.5)",
           "radius-basic": "10px → --comp-segment-item-radius-md (primitive-radius-2.5)",
-          "icon": "20px → --comp-segment-item-icon-md",
+          "icon": "18px → --comp-segment-item-icon-md",
           "badgeDot": "4px (BadgeDot size=4)",
           "shadow-active": "0px 1px 2px rgba(0,0,0,0.04), 0px 2px 4px rgba(0,0,0,0.08)"
         }

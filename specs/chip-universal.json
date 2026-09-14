@@ -2,8 +2,9 @@
   "component": "ChipUniversal",
   "classification": "Primitive (single file)",
   "description": "Interactive neutral chip. A pill-shaped button with a binary selected look, 2 sizes, leading/trailing icon slots and an optional corner badge. Unlike ChipBadgeLike (a display <span> with an optional close button), ChipUniversal is a real <button> — used for filter toggles, dropdown triggers and quick-select rows. The toggle semantics are the consumer's: the component only paints `selected`.",
-  "figmaNode": null,
-  "_comment_figmaNode": "Retro-extracted from source (/retro-spec). No Figma node ID for ChipUniversal is recorded anywhere in the repo, so it is left null rather than guessed. Fill it together with figmaFileKey (the other specs use 3ZDIVn83opF9OYSzWYE1iF) once confirmed in Figma.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "6928:26289",
+  "_comment_figmaNode": "Kiio-Library 의 ❖ Chips 페이지(2802:6335) → Chip 섹션(7058:26200) 안의 컴포넌트 세트 `Chip.Universal`. 2026-09-14 에 MCP 로 확인해 채웠다(그전에는 null 이었다).",
 
   "variantMetadata": {
     "CHIP_UNIVERSAL_SIZES": ["large", "medium"],

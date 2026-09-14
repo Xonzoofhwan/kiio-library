@@ -81,16 +81,16 @@
     "size": {
       "large": {
         "height": "32px → var(--comp-chip-badgelike-height-lg)",
-        "paddingX": "12px → var(--comp-chip-badgelike-px-lg)",
-        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "paddingX": "8px → var(--comp-chip-badgelike-px-lg)",
+        "gap": "8px → var(--comp-chip-badgelike-gap-lg)",
         "typography": "typography-15-medium",
-        "radius": "10px → var(--comp-chip-badgelike-radius-lg)",
-        "iconSize": "20px → var(--comp-chip-badgelike-icon-lg)"
+        "radius": "6px → var(--comp-chip-badgelike-radius-lg)",
+        "iconSize": "16px → var(--comp-chip-badgelike-icon-lg)"
       },
       "medium": {
         "height": "28px → var(--comp-chip-badgelike-height-md)",
         "paddingX": "8px → var(--comp-chip-badgelike-px-md)",
-        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "gap": "6px → var(--comp-chip-badgelike-gap-md)",
         "typography": "typography-14-medium",
         "radius": "6px → var(--comp-chip-badgelike-radius-md)",
         "iconSize": "16px → var(--comp-chip-badgelike-icon-md)"
@@ -98,15 +98,15 @@
       "small": {
         "height": "24px → var(--comp-chip-badgelike-height-sm)",
         "paddingX": "6px → var(--comp-chip-badgelike-px-sm)",
-        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "gap": "4px → var(--comp-chip-badgelike-gap-sm)",
         "typography": "typography-12-medium",
         "radius": "4px → var(--comp-chip-badgelike-radius-sm)",
-        "iconSize": "14px → var(--comp-chip-badgelike-icon-sm)"
+        "iconSize": "16px → var(--comp-chip-badgelike-icon-sm)"
       },
       "xSmall": {
         "height": "20px → var(--comp-chip-badgelike-height-xs)",
         "paddingX": "4px → var(--comp-chip-badgelike-px-xs)",
-        "gap": "6px → var(--comp-chip-badgelike-gap)",
+        "gap": "4px → var(--comp-chip-badgelike-gap-xs)",
         "typography": "typography-10-medium",
         "radius": "4px → var(--comp-chip-badgelike-radius-xs)",
         "iconSize": "12px → var(--comp-chip-badgelike-icon-xs)"

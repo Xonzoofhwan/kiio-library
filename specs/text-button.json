@@ -1,7 +1,9 @@
 {
   "component": "TextButton",
   "description": "Background-less text button with color-only state transitions. Used for inline or secondary actions where a full button is too heavy.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
   "figmaNode": "6657:27930",
+  "_comment_figmaNode": "Kiio-Library 의 ❖ Buttons 페이지(3:1871) → Text Button 섹션(12488:40669) 안의 컴포넌트 세트 `textButton.hasDimBackground=false`. dim 배경용 세트는 8186:213381 로 별도다.",
 
   "props": {
     "color": {
@@ -123,16 +125,16 @@
       "description": "Low-contrast text color. Native disabled + aria-disabled + pointer-events-none. Out of tab order."
     },
     "loading": {
-      "description": "Content becomes invisible, spinner centered. Component size preserved. Stays focusable and in tab order — aria-disabled + aria-busy + pointer-events-none, no native disabled. Activation is blocked by an onClick guard that preventDefault/stopPropagation (Enter/Space arrive as click, so mouse and keyboard are both covered; preventDefault also cancels the default form submit)."
+      "description": "Content becomes opacity-0 (keeps the accessible name), spinner centered in an aria-hidden wrapper. Component size preserved. Stays focusable and in tab order — aria-disabled + aria-busy + pointer-events-none, no native disabled. Activation is blocked by a capture-phase guard (onClickCapture) that preventDefault/stopPropagation before Radix Slot can call an asChild child's onClick (Enter/Space arrive as click, so mouse and keyboard are both covered; preventDefault also cancels form submit when type='submit')."
     }
   },
 
   "implementation": {
     "pattern": "CVA + cn + @radix-ui/react-slot",
     "stateOverlay": "None — text color changes directly via hover:/active: pseudo-class utilities on root element.",
-    "loadingStrategy": "Content wrapper marked invisible, Spinner absolute centered. Never native disabled: loading keeps focus (aria-disabled + aria-busy) and an onClick guard swallows activation.",
+    "loadingStrategy": "Content wrapper marked opacity-0 (never visibility:hidden — it drops the accessible name), Spinner absolute centered in an aria-hidden wrapper. Never native disabled: loading keeps focus (aria-disabled + aria-busy) and the capture-phase guard from src/components/Button/inert.ts swallows activation.",
     "asChildStrategy": "Slottable wraps the consumer children and must stay a top-level child of Slot — Radix scans only one level (React.Children.toArray(children).find(isSlottable)), so a Fragment or wrapper span makes it throw React.Children.only. The content wrapper therefore does not exist on the asChild path: icon gap moves onto the root and icons render as direct siblings of the consumer text.",
-    "asChildLoadingLimitation": "asChild + loading renders no spinner and does not hide content. The invisible class lives on the content wrapper, which the asChild path cannot have, and the consumer element is revived by cloneElement so no class can be attached to its text. Overlaying a spinner on visible text makes both unreadable, so this combination keeps only the semantics (aria-busy, aria-disabled, click guard).",
+    "asChildLoadingLimitation": "asChild + loading renders no spinner and does not hide content. The opacity-0 class lives on the content wrapper, which the asChild path cannot have, and the consumer element is revived by cloneElement so no class can be attached to its text. Overlaying a spinner on visible text makes both unreadable, so this combination keeps only the semantics (aria-busy, aria-disabled, click guard).",
     "sharedImports": [
       "iconSizeMap from Button/shared",
       "iconFontSizeVar from Button/shared",

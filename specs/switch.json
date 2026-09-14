@@ -204,7 +204,7 @@
         "--comp-switch-overlay-on-hover": "var(--semantic-state-on-dim-50)",
         "--comp-switch-overlay-on-pressed": "var(--semantic-state-on-dim-100)",
         "--comp-switch-overlay-off-hover": "var(--semantic-state-on-bright-50)",
-        "--comp-switch-overlay-off-pressed": "var(--semantic-state-on-bright-100)"
+        "--comp-switch-overlay-off-pressed": "var(--semantic-state-on-bright-70)"
       },
       "knob": {
         "--comp-switch-knob": "var(--semantic-neutral-solid-0)",

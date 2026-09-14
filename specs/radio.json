@@ -64,7 +64,7 @@
     ],
     "color": {
       "fg": {
-        "--comp-radio-fg":          "var(--semantic-neutral-black-alpha-300)",
+        "--comp-radio-fg":          "var(--semantic-neutral-black-alpha-200)",
         "--comp-radio-fg-hover":    "var(--semantic-neutral-black-alpha-400)",
         "--comp-radio-fg-pressed":  "var(--semantic-neutral-black-alpha-400)",
         "--comp-radio-fg-disabled": "var(--semantic-neutral-black-alpha-200)"
@@ -73,7 +73,7 @@
         "--comp-radio-fg-checked":          "var(--semantic-neutral-solid-950)",
         "--comp-radio-fg-checked-hover":    "var(--semantic-neutral-black-alpha-800)",
         "--comp-radio-fg-checked-pressed":  "var(--semantic-neutral-black-alpha-600)",
-        "--comp-radio-fg-checked-disabled": "var(--semantic-neutral-black-alpha-200)"
+        "--comp-radio-fg-checked-disabled": "var(--semantic-neutral-black-alpha-300)"
       },
       "focus": {
         "--comp-radio-focus-border": "var(--semantic-neutral-solid-1000)"

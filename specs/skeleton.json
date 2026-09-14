@@ -3,7 +3,7 @@
   "classification": "Primitive (multi-file) + hooks",
   "description": "Loading affordance family. SkeletonBlock is a shimmering placeholder rectangle with 4 shape presets. TextReservation reserves the exact vertical space a paragraph will occupy by measuring the real string with pretext, so the skeleton → content swap causes zero layout shift. Two hooks support it: usePretext (measurement) and useSkeletonPhase (Defer + Minimum Hold timing policy).",
   "figmaNode": null,
-  "_comment_figmaNode": "Retro-extracted from source (/retro-spec). No Figma node ID for Skeleton is recorded anywhere in the repo, so it is left null rather than guessed. Fill it together with figmaFileKey (the other specs use 3ZDIVn83opF9OYSzWYE1iF) once confirmed in Figma.",
+  "_comment_figmaNode": "**Figma 에 없다** — 2026-09-14 사용자 확인(\"shimmer 는 피그마에 원래 없습니다\"). 코드가 먼저 만든 컴포넌트이므로 null 이 정상이고, 채울 대상이 아니다. 시각 규칙의 원본은 이 스펙과 쇼케이스다. docs/DEVIATIONS.md 에 기록돼 있다.",
 
   "subComponents": [
     {

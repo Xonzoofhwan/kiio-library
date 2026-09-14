@@ -1,0 +1,108 @@
+{
+  "_comment": "Figma semantic 토큰 스냅샷. 이 파일이 코드(semantic.ts · tokens.css · tailwind.config.js)의 원본이다. src/testing/tokenContract.test.ts 의 T8 이 4자 정합을 판정한다.",
+  "_source": {
+    "file": "Kiio-Library",
+    "fileKey": "3ZDIVn83opF9OYSzWYE1iF",
+    "collection": "Semantic",
+    "prefix": "Se/",
+    "note": "이름 치환 규칙: Figma Sys/(현 Se/) → 코드 semantic, Ref/(현 Pr/) → 코드 primitive. 접두어 뒤 경로는 kebab-case 로 옮긴다 — Se/Text/OnBright/400 → --semantic-text-on-bright-400."
+  },
+  "_capturedAt": "2026-09-14",
+  "_method": {
+    "keys": "search_design_system(entity=variable, includeLibraryKeys=[Kiio-Library]) 를 패밀리별로 호출해 전수를 받았다. 검색은 이름만 주고 값은 주지 않는다.",
+    "values": "컴포넌트 섹션 노드의 get_variable_defs 합집합 — Button 6657:5354 · Text Button 12488:40669 · Chip 7058:26200 · Tooltip 10044:5667 · Tab 6726:21891 · Segment 6791:21089 · Navigation 12534:22113 · Badge 6693:9544 · Checkbox 12943:10459 · Radio 12943:10460 · Switch 12943:10458 · Foundation 6089:457. 어떤 컴포넌트도 쓰지 않는 토큰은 값이 나오지 않으므로 unverifiedValues 에 남긴다.",
+    "darkMode": "**다크는 이 스냅샷에 없다.** 다크 모드는 코드(tokens.css 의 [data-theme=\"dark\"])가 설계·소유한다 — 2026-09-13 사용자 확정. Figma 는 light 값과 키 집합의 원본이다."
+  },
+
+  "families": {
+    "emphasized-purple": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": { "50": "#f5efff", "100": "#e5d8fc", "200": "#d8c6fb", "300": "#c9b1f8", "400": "#b898f6", "500": "#a37af3", "600": "#8657dc", "700": "#6933c5" }
+    },
+    "emphasized-blue": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": { "50": "#eff6ff", "100": "#cde4ff", "200": "#a4ceff", "300": "#73b2fe", "400": "#4096fd", "500": "#1880fc", "600": "#0265e3", "700": "#014db5", "800": "#013788" }
+    },
+    "emphasized-orange": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": { "50": "#ffefea", "100": "#ffd0c2", "200": "#ffb7a4", "500": "#fe542e", "600": "#d23c19" }
+    },
+    "success": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": { "300": "#67d7a4", "500": "#01b671" }
+    },
+    "warning": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": {}
+    },
+    "error": {
+      "shades": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "values": { "50": "#fff1ef", "100": "#fececb", "200": "#f7aeab", "500": "#de2d2c", "600": "#b72321", "700": "#921817" }
+    },
+
+    "neutral-solid": {
+      "_rule": "Solid = Alpha ∪ {1000}. 500·700·900 은 Figma 에 없다 — 코드가 만든 것이다.",
+      "shades": [0, 50, 70, 100, 200, 300, 400, 600, 800, 950, 1000],
+      "values": { "0": "#fdfefe", "50": "#f5f6f6", "70": "#eceded", "100": "#e4e4e5", "200": "#d4d4d5", "300": "#b8b9b9", "400": "#9b9e9e", "800": "#383a3f", "950": "#1d1e22", "1000": "#101013" }
+    },
+    "neutral-black-alpha": {
+      "shades": [0, 50, 70, 100, 200, 300, 400, 600, 800, 950],
+      "values": { "0": "#10101300", "50": "#1010130a", "70": "#10101314", "100": "#1010131f", "200": "#1010132e", "300": "#1013104d", "400": "#1013106b", "600": "#101311a3", "800": "#101313d1", "950": "#111111f0" }
+    },
+    "neutral-white-alpha": {
+      "shades": [0, 50, 70, 100, 200, 300, 400, 600, 800, 950],
+      "values": { "0": "#fdfefe00", "300": "#fdfefe47", "400": "#fdfefe61", "600": "#fdfefe94", "800": "#fdfefec7", "950": "#fdfefef0" }
+    },
+
+    "background": {
+      "shades": [0, 50, 70],
+      "values": { "0": "#fdfefe" }
+    },
+    "divider-solid": {
+      "shades": [50, 70, 100, 200, 300],
+      "values": { "50": "#f5f6f6", "100": "#e4e4e5", "200": "#d4d4d5", "300": "#b8b9b9" }
+    },
+    "divider-alpha": {
+      "shades": [50, 70, 100, 200, 300],
+      "values": { "70": "#10101314" }
+    },
+
+    "text-on-bright": {
+      "_rule": "5단이다. 코드의 300·500 은 Figma 에 없다.",
+      "shades": [400, 600, 800, 900, 950],
+      "values": { "400": "#1013106b", "600": "#101311a3", "800": "#101313d1", "900": "#101213e0", "950": "#111111f0" }
+    },
+    "text-on-dim": {
+      "_rule": "5단이다. 코드의 300 은 Figma 에 없다. 값은 white-alpha 에서 한 단 올려 매핑된다(400 → white-alpha-500).",
+      "shades": [400, 600, 800, 900, 950],
+      "values": { "400": "#fdfefe75", "800": "#fdfefedb", "900": "#fdfefef0", "950": "#fdfefefc" }
+    },
+
+    "state-on-bright": {
+      "shades": [50, 70, 100],
+      "values": { "50": "#1010130a", "70": "#10101314" }
+    },
+    "state-on-dim": {
+      "_rule": "값은 white-alpha 에서 한 단 올려 매핑된다(50 → white-alpha-70).",
+      "shades": [50, 70, 100],
+      "values": { "50": "#fdfefe14", "70": "#fdfefe24", "100": "#fdfefe33" }
+    }
+  },
+
+  "_unverifiedValues": {
+    "_comment": "키는 Figma 에 존재하지만 **값을 읽지 못한** 토큰. 어떤 컴포넌트도 쓰지 않아 get_variable_defs 에 나오지 않는다. T8 은 이들의 값을 대조하지 않는다 — 통과한 것이 아니라 재지 못한 것이다. 해소하려면 Figma 에 이 토큰들을 쓰는 견본을 두거나 Variables 패널을 직접 읽어야 한다.",
+    "emphasized-purple": [800, 900],
+    "emphasized-blue": [900],
+    "emphasized-orange": [300, 400, 700, 800, 900],
+    "success": [50, 100, 200, 400, 600, 700, 800, 900],
+    "warning": [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+    "error": [300, 400, 800, 900],
+    "neutral-solid": [600],
+    "neutral-white-alpha": [50, 70, 100, 200],
+    "background": [50, 70],
+    "divider-solid": [70],
+    "divider-alpha": [50, 100, 200, 300],
+    "text-on-dim": [600],
+    "state-on-bright": [100]
+  }
+}

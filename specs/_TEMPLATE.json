@@ -3,8 +3,10 @@
 
   "component": "ComponentName",
   "description": "Brief description of what this component does and its role in the design system.",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "_comment_figmaFileKey": "Kiio-Library. 모든 스펙이 이 키를 쓴다 — z6xEkVn88mi5Ai3IHgMrBZ 는 옛 파일이므로 쓰지 않는다.",
   "figmaNode": "XXXX:XXXXX",
-  "_comment_figmaNode": "Figma node ID of the component set root. From URL node-id param, replace - with :. File key: z6xEkVn88mi5Ai3IHgMrBZ",
+  "_comment_figmaNode": "컴포넌트 세트 루트(또는 그 세트들을 담은 섹션)의 node ID. URL 의 node-id 파라미터에서 - 를 : 로 바꾼다. Figma 에 대응물이 없는 컴포넌트는 null 로 두고 그 사실을 여기 적는다(예: Skeleton).",
 
   "props": {
     "_comment": "Define all component props. Match Figma property names exactly (camelCase). State props (disabled, loading) are boolean, not variants.",
@@ -126,7 +128,7 @@
       }
     },
     "loading": {
-      "description": "Content becomes invisible, spinner centered. Component size preserved. Interaction disabled (pointer-events-none + aria-disabled)."
+      "description": "Content becomes opacity-0 (never visibility:hidden — that removes it from the accessibility tree and the button loses its accessible name); spinner centered inside an aria-hidden wrapper. Component size preserved. Interaction blocked by the capture-phase click guard (onClickCapture) + aria-disabled + aria-busy; native disabled is NOT set so focus and tab order survive."
     }
   },
 
@@ -150,7 +152,7 @@
     "pattern": "CVA + cn + @radix-ui/react-slot",
     "_comment_pattern": "Options: 'CVA + cn', 'CVA + cn + @radix-ui/react-slot', 'Compound + Context (see ADVANCED_PATTERNS.md)'",
     "stateOverlay": "Absolute <span> inside component with group-hover/group-active classes. Root needs 'group relative'.",
-    "loadingStrategy": "Content marked invisible, Spinner absolute centered.",
+    "loadingStrategy": "Content wrapper gets opacity-0 (keeps the accessible name), Spinner absolute centered in an aria-hidden wrapper. Guard, type, disabled, tabIndex and aria come from src/components/Button/inert.ts.",
     "files": [
       "src/components/ComponentName/ComponentName.tsx",
       "src/components/ComponentName/index.ts"

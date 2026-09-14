@@ -156,12 +156,14 @@ const badgeDotPositionMap: Record<SegmentBarSize, string> = {
   xLarge: 'right-[4px] top-[2px]',
 }
 
-/* Divider height per size (Figma: 20px for sm, proportional for others) */
+/* 구분선 높이. Figma 실측(2026-09-14, SegmentBar.{Small,Medium,Large,xLarge} 안의 divider 사각형)은
+   **20 · 20 · 24 · 24** 다 — 사이즈에 비례하지 않는다. 직전 주석의 "proportional for others" 가
+   추측이었고 md·lg·xl 세 값이 그 추측을 따라 4·4·8px 씩 길었다. */
 const dividerHeightMap: Record<SegmentBarSize, string> = {
   small: 'h-5',
-  medium: 'h-6',
-  large: 'h-7',
-  xLarge: 'h-8',
+  medium: 'h-5',
+  large: 'h-6',
+  xLarge: 'h-6',
 }
 
 /* ─── SegmentBar (Root) ───────────────────────────────────────────────────── */
@@ -336,7 +338,10 @@ function SegmentBarItem({
       />
 
       {/* Content */}
-      <span className="relative z-[1] inline-flex items-center justify-center gap-1">
+      {/* 아이콘↔텍스트 간격은 **0** 이다. Figma 의 항목 오토레이아웃 gap 은 `Spacing/S-0` 이고,
+          눈에 보이는 사이는 아래 텍스트 래퍼 자신의 좌우 패딩(sm 4 · md 6 · lg·xl 12)에서 나온다.
+          여기 `gap-1` 을 두면 그 위에 4px 이 더 붙어 Figma 보다 넓어진다. */}
+      <span className="relative z-[1] inline-flex items-center justify-center">
         {showIcon && (
           <span
             className={cn('flex-shrink-0', iconSizeMap[size], '[&>*]:[font-size:inherit]')}

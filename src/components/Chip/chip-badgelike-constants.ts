@@ -17,12 +17,12 @@ export type ChipBadgeLikeColor = (typeof CHIP_BADGELIKE_COLORS)[number]
 
 export const chipBadgeLikeSizeMap: Record<
   ChipBadgeLikeSize,
-  { height: string; px: string; typography: string; icon: string; radius: string }
+  { height: string; px: string; gap: string; typography: string; icon: string; radius: string }
 > = {
-  large:  { height: 'h-[var(--comp-chip-badgelike-height-lg)]', px: 'px-[var(--comp-chip-badgelike-px-lg)]', typography: 'typography-15-medium', icon: 'size-[var(--comp-chip-badgelike-icon-lg)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-lg)]' },
-  medium: { height: 'h-[var(--comp-chip-badgelike-height-md)]', px: 'px-[var(--comp-chip-badgelike-px-md)]', typography: 'typography-14-medium', icon: 'size-[var(--comp-chip-badgelike-icon-md)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-md)]' },
-  small:  { height: 'h-[var(--comp-chip-badgelike-height-sm)]', px: 'px-[var(--comp-chip-badgelike-px-sm)]', typography: 'typography-12-medium', icon: 'size-[var(--comp-chip-badgelike-icon-sm)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-sm)]' },
-  xSmall: { height: 'h-[var(--comp-chip-badgelike-height-xs)]', px: 'px-[var(--comp-chip-badgelike-px-xs)]', typography: 'typography-10-medium', icon: 'size-[var(--comp-chip-badgelike-icon-xs)]', radius: 'rounded-[var(--comp-chip-badgelike-radius-xs)]' },
+  large:  { height: 'h-[var(--comp-chip-badgelike-height-lg)]', px: 'px-[var(--comp-chip-badgelike-px-lg)]', gap: 'gap-[var(--comp-chip-badgelike-gap-lg)]', typography: 'typography-15-medium', icon: 'size-[var(--comp-chip-badgelike-icon-lg)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-lg)]' },
+  medium: { height: 'h-[var(--comp-chip-badgelike-height-md)]', px: 'px-[var(--comp-chip-badgelike-px-md)]', gap: 'gap-[var(--comp-chip-badgelike-gap-md)]', typography: 'typography-14-medium', icon: 'size-[var(--comp-chip-badgelike-icon-md)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-md)]' },
+  small:  { height: 'h-[var(--comp-chip-badgelike-height-sm)]', px: 'px-[var(--comp-chip-badgelike-px-sm)]', gap: 'gap-[var(--comp-chip-badgelike-gap-sm)]', typography: 'typography-12-medium', icon: 'size-[var(--comp-chip-badgelike-icon-sm)]',  radius: 'rounded-[var(--comp-chip-badgelike-radius-sm)]' },
+  xSmall: { height: 'h-[var(--comp-chip-badgelike-height-xs)]', px: 'px-[var(--comp-chip-badgelike-px-xs)]', gap: 'gap-[var(--comp-chip-badgelike-gap-xs)]', typography: 'typography-10-medium', icon: 'size-[var(--comp-chip-badgelike-icon-xs)]', radius: 'rounded-[var(--comp-chip-badgelike-radius-xs)]' },
 }
 
 /* ─── Emphasized color map (component tokens) ─────────────────────────────── */

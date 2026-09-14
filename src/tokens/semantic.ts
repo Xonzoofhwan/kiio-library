@@ -13,7 +13,14 @@ interface SemanticColorScale {
   900: string;
 }
 
-interface SemanticNeutralScale {
+/**
+ * Solid 계열의 shade. Alpha 보다 한 단(1000) 많다.
+ *
+ * Figma(Kiio-Library `Se/Neutral/Solid`)의 규칙이 **Solid = Alpha ∪ {1000}** 이다.
+ * 2026-09-14 전에는 세 스케일이 한 인터페이스를 공유해 Alpha 에도 없는 1000 이 생겼다.
+ * 대조는 `src/testing/figmaContract.test.ts` 의 T8 이 한다.
+ */
+interface SemanticSolidScale {
   0:    string;
   50:   string;
   70:   string;
@@ -25,6 +32,20 @@ interface SemanticNeutralScale {
   800:  string;
   950:  string;
   1000: string;
+}
+
+/** Alpha 계열의 shade. 1000 이 없다 — 완전 불투명은 Solid 의 영역이다. */
+interface SemanticAlphaScale {
+  0:   string;
+  50:  string;
+  70:  string;
+  100: string;
+  200: string;
+  300: string;
+  400: string;
+  600: string;
+  800: string;
+  950: string;
 }
 
 interface SemanticBackgroundScale {
@@ -65,9 +86,9 @@ export interface SemanticTheme {
   Warning:    SemanticColorScale;
   Error:      SemanticColorScale;
   Neutral: {
-    Solid:      SemanticNeutralScale;
-    BlackAlpha: SemanticNeutralScale;
-    WhiteAlpha: SemanticNeutralScale;
+    Solid:      SemanticSolidScale;
+    BlackAlpha: SemanticAlphaScale;
+    WhiteAlpha: SemanticAlphaScale;
   };
   Background: SemanticBackgroundScale;
   Divider: {
@@ -89,7 +110,7 @@ export interface SemanticTokens {
   dark: SemanticTheme;
 }
 
-const neutralSolid: SemanticNeutralScale = {
+const neutralSolid: SemanticSolidScale = {
   0:   primitive.Gray[0],
   50:  primitive.Gray[50],
   70:  primitive.Gray[70],
@@ -103,7 +124,7 @@ const neutralSolid: SemanticNeutralScale = {
   1000: primitive.Gray[1000],
 };
 
-const neutralBlackAlpha: SemanticNeutralScale = {
+const neutralBlackAlpha: SemanticAlphaScale = {
   0:   primitive.BlackAlpha[0],
   50:  primitive.BlackAlpha[50],
   70:  primitive.BlackAlpha[70],
@@ -114,10 +135,9 @@ const neutralBlackAlpha: SemanticNeutralScale = {
   600: primitive.BlackAlpha[600],
   800:  primitive.BlackAlpha[800],
   950:  primitive.BlackAlpha[950],
-  1000: primitive.BlackAlpha[1000],
 };
 
-const neutralWhiteAlpha: SemanticNeutralScale = {
+const neutralWhiteAlpha: SemanticAlphaScale = {
   0:   primitive.WhiteAlpha[0],
   50:  primitive.WhiteAlpha[50],
   70:  primitive.WhiteAlpha[70],
@@ -128,7 +148,6 @@ const neutralWhiteAlpha: SemanticNeutralScale = {
   600: primitive.WhiteAlpha[600],
   800:  primitive.WhiteAlpha[800],
   950:  primitive.WhiteAlpha[950],
-  1000: primitive.WhiteAlpha[1000],
 };
 
 const background: SemanticBackgroundScale = {
@@ -145,12 +164,22 @@ const dividerSolid: SemanticDividerScale = {
   300: primitive.Gray[300],
 };
 
+/** Light 의 divider alpha — 밝은 배경 위라 검정 알파다. */
 const dividerAlpha: SemanticDividerScale = {
   50:  primitive.BlackAlpha[50],
   70:  primitive.BlackAlpha[70],
   100: primitive.BlackAlpha[100],
   200: primitive.BlackAlpha[200],
   300: primitive.BlackAlpha[300],
+};
+
+/** Dark 의 divider alpha. `tokens.css` 의 `[data-theme="dark"]` 와 같은 값이다. */
+const dividerAlphaDark: SemanticDividerScale = {
+  50:  primitive.WhiteAlpha[50],
+  70:  primitive.WhiteAlpha[70],
+  100: primitive.WhiteAlpha[100],
+  200: primitive.WhiteAlpha[200],
+  300: primitive.WhiteAlpha[300],
 };
 
 const textOnBright: SemanticTextScale = {
@@ -371,7 +400,9 @@ export const semantic: SemanticTokens = {
         200: primitive.Gray[500],
         300: primitive.Gray[400],
       },
-      Alpha: dividerAlpha, // white-alpha handled via CSS; TS keeps same structure
+      // 어두운 배경 위에서는 흰 알파로 뒤집힌다. 2026-09-14 전에는 여기가 light 와 같은
+      // 검정 알파였고 tokens.css 만 흰 알파를 썼다 — 두 사본이 갈려 있었다(T8 이 잡았다).
+      Alpha: dividerAlphaDark,
     },
     Text: {
       OnBright: textOnDim,   // swap: light text on dark bg

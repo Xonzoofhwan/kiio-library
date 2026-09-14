@@ -2,6 +2,9 @@
   "component": "Tooltip",
   "description": "Radix UI Tooltip 기반의 툴팁 컴포넌트. black/white 2가지 색상 variant, large/medium 2가지 사이즈, basic/square 2가지 shape를 지원하며, 화살표, 그림자, 방향/정렬 설정을 제공한다. Portal 렌더링 시 트리거 조상의 테마 속성을 자동 전파한다.",
   "classification": "Compound",
+  "figmaFileKey": "3ZDIVn83opF9OYSzWYE1iF",
+  "figmaNode": "10044:6107",
+  "_comment_figmaNode": "Kiio-Library 의 ❖ Tooltip 페이지(8033:42206) → Tooltip 섹션(10044:5667) 안의 컴포넌트 세트 `Tooltip/tooltip`. 2026-09-14 확인.",
 
   "subComponents": [
     {

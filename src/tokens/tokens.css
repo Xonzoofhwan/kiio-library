@@ -594,8 +594,8 @@
   --comp-callout-arrow-height:    8px;
   --comp-callout-shadow:          0px 2px 4px 0px rgba(0,0,0,0.04), 0px 2px 16px 0px rgba(0,0,0,0.08);
   --comp-callout-close-size:      32px;
-  --comp-callout-close-icon:      20px;
-  --comp-callout-action-icon:     20px;
+  --comp-callout-close-icon:      16px;
+  --comp-callout-action-icon:     16px;
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — Button (size/spacing layer)
@@ -726,7 +726,7 @@
   --comp-badge-px-circular-nano:     6px;
   --comp-badge-px-circular-xs:       var(--primitive-spacing-1\.5);   /* 6px */
   --comp-badge-px-circular-sm:       var(--primitive-spacing-2);      /* 8px */
-  --comp-badge-px-circular-md:       var(--primitive-spacing-2);      /* 8px */
+  --comp-badge-px-circular-md:       var(--primitive-spacing-2\.5);   /* 10px */
   --comp-badge-px-circular-lg:       var(--primitive-spacing-2\.5);   /* 10px */
 
   /* ─── Vertical padding ─── */
@@ -862,7 +862,10 @@
   --comp-chip-badgelike-px-md:             var(--primitive-spacing-2);      /* 8px */
   --comp-chip-badgelike-px-sm:             var(--primitive-spacing-1\.5);   /* 6px */
   --comp-chip-badgelike-px-xs:             var(--primitive-spacing-1);      /* 4px */
-  --comp-chip-badgelike-gap:               var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-badgelike-gap-lg:            var(--primitive-spacing-2);      /* 8px */
+  --comp-chip-badgelike-gap-md:            var(--primitive-spacing-1\.5);   /* 6px */
+  --comp-chip-badgelike-gap-sm:            var(--primitive-spacing-1);      /* 4px */
+  --comp-chip-badgelike-gap-xs:            var(--primitive-spacing-1);      /* 4px */
   --comp-chip-badgelike-icon-lg:           16px;
   --comp-chip-badgelike-icon-md:           16px;
   --comp-chip-badgelike-icon-sm:           16px;
@@ -1078,11 +1081,8 @@
   --semantic-neutral-solid-200: var(--primitive-gray-200);
   --semantic-neutral-solid-300: var(--primitive-gray-300);
   --semantic-neutral-solid-400: var(--primitive-gray-400);
-  --semantic-neutral-solid-500: var(--primitive-gray-500);
   --semantic-neutral-solid-600: var(--primitive-gray-600);
-  --semantic-neutral-solid-700: var(--primitive-gray-700);
   --semantic-neutral-solid-800: var(--primitive-gray-800);
-  --semantic-neutral-solid-900: var(--primitive-gray-900);
   --semantic-neutral-solid-950: var(--primitive-gray-950);
   --semantic-neutral-solid-1000: var(--primitive-gray-1000);
 
@@ -1130,16 +1130,13 @@
   --semantic-divider-alpha-300: var(--primitive-black-alpha-300);
 
   /* Text.OnBright — BlackAlpha */
-  --semantic-text-on-bright-300: var(--primitive-black-alpha-300);
   --semantic-text-on-bright-400: var(--primitive-black-alpha-400);
-  --semantic-text-on-bright-500: var(--primitive-black-alpha-500);
   --semantic-text-on-bright-600: var(--primitive-black-alpha-600);
   --semantic-text-on-bright-800: var(--primitive-black-alpha-800);
   --semantic-text-on-bright-900: var(--primitive-black-alpha-900);
   --semantic-text-on-bright-950: var(--primitive-black-alpha-950);
 
   /* Text.OnDim — WhiteAlpha (with shade offset) */
-  --semantic-text-on-dim-300: var(--primitive-white-alpha-400);
   --semantic-text-on-dim-400: var(--primitive-white-alpha-500);
   --semantic-text-on-dim-600: var(--primitive-white-alpha-700);
   --semantic-text-on-dim-800: var(--primitive-white-alpha-900);
@@ -1238,11 +1235,8 @@
   --semantic-neutral-solid-200: var(--primitive-gray-600);
   --semantic-neutral-solid-300: var(--primitive-gray-500);
   --semantic-neutral-solid-400: var(--primitive-gray-400);
-  --semantic-neutral-solid-500: var(--primitive-gray-300);
   --semantic-neutral-solid-600: var(--primitive-gray-200);
-  --semantic-neutral-solid-700: var(--primitive-gray-100);
   --semantic-neutral-solid-800: var(--primitive-gray-70);
-  --semantic-neutral-solid-900: var(--primitive-gray-50);
   --semantic-neutral-solid-950: var(--primitive-gray-0);
   --semantic-neutral-solid-1000: var(--primitive-gray-0);
 
@@ -1290,16 +1284,13 @@
   --semantic-divider-alpha-300: var(--primitive-white-alpha-300);
 
   /* Text.OnBright — WhiteAlpha (light text on dark bg) */
-  --semantic-text-on-bright-300: var(--primitive-white-alpha-400);
   --semantic-text-on-bright-400: var(--primitive-white-alpha-500);
-  --semantic-text-on-bright-500: var(--primitive-white-alpha-600);
   --semantic-text-on-bright-600: var(--primitive-white-alpha-700);
   --semantic-text-on-bright-800: var(--primitive-white-alpha-900);
   --semantic-text-on-bright-900: var(--primitive-white-alpha-950);
   --semantic-text-on-bright-950: var(--primitive-white-alpha-1000);
 
   /* Text.OnDim — BlackAlpha (dark text on light accent) */
-  --semantic-text-on-dim-300: var(--primitive-black-alpha-300);
   --semantic-text-on-dim-400: var(--primitive-black-alpha-400);
   --semantic-text-on-dim-600: var(--primitive-black-alpha-600);
   --semantic-text-on-dim-800: var(--primitive-black-alpha-800);
@@ -1346,7 +1337,7 @@
   --comp-callout-bg-black:               var(--semantic-neutral-solid-950);
   --comp-callout-text-black:             var(--semantic-text-on-dim-900);
   --comp-callout-arrow-black:            var(--semantic-neutral-solid-950);
-  --comp-callout-close-black:            var(--semantic-text-on-dim-600);
+  --comp-callout-close-black:            var(--semantic-neutral-solid-0);
   --comp-callout-close-hover-black:      var(--semantic-state-on-dim-50);
   --comp-callout-action-black:           var(--semantic-text-on-dim-800);
 
@@ -1473,8 +1464,8 @@
   /* ─── ChipUniversal: selected ─── */
   --comp-chip-universal-bg-selected:             var(--semantic-neutral-black-alpha-950);
   --comp-chip-universal-content-selected:        var(--semantic-neutral-solid-0);
-  --comp-chip-universal-hover-selected:          var(--semantic-state-on-dim-50);
-  --comp-chip-universal-pressed-selected:        var(--semantic-state-on-dim-70);
+  --comp-chip-universal-hover-selected:          var(--semantic-state-on-dim-70);
+  --comp-chip-universal-pressed-selected:        var(--semantic-state-on-dim-100);
 
   /* ─── ChipUniversal: focus ─── */
   --comp-chip-universal-focus-border:            var(--semantic-neutral-solid-1000);
@@ -1515,9 +1506,9 @@
 
   /* ─── ChipBadgeLike Error: weight colors ─── */
   --comp-chip-badgelike-bg-error-light:          var(--semantic-error-100);
-  --comp-chip-badgelike-content-error-light:     var(--semantic-error-700);
+  --comp-chip-badgelike-content-error-light:     var(--semantic-error-600);
   --comp-chip-badgelike-bg-error-heavy:          var(--semantic-error-500);
-  --comp-chip-badgelike-content-error-heavy:     var(--semantic-neutral-solid-0);
+  --comp-chip-badgelike-content-error-heavy:     var(--semantic-error-50);
 
   /* ----------------------------------------------------------
      COMPONENT TOKENS — NavVertical (color layer)
@@ -1535,6 +1526,10 @@
 
   /* ─── Group ─── */
   --comp-nav-vertical-group-text:             var(--semantic-text-on-bright-400);
+  /* 셰브런은 라벨보다 한 단 옅다. Figma 가 라벨(Se/Text/OnBright/400)과 셰브런(Pr/BlackAlpha/300)에
+     서로 다른 변수를 걸어 뒀고, 코드는 셰브런을 라벨 색에 상속시키고 있었다. 다크에서도 따라가도록
+     primitive 가 아니라 semantic 이름을 쓴다 — black-alpha 는 다크에서 white-alpha 로 뒤집힌다. */
+  --comp-nav-vertical-group-chevron:          var(--semantic-neutral-black-alpha-300);
   --comp-nav-vertical-group-hover:            var(--semantic-state-on-bright-50);
   --comp-nav-vertical-group-pressed:          var(--semantic-state-on-bright-70);
 
@@ -1563,7 +1558,7 @@
   --comp-switch-overlay-on-hover:      var(--semantic-state-on-dim-50);
   --comp-switch-overlay-on-pressed:    var(--semantic-state-on-dim-100);
   --comp-switch-overlay-off-hover:     var(--semantic-state-on-bright-50);
-  --comp-switch-overlay-off-pressed:   var(--semantic-state-on-bright-100);
+  --comp-switch-overlay-off-pressed:   var(--semantic-state-on-bright-70);
 
   /* ─── Knob ─── */
   --comp-switch-knob:                  var(--semantic-neutral-solid-0);
@@ -1590,16 +1585,16 @@
      ---------------------------------------------------------- */
 
   /* ─── Foreground (unchecked / line variant base) ─── */
-  --comp-checkbox-fg:                   var(--semantic-neutral-black-alpha-400);
-  --comp-checkbox-fg-hover:             var(--semantic-neutral-black-alpha-600);
-  --comp-checkbox-fg-pressed:           var(--semantic-neutral-black-alpha-800);
+  --comp-checkbox-fg:                   var(--semantic-neutral-black-alpha-200);
+  --comp-checkbox-fg-hover:             var(--semantic-neutral-black-alpha-400);
+  --comp-checkbox-fg-pressed:           var(--semantic-neutral-black-alpha-400);
   --comp-checkbox-fg-disabled:          var(--semantic-neutral-black-alpha-200);
 
   /* ─── Foreground (checked / indeterminate) ─── */
   --comp-checkbox-fg-checked:           var(--semantic-neutral-solid-950);
-  --comp-checkbox-fg-checked-hover:     var(--semantic-neutral-solid-900);
-  --comp-checkbox-fg-checked-pressed:   var(--semantic-neutral-solid-800);
-  --comp-checkbox-fg-checked-disabled:  var(--semantic-neutral-solid-300);
+  --comp-checkbox-fg-checked-hover:     var(--semantic-neutral-black-alpha-800);
+  --comp-checkbox-fg-checked-pressed:   var(--semantic-neutral-black-alpha-600);
+  --comp-checkbox-fg-checked-disabled:  var(--semantic-neutral-black-alpha-300);
 
   /* ─── Focus ring ─── */
   --comp-checkbox-focus-border:         var(--semantic-neutral-solid-1000);
@@ -1613,7 +1608,7 @@
      ---------------------------------------------------------- */
 
   /* ─── Foreground (unchecked base) ─── */
-  --comp-radio-fg:                      var(--semantic-neutral-black-alpha-300);
+  --comp-radio-fg:                      var(--semantic-neutral-black-alpha-200);
   --comp-radio-fg-hover:                var(--semantic-neutral-black-alpha-400);
   --comp-radio-fg-pressed:              var(--semantic-neutral-black-alpha-400);
   --comp-radio-fg-disabled:             var(--semantic-neutral-black-alpha-200);
@@ -1622,7 +1617,7 @@
   --comp-radio-fg-checked:              var(--semantic-neutral-solid-950);
   --comp-radio-fg-checked-hover:        var(--semantic-neutral-black-alpha-800);
   --comp-radio-fg-checked-pressed:      var(--semantic-neutral-black-alpha-600);
-  --comp-radio-fg-checked-disabled:     var(--semantic-neutral-black-alpha-200);
+  --comp-radio-fg-checked-disabled:     var(--semantic-neutral-black-alpha-300);
 
   /* ─── Focus ring ─── */
   --comp-radio-focus-border:            var(--semantic-neutral-solid-1000);
@@ -1642,7 +1637,7 @@
   --comp-callout-bg-black:               var(--semantic-neutral-solid-70);
   --comp-callout-text-black:             var(--semantic-text-on-bright-900);
   --comp-callout-arrow-black:            var(--semantic-neutral-solid-70);
-  --comp-callout-close-black:            var(--semantic-text-on-bright-600);
+  --comp-callout-close-black:            var(--semantic-neutral-solid-950);
   --comp-callout-close-hover-black:      var(--semantic-state-on-bright-50);
   --comp-callout-action-black:           var(--semantic-text-on-bright-800);
 

@@ -77,7 +77,7 @@
           "paddingX": "var(--comp-badge-px-nano) → 4px",
           "paddingY": "none (fixed height)",
           "radius": "var(--comp-badge-radius-nano) → 4px",
-          "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+          "typography": "typography-10-medium",
           "minWidth": "var(--comp-badge-min-w-nano) → 16px",
           "textAlign": "text-center",
           "note": "Counter-only (numbers only)"
@@ -87,7 +87,7 @@
           "paddingX": "var(--comp-badge-px-xs) → 4px",
           "paddingY": "none (fixed height)",
           "radius": "var(--comp-badge-radius-xs) → 4px",
-          "typography": "text-[10px] leading-[12px] font-medium (custom, below token min)",
+          "typography": "typography-10-medium",
           "minWidth": "var(--comp-badge-min-w-xs) → 20px",
           "textAlign": "text-center"
         },

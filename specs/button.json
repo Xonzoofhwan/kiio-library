@@ -168,9 +168,9 @@
       }
     },
     "loading": {
-      "description": "Content wrapper becomes invisible, spinner absolute centered at the same icon size.",
+      "description": "Content wrapper becomes opacity-0 (still in the accessibility tree — the button keeps its name), spinner absolute centered at the same icon size inside an aria-hidden wrapper.",
       "focus": "Keeps focus and the tab order — the native disabled attribute is NOT set, only aria-disabled + aria-busy. A button that enters loading while focused must not drop the keyboard user to <body>.",
-      "activation": "Blocked by an onClick guard that calls preventDefault + stopPropagation and never forwards to the consumer handler. aria-disabled is semantics only and pointer-events-none is CSS, so neither stops Enter/Space; the browser turns those into click, so one guard covers pointer and keyboard. preventDefault also stops implicit form submission (this component does not set type, so the HTML default is submit)."
+      "activation": "Blocked by a capture-phase guard (onClickCapture) that calls preventDefault + stopPropagation and never forwards to the consumer handler. aria-disabled is semantics only and pointer-events-none is CSS, so neither stops Enter/Space; the browser turns those into click, so one guard covers pointer and keyboard. The guard must be capture-phase: Radix Slot calls the asChild child's onClick before the Slot's own, so a bubble-phase guard runs too late. preventDefault also stops form submission when type='submit'. Rules live in src/components/Button/inert.ts."
     }
   },
 
@@ -178,7 +178,7 @@
     "pattern": "CVA + cn + @radix-ui/react-slot",
     "stateOverlay": "Sibling <span> inside button with group-hover/group-active classes. Root needs 'group relative overflow-hidden'.",
     "focusRing": "Separate absolute <span> with border-2, shown on focus-visible only. Uses pointerRef to distinguish mouse/keyboard focus.",
-    "loadingStrategy": "Content wrapper gets 'invisible' class, Spinner absolute centered in content area.",
+    "loadingStrategy": "Content wrapper gets 'opacity-0' (not 'invisible' — visibility:hidden would drop the accessible name), Spinner absolute centered in an aria-hidden wrapper.",
     "domStructure": [
       "button (root: bg, height, radius, border, group relative)",
       "  span (focus ring: absolute, border-2, conditional)",

@@ -131,16 +131,16 @@
     },
     "color": {
       "fg": {
-        "--comp-checkbox-fg":                  "var(--semantic-neutral-black-alpha-400)",
-        "--comp-checkbox-fg-hover":            "var(--semantic-neutral-black-alpha-600)",
-        "--comp-checkbox-fg-pressed":          "var(--semantic-neutral-black-alpha-800)",
+        "--comp-checkbox-fg":                  "var(--semantic-neutral-black-alpha-200)",
+        "--comp-checkbox-fg-hover":            "var(--semantic-neutral-black-alpha-400)",
+        "--comp-checkbox-fg-pressed":          "var(--semantic-neutral-black-alpha-400)",
         "--comp-checkbox-fg-disabled":         "var(--semantic-neutral-black-alpha-200)"
       },
       "fgChecked": {
         "--comp-checkbox-fg-checked":          "var(--semantic-neutral-solid-950)",
-        "--comp-checkbox-fg-checked-hover":    "var(--semantic-neutral-solid-900)",
-        "--comp-checkbox-fg-checked-pressed":  "var(--semantic-neutral-solid-800)",
-        "--comp-checkbox-fg-checked-disabled": "var(--semantic-neutral-solid-300)"
+        "--comp-checkbox-fg-checked-hover":    "var(--semantic-neutral-black-alpha-800)",
+        "--comp-checkbox-fg-checked-pressed":  "var(--semantic-neutral-black-alpha-600)",
+        "--comp-checkbox-fg-checked-disabled": "var(--semantic-neutral-black-alpha-300)"
       },
       "focus": {
         "--comp-checkbox-focus-border":        "var(--semantic-neutral-solid-1000)"
