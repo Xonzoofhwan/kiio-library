@@ -214,6 +214,8 @@ size: {
 - Sizes: 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 28, 32, 40, 48, 64
 - Weights: regular (400), medium (500), semibold (600), bold (700)
 - Tailwind: `typography-{size}-{weight}` — sets font-size, line-height, letter-spacing, and font-weight in one class
+
+> **원본은 Figma 다.** Kiio-Library 의 텍스트 스타일 68개(17 사이즈 × 4 굵기)가 원본이고, `specs/tokens/typography.figma.json` 스냅샷을 거쳐 `typography.ts`·`tokens.css` 의 `--text-*`·`tailwind.config.js` 의 typography 플러그인 셋이 따라간다 — `typographyContract` T9 가 4자 정합을 판정한다. 행간·자간 수치는 **Geist 시절에 정해진 값**이고 2026-09-15 폰트 교체 때 건드리지 않았다.
 - Examples: `typography-16-semibold`, `typography-14-regular`, `typography-24-bold`
 ### Motion Tokens
 `src/tokens/motion.ts` — Duration (5 steps) + Easing (4 curves), Primitive → Semantic 2-layer like colors.

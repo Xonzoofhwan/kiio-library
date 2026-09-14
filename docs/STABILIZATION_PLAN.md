@@ -1,6 +1,6 @@
 # 안정화 계획 — 외부에서 조합해 쓸 때의 동작 보강
 
-> 작성일 2026-09-13 · 갱신 2026-09-14 · 기준 커밋 `24de33d` · 상태: **Phase A 완료 · Phase C 완료 · Phase B 는 B4(T9)만 남았다**(전부 미커밋, §3 실행 기록) · D1–D6 확정 · Q1–Q3 닫힘 · 사용자 판단 대기 6건은 §4.4 · Figma 파일은 **Kiio-Library**(`3ZDIV…`)이고 `z6xEk…` 는 옛 파일이다(§1.3 N6·N9)
+> 작성일 2026-09-13 · 갱신 2026-09-15 · 기준 커밋 `24de33d` · 상태: **Phase A · B · C 전부 완료**(전부 미커밋, §3 실행 기록) · D1–D6 확정 · Q1–Q3 닫힘 · 사용자 판단 대기 6건은 §4.4 · Figma 파일은 **Kiio-Library**(`3ZDIV…`)이고 `z6xEk…` 는 옛 파일이다(§1.3 N6·N9)
 >
 > 입력은 astra 의 검토(2026-09-13)다. 검토가 든 주장을 **전부 재현 테스트로 실측**했고(§1), 검토가 놓친 것도 같이 적었다.
 > 같은 날 사용자가 결정 6건(§4)을 내렸고, 그 결정을 반영하는 과정에서 **Figma 게시 라이브러리의 변수 컬렉션을 MCP 로 직접 읽어** 코드와 대조했다(§1.3). 그 결과가 Phase B 의 방향을 바꿨다 — 원본은 CSS 가 아니라 **Figma** 다. 그리고 그 Figma 는 저장소 문서가 가리키는 v3 파일이 아니라 **v4 파일**이다.
@@ -17,20 +17,15 @@
 | Phase | 내용 | 등급 | 선행 |
 |:-:|---|:-:|:-:|
 | **A** | 버튼 계열 7종의 이벤트 가드 순서 · 로딩 시 접근 가능한 이름 · `tabIndex` 보존 · Tooltip/Callout ref 합성 · `ref` prop 타입 | L0 (+`ref` 타입은 L1) | D4 ✅ |
-| **B** | **Figma 를 원본으로** semantic 토큰 4자(Figma·TS·CSS·Tailwind) 정합 검사(T8)와 수정 · `cn()` 충돌 그룹 · tailwind-merge 정렬 · 스펙 재지정 — **B1·B2·B3·B5·B6 완료**. 남은 것: 타이포 T9 하나(Figma 텍스트 스타일 교체 대기) | L1 | 전부 확정 |
+| **B** | **Figma 를 원본으로** 색 4자 정합(T8) · **타이포 4자 정합(T9)** · `cn()` 충돌 그룹 · tailwind-merge 정렬 · 스펙 재지정 — **B1–B6 전부 완료** | L1 | 전부 확정 |
 | **C** | Wanted Sans 도입 · 쇼케이스 등록 단일화 + 코드 분할 · 작은 화면 · 문서 정확성 — **전부 완료**(`docs:check` D7 포함). 남은 것: 브라우저 육안 확인 | L0 | D1 ✅ · D6 ✅ |
 | **D** | 첫 소비 화면 — ROADMAP Phase 6 의 착수 조건 유지. **브라우저 검사는 이 시점에 도입한다**(D5) | — | D5 ✅ |
 
-**Phase A · C 는 완료됐고 B 는 T9 하나만 남았다**(2026-09-13~14, 전부 미커밋 — §3 실행 기록).
+**Phase A · B · C 가 전부 끝났다**(2026-09-13~15, §3 실행 기록). 게이트: `eslint 0 problems` · `✓ built` · **544 passed (11 files)** · `docs:check` 7종 위반 0.
 
-남은 작업 두 가지 — **둘 다 코드가 아니라 사용자가 먼저 해야 하는 일에 막혀 있다.**
+육안 확인도 닫혔다 — `npm run capture` 가 Chromium 으로 17페이지 × 3폭 × 2테마 **68장**을 찍고 폰트 로드·가로넘침·콘솔을 함께 잰다. 현재 **세 항목 모두 0건**이다.
 
-| 남은 것 | 왜 아직인가 |
-|---|---|
-| **T9 타이포** | Figma 텍스트 스타일을 Wanted Sans 로 바꾼 **뒤** 값을 다시 뽑는다. 지금 뽑으면 Geist 값에 맞췄다가 다시 맞춰야 한다. 현재 코드는 Geist 기준 값 위에서 Wanted Sans 를 렌더하고 있고, 행간 5개(20·22·24·28·32)가 Figma 와 이미 다르다(§1.3 N7) |
-| **육안 확인** | 이 세션에 브라우저가 없다. 폰트 렌더·반응형·색 변화를 사람이 봐야 한다 |
-
-여기에 더해 **실측이 끝나고 결정만 남은 6건**이 §4.4 에 있다. 그중 J1·J2·J3 는 답이 "의도다"면 작업이 생기지 않고, J4·J5·J6 는 각각 설계 변경·API 확장·추가 실측이 필요하다.
+남은 것은 **결정 6건뿐이고 §4.4 에 있다.** J1·J2·J3 는 답이 "의도다"면 작업이 생기지 않고, J4·J5·J6 는 각각 설계 변경·API 확장·추가 실측이 필요하다.
 
 ---
 
@@ -129,15 +124,9 @@ v4 의 게시 컬렉션 접두어는 `Se/`·`Pr/` 이고 `Sys/`·`Ref/` 로 검�
 
 **자간은 코드와 전부 같다.** 행간은 제목 크기 5개(20 · 22 · 24 · 28 · 32)에서 Figma 가 코드보다 2~4px 좁다. 코드 값은 옛 파일의 값과 같으므로 Kiio-Library 쪽이 추출 뒤에 조여진 것이다. T9 의 첫 red 는 이 5건이다. **D1(Wanted Sans) 로 텍스트 스타일이 바뀌는 시점에 다시 뽑아 그때 확정한다**(C0·B4) — 폰트가 바뀌면 행간도 다시 정해질 수 있다.
 
-**교체가 막혀 있다 — 폰트가 이 경로에 없다(2026-09-15 실측).** `listAvailableFontsAsync()` 가 **1941개 패밀리**를 돌려주는데 그 안에 Wanted Sans 가 없고, `loadFontAsync` 는 "The font family \"Wanted Sans\" does not exist" 로 거절한다. 68개 스타일은 전부 `Geist` 를 물고 있다.
+**해소됐다(2026-09-15).** 사용자가 Wanted Sans 를 **Figma 조직 공유 폰트로 업로드**하자 패밀리 수가 1941 → **1942** 가 되고 7종이 전부 나타났다. 곧바로 **68개 텍스트 스타일을 Geist → Wanted Sans 로 교체**했다(굵기별 4회, 17개씩). 스타일 이름이 Regular·Medium·SemiBold·Bold 로 Geist 와 같아 매핑이 1:1 이었고, **크기·행간·자간은 건드리지 않았다** — 교체 전후를 비교해 68개 전부 보존을 확인했다. 재확인 결과 `familyTally: {"Wanted Sans": 68}`, Geist 0.
 
-**원인은 로컬 설치가 아니다.** 처음엔 기기에 폰트가 없어서라고 보고 `~/Library/Fonts` 에 7종을 설치했다. macOS 도 Figma 의 `font_cache.json` 도 `family: "Wanted Sans", user_installed: true` 로 정확히 색인했는데 목록은 1941 그대로였다. 앱 완전 재시작 2회 · 폰트 에이전트 교체 · 파일 새로고침 뒤에도 **숫자가 1 도 변하지 않았다.**
-
-판별은 macOS 전용 폰트로 했다. `Helvetica Neue` · `Menlo` · `Monaco` · `Hiragino Sans` · `Avenir` · `Apple Color Emoji` — **아홉 개 전부 없다.** 모든 맥에 있는 것들이다. 반면 `Geist` · `Pretendard` · `Cascadia Code` · `BM HANNA_TTF` · `KoPub Batang` 은 있다. 즉 이 목록은 **이 기기의 폰트가 아니라 Google Fonts 카탈로그 + 조직에 업로드된 공유 폰트**다. `~/Library/Fonts` 에 Pretendard 가 있다는 사실이 "로컬을 읽는다"로 오독하게 만들었다 — Pretendard 는 조직에도 올라가 있었을 뿐이다.
-
-**해소 조건**: Wanted Sans 를 **Figma 조직의 공유 폰트로 업로드**한다(관리자 → Fonts). 로컬 설치로는 이 경로가 열리지 않는다. 업로드는 웹 관리 화면의 작업이라 플러그인 API 로 대신할 수 없다.
-
-**교훈**: "로컬에 있는 폰트가 목록에 보인다"에서 "목록은 로컬을 읽는다"를 추론하지 않는다. 두 집합이 겹칠 때는 **한쪽에만 있는 표본**(여기서는 macOS 전용 폰트)으로 갈라야 한다. §1.3 N9 과 같은 형태의 실수이고, 이번에는 사용자의 앱을 두 번 재시작시킨 뒤에 드러났다.
+**가는 길에 틀렸던 것**: 처음엔 기기에 폰트가 없어서라고 보고 `~/Library/Fonts` 에 설치했다. macOS 도 Figma 의 `font_cache.json` 도 정확히 색인했지만 목록은 1 도 움직이지 않았다. macOS 전용 폰트(`Helvetica Neue`·`Menlo`·`Hiragino Sans` 등 9개)가 **하나도 없다**는 것으로 이 목록이 로컬이 아니라 **Google Fonts 카탈로그 + 조직 공유 폰트**임이 드러났다. `~/Library/Fonts` 에 Pretendard 가 있고 목록에도 있길래 "로컬을 읽는다"로 단정한 것이 오독이었다 — Pretendard 가 양쪽에 다 있었을 뿐이다. **겹치는 원소로 집합을 판정하지 않는다. 한쪽에만 있는 표본으로 가른다.** §1.3 N9 과 같은 형태이고, 이번에는 사용자의 Figma 를 두 번 재시작시킨 뒤에 드러났다.
 
 #### N8. FIGMA_TO_CODE 문서가 폐기된 이름과 빈 절을 갖고 있다
 
@@ -408,7 +397,7 @@ CLAUDE.md semantic 표
 - [x] **B6-1** 스펙 **13개 전부** Kiio-Library 파일 키와 노드를 갖췄다(빠진 키 6 · 노드 4 보완). Skeleton 은 Figma 에 없어 `null` 이 정상 — DEVIATIONS 에 기록. `_TEMPLATE.json`·FIGMA_TO_CODE 의 옛 파일 키도 교체
 - [x] **문서** FIGMA_TO_CODE §C 에 **스냅샷 갱신 절차**와 "다크는 코드 소유" 추가 · §D-1 의 폐기 이름(`ref`/`sys`) 8곳 교체 · CLAUDE.md semantic 표를 실제 단 수로(neutral.solid 11 · alpha 10 · text 5) · radius 단 수 정정(CLAUDE.md 24 → 18, README 23 → 18) · 쇼케이스 `PRIMITIVE_MAP` 의 dark Divider.Alpha 표기
 - [x] `npm run check` green — eslint **0 problems** · `✓ built in 1.18s` · **458 passed (10 files)** · docs:check D1–D6 위반 0
-- [ ] **B4 (T9 타이포)** — C0(Wanted Sans 교체) 뒤로 미룸. 현재 red 는 §1.3 N7 의 행간 5건이다
+- [x] **B4 (T9 타이포)** 스냅샷 `specs/tokens/typography.figma.json`(17 사이즈 × 4 굵기 전수) + **T9 신설**(`src/testing/typographyContract.test.ts`, 86 케이스). 첫 실행 red **13** 중 3건은 **판정기 오탐**이었다 — `-0.010em` 과 `-0.01em` 을 문자열로 비교했다. 수치 비교로 고치니 red **10**, 즉 §1.3 N7 이 예고한 **행간 5개 × 2단언** 정확히 그만큼이었다. 코드를 Figma 에 맞춰(32·28·24·22·20 을 36·32·28·24·24 로) green
 - [x] **B5 (RFC 초안)** [2026-09 토큰 파이프라인](./rfcs/2026-09-token-pipeline.md) — 상태 **초안**, 착수 조건 3개를 명시했다(T8 의 두 번째 red · semantic 패밀리 추가 · 다크의 원본이 Figma 로 이동). **지금 착수하자는 제안이 아니다**
 - [x] **B6-2 완료** 17개 컴포넌트 전수 대조 — **607항목 중 49건**이 어긋났고 **37건을 수정**했다(위 표). 남은 12건은 값이 아니라 설계 판단이라 §4.4 로 올렸다. Skeleton 은 Figma 에 대응물이 없어 대상이 아니다
 - [x] **부채 0** `PENDING_FIGMA_SYNC` 가 비었다 — `neutral-solid-900` 이 Checkbox 리매핑으로 사용 0 이 되어 CSS·Tailwind 에서 삭제했다. Figma 에 없는 토큰이 코드에 하나도 없다

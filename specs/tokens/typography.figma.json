@@ -1,0 +1,42 @@
+{
+  "_comment": "Figma 텍스트 스타일 스냅샷. 이 파일이 코드(typography.ts · tokens.css 의 --text-* · tailwind.config.js 의 typography 플러그인)의 원본이다. src/testing/typographyContract.test.ts 의 T9 가 4자 정합을 판정한다.",
+  "_source": {
+    "file": "Kiio-Library",
+    "fileKey": "3ZDIVn83opF9OYSzWYE1iF",
+    "page": "00 Foundation",
+    "section": "Typography (6089:461)"
+  },
+  "_capturedAt": "2026-09-15",
+  "_method": {
+    "extraction": "figma.getLocalTextStylesAsync() 로 68개 로컬 텍스트 스타일을 직접 읽었다. 견본 노드를 거치지 않으므로 '미확인'이 남지 않는다 — 17 사이즈 × 4 굵기 전수가 이 파일에 있다.",
+    "units": "Figma 의 lineHeight 는 PIXELS, letterSpacing 은 PERCENT 다. 코드는 각각 px 와 em 을 쓰므로 letterSpacing 은 100 으로 나눈다(-1.2% → -0.012em). fontSize 는 px 이고 코드는 rem 이라 16 으로 나눈다(64px → 4rem).",
+    "perSize": "같은 크기의 네 굵기는 행간·자간이 모두 같다(실측 확인). 그래서 코드처럼 크기당 하나로 접어 둔다 — 굵기는 font-weight 만 바꾼다.",
+    "fontFamily": "2026-09-15 에 68개 스타일 전부를 Geist → Wanted Sans 로 교체했다. 행간·자간·크기는 건드리지 않았으므로 **이 수치들은 Geist 시절에 정해진 값**이다. 폰트에 맞춰 다시 조율하면 이 파일을 다시 뽑아야 한다."
+  },
+  "fontFamily": "Wanted Sans",
+  "weights": {
+    "regular": { "figmaStyle": "Regular", "cssWeight": 400 },
+    "medium": { "figmaStyle": "Medium", "cssWeight": 500 },
+    "semibold": { "figmaStyle": "SemiBold", "cssWeight": 600 },
+    "bold": { "figmaStyle": "Bold", "cssWeight": 700 }
+  },
+  "sizes": {
+    "64": { "lineHeightPx": 72, "letterSpacingPct": -1.2 },
+    "48": { "lineHeightPx": 56, "letterSpacingPct": -1.2 },
+    "40": { "lineHeightPx": 48, "letterSpacingPct": -1.2 },
+    "32": { "lineHeightPx": 36, "letterSpacingPct": -1.2 },
+    "28": { "lineHeightPx": 32, "letterSpacingPct": -1 },
+    "24": { "lineHeightPx": 28, "letterSpacingPct": -0.8 },
+    "22": { "lineHeightPx": 24, "letterSpacingPct": -1.6 },
+    "20": { "lineHeightPx": 24, "letterSpacingPct": -2.4 },
+    "18": { "lineHeightPx": 28, "letterSpacingPct": -1.2 },
+    "17": { "lineHeightPx": 24, "letterSpacingPct": -1 },
+    "16": { "lineHeightPx": 24, "letterSpacingPct": -0.9 },
+    "15": { "lineHeightPx": 24, "letterSpacingPct": -0.4 },
+    "14": { "lineHeightPx": 20, "letterSpacingPct": 0 },
+    "13": { "lineHeightPx": 16, "letterSpacingPct": 0 },
+    "12": { "lineHeightPx": 16, "letterSpacingPct": 0 },
+    "11": { "lineHeightPx": 12, "letterSpacingPct": 0 },
+    "10": { "lineHeightPx": 12, "letterSpacingPct": 0 }
+  }
+}
