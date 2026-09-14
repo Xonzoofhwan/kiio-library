@@ -1,7 +1,7 @@
 // ============================================================
 // TYPOGRAPHY TOKENS
 // Source: Figma Design-System-v3 → Typography (node 6089-461)
-// Font: Pretendard Variable
+// Font: Wanted Sans (SIL OFL) — 라틴 + 한글 한 패밀리
 // Scale: 17 sizes × 4 weights = 68 composite tokens
 // Naming: {size}-{weight} e.g. "40-bold", "16-semibold"
 // ============================================================
@@ -29,7 +29,7 @@ export interface TypographyTokenValue {
 
 export type TypographyScale = Record<TypographyKey, TypographyTokenValue>;
 
-const FONT_FAMILY = "'Geist Sans', sans-serif";
+const FONT_FAMILY = "'Wanted Sans Variable', 'Wanted Sans', system-ui, 'Apple SD Gothic Neo', sans-serif";
 
 // size → [fontSize(rem), lineHeight(px), letterSpacing(em)]
 const sizes: Record<TypographySize, [string, string, string]> = {

@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Wanted Sans (SIL OFL) — 가변 + 동적 서브셋. 한글 폰트는 통짜로 받으면 수 MB 라
+         split 빌드로 필요한 글리프 범위만 내려받는다.
+         **여기(문서)에서 로드하는 이유**: 라이브러리 CSS 는 폰트를 import 하지 않는다 —
+         소비 프로젝트가 자기 폰트 전략을 정할 수 있어야 하고, 라이브러리는 스택 이름만 선언한다. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous" />
+    <link rel="preload" as="style" crossorigin
+          href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css" />
+
     <title>juhwan-ui</title>
   </head>
   <body>
