@@ -129,7 +129,15 @@ v4 의 게시 컬렉션 접두어는 `Se/`·`Pr/` 이고 `Sys/`·`Ref/` 로 검�
 
 **자간은 코드와 전부 같다.** 행간은 제목 크기 5개(20 · 22 · 24 · 28 · 32)에서 Figma 가 코드보다 2~4px 좁다. 코드 값은 옛 파일의 값과 같으므로 Kiio-Library 쪽이 추출 뒤에 조여진 것이다. T9 의 첫 red 는 이 5건이다. **D1(Wanted Sans) 로 텍스트 스타일이 바뀌는 시점에 다시 뽑아 그때 확정한다**(C0·B4) — 폰트가 바뀌면 행간도 다시 정해질 수 있다.
 
-**교체가 막혀 있다 — 폰트가 Figma 에 없다(2026-09-14 실측).** `listAvailableFontsAsync()` 가 **1941개 패밀리**를 돌려주는데 그 안에 Wanted Sans 가 없다. 이 기기의 `~/Library/Fonts`·`/Library/Fonts` 에도 없다. 68개 스타일은 전부 `Geist` 를 물고 있고, 없는 폰트로는 `loadFontAsync` 가 던지므로 **스타일을 바꾸는 스크립트 자체가 실행될 수 없다.** 선행 조건은 하나다 — Wanted Sans(SIL OFL, `wanteddev/wanted-sans`) 의 OTF/TTF 를 이 기기에 설치하고 Figma 데스크톱을 재시작한다. Figma 가 Geist·Cascadia 같은 로컬 폰트를 이미 읽고 있으므로 설치만으로 목록에 올라온다.
+**교체가 막혀 있다 — 폰트가 이 경로에 없다(2026-09-15 실측).** `listAvailableFontsAsync()` 가 **1941개 패밀리**를 돌려주는데 그 안에 Wanted Sans 가 없고, `loadFontAsync` 는 "The font family \"Wanted Sans\" does not exist" 로 거절한다. 68개 스타일은 전부 `Geist` 를 물고 있다.
+
+**원인은 로컬 설치가 아니다.** 처음엔 기기에 폰트가 없어서라고 보고 `~/Library/Fonts` 에 7종을 설치했다. macOS 도 Figma 의 `font_cache.json` 도 `family: "Wanted Sans", user_installed: true` 로 정확히 색인했는데 목록은 1941 그대로였다. 앱 완전 재시작 2회 · 폰트 에이전트 교체 · 파일 새로고침 뒤에도 **숫자가 1 도 변하지 않았다.**
+
+판별은 macOS 전용 폰트로 했다. `Helvetica Neue` · `Menlo` · `Monaco` · `Hiragino Sans` · `Avenir` · `Apple Color Emoji` — **아홉 개 전부 없다.** 모든 맥에 있는 것들이다. 반면 `Geist` · `Pretendard` · `Cascadia Code` · `BM HANNA_TTF` · `KoPub Batang` 은 있다. 즉 이 목록은 **이 기기의 폰트가 아니라 Google Fonts 카탈로그 + 조직에 업로드된 공유 폰트**다. `~/Library/Fonts` 에 Pretendard 가 있다는 사실이 "로컬을 읽는다"로 오독하게 만들었다 — Pretendard 는 조직에도 올라가 있었을 뿐이다.
+
+**해소 조건**: Wanted Sans 를 **Figma 조직의 공유 폰트로 업로드**한다(관리자 → Fonts). 로컬 설치로는 이 경로가 열리지 않는다. 업로드는 웹 관리 화면의 작업이라 플러그인 API 로 대신할 수 없다.
+
+**교훈**: "로컬에 있는 폰트가 목록에 보인다"에서 "목록은 로컬을 읽는다"를 추론하지 않는다. 두 집합이 겹칠 때는 **한쪽에만 있는 표본**(여기서는 macOS 전용 폰트)으로 갈라야 한다. §1.3 N9 과 같은 형태의 실수이고, 이번에는 사용자의 앱을 두 번 재시작시킨 뒤에 드러났다.
 
 #### N8. FIGMA_TO_CODE 문서가 폐기된 이름과 빈 절을 갖고 있다
 
