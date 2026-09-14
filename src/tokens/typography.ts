@@ -1,6 +1,9 @@
 // ============================================================
 // TYPOGRAPHY TOKENS
-// Source: Figma Design-System-v3 → Typography (node 6089-461)
+// Source: Figma Kiio-Library (3ZDIVn83opF9OYSzWYE1iF) → 00 Foundation / Typography (6089:461)
+// 2026-09-14 실측: 68개 텍스트 스타일 전수. 자간 17개는 전부 아래와 같고,
+// 행간은 5개(32·28·24·22·20)가 Figma 보다 2~4px 넓다 — Figma 의 폰트가 아직 Geist 라
+// 교체 뒤 다시 재기로 했다(docs/STABILIZATION_PLAN.md B4).
 // Font: Wanted Sans (SIL OFL) — 라틴 + 한글 한 패밀리
 // Scale: 17 sizes × 4 weights = 68 composite tokens
 // Naming: {size}-{weight} e.g. "40-bold", "16-semibold"
