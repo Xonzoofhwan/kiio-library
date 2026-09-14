@@ -21,3 +21,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 쇼케이스 캡처 산출물 (npm run capture)
+.shots/
