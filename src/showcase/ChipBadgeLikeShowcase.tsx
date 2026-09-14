@@ -121,7 +121,7 @@ export function ChipBadgeLikeShowcase() {
       {/* ─── Close Label (a11y name) ──────────────────────────── */}
       <section id="chip-badgelike-close-label" className="mb-12">
         <SectionTitle>Close Label (a11y name)</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           The close button is icon-only, so its accessible name comes from <code>closeLabel</code>.
           It defaults to <code>Remove</code> — override it to translate the name or to say what is
           being removed. Tab to a chip and inspect the button with a screen reader to hear the difference.

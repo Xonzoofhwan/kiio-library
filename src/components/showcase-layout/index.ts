@@ -1,3 +1,3 @@
-export { Sidebar, NAV_GROUPS } from './Sidebar'
+export { Sidebar } from './Sidebar'
 export { TableOfContents } from './TableOfContents'
 export type { TocEntry } from './TableOfContents'

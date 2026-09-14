@@ -88,10 +88,10 @@ export function SkeletonShowcase() {
       {/* ─── Section: Real-World Examples ─── */}
       <section id="skeleton-real-world">
         <SectionTitle>Real-World Examples</SectionTitle>
-        <p className="typography-14-regular text-semantic-text-on-bright-500 mb-2">
+        <p className="typography-14-regular text-semantic-text-on-bright-600 mb-2">
           세 섹션이 서로 다른 응답 시간(80ms / 200ms / 1500ms)을 시뮬레이션합니다.
         </p>
-        <p className="typography-14-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-14-regular text-semantic-text-on-bright-600 mb-4">
           <strong>Defer 100ms + Minimum Hold 300ms</strong> 정책: 빠른 응답은 skeleton 없이, 보통 응답은 깔끔한 hold window와 함께, 느린 응답은 자연스러운 fade-in으로 처리됩니다. <code>useSkeletonPhase</code> 훅 + <code>TextReservation</code> 조합으로 layout shift 0을 보장합니다.
         </p>
 
@@ -138,7 +138,7 @@ export function SkeletonShowcase() {
 
                 {/* Role */}
                 {!profilePhase.showSkeleton && profileFetch.data ? (
-                  <p className="typography-13-regular text-semantic-text-on-bright-500 mt-1">{profileFetch.data.role}</p>
+                  <p className="typography-13-regular text-semantic-text-on-bright-600 mt-1">{profileFetch.data.role}</p>
                 ) : (
                   <TextReservation
                     key={`pr-${trigger}`}
@@ -147,7 +147,7 @@ export function SkeletonShowcase() {
                     ready={profilePhase.ready}
                   >
                     {(text) => (
-                      <p className="typography-13-regular text-semantic-text-on-bright-500 mt-1">{text}</p>
+                      <p className="typography-13-regular text-semantic-text-on-bright-600 mt-1">{text}</p>
                     )}
                   </TextReservation>
                 )}
@@ -274,7 +274,7 @@ export function SkeletonShowcase() {
 
                     {/* Desc */}
                     {!listPhase.showSkeleton && item ? (
-                      <p className="typography-13-regular text-semantic-text-on-bright-500 mt-0.5">{item.desc}</p>
+                      <p className="typography-13-regular text-semantic-text-on-bright-600 mt-0.5">{item.desc}</p>
                     ) : (
                       <TextReservation
                         key={`ld-${i}-${trigger}`}
@@ -283,7 +283,7 @@ export function SkeletonShowcase() {
                         ready={listPhase.ready}
                       >
                         {(text) => (
-                          <p className="typography-13-regular text-semantic-text-on-bright-500 mt-0.5">{text}</p>
+                          <p className="typography-13-regular text-semantic-text-on-bright-600 mt-0.5">{text}</p>
                         )}
                       </TextReservation>
                     )}
@@ -320,7 +320,7 @@ export function SkeletonShowcase() {
       {/* ─── Section: TextReservation ─── */}
       <section id="skeleton-text-reservation">
         <SectionTitle>TextReservation</SectionTitle>
-        <p className="typography-14-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-14-regular text-semantic-text-on-bright-600 mb-4">
           pretext 엔진 기반 텍스트 공간 예약. typography 토큰 키 하나로 font + lineHeight를 자동 파생하여 hold window 동안 정확한 라인 폭을 측정합니다. fade-in 시 layout shift 0.
         </p>
 
@@ -363,7 +363,7 @@ export function SkeletonShowcase() {
       {/* ─── Section: Block Shapes ─── */}
       <section id="skeleton-block-shapes">
         <SectionTitle>Block Shapes</SectionTitle>
-        <p className="typography-14-regular text-semantic-text-on-bright-500 mb-6">
+        <p className="typography-14-regular text-semantic-text-on-bright-600 mb-6">
           4가지 shape variant로 다양한 콘텐츠 유형의 placeholder를 표현합니다.
         </p>
 
@@ -386,7 +386,7 @@ export function SkeletonShowcase() {
       {/* ─── Section: Block Sizes ─── */}
       <section id="skeleton-block-sizes">
         <SectionTitle>Block Sizes</SectionTitle>
-        <p className="typography-14-regular text-semantic-text-on-bright-500 mb-6">
+        <p className="typography-14-regular text-semantic-text-on-bright-600 mb-6">
           width/height를 숫자(px) 또는 문자열(%, auto 등)로 지정합니다.
         </p>
 

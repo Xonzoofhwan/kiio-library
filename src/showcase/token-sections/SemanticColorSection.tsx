@@ -15,7 +15,7 @@ const PRIMITIVE_MAP: Record<string, Record<string, string>> = {
   'Neutral.WhiteAlpha': { light: 'WhiteAlpha', dark: 'BlackAlpha (swapped)' },
   Background:           { light: 'Gray 0/50/70', dark: 'Gray 950/900/800' },
   'Divider.Solid':      { light: 'Gray', dark: 'Gray (reversed)' },
-  'Divider.Alpha':      { light: 'BlackAlpha', dark: 'BlackAlpha' },
+  'Divider.Alpha':      { light: 'BlackAlpha', dark: 'WhiteAlpha (swapped)' },
   'Text.OnBright':      { light: 'BlackAlpha', dark: 'WhiteAlpha (swapped)' },
   'Text.OnDim':         { light: 'WhiteAlpha (offset)', dark: 'BlackAlpha (swapped)' },
   'State.OnBright':     { light: 'BlackAlpha', dark: 'WhiteAlpha (swapped)' },

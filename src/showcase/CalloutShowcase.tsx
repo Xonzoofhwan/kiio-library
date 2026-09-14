@@ -180,8 +180,8 @@ const tokenGroups: TokenGroupData[] = [
       { name: '--comp-callout-arrow-w', value: '16px' },
       { name: '--comp-callout-arrow-h', value: '8px' },
       { name: '--comp-callout-close-size', value: '32px' },
-      { name: '--comp-callout-close-icon', value: '20px' },
-      { name: '--comp-callout-action-icon', value: '20px' },
+      { name: '--comp-callout-close-icon', value: '16px' },
+      { name: '--comp-callout-action-icon', value: '16px' },
     ],
   },
 ]

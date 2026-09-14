@@ -154,7 +154,7 @@ const codeExamples: CodeExampleData[] = [
   },
   {
     title: 'Loading state',
-    description: '비동기 작업 진행 시 loading prop으로 스피너 표시. 콘텐츠는 invisible로 숨기고 레이아웃은 유지.',
+    description: '비동기 작업 진행 시 loading prop으로 스피너 표시. 콘텐츠는 opacity-0으로 감춰 레이아웃과 접근 가능한 이름을 유지.',
     code: `const [loading, setLoading] = useState(false)
 
 const handleSubmit = async () => {
@@ -563,8 +563,8 @@ export function BlockCatalogShowcase() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-semantic-divider-solid-200 bg-semantic-neutral-solid-50">
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2.5">Key</th>
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2.5">Action</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2.5">Key</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2.5">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -591,9 +591,9 @@ export function BlockCatalogShowcase() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-semantic-divider-solid-200 bg-semantic-neutral-solid-50">
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2.5">Attribute</th>
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2.5">Value</th>
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2.5">Condition</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2.5">Attribute</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2.5">Value</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2.5">Condition</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -691,7 +691,7 @@ export function BlockCatalogShowcase() {
                 <div key={size} className="flex flex-col items-center gap-2">
                   <Button size={size} iconLeading={<Icon name="add" />}>Label</Button>
                   <div className="flex flex-col items-center">
-                    <span className="typography-11-medium text-semantic-text-on-bright-500">{size}</span>
+                    <span className="typography-11-medium text-semantic-text-on-bright-600">{size}</span>
                     <span className="typography-10-regular text-semantic-text-on-bright-400">
                       {m.h} · px {m.px} · icon {m.icon} · r {m.r}
                     </span>

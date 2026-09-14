@@ -127,7 +127,7 @@ export function CheckboxShowcase() {
           <Checkbox variant="box" size="medium" disabled checked="indeterminate" onCheckedChange={() => {}} />
           <Checkbox variant="line" size="medium" disabled checked="indeterminate" onCheckedChange={() => {}} />
         </div>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mt-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mt-4">
           Hover, press, and focus states are interactive — try them with mouse and keyboard (Tab + Space).
         </p>
       </section>
@@ -135,7 +135,7 @@ export function CheckboxShowcase() {
       {/* ─── Indeterminate (parent/child pattern) ───────────────── */}
       <section id="checkbox-indeterminate" className="mb-12">
         <SectionTitle>Indeterminate — Parent / Child</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           The classic tri-state pattern: a parent checkbox reflects whether all, some, or none of its
           children are selected. Toggling the parent selects/deselects all children at once.
         </p>
@@ -171,7 +171,7 @@ export function CheckboxShowcase() {
           </span>
           <button
             type="button"
-            className="typography-13-medium text-semantic-text-on-bright-500 underline underline-offset-2"
+            className="typography-13-medium text-semantic-text-on-bright-600 underline underline-offset-2"
             onClick={() => setControlled((v) => !v)}
           >
             Toggle externally
@@ -182,7 +182,7 @@ export function CheckboxShowcase() {
       {/* ─── Hit Area Demo ──────────────────────────────────────── */}
       <section id="checkbox-hit-area" className="mb-12">
         <SectionTitle>Hit Area — Invisible Inset</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           The visual square is 16/20/24px depending on size, but every checkbox has an additional
           <strong> 8px invisible padding</strong> on all sides for easier touch/click targets. The
           layout footprint stays equal to the visual size (negative margin compensates), so checkboxes
@@ -204,7 +204,7 @@ export function CheckboxShowcase() {
                   />
                   <Checkbox size={size} defaultChecked />
                 </div>
-                <span className="typography-12-regular text-semantic-text-on-bright-500">
+                <span className="typography-12-regular text-semantic-text-on-bright-600">
                   {size} · visual {visual} · hit {hit}
                 </span>
               </div>
@@ -248,7 +248,7 @@ export function CheckboxShowcase() {
       {/* ─── With Label ─────────────────────────────────────────── */}
       <section id="checkbox-with-label" className="mb-12">
         <SectionTitle>With Label</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           Checkbox is an atom — labels are composed externally via <code>&lt;label htmlFor&gt;</code>.
           Clicking the label toggles the checkbox. Use <code>gap-4</code> minimum between adjacent
           checkboxes to prevent hit area overlap.
@@ -258,7 +258,7 @@ export function CheckboxShowcase() {
             <Checkbox id="cb-notif" size="medium" defaultChecked />
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Push notifications</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Receive alerts when something happens
               </span>
             </div>
@@ -267,7 +267,7 @@ export function CheckboxShowcase() {
             <Checkbox id="cb-analytics" size="medium" />
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Anonymous analytics</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Help us improve by sharing usage data
               </span>
             </div>

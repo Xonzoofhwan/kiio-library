@@ -100,7 +100,7 @@ export function TabShowcase() {
         <SectionTitle>Controlled</SectionTitle>
         <div className="flex flex-col gap-4">
           <div className="flex gap-2 items-center">
-            <span className="typography-13-medium text-semantic-text-on-bright-500">Active:</span>
+            <span className="typography-13-medium text-semantic-text-on-bright-600">Active:</span>
             <span className="typography-13-semibold text-semantic-text-on-bright-800">{controlledValue}</span>
           </div>
 

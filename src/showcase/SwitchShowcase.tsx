@@ -102,7 +102,7 @@ export function SwitchShowcase() {
           <Switch shape="circular" size="large" disabled defaultChecked />
           <Switch shape="square" size="large" disabled defaultChecked />
         </div>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mt-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mt-4">
           Hover, press, and focus states are interactive — try them with mouse and keyboard (Tab + Space).
         </p>
       </section>
@@ -121,7 +121,7 @@ export function SwitchShowcase() {
           </span>
           <button
             type="button"
-            className="typography-13-medium text-semantic-text-on-bright-500 underline underline-offset-2"
+            className="typography-13-medium text-semantic-text-on-bright-600 underline underline-offset-2"
             onClick={() => setControlled((v) => !v)}
           >
             Toggle externally
@@ -158,7 +158,7 @@ export function SwitchShowcase() {
       {/* ─── With Label ─────────────────────────────────────────── */}
       <section id="switch-with-label" className="mb-12">
         <SectionTitle>With Label</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           Switch is an atom — labels are composed externally via <code>&lt;label htmlFor&gt;</code>.
           Clicking the label toggles the switch.
         </p>
@@ -166,7 +166,7 @@ export function SwitchShowcase() {
           <label htmlFor="airplane" className="flex items-center justify-between gap-3 cursor-pointer">
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Airplane mode</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Disable all wireless connections
               </span>
             </div>
@@ -175,7 +175,7 @@ export function SwitchShowcase() {
           <label htmlFor="wifi" className="flex items-center justify-between gap-3 cursor-pointer">
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Wi-Fi</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Connect to wireless networks
               </span>
             </div>

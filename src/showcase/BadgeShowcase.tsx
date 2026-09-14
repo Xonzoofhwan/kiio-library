@@ -111,7 +111,7 @@ export function BadgeShowcase() {
             {BADGE_DOT_SIZES.map((s) => (
               <div key={s} className="flex items-center gap-2">
                 <BadgeDot size={s} color="red" />
-                <span className="typography-12-regular text-semantic-text-on-bright-500">{s}px</span>
+                <span className="typography-12-regular text-semantic-text-on-bright-600">{s}px</span>
               </div>
             ))}
           </div>
@@ -123,11 +123,11 @@ export function BadgeShowcase() {
           <div className="flex gap-4 items-center">
             <div className="flex items-center gap-2 bg-primitive-gray-200 px-3 py-2 rounded-2">
               <BadgeDot color="red" />
-              <span className="typography-12-regular text-semantic-text-on-bright-500">default</span>
+              <span className="typography-12-regular text-semantic-text-on-bright-600">default</span>
             </div>
             <div className="flex items-center gap-2 bg-primitive-gray-200 px-3 py-2 rounded-2">
               <BadgeDot color="red" outlined />
-              <span className="typography-12-regular text-semantic-text-on-bright-500">outlined</span>
+              <span className="typography-12-regular text-semantic-text-on-bright-600">outlined</span>
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ export function BadgeShowcase() {
             {BADGE_COLORS.map((c) => (
               <div key={c} className="flex items-center gap-1.5">
                 <BadgeDot color={c} />
-                <span className="typography-12-regular text-semantic-text-on-bright-500">{c}</span>
+                <span className="typography-12-regular text-semantic-text-on-bright-600">{c}</span>
               </div>
             ))}
           </div>

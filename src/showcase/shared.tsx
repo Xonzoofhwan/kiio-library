@@ -7,12 +7,12 @@ export function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 export function ColHeader({ children }: { children: React.ReactNode }) {
-  return <div className="typography-13-semibold text-semantic-text-on-bright-500 pb-2 text-center">{children}</div>
+  return <div className="typography-13-semibold text-semantic-text-on-bright-600 pb-2 text-center">{children}</div>
 }
 
 export function RowHeader({ children }: { children: React.ReactNode }) {
   return (
-    <div className="typography-13-semibold text-semantic-text-on-bright-500 flex items-start pt-2 capitalize">
+    <div className="typography-13-semibold text-semantic-text-on-bright-600 flex items-start pt-2 capitalize">
       {children}
     </div>
   )
@@ -23,7 +23,7 @@ export function SpecLabel({ children }: { children: React.ReactNode }) {
 }
 
 export function SpecValue({ children }: { children: React.ReactNode }) {
-  return <div className="typography-12-regular text-semantic-text-on-bright-500 text-center">{children}</div>
+  return <div className="typography-12-regular text-semantic-text-on-bright-600 text-center">{children}</div>
 }
 
 export function ColorSwatch({ cssVar, label }: { cssVar: string; label: string }) {

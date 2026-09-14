@@ -166,6 +166,16 @@ export function ButtonShowcase() {
                 <a href="#button-hierarchy">비활성 링크</a>
               </Button>
             </div>
+
+            <RowHeader>Loading</RowHeader>
+            <div className="flex gap-3 flex-wrap items-center">
+              {/* 가드는 캡처 단계(onClickCapture)에 있어 asChild 자식의 onClick 보다 먼저 돈다 —
+                  클릭도 Enter 도 링크 이동으로 이어지지 않는다. 콘텐츠 래퍼가 없어 자식 텍스트는
+                  감춰지지 않고 스피너가 그 위에 겹친다(asChild JSDoc 의 한계). */}
+              <Button asChild loading>
+                <a href="#button-hierarchy">처리 중 링크</a>
+              </Button>
+            </div>
           </div>
 
           <div className="mt-8 rounded-2 border border-semantic-divider-solid-100 p-5 max-w-[640px]">

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Tooltip, TOOLTIP_VARIANTS, TOOLTIP_SIDES, TOOLTIP_SIZES } from '@/components/Tooltip'
 import { Tab } from '@/components/Tab'
 import type { TocEntry } from '@/components/showcase-layout'
-import { NAV_GROUPS } from '@/components/showcase-layout'
+import { showcaseGroupOf } from '@/showcase/registry'
 import { NavigateContext } from '@/showcase/NavigateContext'
 import { ShowcaseTocContext } from '@/showcase/ShowcaseTocContext'
 import { SectionTitle, ColHeader, RowHeader } from '@/showcase/shared'
@@ -41,7 +41,7 @@ function DemoButton({ children, ...props }: React.ButtonHTMLAttributes<HTMLButto
 
 const header = extractHeader(tooltipSpec)
 const subComponentProps = extractSubComponentProps(tooltipSpec)
-const groupName = NAV_GROUPS.find(g => g.items.some(i => i.id === 'tooltip'))?.label ?? ''
+const groupName = showcaseGroupOf('tooltip')
 
 /* ─── Tab definitions ────────────────────────────────────────────────────── */
 
@@ -481,8 +481,8 @@ function RecipesTab() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-semantic-divider-solid-200 bg-semantic-neutral-solid-50">
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2">Key</th>
-                    <th className="typography-13-semibold text-semantic-text-on-bright-500 px-4 py-2">Action</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2">Key</th>
+                    <th className="typography-13-semibold text-semantic-text-on-bright-600 px-4 py-2">Action</th>
                   </tr>
                 </thead>
                 <tbody>

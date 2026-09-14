@@ -162,7 +162,7 @@ function PlaygroundControl({
 }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="typography-13-medium text-semantic-text-on-bright-500 select-none">
+      <span className="typography-13-medium text-semantic-text-on-bright-600 select-none">
         {label}
       </span>
 
@@ -295,7 +295,7 @@ function ShowcaseSortIcon({ direction }: { direction: SortDir }) {
   )
 }
 
-const thBaseClass = 'typography-13-semibold text-semantic-text-on-bright-500 py-2.5 whitespace-nowrap'
+const thBaseClass = 'typography-13-semibold text-semantic-text-on-bright-600 py-2.5 whitespace-nowrap'
 
 function SortableHeader({
   children,
@@ -660,7 +660,7 @@ function TokenChainTableSection({ chain }: { chain: TokenChainData }) {
     })
   }, [chain.rows, sortCol, sortDir])
 
-  const chainThClass = 'typography-12-semibold text-semantic-text-on-bright-500 py-2 whitespace-nowrap'
+  const chainThClass = 'typography-12-semibold text-semantic-text-on-bright-600 py-2 whitespace-nowrap'
 
   return (
     <div>
@@ -689,13 +689,13 @@ function TokenChainTableSection({ chain }: { chain: TokenChainData }) {
                 <td className="typography-12-regular text-semantic-text-on-bright-700 font-mono py-2 pr-4 whitespace-nowrap">
                   {row.component}
                 </td>
-                <td className="typography-12-regular text-semantic-text-on-bright-500 font-mono py-2 pr-4 whitespace-nowrap">
+                <td className="typography-12-regular text-semantic-text-on-bright-600 font-mono py-2 pr-4 whitespace-nowrap">
                   {row.semantic}
                 </td>
                 <td className="py-2 pr-4">
                   <div className="flex items-center gap-1.5">
                     <ColorDot hex={row.lightHex} />
-                    <span className="typography-12-regular text-semantic-text-on-bright-500 font-mono">
+                    <span className="typography-12-regular text-semantic-text-on-bright-600 font-mono">
                       {row.lightPrimitive}
                     </span>
                     <span className="typography-12-regular text-semantic-text-on-bright-400">
@@ -706,7 +706,7 @@ function TokenChainTableSection({ chain }: { chain: TokenChainData }) {
                 <td className="py-2">
                   <div className="flex items-center gap-1.5">
                     <ColorDot hex={row.darkHex} />
-                    <span className="typography-12-regular text-semantic-text-on-bright-500 font-mono">
+                    <span className="typography-12-regular text-semantic-text-on-bright-600 font-mono">
                       {row.darkPrimitive}
                     </span>
                     <span className="typography-12-regular text-semantic-text-on-bright-400">

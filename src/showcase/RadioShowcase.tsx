@@ -74,7 +74,7 @@ export function RadioShowcase() {
             </RadioGroup>
           </div>
         </div>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mt-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mt-4">
           Hover, press, and focus states are interactive — try them with mouse and keyboard
           (Tab + arrow keys to navigate, Space to select).
         </p>
@@ -97,7 +97,7 @@ export function RadioShowcase() {
             <span className="typography-14-regular text-semantic-text-on-bright-800">Lifetime</span>
           </label>
         </RadioGroup>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mt-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mt-4">
           Selected: <strong>{controlled}</strong>
         </p>
       </section>
@@ -105,7 +105,7 @@ export function RadioShowcase() {
       {/* ─── Hit Area Demo ──────────────────────────────────────── */}
       <section id="radio-hit-area" className="mb-12">
         <SectionTitle>Hit Area — Invisible Inset</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           The visual circle is 16/20/24px depending on size, but every radio has an additional
           <strong> 8px invisible padding</strong> on all sides for easier touch/click targets. The
           layout footprint stays equal to the visual size (negative margin compensates), so radios
@@ -127,7 +127,7 @@ export function RadioShowcase() {
                   />
                   <Radio size={size} value={`hit-${size === 'xSmall' ? 'xs' : size === 'small' ? 'sm' : 'md'}`} />
                 </div>
-                <span className="typography-12-regular text-semantic-text-on-bright-500">
+                <span className="typography-12-regular text-semantic-text-on-bright-600">
                   {size} · visual {visual} · hit {hit}
                 </span>
               </div>
@@ -175,7 +175,7 @@ export function RadioShowcase() {
       {/* ─── With Label ─────────────────────────────────────────── */}
       <section id="radio-with-label" className="mb-12">
         <SectionTitle>With Label</SectionTitle>
-        <p className="typography-13-regular text-semantic-text-on-bright-500 mb-4">
+        <p className="typography-13-regular text-semantic-text-on-bright-600 mb-4">
           Radio is an atom — labels are composed externally via <code>&lt;label&gt;</code> wrapping.
           Clicking the label selects the radio. Use <code>gap-4</code> minimum between adjacent
           radios to prevent hit area overlap.
@@ -185,7 +185,7 @@ export function RadioShowcase() {
             <Radio value="email" />
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Email</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Get notifications via email
               </span>
             </div>
@@ -194,7 +194,7 @@ export function RadioShowcase() {
             <Radio value="push" />
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">Push</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 Get notifications on your device
               </span>
             </div>
@@ -203,7 +203,7 @@ export function RadioShowcase() {
             <Radio value="none" />
             <div className="flex flex-col">
               <span className="typography-15-medium text-semantic-text-on-bright-900">None</span>
-              <span className="typography-13-regular text-semantic-text-on-bright-500">
+              <span className="typography-13-regular text-semantic-text-on-bright-600">
                 No notifications
               </span>
             </div>
