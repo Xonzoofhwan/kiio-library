@@ -1,9 +1,10 @@
-import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
+import { type ComponentPropsWithRef, type ReactNode } from 'react'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Spinner } from '@/components/icons'
 import { iconSizeMap, iconFontSizeVar, spinnerSizeMap, radiusMap } from './shared'
+import { inertRootProps } from './inert'
 import type { ButtonSize, ButtonShape } from './shared'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -78,7 +79,7 @@ const disabledMap: Record<IconButtonHierarchy, string> = {
 /* ─── Props ────────────────────────────────────────────────────────────────── */
 
 export interface IconButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled'>,
+  extends Omit<ComponentPropsWithRef<'button'>, 'disabled'>,
     VariantProps<typeof iconButtonVariants> {
   /** Visual hierarchy.
    * @default 'primary'
@@ -118,6 +119,8 @@ export interface IconButtonProps
    * The child (a single element, e.g. an `<a>`) becomes the root: ring, overlay, icon and
    * spinner are placed inside it. Without `asChild` any `children` are ignored — the icon
    * is the only content.
+   * The `ref` prop then points at that element although its type stays `HTMLButtonElement` —
+   * the same trade-off Radix makes.
    * @default false */
   asChild?: boolean
 }
@@ -136,42 +139,20 @@ export function IconButton({
   className,
   children,
   onClick,
+  tabIndex,
   ...rest
 }: IconButtonProps) {
   const Comp = asChild ? Slot : 'button'
-  const isInert = disabled || loading
-
-  // aria-disabled 는 상태를 알릴 뿐 활성화를 막지 못하고, pointer-events-none 은 CSS 라
-  // 키보드 Enter/Space 에 무력하다. 브라우저가 Enter/Space 를 click 으로 바꿔 주므로
-  // 여기 한 곳에서 막으면 포인터와 키보드가 함께 덮인다.
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (isInert) {
-      // type 을 지정하지 않아 form 안에서는 기본값이 submit 이다 — click 의 기본 동작을
-      // 막는 것이 곧 제출을 막는 것이다. 네이티브 disabled 는 click 을 아예 발생시키지
-      // 않으므로, 조상이 대신 반응하지 않도록 전파까지 끊어 그 동작에 맞춘다.
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
-    onClick?.(event)
-  }
+  // 가드·type·disabled·tabIndex·aria 의 규칙은 inert.ts 가 소유한다(버튼 계열 7종 공통).
+  const { isInert, rootProps } = inertRootProps({ disabled, loading, asChild, type, onClick, tabIndex })
 
   const resolvedRadius = radiusMap[shape as ButtonShape][size as ButtonSize]
 
   return (
     <Comp
       {...rest}
-      // rest 스프레드보다 뒤에 둬야 소비자 onClick 이 가드를 덮어쓰지 않는다.
-      onClick={handleClick}
-      // asChild 면 소비자 요소가 <button> 이 아닐 수 있어 붙이지 않는다.
-      type={asChild ? undefined : type}
-      // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
-      // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
-      // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.
-      disabled={asChild ? undefined : disabled}
-      tabIndex={asChild && disabled ? -1 : undefined}
-      aria-disabled={isInert || undefined}
-      aria-busy={loading || undefined}
+      // rest 스프레드보다 뒤에 둬야 소비자가 가드·상태 속성을 덮어쓰지 못한다. 규칙은 inert.ts 가 소유한다.
+      {...rootProps}
       className={cn(
         iconButtonVariants({ hierarchy, size, shape }),
         disabled && disabledMap[hierarchy],
@@ -208,12 +189,13 @@ export function IconButton({
         />
       )}
 
-      {/* Icon */}
+      {/* Icon — loading 이면 opacity-0 으로 감춘다. visibility:hidden 은 콘텐츠를 접근성 트리에서 빼므로
+          계열 전체가 opacity-0 을 쓴다(IconButton 은 aria-label 이라 이름엔 무해하지만 규칙을 통일한다). */}
       <span
         className={cn(
           'relative flex-shrink-0 flex items-center justify-center',
           iconSizeMap[size as ButtonSize],
-          loading && 'invisible',
+          loading && 'opacity-0',
         )}
         style={{ fontSize: iconFontSizeVar[size as ButtonSize] }}
       >
@@ -227,7 +209,7 @@ export function IconButton({
 
       {/* Loading spinner */}
       {loading && (
-        <span className="absolute inset-0 flex items-center justify-center">
+        <span aria-hidden className="absolute inset-0 flex items-center justify-center">
           <Spinner className={spinnerSizeMap[size as ButtonSize]} />
         </span>
       )}

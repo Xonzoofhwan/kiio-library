@@ -12,7 +12,7 @@ export interface PretextMeasurement {
 export interface UsePretextOptions {
   /** Text to measure. `undefined` or `null` means text hasn't arrived yet. */
   text: string | undefined | null
-  /** CSS font shorthand (e.g., `"16px Pretendard Variable"`). */
+  /** CSS font shorthand (e.g., `"16px Wanted Sans Variable"`). */
   font: string
   /** Container width in pixels. */
   maxWidth: number

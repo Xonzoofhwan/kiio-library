@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
+import { type ComponentPropsWithRef, type ReactNode } from 'react'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
@@ -7,6 +7,7 @@ import {
   iconSizeMap, iconFontSizeVar, spinnerSizeMap,
   gapMap, textMarginMap, radiusMap,
 } from './shared'
+import { inertRootProps } from './inert'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
@@ -115,7 +116,7 @@ const stateOverlay = 'group-hover:bg-semantic-state-on-bright-50 group-active:bg
 /* ─── Props ────────────────────────────────────────────────────────────────── */
 
 export interface ButtonEmphasizedProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'color'>,
+  extends Omit<ComponentPropsWithRef<'button'>, 'disabled' | 'color'>,
     VariantProps<typeof buttonEmpVariants> {
   /** Visual hierarchy.
    * @default 'primary'
@@ -161,6 +162,8 @@ export interface ButtonEmphasizedProps
    * The child (a single element) becomes the root: ring, overlay, icons and spinner are
    * placed inside it. There is no content wrapper on this path, so `loading` hides the
    * icon slots but not the child's own content — hide that yourself.
+   * The `ref` prop then points at that element although its type stays `HTMLButtonElement` —
+   * the same trade-off Radix makes.
    * @default false */
   asChild?: boolean
 }
@@ -182,37 +185,24 @@ export function ButtonEmphasized({
   className,
   children,
   onClick,
+  tabIndex,
   ...rest
 }: ButtonEmphasizedProps) {
   const Comp = asChild ? Slot : 'button'
-  const isInert = disabled || loading
-
-  // aria-disabled 는 상태를 알릴 뿐 활성화를 막지 못하고, pointer-events-none 은 CSS 라
-  // 키보드 Enter/Space 에 무력하다. 브라우저가 Enter/Space 를 click 으로 바꿔 주므로
-  // 여기 한 곳에서 막으면 포인터와 키보드가 함께 덮인다.
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (isInert) {
-      // type 을 지정하지 않아 form 안에서는 기본값이 submit 이다 — click 의 기본 동작을
-      // 막는 것이 곧 제출을 막는 것이다. 네이티브 disabled 는 click 을 아예 발생시키지
-      // 않으므로, 조상이 대신 반응하지 않도록 전파까지 끊어 그 동작에 맞춘다.
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
-    onClick?.(event)
-  }
+  // 가드·type·disabled·tabIndex·aria 의 규칙은 inert.ts 가 소유한다(버튼 계열 7종 공통).
+  const { isInert, rootProps } = inertRootProps({ disabled, loading, asChild, type, onClick, tabIndex })
 
   const resolvedRadius = radiusMap[shape][size]
   const styles = colorHierarchyMap[color][hierarchy]
 
-  // 아이콘 슬롯. asChild 경로에는 감춰 줄 콘텐츠 래퍼가 없으므로 invisible 을 직접 건다.
+  // 아이콘 슬롯. asChild 경로에는 감춰 줄 콘텐츠 래퍼가 없으므로 opacity-0 을 직접 건다.
   const iconSlot = (icon: ReactNode) =>
     icon ? (
       <span
         className={cn(
           'flex-shrink-0 flex items-center justify-center',
           iconSizeMap[size],
-          asChild && loading && 'invisible',
+          asChild && loading && 'opacity-0',
         )}
         style={{ fontSize: iconFontSizeVar[size] }}
       >
@@ -223,17 +213,8 @@ export function ButtonEmphasized({
   return (
     <Comp
       {...rest}
-      // rest 스프레드보다 뒤에 둬야 소비자 onClick 이 가드를 덮어쓰지 않는다.
-      onClick={handleClick}
-      // asChild 면 소비자 요소가 <button> 이 아닐 수 있어 붙이지 않는다.
-      type={asChild ? undefined : type}
-      // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
-      // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
-      // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.
-      disabled={asChild ? undefined : disabled}
-      tabIndex={asChild && disabled ? -1 : undefined}
-      aria-disabled={isInert || undefined}
-      aria-busy={loading || undefined}
+      // rest 스프레드보다 뒤에 둬야 소비자가 가드·상태 속성을 덮어쓰지 못한다. 규칙은 inert.ts 가 소유한다.
+      {...rootProps}
       className={cn(
         buttonEmpVariants({ size, shape, fullWidth }),
         disabled ? styles.disabled : styles.base,
@@ -278,7 +259,9 @@ export function ButtonEmphasized({
       {asChild ? (
         <Slottable>{children}</Slottable>
       ) : (
-        <span className={cn('relative flex items-center', gapMap[size], loading && 'invisible')}>
+        // invisible(visibility:hidden) 이 아니라 opacity-0 — visibility:hidden 은 콘텐츠를 접근성
+        // 트리에서 빼 버튼의 이름이 사라진다. 시각만 감추고 이름은 남긴다(buttonFamilyContract 가 잰다).
+        <span className={cn('relative flex items-center', gapMap[size], loading && 'opacity-0')}>
           {iconSlot(iconLeading)}
           <span className={textMarginMap[size]}>{children}</span>
           {iconSlot(iconTrailing)}
@@ -288,7 +271,7 @@ export function ButtonEmphasized({
 
       {/* Loading spinner */}
       {loading && (
-        <span className="absolute inset-0 flex items-center justify-center">
+        <span aria-hidden className="absolute inset-0 flex items-center justify-center">
           <Spinner className={spinnerSizeMap[size]} />
         </span>
       )}

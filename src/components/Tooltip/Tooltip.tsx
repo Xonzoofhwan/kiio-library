@@ -1,6 +1,7 @@
-import { forwardRef, createContext, useContext, useRef, useEffect } from 'react'
+import { forwardRef, createContext, useContext, useRef, type RefObject } from 'react'
 import * as RadixTooltip from '@radix-ui/react-tooltip'
 import { useAncestorTheme } from '@/hooks/useAncestorTheme'
+import { useComposedRefs } from '@/lib/composeRefs'
 import { cn } from '@/lib/utils'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
@@ -147,16 +148,20 @@ export interface TooltipTriggerProps {
 export const TooltipTrigger = forwardRef<HTMLButtonElement, TooltipTriggerProps>(
   ({ asChild = true, children, className, ...props }, ref) => {
     const { triggerRef } = useContext(TooltipThemeContext)
-    const internalRef = useRef<HTMLButtonElement>(null)
-
-    useEffect(() => {
-      const el = (ref && typeof ref === 'object' ? ref.current : null) ?? internalRef.current
-      if (el) triggerRef.current = el
-    })
+    // 소비자 ref(객체든 함수든)와 컨텍스트의 triggerRef 를 한 callback ref 로 합쳐 **둘 다** 채운다.
+    // 이전의 `ref ?? internalRef` 는 둘 중 하나만 채워, 소비자가 callback ref 를 주면 내부 ref 가
+    // 비어 포털 콘텐츠가 조상 테마를 읽지 못했다(2026-09-13 실측). effect 없이 커밋 시점에 채워지므로
+    // 콘텐츠의 useAncestorTheme 구독이 시작될 때 이미 요소가 있다.
+    // triggerRef 는 요소 종류를 열어 둔 HTMLElement 타입이고 Radix Trigger 는 HTMLButtonElement 를
+    // 요구한다 — 넓은 쪽을 좁혀 넘기는 캐스트다(asChild 로 다른 요소가 오면 실제로는 그 요소다).
+    const composedRef = useComposedRefs<HTMLButtonElement>(
+      ref,
+      triggerRef as RefObject<HTMLButtonElement | null>,
+    )
 
     return (
       <RadixTooltip.Trigger
-        ref={ref ?? internalRef}
+        ref={composedRef}
         asChild={asChild}
         className={className}
         {...props}
@@ -248,7 +253,7 @@ export const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
 
     return (
       <RadixTooltip.Portal>
-        <div data-theme={theme} className="font-geist">
+        <div data-theme={theme} className="font-sans">
           <RadixTooltip.Content
             ref={ref}
             side={side}

@@ -1,9 +1,10 @@
-import { type ButtonHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
+import { type ComponentPropsWithRef, type ReactNode } from 'react'
 import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { Spinner } from '@/components/icons'
 import { iconSizeMap, iconFontSizeVar, spinnerSizeMap } from '@/components/Button/shared'
+import { inertRootProps } from '@/components/Button/inert'
 
 /* ─── Variant metadata ─────────────────────────────────────────────────────── */
 
@@ -94,7 +95,7 @@ const gapMap: Record<TextButtonSize, string> = {
 /* ─── Props ────────────────────────────────────────────────────────────────── */
 
 export interface TextButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'disabled' | 'color'>,
+  extends Omit<ComponentPropsWithRef<'button'>, 'disabled' | 'color'>,
     VariantProps<typeof textButtonVariants> {
   /** Color variant.
    * @default 'neutral'
@@ -132,6 +133,8 @@ export interface TextButtonProps
   /** Radix Slot — renders the single child element with this component's styles.
    * Consumer children are wrapped in `Slottable`, so the ring/icon layers become
    * children of that element instead of throwing.
+   * The `ref` prop then points at that element although its type stays `HTMLButtonElement` —
+   * the same trade-off Radix makes.
    * @default false */
   asChild?: boolean
 }
@@ -152,29 +155,15 @@ export function TextButton({
   className,
   children,
   onClick,
+  tabIndex,
   ...rest
 }: TextButtonProps) {
   const Comp = asChild ? Slot : 'button'
-  const isInert = disabled || loading
+  // 가드·type·disabled·tabIndex·aria 의 규칙은 Button/inert.ts 가 소유한다(버튼 계열 7종 공통).
+  const { isInert, rootProps } = inertRootProps({ disabled, loading, asChild, type, onClick, tabIndex })
 
   const surfaceKey: SurfaceKey = onDim ? 'onDim' : 'onBright'
   const styles = colorStyleMap[color][surfaceKey]
-
-  // loading 은 "요청이 끝나면 다시 쓸 수 있다"는 뜻이라 포커스를 유지해야 한다.
-  // native disabled 를 켜면 누르는 순간 포커스가 <body> 로 떨어져 키보드 사용자가 자리를 잃고,
-  // 스크린리더는 aria-busy 를 읽을 대상 자체를 잃는다. 그래서 native disabled 는 진짜 disabled 에만 건다.
-  // 대신 aria-disabled 는 시맨틱일 뿐 동작을 막지 않고 pointer-events-none 은 CSS 라 키보드에 무력하므로,
-  // click 을 여기서 소비한다. Enter/Space 는 브라우저가 click 으로 바꿔 주므로 이 가드 하나로 둘 다 덮인다.
-  // preventDefault 는 form 의 기본 submit 까지 막는다 — 이 컴포넌트는 type 을 지정하지 않아
-  // form 안에서 기본값이 submit 이고, 그 제출은 소비자 onClick 이 아니라 브라우저 기본 동작이기 때문이다.
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (isInert) {
-      event.preventDefault()
-      event.stopPropagation()
-      return
-    }
-    onClick?.(event)
-  }
 
   // 아이콘 슬롯. asChild 경로에서는 콘텐츠 래퍼가 없어 루트의 직계 자식이 되므로 함수로 뽑는다.
   const renderIcon = (icon: ReactNode) =>
@@ -190,16 +179,8 @@ export function TextButton({
   return (
     <Comp
       {...rest}
-      onClick={handleClick}
-      // asChild 면 소비자 요소가 <button> 이 아닐 수 있어 붙이지 않는다.
-      type={asChild ? undefined : type}
-      // 네이티브 disabled 는 <button> 에만 유효하다. asChild 는 소비자가 어떤 요소를 줄지
-      // 모르므로(<a>·<div> 면 무의미한 속성이 붙는다) 대신 tabIndex 로 tab 순서에서 뺀다 —
-      // 요소 종류와 무관하게 "건너뛴다"는 결과가 같아진다. 활성화 차단은 onClick 가드가 한다.
-      disabled={asChild ? undefined : disabled}
-      tabIndex={asChild && disabled ? -1 : undefined}
-      aria-disabled={isInert || undefined}
-      aria-busy={loading || undefined}
+      // rest 스프레드보다 뒤에 둬야 소비자가 가드·상태 속성을 덮어쓰지 못한다. 규칙은 Button/inert.ts 가 소유한다.
+      {...rootProps}
       className={cn(
         textButtonVariants({ size, fullWidth }),
         // asChild 는 콘텐츠 래퍼를 쓸 수 없으므로(아래 주석) 아이콘 간격을 루트로 올린다.
@@ -224,7 +205,9 @@ export function TextButton({
       {asChild ? (
         <Slottable>{children}</Slottable>
       ) : (
-        <span className={cn('relative flex items-center', gapMap[size], loading && 'invisible')}>
+        // invisible(visibility:hidden) 이 아니라 opacity-0 — visibility:hidden 은 콘텐츠를 접근성
+        // 트리에서 빼 버튼의 이름이 사라진다. 시각만 감추고 이름은 남긴다(buttonFamilyContract 가 잰다).
+        <span className={cn('relative flex items-center', gapMap[size], loading && 'opacity-0')}>
           {renderIcon(iconLeading)}
           <span>{children}</span>
           {renderIcon(iconTrailing)}
@@ -233,12 +216,12 @@ export function TextButton({
       {asChild ? renderIcon(iconTrailing) : null}
 
       {/* Loading spinner.
-          asChild 에서는 그리지 않는다: 콘텐츠를 숨기는 invisible 은 래퍼에 걸리는데 그 래퍼가 없고,
+          asChild 에서는 그리지 않는다: 콘텐츠를 감추는 opacity-0 은 래퍼에 걸리는데 그 래퍼가 없고,
           소비자 자식은 Radix 가 cloneElement 로 되살리는 요소라 우리가 클래스를 얹을 자리가 없다.
-          텍스트를 숨기지 못한 채 스피너만 겹쳐 그리면 둘 다 못 읽으므로, 이 조합에서는
+          텍스트를 감추지 못한 채 스피너만 겹쳐 그리면 둘 다 못 읽으므로, 이 조합에서는
           시각 표시를 포기하고 의미(aria-busy·aria-disabled)와 활성화 차단만 유지한다. */}
       {loading && !asChild && (
-        <span className="absolute inset-0 flex items-center justify-center">
+        <span aria-hidden className="absolute inset-0 flex items-center justify-center">
           <Spinner className={spinnerSizeMap[size]} />
         </span>
       )}

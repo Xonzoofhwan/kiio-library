@@ -626,6 +626,32 @@ describe('Button — 활성화 키와 탭 순서', () => {
 
     expect(await focusOrder(user, ['{Tab}', '{Tab}'])).toEqual(['앞 [button]', '뒤 [button]'])
   })
+
+  it('asChild 링크가 loading 이면 Enter 가 자식 onClick 에 닿지 않는다', async () => {
+    // 링크의 Enter 는 브라우저가 click 으로 바꾼다. Radix Slot 은 자식 핸들러를 Slot 핸들러보다
+    // 먼저 부르므로, 가드가 bubble 단계에 있으면 자식 onClick 이 먼저 돌아 버린다(2026-09-13 실측).
+    // 가드는 캡처 단계에 있어야 한다.
+    const user = setup()
+    let childClicks = 0
+    const { container } = render(
+      <Button asChild loading>
+        <a
+          href="/docs"
+          onClick={() => {
+            childClicks += 1
+          }}
+        >
+          문서
+        </a>
+      </Button>,
+    )
+    const linkEl = container.querySelector('a')!
+    linkEl.focus()
+    expect(describeElement(document.activeElement)).toBe('문서 [link]')
+
+    await user.keyboard('{Enter}')
+    expect(childClicks).toBe(0)
+  })
 })
 
 /* ═══ 부채·미검증 목록 자체를 검사한다 ════════════════════════════════════ */

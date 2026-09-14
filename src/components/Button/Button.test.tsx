@@ -1,12 +1,12 @@
 /**
  * `Button` 공개 계약 테스트.
  *
- * Button 은 이 라이브러리에서 가장 많이 복제된 구조다. `isInert = disabled || loading` 과
- * 같은 레이어 배치(포커스 링 span · 상태 오버레이 span · 콘텐츠 span · 스피너 span)를
- * ButtonEmphasized·ButtonError·IconButton·IconButtonEmphasized·IconButtonError·TextButton 이
- * 그대로 복사해 쓴다(2026-09-05 기준 7개). 여기서 깨지는 계약은 한 컴포넌트의 문제가 아니다.
- * 다만 이 파일이 **실제로 렌더해 보는 것은 Button 하나**이고, 나머지는 같은 패턴을
- * 공유한다는 사실만 근거다 — 나머지의 검증은 여기서 통과한 것이 아니다.
+ * Button 은 이 라이브러리에서 가장 많이 복제된 구조다. 레이어 배치(포커스 링 span · 상태
+ * 오버레이 span · 콘텐츠 span · 스피너 span)를 ButtonEmphasized·ButtonError·IconButton·
+ * IconButtonEmphasized·IconButtonError·TextButton 이 같이 쓴다(7종). inert 표면(가드·type·
+ * disabled·tabIndex·aria)의 규칙은 2026-09-13 부터 `./inert.ts` 하나가 소유한다.
+ * 이 파일이 **실제로 렌더해 보는 것은 Button 하나**다. 7종 공통 계약(가드 순서 · tabIndex 보존 ·
+ * 로딩 시 접근 가능한 이름 · ref)은 `src/testing/buttonFamilyContract.test.tsx` 가 전부 렌더해 본다.
  *
  * ## 보장하는 것
  * 1. `loading` / `disabled` 의 DOM·ARIA 표면과 **둘의 차이**
@@ -18,7 +18,7 @@
  *
  * ## 보장하지 않는 것
  * **시각 결과 전부.** jsdom 은 Tailwind 스타일시트를 로드하지 않으므로
- * `pointer-events-none`·`invisible`·`group-focus-visible:opacity-100` 은 전부 그냥
+ * `pointer-events-none`·`opacity-0`·`group-focus-visible:opacity-100` 은 전부 그냥
  * 문자열이다. 여기서 확인하는 것은 "클래스가 붙었다"이지 "그렇게 보인다/동작한다"가
  * 아니다. 실제 차단이 관찰되는 경로는 네이티브 `disabled` 와 `onClick` 가드 둘뿐이다 —
  * `pointer-events-none` 은 여전히 문자열이다.
@@ -76,6 +76,9 @@ const UNMEASURED_ASPECTS: Record<string, string> = {
     '(textMarginMap)도 빠지는데, 그 폭 차이 역시 여기서는 재지 못한다.',
   '포커스 링·상태 오버레이의 표시 여부':
     'group-focus-visible:/group-hover: 는 CSS 로만 켜진다. 여기서는 클래스 존재까지만 본다.',
+  '로딩 콘텐츠 숨김의 실제 렌더':
+    'opacity-0 이 붙었다는 것(여기)과 그래도 접근 가능한 이름이 남는다는 것(buttonFamilyContract, 빌드 CSS 주입)까지만 ' +
+    '본다. 실제로 안 보이는지, 스피너가 그 위 중앙에 오는지는 브라우저의 몫이다.',
   '아이콘의 실제 픽셀 크기':
     'size-[var(--comp-button-icon-*)] 의 var() 는 jsdom 에서 해석되지 않는다. 토큰 이름까지만 고정한다.',
   '눌림 scale·색 대비·타이포 렌더':
@@ -153,7 +156,8 @@ interface InertReport {
   ariaBusy: string | null
   /** 클래스 존재 여부일 뿐이다 — 실제 효력은 `UNMEASURED_ASPECTS` 참고. */
   pointerEventsNone: boolean
-  /** 콘텐츠 래퍼가 `invisible` 인가. */
+  /** 콘텐츠 래퍼가 `opacity-0` 인가. `invisible`(visibility:hidden) 이면 접근 가능한 이름이
+   *  사라진다 — 그 차이는 `buttonFamilyContract` 가 빌드 CSS 를 주입해 잰다. */
   contentHidden: boolean
   hasSpinner: boolean
   /** 상태 오버레이 레이어 수. inert 일 때 0 이어야 한다. */
@@ -168,7 +172,7 @@ function readInertness(root: HTMLElement): InertReport {
     ariaDisabled: root.getAttribute('aria-disabled'),
     ariaBusy: root.getAttribute('aria-busy'),
     pointerEventsNone: root.classList.contains('pointer-events-none'),
-    contentHidden: content?.classList.contains('invisible') ?? false,
+    contentHidden: content?.classList.contains('opacity-0') ?? false,
     hasSpinner: root.querySelector('svg') !== null,
     stateOverlays: root.querySelectorAll(':scope > span[aria-hidden="true"].transition-colors').length,
   }
@@ -521,8 +525,8 @@ describe('Button — asChild', () => {
 
     expect(root.getAttribute('aria-busy')).toBe('true')
     expect(root.getAttribute('aria-disabled')).toBe('true')
-    // 포커스 링은 남고(inert 라 상태 오버레이는 마운트되지 않는다), 스피너가 올라간다.
-    expect(root.querySelectorAll(':scope > span[aria-hidden="true"]')).toHaveLength(1)
+    // aria-hidden 레이어 2개 — 포커스 링과 스피너 래퍼(장식). inert 라 상태 오버레이는 마운트되지 않는다.
+    expect(root.querySelectorAll(':scope > span[aria-hidden="true"]')).toHaveLength(2)
     expect(root.querySelector('svg')).not.toBeNull()
   })
 
