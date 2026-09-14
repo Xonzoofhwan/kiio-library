@@ -147,41 +147,38 @@ export function Button({
 
 ## Pattern 3: Loading State
 
+`loading` 은 "불러오는 중"이 아니라 **"처리 중"** 이다 — 버튼은 처리가 끝날 때까지 자리를 지키고 스피너가 돈다. 그래서 세 가지를 지킨다.
+
+1. **네이티브 `disabled` 를 켜지 않는다.** 켜면 눌러 놓은 버튼이 로딩에 들어가는 순간 포커스가 `<body>` 로 떨어지고 스크린리더는 `aria-busy` 를 읽을 대상을 잃는다. `aria-disabled` + `aria-busy` 를 세우고 활성화는 가드로 막는다.
+2. **가드는 캡처 단계(`onClickCapture`)에 둔다.** `aria-disabled` 는 시맨틱일 뿐이고 `pointer-events-none` 은 키보드에 무력하다. bubble 단계 `onClick` 가드로도 부족하다 — Radix Slot 은 `asChild` 자식의 `onClick` 을 Slot 핸들러보다 먼저 부른다. 캡처에서 `stopPropagation` 하면 bubble 단계가 열리지 않아 자식·소비자·조상의 `onClick` 이 전부 막히고, `preventDefault` 가 이동·제출을 막는다.
+3. **콘텐츠는 `opacity-0` 으로 감춘다.** `invisible`(`visibility:hidden`)은 콘텐츠를 접근성 트리에서 빼 버튼의 이름이 사라진다. 제거하지도 않는다 — 폭이 스피너 크기로 줄어 레이아웃이 튄다. 스피너 래퍼는 `aria-hidden`(장식).
+
+버튼 계열 7종이 이 규칙을 [`src/components/Button/inert.ts`](../src/components/Button/inert.ts) 하나로 공유하고, `src/testing/buttonFamilyContract.test.tsx` 가 7종 전부에 대해 잠근다.
+
 ```tsx
 import { cn } from '@/lib/utils'
-import { Spinner } from '@/components/Spinner' // project spinner component
-
-interface ButtonProps {
-  loading?: boolean
-  iconLeading?: React.ReactNode
-  children: React.ReactNode
-  size?: 'small' | 'medium' | 'large'
-}
-
-const iconSizes = {
-  small: 'w-4 h-4',
-  medium: 'w-5 h-5',
-  large: 'w-6 h-6',
-}
+import { Spinner } from '@/components/icons'
+import { inertRootProps } from '@/components/Button/inert' // 내부 공통 — index 에서 export 하지 않는다
 
 export function Button({
-  loading,
-  iconLeading,
-  children,
-  size = 'medium',
-  ...props
+  loading = false, disabled = false, asChild = false, type = 'button',
+  onClick, tabIndex, children, className, ...rest
 }: ButtonProps) {
-  const spinner = (
-    <Spinner className={cn('animate-spin', iconSizes[size])} />
-  )
+  // 가드 · type · disabled · tabIndex(소비자 값 보존) · aria 를 한 곳에서 만든다.
+  const { isInert, rootProps } = inertRootProps({ disabled, loading, asChild, type, onClick, tabIndex })
 
   return (
     <button
-      disabled={loading}
-      {...props}
+      {...rest}
+      {...rootProps} // rest 뒤 — 소비자가 가드·상태 속성을 덮어쓰지 못한다
+      className={cn('relative inline-flex items-center', isInert && 'pointer-events-none', className)}
     >
-      {loading ? spinner : iconLeading}
-      {children}
+      <span className={cn('relative flex items-center', loading && 'opacity-0')}>{children}</span>
+      {loading && (
+        <span aria-hidden className="absolute inset-0 flex items-center justify-center">
+          <Spinner className="size-5" />
+        </span>
+      )}
     </button>
   )
 }

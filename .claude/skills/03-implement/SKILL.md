@@ -110,7 +110,7 @@ xLarge → xl, large → lg, medium → md, small → sm, xSmall → xs
 10. /* --- Component --- */
     - Comp = asChild ? Slot : '{element}'
     - State overlay <span aria-hidden> pointer-events-none absolute inset-0 rounded-[inherit]
-    - Loading: absolute Spinner + invisible content
+    - Loading: absolute Spinner (aria-hidden) + opacity-0 content — invisible 은 접근 가능한 이름을 지운다. 가드·aria·tabIndex 는 src/components/Button/inert.ts 를 쓴다
     - Icon containers: flex-shrink-0 relative [&>*]:[font-size:inherit]
 ```
 
@@ -151,18 +151,20 @@ export type { ComponentVariant, ComponentSize } from './ComponentName'
 
 ### 3.2 App.tsx 등록
 
-`src/App.tsx`를 수정한다:
+**`src/showcase/registry.ts` 한 곳만** 수정한다. 배열에 항목 하나를 더하면 라우팅·사이드바·목차·코드 분할이 전부 따라온다.
 
-1. **Import 추가**: `import { {Name}Showcase, {COMPONENT}_TOC } from '@/showcase/{Name}Showcase'`
-2. **SHOWCASE_MAP entry 추가**: `'{kebab-id}': { component: {Name}Showcase, toc: {COMPONENT}_TOC },`
+```ts
+{
+  id: '{kebab-id}',
+  label: '{Name}',
+  group: 'Actions',   // 기존 그룹 이름을 쓴다. 새 그룹은 배열에 처음 나온 자리에 생긴다
+  load: () => import('./{Name}Showcase').then((m) => ({ default: m.{Name}Showcase, toc: m.{COMPONENT}_TOC })),
+},
+```
 
-> `VALID_SHOWCASE_IDS`는 `Object.keys(SHOWCASE_MAP)`에서 자동 파생 — 별도 ID 등록 불필요.
+배열 순서가 사이드바 순서다. `SHOWCASE_IDS`(해시 라우팅)와 사이드바 그룹은 이 배열에서 파생되므로 **등록 누락이 구조적으로 불가능**하다.
 
-### 3.3 Sidebar 등록
-
-`src/components/showcase-layout/Sidebar.tsx`의 `NAV_GROUPS`에 항목 추가:
-- 적절한 그룹 찾기 (Actions, Inputs, Selection, Navigation, Overlay, Display)
-- `{ id: '{kebab-id}', label: '{Name}' }` 추가
+> 2026-09-14 전에는 `App.tsx`의 `SHOWCASE_MAP`과 `Sidebar.tsx`의 `NAV_GROUPS` 두 곳이었다.
 
 ---
 
@@ -211,8 +213,7 @@ export type { ComponentVariant, ComponentSize } from './ComponentName'
 | 토큰 추가 위치 | `src/tokens/tokens.css` |
 | 컴포넌트 gold standard | `src/components/Button/Button.tsx` |
 | Barrel export 패턴 | `src/components/Button/index.ts` |
-| 쇼케이스 등록 | `src/App.tsx` (SHOWCASE_MAP) |
-| 사이드바 등록 | `src/components/showcase-layout/Sidebar.tsx` (NAV_GROUPS) |
+| 쇼케이스 등록 (라우팅·사이드바·목차·코드 분할) | `src/showcase/registry.ts` (SHOWCASES) |
 | 쇼케이스 레이아웃 | `src/showcase/shared.tsx` |
 | 토큰 배치 규칙 | `docs/TOKEN_LAYER_RULES.md` |
 | 코드 패턴 | `docs/COMPONENT_PATTERNS.md` |

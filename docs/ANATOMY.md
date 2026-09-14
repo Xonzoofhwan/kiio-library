@@ -10,7 +10,7 @@
 > **인용 규약: 줄 번호를 쓰지 않고 심볼로 가리킨다.** 이 문서의 모든 prop 이름·타입 이름·주석 문자열은 소스에서 직접 읽은 값이지만,
 > 줄 번호는 옆 커밋 하나에 어긋난다 — 이 문서를 쓰는 동안에도 `NavVertical.tsx` 의 해당 블록이 두 줄 밀렸다.
 > 그래서 "파일 이름 + 줄 번호" 대신 ``NavVerticalItemProps` 의 `icon``, `` `{/* Bottom border indicator */}` `` 처럼 **이름으로** 적는다.
-> 심볼은 이름이 바뀌면 같이 바뀌어야 하는 것이므로, 틀리면 §6.2 D7b 같은 검사가 잡을 수 있는 형태이기도 하다.
+> 심볼은 이름이 바뀌면 같이 바뀌어야 하는 것이므로, 틀리면 §6.2 D8b 같은 검사가 잡을 수 있는 형태이기도 하다.
 
 ---
 
@@ -194,7 +194,7 @@
 | prop | 의미 | 이 저장소의 구현 | 사용처 |
 |---|---|---|---|
 | `disabled` | **지금 쓸 수 없다.** 값도 제출되지 않는다 | native `disabled` + `aria-disabled` + `pointer-events-none` | Button 4종 · TextButton · Chip 3종 · NavVertical.Item · SegmentBar.Item · Tab.Item |
-| `loading` | **요청 중이다.** 결과가 오면 다시 쓸 수 있다 | `isInert = disabled \|\| loading` 을 만들어 `disabled` 와 **똑같이** native `disabled` 를 켜고, `aria-busy` 를 더한다([Button.tsx](../src/components/Button/Button.tsx)) | Button 4종 · TextButton |
+| `loading` | **요청 중이다.** 결과가 오면 다시 쓸 수 있다 | native `disabled` 를 **켜지 않는다** — `aria-disabled` + `aria-busy` 를 세우고 캡처 단계 클릭 가드(`onClickCapture`)가 활성화를 막아 포커스와 탭 순서를 유지한다. 콘텐츠는 `opacity-0` 으로 감춰 접근 가능한 이름이 남는다. 규칙은 [inert.ts](../src/components/Button/inert.ts) 가 소유한다 | Button 4종 · TextButton |
 | `readOnly` | 값은 보이지만 바꿀 수 없다. **포커스와 복사는 된다** | 사용처 0 — 입력 컴포넌트가 없다 | **예약** |
 | `selected` | 여러 개 중 이것이 골라져 있다. 폼 값이 아니다 | `aria-pressed={selected}`([ChipUniversal.tsx](../src/components/Chip/ChipUniversal.tsx)) | ChipUniversal |
 | `checked` | **불리언 값 자체.** 폼에 제출된다 | Radix 가 소유하고 `data-state="checked \| unchecked \| indeterminate"` 로 내려준다 | Checkbox · Radio · Switch |
@@ -205,7 +205,7 @@
 
 1. **`active` 를 prop 으로 만들지 않는다.** 진실은 Root 의 `value` 한 곳에 둔다. Item 마다 `active` 를 받으면 두 곳이 어긋날 수 있고, 어긋난 상태를 소비자가 만들 수 있다.
 2. **`selected` 와 `checked` 를 섞지 않는다.** `checked` 는 폼 값이라 제출되고 `name`/`value` 와 함께 다닌다. `selected` 는 시각·의미상의 선택이고 폼과 무관하다. ChipUniversal 이 `checked` 가 아니라 `selected` + `aria-pressed` 인 이유가 이것이다 — 칩은 폼 필드가 아니다.
-3. **`disabled` 와 `loading` 은 의미가 다르지만 지금 결과가 같다.** 둘 다 탭 순서에서 빠지고 클릭이 무시된다. 표준 접근성 지침은 `loading` 을 `aria-disabled` 로만 처리해 **포커스를 유지**하라고 말한다 — native `disabled` 를 켜면 누르는 순간 포커스가 `<body>` 로 튀어, 키보드 사용자는 자기가 어디 있었는지 잃는다. 이 차이를 낼 것인지는 결정 대상이다(§5.3 C7, 오케스트레이터 판단 필요).
+3. **`disabled` 와 `loading` 은 의미가 다르고 결과도 다르다.** `disabled` 는 탭 순서에서 빠지고 click 이 아예 발생하지 않는다. `loading` 은 자리를 지킨다 — 포커스와 탭 순서를 유지하고(`aria-disabled` + `aria-busy`) 활성화만 캡처 단계 가드가 막는다. native `disabled` 를 켜면 누르는 순간 포커스가 `<body>` 로 튀어 키보드 사용자가 자리를 잃기 때문이다. 이 결정은 2026-09-05 E2 에서 났고([QUALITY_GATES_PLAN.md](./QUALITY_GATES_PLAN.md)), 2026-09-13 에 가드를 bubble 에서 캡처로 옮겨 `asChild` 자식의 `onClick` 까지 막았다([STABILIZATION_PLAN.md](./STABILIZATION_PLAN.md) Phase A).
 
 ### 2.4 이벤트 핸들러 네이밍
 
@@ -407,7 +407,7 @@
 
 어휘가 문서에만 있으면 지켜지지 않는다. 이 저장소가 이미 그것을 실측했다 — [QUALITY_GATES_PLAN.md](./QUALITY_GATES_PLAN.md) §0.1 의 F1~F14 는 전부 "규칙은 있었지만 검사가 없어서 새어나간 것"이다. 아래 셋을 제안한다.
 
-> 아래 §6.1·§6.2 는 **제안이며 이 문서 작업에서 구현하지 않았다.** `specs/_TEMPLATE.json` 에는 병행 작업이 `a11y` 블록을 넣었고 `anatomy` 는 아직 없다. `scripts/docs-check.mjs` 도 병행 작업으로 추가돼 **D1–D6 까지 존재한다** — §6.2 가 제안하는 것은 그 위에 얹는 D7 이다. 오늘 존재하는 검사만 통과 조건이 된다는 게이트 운영 원칙 1에 따라, D7 은 아직 통과 조건이 아니다.
+> 아래 §6.1·§6.2 는 **제안이며 이 문서 작업에서 구현하지 않았다.** `specs/_TEMPLATE.json` 에는 병행 작업이 `a11y` 블록을 넣었고 `anatomy` 는 아직 없다. `scripts/docs-check.mjs` 도 병행 작업으로 추가돼 **D1–D7 까지 존재한다**(D7 은 2026-09-14 에 들어간 "스펙의 Figma 파일 키"다) — §6.2 가 제안하는 것은 그 위에 얹는 **D8** 이다. 오늘 존재하는 검사만 통과 조건이 된다는 게이트 운영 원칙 1에 따라, D8 은 아직 통과 조건이 아니다.
 
 ### 6.1 `specs/_TEMPLATE.json` 에 `anatomy` 섹션 필수화
 
@@ -427,20 +427,20 @@
 ```
 
 - **잡는 것:** 새 컴포넌트가 파트를 **선언하지 않고** 지나가는 것. `/behavior-spec` 이 이 블록을 채우지 않으면 스펙이 완성되지 않는다. `exposed` 필드가 §2.1 판단 트리를 강제로 통과하게 만든다.
-- **못 잡는 것:** **선언과 구현의 괴리.** 스펙에 `iconLeading` 이라 적고 코드가 `icon` 이어도, 스펙만 보는 검사는 통과시킨다. 오늘의 A1·A2 가 정확히 이 유형이다 — 그래서 §6.2 D7b 가 필요하다.
+- **못 잡는 것:** **선언과 구현의 괴리.** 스펙에 `iconLeading` 이라 적고 코드가 `icon` 이어도, 스펙만 보는 검사는 통과시킨다. 오늘의 A1·A2 가 정확히 이 유형이다 — 그래서 §6.2 D8b 가 필요하다.
 - `a11y` 블록과 `anatomy` 블록은 형제이며 서로 겹치지 않는다. `a11y` 는 role·키보드 경로를, `anatomy` 는 조각의 이름과 노출 형태를 기록한다.
 
-### 6.2 `scripts/docs-check.mjs` 에 D7 추가 — 세 방향
+### 6.2 `scripts/docs-check.mjs` 에 D8 추가 — 세 방향
 
 | 하위 ID | 검사 | 잡는 것 | 못 잡는 것 |
 |:-:|---|---|---|
-| **D7a** | `specs/*.json` 의 `anatomy.parts[].name` 이 **이 문서 부록 A** 에 있는가. 어휘 인덱스를 `docs/ANATOMY.md` 에서 파싱한다 | 새 파트 이름을 조용히 만드는 것 | 코드. 스펙이 코드와 어긋나면 조용히 통과 |
-| **D7b** | `src/components/**` 의 `export interface *Props` 안에서 **파트로 보이는 prop 이름**만 골라 어휘와 대조. 후보 패턴: `icon*` · `badge*` · `label` · `text` · `close*` · `arrow*` · `*Leading` · `*Trailing` | **오늘의 A1~A5 다섯 건 전부.** 코드가 진실이므로 세 검사 중 가장 강하다 | 정규식이 TS 를 파싱하지 못한다 — 여러 줄에 걸친 유니온·조건부 타입·`Omit<…>` 로 상속된 prop 은 놓친다 |
-| **D7c** | 금칙어 — `iconLeft`·`iconRight`·`leftIcon`·`rightIcon`·`startIcon`·`endIcon` 이 `src/**` 에 등장하면 실패 | 새 코드가 물리 방향 어휘로 되돌아가는 것 | 이미 있는 이름의 오용. **오늘 red 0 — 가드다** |
+| **D8a** | `specs/*.json` 의 `anatomy.parts[].name` 이 **이 문서 부록 A** 에 있는가. 어휘 인덱스를 `docs/ANATOMY.md` 에서 파싱한다 | 새 파트 이름을 조용히 만드는 것 | 코드. 스펙이 코드와 어긋나면 조용히 통과 |
+| **D8b** | `src/components/**` 의 `export interface *Props` 안에서 **파트로 보이는 prop 이름**만 골라 어휘와 대조. 후보 패턴: `icon*` · `badge*` · `label` · `text` · `close*` · `arrow*` · `*Leading` · `*Trailing` | **오늘의 A1~A5 다섯 건 전부.** 코드가 진실이므로 세 검사 중 가장 강하다 | 정규식이 TS 를 파싱하지 못한다 — 여러 줄에 걸친 유니온·조건부 타입·`Omit<…>` 로 상속된 prop 은 놓친다 |
+| **D8c** | 금칙어 — `iconLeft`·`iconRight`·`leftIcon`·`rightIcon`·`startIcon`·`endIcon` 이 `src/**` 에 등장하면 실패 | 새 코드가 물리 방향 어휘로 되돌아가는 것 | 이미 있는 이름의 오용. **오늘 red 0 — 가드다** |
 
 `start`/`end` 도 금칙어에 넣는 이유: 그 자체는 RTL 안전하지만(CSS 논리 속성이 쓰는 어휘다) 이 저장소는 `Leading`/`Trailing` 을 골랐다. **두 어휘를 섞지 않기 위해서**이지 `start`/`end` 가 틀려서가 아니다.
 
-D7 은 기존 `scripts/docs-check.mjs`(D1–D6)에 얹는다. 그 스크립트는 이미 의존성 없는 Node 스크립트이고 각 검사의 **못 잡는 것**을 자기 안에 목록으로 들고 있으므로, D7 도 같은 형식으로 한계를 함께 등록한다.
+D8 은 기존 `scripts/docs-check.mjs`(D1–D7)에 얹는다. 그 스크립트는 이미 의존성 없는 Node 스크립트이고 각 검사의 **못 잡는 것**을 자기 안에 목록으로 들고 있으므로, D8 도 같은 형식으로 한계를 함께 등록한다.
 
 ### 6.3 JSDoc `@anatomy` 컨벤션
 
@@ -453,12 +453,12 @@ D7 은 기존 `scripts/docs-check.mjs`(D1–D6)에 얹는다. 그 스크립트�
 ```
 
 - **잡는 것:** 자동으로는 **아무것도 잡지 못한다.** 읽는 사람에게 파트 구조를 한 줄로 준다. `/frontend-review` 와 `/verify` 의 "읽고 판단" 항목에서만 효력이 있다.
-- **기계로 잡을 수 있는 것 하나:** 태그의 **존재 여부**. 컴포넌트 파일마다 `@anatomy` 가 1개 이상 있는가는 정규식으로 판정된다(D7d 후보). 내용의 정확성은 여전히 못 잡는다.
+- **기계로 잡을 수 있는 것 하나:** 태그의 **존재 여부**. 컴포넌트 파일마다 `@anatomy` 가 1개 이상 있는가는 정규식으로 판정된다(D8d 후보). 내용의 정확성은 여전히 못 잡는다.
 - 그래도 두는 이유: 파트 목록이 스펙 JSON 에만 있으면 코드를 고치는 사람이 그것을 보지 않는다. 어휘를 **고치는 자리 옆에** 둬야 한다.
 
 ### 6.4 세 수단을 다 합쳐도 남는 것
 
-**파트 이름이 옳은지는 아무도 판정하지 못한다.** `Knob` 을 `Nub` 이라 불러도 D7a·D7b·D7c 는 전부 통과한다 — 부록 A 에 `Nub` 을 등록하면 그만이기 때문이다. 검사가 판정하는 것은 "어휘표와 코드가 일치하는가"이지 "어휘표가 옳은가"가 아니다.
+**파트 이름이 옳은지는 아무도 판정하지 못한다.** `Knob` 을 `Nub` 이라 불러도 D8a·D8b·D8c 는 전부 통과한다 — 부록 A 에 `Nub` 을 등록하면 그만이기 때문이다. 검사가 판정하는 것은 "어휘표와 코드가 일치하는가"이지 "어휘표가 옳은가"가 아니다.
 
 그래서 §5.2 의 확장은 **승인 대상**이고, §5.3 의 예외와 같은 규율을 받는다:
 
@@ -473,7 +473,7 @@ D7 은 기존 `scripts/docs-check.mjs`(D1–D6)에 얹는다. 그 스크립트�
 ## 부록 A — 어휘 인덱스
 
 알파벳순. **상태** 열: `표준` = §1 정의 · `확장` = §5.2 에서 추가 · `예약` = 정의는 있으나 사용처 0(미검증).
-이 표는 §6.2 D7a 가 파싱하는 대상이므로 **행 형식을 바꾸지 않는다.**
+이 표는 §6.2 D8a 가 파싱하는 대상이므로 **행 형식을 바꾸지 않는다.**
 
 | 파트 | 분류 | 상태 | 대표 사용처 |
 |---|---|:-:|---|

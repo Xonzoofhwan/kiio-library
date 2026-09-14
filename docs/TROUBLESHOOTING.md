@@ -85,11 +85,11 @@
 
 **Fix (2025-03-26)**: `validIds`를 `useRef`로 감싸서 항상 최신 값을 참조하도록 수정함 (`src/hooks/useHashRoute.ts`).
 
-**Checklist** — 새 쇼케이스 등록 시 **2곳만** 수정:
-1. `src/App.tsx` — `SHOWCASE_MAP`에 `{ component, toc }` 추가 (라우팅 자동 파생)
-2. `src/components/showcase-layout/Sidebar.tsx` — `NAV_GROUPS`에 `{ id, label }` 추가
+**Checklist** — 새 쇼케이스 등록 시 **`src/showcase/registry.ts` 한 곳만** 수정한다.
+`SHOWCASES` 배열에 `{ id, label, group, load }` 를 더하면 라우팅·사이드바·목차·코드 분할이 따라온다.
 
-> `useHashRoute`의 `VALID_IDS`는 `Object.keys(SHOWCASE_MAP)`에서 자동 파생되므로 별도 수정 불필요.
+> 2026-09-14 전에는 `App.tsx`의 `SHOWCASE_MAP`과 `Sidebar.tsx`의 `NAV_GROUPS` 두 곳이었고,
+> 한쪽을 빠뜨리는 것이 이 문제의 흔한 원인이었다. `useHashRoute`의 유효 id 집합도 그 배열에서 파생된다.
 
 ---
 

@@ -124,9 +124,9 @@ npm run docs:check
 ```
 
 `scripts/docs-check.mjs` D5가 **specs ↔ components ↔ showcase 3자 정합**을 판정한다 —
-`specs/*.json` · `SHOWCASE_MAP` · `NAV_GROUPS` 가 서로 빠짐없이 대응하는가.
+`specs/*.json` 과 `src/showcase/registry.ts`의 `SHOWCASES` 가 서로 빠짐없이 대응하는가.
 
-`VALID_SHOWCASE_IDS`는 `SHOWCASE_MAP`에서 파생되므로 별도 등록이 필요 없다.
+라우팅·사이드바·목차는 그 배열에서 파생되므로 등록처가 하나다.
 같은 스크립트가 문서 링크(D1)·스킬 frontmatter(D2)·토큰 언급(D3)·모션 표(D4)·스킬 경로(D6)도 본다.
 
 ---

@@ -1,5 +1,5 @@
 # kiio-library
-React 19 + TypeScript design system library. Provides design tokens and styled UI components built with Tailwind CSS 3, CVA, and cn (clsx + tailwind-merge). Font: Pretendard Variable.
+React 19 + TypeScript design system library. Provides design tokens and styled UI components built with Tailwind CSS 3, CVA, and cn (clsx + tailwind-merge). Font: **Wanted Sans** (SIL OFL — 라틴 + 한글 한 패밀리). 폰트 파일은 `index.html` 이 로드한다 — 라이브러리 CSS 는 폰트를 import 하지 않는다.
 ---
 ## Project Vision
 **Goal**: Build a production-ready design system that bridges Figma designs and React components through structured JSON specifications.
@@ -126,7 +126,7 @@ kiio-library/
 - CLAUDE.md에는 **핵심 규칙과 빠른 참조**만 둔다. 상세 가이드는 `docs/`에 별도 문서로 분리한다.
 - 새 규칙/가이드 추가 시: (1) `docs/`에 주제별 문서 생성 → (2) CLAUDE.md의 관련 섹션에 `> ... 참고` 링크 추가 → (3) 위 테이블에 행 추가
 - 문서는 **주제/맥락 단위**로 분리한다 (시간순이나 작업순 아님).
-- `npm run docs:check`가 문서의 정합을 판정한다 — 상대 링크 존재(D1) · 스킬 frontmatter(D2) · 문서가 언급하는 semantic 패밀리가 실재하는가(D3) · 모션 표 ↔ tailwind.config 양방향 일치(D4) · specs ↔ components ↔ showcase 3자 정합(D5) · 스킬 문서의 소스 경로(D6). `npm run check`가 함께 돌린다.
+- `npm run docs:check`가 문서의 정합을 판정한다 — 상대 링크 존재(D1) · 스킬 frontmatter(D2) · 문서가 언급하는 semantic 패밀리가 실재하는가(D3) · 모션 표 ↔ tailwind.config 양방향 일치(D4) · specs ↔ components ↔ showcase 3자 정합(D5) · 스킬 문서의 소스 경로(D6) · 모든 스펙이 같은 Figma 파일을 가리키는가(D7). `npm run check`가 함께 돌린다.
 
 ### Import Path Alias
 - `@/` maps to `src/` (configured in `tsconfig.app.json` + `vite.config.ts`)
@@ -153,20 +153,20 @@ Categories and Tailwind usage:
 | success | `text-semantic-success-700` | 50–900 |
 | warning | `border-semantic-warning-400` | 50–900 |
 | error | `bg-semantic-error-100` | 50–900 |
-| neutral.solid | `bg-semantic-neutral-solid-100` | 0, 50, 70, 100–1000 |
-| neutral.black-alpha | `bg-semantic-neutral-black-alpha-200` | 0, 50, 70, 100–950 |
-| neutral.white-alpha | `bg-semantic-neutral-white-alpha-200` | 0, 50, 70, 100–950 |
+| neutral.solid | `bg-semantic-neutral-solid-100` | 0, 50, 70, 100, 200, 300, 400, 600, 800, 950, 1000 (11단) |
+| neutral.black-alpha | `bg-semantic-neutral-black-alpha-200` | 0, 50, 70, 100, 200, 300, 400, 600, 800, 950 (10단) |
+| neutral.white-alpha | `bg-semantic-neutral-white-alpha-200` | 0, 50, 70, 100, 200, 300, 400, 600, 800, 950 (10단) |
 | background | `bg-semantic-background-0` | 0, 50, 70 |
 | divider.solid | `border-semantic-divider-solid-100` | 50, 70, 100–300 |
 | divider.alpha | `border-semantic-divider-alpha-100` | 50, 70, 100–300 |
-| text.on-bright | `text-semantic-text-on-bright-900` | 밝은 배경 위. 300–950 |
-| text.on-dim | `text-semantic-text-on-dim-900` | 어두운 배경 위. 300–950 |
+| text.on-bright | `text-semantic-text-on-bright-900` | 밝은 배경 위. 400, 600, 800, 900, 950 |
+| text.on-dim | `text-semantic-text-on-dim-900` | 어두운 배경 위. 400, 600, 800, 900, 950 |
 | state.on-bright | `bg-semantic-state-on-bright-70` | hover/press 오버레이. 50, 70, 100 |
 | state.on-dim | `bg-semantic-state-on-dim-70` | hover/press 오버레이. 50, 70, 100 |
 
 > **`semantic-primary` 는 없다.** 2026-03-24(`b843d30`)에 `emphasized-*` 로 재편됐다. 브랜드 강조색이 필요하면 `emphasized-purple` 을 쓴다. `tokenContract` T1 이 존재하지 않는 토큰 참조를 잡는다.
 
-> 위 표는 **손으로 유지한다.** 실제 정의는 `src/tokens/tokens.css` 의 `[data-theme="light"]`·`[data-theme="dark"]` 블록이 소유하며, 두 블록은 **같은 토큰 집합**을 정의해야 한다(`tokenContract` T3).
+> **원본은 Figma 다.** 게시 라이브러리 Kiio-Library 의 `Se/` 컬렉션이 키와 light 값을 정하고, `specs/tokens/semantic.figma.json` 스냅샷을 거쳐 `semantic.ts`·`tokens.css`·`tailwind.config.js` 셋이 따라간다 — `figmaContract` T8 이 4자 정합을 판정한다. **다크 값만 예외로 코드(`tokens.css` 의 `[data-theme="dark"]`)가 소유한다.** 두 테마 블록이 같은 토큰 집합을 정의하는지는 `tokenContract` T3 이 본다.
 ### Component Tokens
 Component-level tokens map semantic tokens to specific component roles. Defined in `src/tokens/tokens.css` as CSS custom properties, consumed in CVA via Tailwind arbitrary values.
 
@@ -208,10 +208,10 @@ size: {
 ### Number Tokens
 `src/tokens/numbers.ts`
 - **Spacing**: 36 steps (px, 0–96). Tailwind: `p-4` → 16px, `gap-6` → 24px, `m-0.5` → 2px
-- **Border radius**: 24 steps (px, 0–24). Tailwind: `rounded-2` → 8px, `rounded-4` → 16px
+- **Border radius**: 18 steps (px, 0–96). Tailwind: `rounded-2` → 8px, `rounded-4` → 16px. `rounded-full`(9999px)은 Tailwind 기본값
 ### Typography Tokens
-`src/tokens/typography.ts` — 13 sizes × 4 weights = 52 composite tokens.
-- Sizes: 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 28, 32, 40
+`src/tokens/typography.ts` — 17 sizes × 4 weights = 68 composite tokens.
+- Sizes: 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 22, 24, 28, 32, 40, 48, 64
 - Weights: regular (400), medium (500), semibold (600), bold (700)
 - Tailwind: `typography-{size}-{weight}` — sets font-size, line-height, letter-spacing, and font-weight in one class
 - Examples: `typography-16-semibold`, `typography-14-regular`, `typography-24-bold`
@@ -394,7 +394,7 @@ Shape(border-radius)는 글로벌 테마가 아닌 **컴포넌트별 `shape` pro
 |---------|-------------|
 | **CVA + cn Structure** | 모든 multi-variant 컴포넌트의 기본 구조. `cva`로 variant 선언, `cn`으로 className 충돌 해결 |
 | **Icon Handling** | `iconLeading`/`iconTrailing` naming (RTL-safe). size별 icon size map, `flex-shrink-0` |
-| **Loading State** | Content `invisible` + absolute centered Spinner. `pointer-events-none` + `aria-disabled`/`aria-busy` |
+| **Loading State** | Content `opacity-0` (not `invisible` — `visibility:hidden` drops the accessible name) + absolute centered Spinner in an `aria-hidden` wrapper. `pointer-events-none` + `aria-disabled`/`aria-busy`, **no native `disabled`** (focus stays). Activation is blocked by the capture-phase guard in `src/components/Button/inert.ts` — a bubble `onClick` guard runs after the `asChild` child's handler |
 | **Polymorphic (asChild)** | `@radix-ui/react-slot`으로 소비자가 다른 요소를 렌더링하면서 스타일 유지 |
 
 > 코드 예시는 [COMPONENT_PATTERNS.md](./docs/COMPONENT_PATTERNS.md) 참고.
@@ -455,7 +455,7 @@ Use this checklist for every component to ensure consistency and quality. Catego
 ---
 ## Reference
 ### Figma Design Values
-- **Font Family**: Pretendard Variable
+- **Font Family**: Wanted Sans — 스택은 `'Wanted Sans Variable', 'Wanted Sans', system-ui, 'Apple SD Gothic Neo', sans-serif`. Tailwind 의 `font-sans` 가 이 스택이다
 - **Base Unit**: 4px (Tailwind scale)
 ### Key Files
 - **Tokens**: `src/tokens/`

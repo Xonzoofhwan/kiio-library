@@ -122,7 +122,7 @@ Props Decision Tree를 순차적으로 적용한다:
 | **pressed** | State overlay + `group-active` | 동일 로직, 더 강한 토큰 |
 | **focused** | `group-focus-visible` + ring | `focus-visible:ring-2 ring-[var(--comp-{name}-focus-border)]` |
 | **disabled** | `cursor-not-allowed` + per-variant 색상 override | `--comp-{name}-bg-{variant}-disabled`, `--comp-{name}-content-{variant}-disabled` |
-| **loading** | Content invisible + absolute Spinner | `pointer-events-none` + `aria-disabled` + `aria-busy` |
+| **loading** | Content `opacity-0` + absolute Spinner(`aria-hidden`). `invisible` 은 접근 가능한 이름을 지운다 | `pointer-events-none` + `aria-disabled` + `aria-busy` + 캡처 단계 클릭 가드(`src/components/Button/inert.ts`), native `disabled` 없음 |
 
 ### Overlay 방향 결정
 

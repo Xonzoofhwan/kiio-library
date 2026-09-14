@@ -16,7 +16,7 @@ argument-hint: "[ComponentName]"
 ## 전제조건
 
 1. `src/components/{Name}/{Name}.tsx`가 존재해야 한다.
-2. `src/App.tsx`의 `SHOWCASE_MAP`에 등록되어 있어야 한다.
+2. `src/showcase/registry.ts`의 `SHOWCASES` 배열에 등록되어 있어야 한다.
 3. 전제 미충족 시 **중단**: "컴포넌트가 먼저 구현되어야 합니다. `/implement $ARGUMENTS`를 실행해주세요."
 
 ---

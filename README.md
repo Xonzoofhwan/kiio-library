@@ -10,7 +10,7 @@ Figma 디자인을 구조화된 JSON 스펙으로 변환하고, 일관된 토큰
 | Framework | React 19, TypeScript |
 | Styling | Tailwind CSS 3, CVA (class-variance-authority), cn (clsx + tailwind-merge) |
 | Build | Vite |
-| Font | Pretendard Variable |
+| Font | Wanted Sans (SIL OFL) — 라틴 + 한글 한 패밀리 |
 | Polymorphic | @radix-ui/react-slot (asChild 패턴) |
 
 ## Quick Start
@@ -34,7 +34,7 @@ npm run check      # 게이트 — lint → build → test:run
 Primitive (raw values)
 ├── Color       23 families × 14 shades = 322 tokens
 ├── Spacing     36 steps (px, 0–96)
-├── Radius      23 steps (px, 0–24)
+├── Radius      18 steps (px, 0–96) + rounded-full
 ├── Duration    5 values (0–500ms)
 └── Easing      4 curves
 
@@ -57,10 +57,21 @@ Component (role-specific)
 
 ## Components
 
-| 컴포넌트 | 상태 | 설명 |
-|---------|------|------|
-| Tooltip | 완료 | 4 variants, 4 sides, 3 sizes, arrow, shadow |
-| Callout | 완료 | 4 variants, 4 sides, 3 sizes, arrow, close, action |
+13개 컴포넌트가 구현돼 있다. 각 컴포넌트의 스펙은 [specs/](./specs/), 로드맵은 [ROADMAP.md](./docs/ROADMAP.md) 참고.
+
+| 그룹 | 컴포넌트 | 설명 |
+|------|---------|------|
+| Actions | **Button** | 4 hierarchy × 4 size × 3 shape + loading·asChild. Emphasized(3색)·Error 변형 |
+| | **IconButton** | Button 과 토큰 공유. Universal·Emphasized·Error |
+| | **TextButton** | 배경 없는 텍스트 버튼. 2색 × 4 size, on-dim 표면 지원 |
+| | **Switch** · **Checkbox** · **Radio** | Radix 기반 폼 컨트롤. Checkbox 는 box·line 2 variant |
+| Indicators | **Badge** | BadgeLabel(17색 팔레트) + BadgeDot |
+| | **Chip** | ChipUniversal(버튼형) + ChipBadgeLike 3종(표시형) |
+| Navigation | **Tab** | compound. circular·underlined, 슬라이딩 인디케이터 |
+| | **NavVertical** | 세로 내비게이션. 방향키 roving 을 직접 구현한 유일한 컴포넌트 |
+| | **SegmentBar** | 세그먼티드 컨트롤. role=radiogroup |
+| Overlay | **Tooltip** · **Callout** | Radix Portal 기반. 조상 테마를 포털에 전파 |
+| Feedback | **Skeleton** | SkeletonBlock + TextReservation. Defer + Minimum Hold 타이밍 정책 |
 
 ## Project Structure
 
@@ -78,7 +89,7 @@ kiio-library/
 │   │   ├── primitive.ts     # Primitive 색상
 │   │   ├── semantic.ts      # Semantic 색상 (light/dark)
 │   │   ├── numbers.ts       # Spacing & Radius
-│   │   ├── typography.ts    # 15 sizes × 4 weights
+│   │   ├── typography.ts    # 17 sizes × 4 weights
 │   │   ├── motion.ts        # Duration & Easing
 │   │   └── tokens.css       # CSS custom properties
 │   └── lib/utils.ts         # cn() utility

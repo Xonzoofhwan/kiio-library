@@ -18,7 +18,7 @@
  * D2 스킬 `SKILL.md` frontmatter 에 `name`·`description` 이 있다
  * D3 문서가 언급하는 `semantic-{family}` 패밀리가 `tokens.css` 에 정의돼 있다
  * D4 CLAUDE.md 모션 표와 `tailwind.config.js` 키가 **양방향으로** 일치한다
- * D5 컴포넌트 ↔ spec ↔ 쇼케이스(`SHOWCASE_MAP`·`NAV_GROUPS`) 3자 정합
+ * D5 컴포넌트 ↔ spec ↔ 쇼케이스(`src/showcase/registry.ts` 의 `SHOWCASES`) 3자 정합
  * D6 스킬 문서가 코드 스팬으로 가리키는 구체 경로가 실재한다
  *
  * ## 보장하지 않는 것
@@ -134,7 +134,7 @@ export function stripJsComments(source) {
  *
  * `skipTo` 는 여는 괄호를 찾기 전에 반드시 지나야 하는 문자다. TS 선언에서
  * **타입 주석이 먼저 괄호를 연다** — `const SHOWCASE_MAP: Record<string, { … }> = {`
- * 의 첫 `{` 는 값이 아니라 타입이고, `const NAV_GROUPS: NavGroup[] = [` 의 첫 `[`
+ * 의 첫 `{` 는 값이 아니라 타입이고, `const SHOWCASES: ShowcaseEntry[] = [` 의 첫 `[`
  * 는 배열 값이 아니라 `NavGroup[]` 의 대괄호다. `skipTo: '='` 로 대입을 지난
  * 뒤부터 찾아야 값 리터럴을 집는다.
  *
@@ -467,24 +467,22 @@ const SPEC_TEMPLATE = '_TEMPLATE.json'
  */
 export const normalizeSymbol = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '')
 
-/** `SHOWCASE_MAP` 의 키. 블록을 못 찾으면 `null` — 조용히 0개로 통과시키지 않는다. */
-export function extractShowcaseMapKeys(appSource) {
-  const block = extractLiteralBlock(stripJsComments(appSource), 'const SHOWCASE_MAP', { skipTo: '=' })
-  if (block === null) return null
-  // 0개는 "정합한다"가 아니라 파서가 소스를 못 따라갔다는 뜻이다 — 쇼케이스가
-  // 0개인 상태는 이 저장소에 존재하지 않는다. 빈 배열을 돌려주면 3자 정합이 통째로 통과한다.
-  const keys = [...block.matchAll(/'([a-z0-9-]+)'\s*:/g)].map((m) => m[1])
-  return keys.length === 0 ? null : keys
-}
-
-/** `NAV_GROUPS` 의 항목 id. */
-export function extractNavGroupIds(sidebarSource) {
-  const block = extractLiteralBlock(stripJsComments(sidebarSource), 'const NAV_GROUPS', {
+/**
+ * `SHOWCASES` 배열의 항목 id. 블록을 못 찾으면 `null` — 조용히 0개로 통과시키지 않는다.
+ *
+ * 2026-09-14 전에는 등록처가 둘이라(`App.tsx` 의 `SHOWCASE_MAP`, `Sidebar.tsx` 의 `NAV_GROUPS`)
+ * 파서도 둘이었고 "두 곳이 서로 같은가"라는 검사가 필요했다. 이제 `src/showcase/registry.ts`
+ * 한 곳이라 그 검사는 **구조적으로 불가능한 위반**이 됐다 — 파서도 하나면 된다.
+ */
+export function extractShowcaseIds(registrySource) {
+  const block = extractLiteralBlock(stripJsComments(registrySource), 'const SHOWCASES', {
     open: '[',
     close: ']',
     skipTo: '=',
   })
   if (block === null) return null
+  // 0개는 "정합한다"가 아니라 파서가 소스를 못 따라갔다는 뜻이다 — 쇼케이스가
+  // 0개인 상태는 이 저장소에 존재하지 않는다. 빈 배열을 돌려주면 3자 정합이 통째로 통과한다.
   const ids = [...block.matchAll(/\bid:\s*'([a-z0-9-]+)'/g)].map((m) => m[1])
   return ids.length === 0 ? null : ids
 }
@@ -493,7 +491,7 @@ export function extractNavGroupIds(sidebarSource) {
  * 3자 정합 판정. 입력을 전부 인자로 받아 파일 시스템과 분리한다 —
  * 그래야 가짜 입력으로 판정기가 실제로 위반을 잡는지 확인할 수 있다.
  */
-export function findTriadViolations({ componentDirs, specComponents, showcaseIds, navIds }) {
+export function findTriadViolations({ componentDirs, specComponents, showcaseIds }) {
   const violations = []
   const registered = Object.keys(COMPONENT_TRIAD)
   const specSet = new Set(specComponents.map((s) => normalizeSymbol(s.component)))
@@ -524,26 +522,18 @@ export function findTriadViolations({ componentDirs, specComponents, showcaseIds
 
     for (const id of entry.showcases) {
       claimedShowcases.add(id)
-      // (d) 쇼케이스 등록
+      // (d) 쇼케이스 등록. 사이드바는 같은 배열에서 파생하므로 따로 볼 것이 없다.
       if (!showcaseIds.includes(id)) {
-        violations.push(`${name} — SHOWCASE_MAP 에 '${id}' 항목이 없다 (src/App.tsx)`)
-      }
-      // (e) 사이드바 등록
-      if (!navIds.includes(id)) {
-        violations.push(`${name} — NAV_GROUPS 에 '${id}' 항목이 없다 (Sidebar.tsx)`)
+        violations.push(`${name} — SHOWCASES 에 '${id}' 항목이 없다 (src/showcase/registry.ts)`)
       }
     }
   }
 
-  // (f) SHOWCASE_MAP ↔ NAV_GROUPS 양방향
+  // (f) 주인 없는 쇼케이스. (등록처가 하나라 "두 곳이 어긋남"은 더 이상 가능하지 않다.)
   for (const id of showcaseIds) {
-    if (!navIds.includes(id)) violations.push(`'${id}' — SHOWCASE_MAP 에만 있고 NAV_GROUPS 에 없다`)
     if (!claimedShowcases.has(id)) {
-      violations.push(`'${id}' — SHOWCASE_MAP 에 있으나 COMPONENT_TRIAD 어디에도 속하지 않는다`)
+      violations.push(`'${id}' — SHOWCASES 에 있으나 COMPONENT_TRIAD 어디에도 속하지 않는다`)
     }
-  }
-  for (const id of navIds) {
-    if (!showcaseIds.includes(id)) violations.push(`'${id}' — NAV_GROUPS 에만 있고 SHOWCASE_MAP 에 없다`)
   }
 
   // (g) 어느 컴포넌트도 청구하지 않은 spec — 이름이 바뀐 뒤 남은 파일을 잡는다.
@@ -584,14 +574,10 @@ function checkShowcaseTriad() {
     }
   }
 
-  const showcaseIds = extractShowcaseMapKeys(readRepoFile('src/App.tsx'))
-  const navIds = extractNavGroupIds(readRepoFile('src/components/showcase-layout/Sidebar.tsx'))
+  const showcaseIds = extractShowcaseIds(readRepoFile('src/showcase/registry.ts'))
 
   if (showcaseIds === null) {
-    violations.push('src/App.tsx 에서 SHOWCASE_MAP 의 키를 하나도 읽지 못했다 — 파서를 고쳐라')
-  }
-  if (navIds === null) {
-    violations.push('Sidebar.tsx 에서 NAV_GROUPS 의 id 를 하나도 읽지 못했다 — 파서를 고쳐라')
+    violations.push('src/showcase/registry.ts 에서 SHOWCASES 의 id 를 하나도 읽지 못했다 — 파서를 고쳐라')
   }
 
   violations.push(
@@ -599,12 +585,11 @@ function checkShowcaseTriad() {
       componentDirs,
       specComponents,
       showcaseIds: showcaseIds ?? [],
-      navIds: navIds ?? [],
     }),
   )
 
   const examined =
-    componentDirs.length + specComponents.length + (showcaseIds?.length ?? 0) + (navIds?.length ?? 0)
+    componentDirs.length + specComponents.length + (showcaseIds?.length ?? 0)
   return { examined, unit: '개 심볼(디렉터리+spec+쇼케이스+메뉴)', violations }
 }
 
@@ -700,6 +685,84 @@ function checkSkillSourcePaths() {
  * **검증되지 않은 것이지 통과한 것이 아니다.**
  * 이 목록이 비어 있지 않은 한 "문서 정합이 전부 확인됐다"고 쓸 수 없다.
  */
+/* ─── D7. 스펙의 Figma 파일 키 ───────────────────────────────────────────────
+ *
+ * 스펙마다 `figmaFileKey` 가 적혀 있지만 그 값이 **같은 파일을 가리키는지**는 아무도
+ * 보지 않았다. 2026-09-13 실측에서 문서 둘이 옛 파일(`z6xEk…`)을 가리키고 있었고,
+ * 스펙 6개는 키 자체가 없었다. 키가 갈리면 "Figma 와 맞다"는 판정이 **어느 파일과**
+ * 맞다는 뜻인지 알 수 없어진다 — T8 이 값의 정합을 보는 것과 짝을 이루는 검사다.
+ *
+ * 예외는 **Figma 에 대응물이 없는 컴포넌트**뿐이고, 그때는 키와 노드가 둘 다 null
+ * 이어야 한다. "키가 없다"와 "Figma 에 없다"는 다른 상태이므로 구분해 적는다.
+ * 예외 목록은 줄이기만 한다(CLAUDE.md 의 규칙).
+ */
+
+/** Kiio-Library. 스펙 전부가 이 파일을 가리켜야 한다. */
+const FIGMA_FILE_KEY = '3ZDIVn83opF9OYSzWYE1iF'
+
+/** Figma 에 대응물이 없어 키·노드가 둘 다 null 인 것이 정상인 스펙. 줄이기만 한다. */
+const SPECS_WITHOUT_FIGMA = new Set(['skeleton.json'])
+
+/** 중첩 어디에 있든 첫 번째 키를 찾는다 — 스펙마다 meta 위치가 조금씩 다르다. */
+function findFirst(value, key) {
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const found = findFirst(item, key)
+      if (found !== undefined) return found
+    }
+    return undefined
+  }
+  if (value !== null && typeof value === 'object') {
+    if (key in value) return value[key]
+    for (const child of Object.values(value)) {
+      const found = findFirst(child, key)
+      if (found !== undefined) return found
+    }
+  }
+  return undefined
+}
+
+/** 파일 하나를 판정한다. 파싱 가능한 스펙 객체를 받는다(자체 검사가 이 함수를 직접 부른다). */
+function checkSpecFigmaKey(name, spec) {
+  const problems = []
+  const key = findFirst(spec, 'figmaFileKey')
+  const node = findFirst(spec, 'figmaNode')
+
+  if (SPECS_WITHOUT_FIGMA.has(name)) {
+    if (key != null) problems.push(`${name} — Figma 대응물이 없다고 등록됐는데 figmaFileKey 가 있다`)
+    if (node != null) problems.push(`${name} — Figma 대응물이 없다고 등록됐는데 figmaNode 가 있다`)
+    return problems
+  }
+
+  if (key === undefined) problems.push(`${name} — figmaFileKey 가 없다`)
+  else if (key !== FIGMA_FILE_KEY) {
+    problems.push(`${name} — figmaFileKey 가 ${JSON.stringify(key)} 다. Kiio-Library(${FIGMA_FILE_KEY})여야 한다`)
+  }
+  if (node === undefined || node === null) problems.push(`${name} — figmaNode 가 없다`)
+  return problems
+}
+
+function checkSpecFigmaKeys() {
+  const violations = []
+  let examined = 0
+
+  for (const name of readdirSync(join(REPO_ROOT, 'specs')).sort()) {
+    if (!name.endsWith('.json') || name.startsWith('_')) continue
+    examined += 1
+    let spec
+    try {
+      spec = JSON.parse(readFileSync(join(REPO_ROOT, 'specs', name), 'utf8'))
+    } catch (error) {
+      violations.push(`${name} — JSON 파싱 실패: ${error.message}`)
+      continue
+    }
+    violations.push(...checkSpecFigmaKey(name, spec))
+  }
+
+  if (examined === 0) violations.push('specs/ 에서 스펙을 하나도 읽지 못했다 — 판정기를 고쳐라')
+  return { examined, unit: '개 스펙', violations }
+}
+
 const UNMEASURED = {
   '링크 앵커(#…)':
     'D1 은 파일 존재만 본다. 앵커가 실제 제목을 가리키는지는 슬러그 규칙이 렌더러마다 달라 판정하지 않는다.',
@@ -819,41 +882,29 @@ selfTest('D4 — 컴포넌트 전용 easing 은 문서 표에 실리지 않아�
 })
 
 selfTest('D5 — 선언 자체가 사라지면 null 이다', () => {
-  assertEqual(extractShowcaseMapKeys('const OTHER = {}'), null, '이름이 바뀌면 시끄럽게 실패한다')
-  assertEqual(extractNavGroupIds('const OTHER = []'), null, '이름이 바뀌면 시끄럽게 실패한다')
+  assertEqual(extractShowcaseIds('const OTHER = []'), null, '이름이 바뀌면 시끄럽게 실패한다')
 })
 
 selfTest('D5 — TS 타입 주석의 괄호를 값 리터럴로 오인하지 않는다', () => {
-  // 실제로 이 스크립트를 처음 돌렸을 때 잡힌 형태다. `Record<string, { … }>` 의
-  // 첫 `{` 를 값으로 집으면 키가 0개로 읽히고, 3자 정합 전체가 조용히 통과한다.
+  // 실제로 이 스크립트를 처음 돌렸을 때 잡힌 형태다. `ShowcaseEntry[]` 의 대괄호를
+  // 값으로 집으면 id 가 0개로 읽히고, 3자 정합 전체가 조용히 통과한다.
   assertEqual(
-    extractShowcaseMapKeys("const SHOWCASE_MAP: Record<string, { c: T }> = {\n  'button': { c: X },\n}"),
-    ['button'],
+    extractShowcaseIds("export const SHOWCASES: ShowcaseEntry[] = [{ id: 'tab', label: 'Tab' }]"),
+    ['tab'],
     '타입 주석을 지나 값 리터럴을 집는다',
   )
-  assertEqual(
-    extractNavGroupIds("export const NAV_GROUPS: NavGroup[] = [{ items: [{ id: 'tab' }] }]"),
-    ['tab'],
-    'NavGroup[] 의 대괄호를 배열 값으로 오인하지 않는다',
-  )
 })
 
-selfTest('D5 — 키가 0개면 빈 배열이 아니라 null 이다', () => {
+selfTest('D5 — id 가 0개면 빈 배열이 아니라 null 이다', () => {
   // 빈 배열을 돌려주면 "쇼케이스가 하나도 없으니 어긋남도 없다"로 읽혀 통과한다.
-  assertEqual(extractShowcaseMapKeys('const SHOWCASE_MAP = {}'), null, '0개는 파서 고장 신호')
-  assertEqual(extractNavGroupIds('const NAV_GROUPS = []'), null, '0개는 파서 고장 신호')
+  assertEqual(extractShowcaseIds('const SHOWCASES = []'), null, '0개는 파서 고장 신호')
 })
 
-selfTest('D5 — SHOWCASE_MAP 키와 NAV_GROUPS id 를 읽는다', () => {
+selfTest('D5 — SHOWCASES 의 id 를 순서대로 읽는다', () => {
   assertEqual(
-    extractShowcaseMapKeys("const SHOWCASE_MAP = {\n  'button': { c: X },\n  'tab': { c: Y },\n}"),
+    extractShowcaseIds("const SHOWCASES = [\n  { id: 'button', load: () => import('./B') },\n  { id: 'tab', load: () => import('./T') },\n]"),
     ['button', 'tab'],
-    '키만',
-  )
-  assertEqual(
-    extractNavGroupIds("const NAV_GROUPS = [{ items: [{ id: 'button', label: 'Button' }] }]"),
-    ['button'],
-    'id만',
+    'id 만, 순서대로',
   )
 })
 
@@ -869,31 +920,28 @@ selfTest('D5 — spec 이 없는 컴포넌트를 잡아낸다', () => {
       .filter((s) => s !== 'Tab')
       .map((component) => ({ file: `specs/${component}.json`, component })),
     showcaseIds: [...COMPONENTLESS_SHOWCASES, ...Object.values(COMPONENT_TRIAD).flatMap((e) => e.showcases)],
-    navIds: [...COMPONENTLESS_SHOWCASES, ...Object.values(COMPONENT_TRIAD).flatMap((e) => e.showcases)],
   })
   assertEqual(violations, ['Tab — "component": "Tab" 인 specs/*.json 이 없다'], 'spec 누락 1건')
 })
 
-selfTest('D5 — SHOWCASE_MAP 과 NAV_GROUPS 의 어긋남을 양방향으로 잡아낸다', () => {
+selfTest('D5 — 누락된 쇼케이스와 주인 없는 쇼케이스를 잡아낸다', () => {
+  // 등록처가 하나가 된 뒤 "두 곳이 어긋남"은 구조적으로 불가능해졌다. 남은 위반 두 종류를 본다:
+  // 컴포넌트가 청구한 쇼케이스가 배열에 없는 경우와, 배열에 있는데 아무도 청구하지 않은 경우.
   const all = [...COMPONENTLESS_SHOWCASES, ...Object.values(COMPONENT_TRIAD).flatMap((e) => e.showcases)]
   const violations = findTriadViolations({
     componentDirs: Object.keys(COMPONENT_TRIAD),
     specComponents: Object.values(COMPONENT_TRIAD)
       .flatMap((e) => e.specs)
       .map((component) => ({ file: `specs/${component}.json`, component })),
-    showcaseIds: all.filter((id) => id !== 'tab'),
-    navIds: [...all, 'ghost-page'],
+    showcaseIds: [...all.filter((id) => id !== 'tab'), 'ghost-page'],
   })
   assertEqual(
     violations,
     [
-      // 'tab' 은 두 번 보고된다 — 컴포넌트 관점(Tab 의 쇼케이스가 없다)과
-      // 집합 관점(NAV_GROUPS 에만 있다)은 고치는 자리가 다르므로 합치지 않는다.
-      "Tab — SHOWCASE_MAP 에 'tab' 항목이 없다 (src/App.tsx)",
-      "'tab' — NAV_GROUPS 에만 있고 SHOWCASE_MAP 에 없다",
-      "'ghost-page' — NAV_GROUPS 에만 있고 SHOWCASE_MAP 에 없다",
+      "Tab — SHOWCASES 에 'tab' 항목이 없다 (src/showcase/registry.ts)",
+      "'ghost-page' — SHOWCASES 에 있으나 COMPONENT_TRIAD 어디에도 속하지 않는다",
     ],
-    '양쪽 누락을 각각 잡는다',
+    '두 방향을 각각 잡는다',
   )
 })
 
@@ -905,7 +953,6 @@ selfTest('D5 — 등록되지 않은 컴포넌트 디렉터리를 잡아낸다',
       .flatMap((e) => e.specs)
       .map((component) => ({ file: `specs/${component}.json`, component })),
     showcaseIds: all,
-    navIds: all,
   })
   assertEqual(violations, ['src/components/Dialog/ 가 COMPONENT_TRIAD 에 등록되지 않았다'], '미등록 1건')
 })
@@ -954,6 +1001,36 @@ function runSelfTests() {
 
 /* ─── 실행 ────────────────────────────────────────────────────────────────── */
 
+
+selfTest('D7 — 키가 다른 파일을 가리키면 잡아낸다', () => {
+  const problems = checkSpecFigmaKey('x.json', { figmaFileKey: 'z6xEkOLDFILE', figmaNode: '1:2' })
+  assertEqual(problems.length, 1, '옛 파일 키 1건')
+})
+
+selfTest('D7 — 키가 아예 없으면 잡아낸다', () => {
+  assertEqual(checkSpecFigmaKey('x.json', { figmaNode: '1:2' }).length, 1, 'figmaFileKey 누락')
+})
+
+selfTest('D7 — 노드가 null 이면 잡아낸다', () => {
+  const problems = checkSpecFigmaKey('x.json', { figmaFileKey: FIGMA_FILE_KEY, figmaNode: null })
+  assertEqual(problems.length, 1, 'figmaNode 누락')
+})
+
+selfTest('D7 — 중첩된 meta 안의 키도 찾는다', () => {
+  const spec = { meta: { figma: { figmaFileKey: FIGMA_FILE_KEY, figmaNode: { a: '1:2' } } } }
+  assertEqual(checkSpecFigmaKey('x.json', spec), [], '깊이에 상관없이 찾아야 한다')
+})
+
+selfTest('D7 — Figma 대응물이 없는 스펙은 키·노드가 둘 다 없어야 통과한다', () => {
+  assertEqual(checkSpecFigmaKey('skeleton.json', { name: 'Skeleton' }), [], '예외는 통과')
+  assertEqual(
+    checkSpecFigmaKey('skeleton.json', { figmaFileKey: FIGMA_FILE_KEY, figmaNode: '1:2' }).length,
+    2,
+    '예외인데 키·노드가 있으면 2건',
+  )
+})
+
+
 function main() {
   const lines = ['', 'docs-check — 문서·스킬·스펙 정합', '']
 
@@ -983,6 +1060,7 @@ function main() {
     { id: 'D4', title: '모션 표 ↔ tailwind.config', ...checkMotionTable() },
     { id: 'D5', title: 'specs ↔ components ↔ showcase', ...checkShowcaseTriad() },
     { id: 'D6', title: '스킬 문서의 소스 경로', ...checkSkillSourcePaths() },
+    { id: 'D7', title: '스펙의 Figma 파일 키', ...checkSpecFigmaKeys() },
   ]
 
   for (const result of results) {

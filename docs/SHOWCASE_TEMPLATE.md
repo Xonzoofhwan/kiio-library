@@ -51,7 +51,7 @@ ToC는 max-width 컨테이너 **안에** main과 나란히 배치. main이 `flex
 모든 쇼케이스 페이지의 최상단. 탭 위에 항상 고정 표시.
 
 ```
-Group Name              ← 사이드바 NAV_GROUPS 그룹 label 연동
+Group Name              ← registry 의 group 필드 (showcaseGroupOf(id) 로 읽는다)
 Component Name          ← 컴포넌트 export 이름
 Description text here.  ← 1~2문장, "이것은 무엇이고 어떤 역할을 하는가"
 ```
@@ -140,7 +140,7 @@ Description text here.  ← 1~2문장, "이것은 무엇이고 어떤 역할을 
 | `name` | 컴포넌트 export 이름 그대로 (예: `Button`, `SegmentBar`) |
 | `description` | 1~2문장. "이것은 무엇이고 어떤 역할인가". 구현 디테일 제외 |
 | `classification` | `Primitive` · `Compound` · `Layout` · `Display` · `Feedback` 중 하나. 선택적 |
-| `groupName` | 사이드바 NAV_GROUPS의 그룹 label (예: `Actions`, `Navigation`) |
+| `groupName` | `src/showcase/registry.ts` 의 `group` 필드 (예: `Actions`, `Navigation`). `showcaseGroupOf(id)` 로 읽는다 |
 
 ---
 

@@ -675,7 +675,7 @@ Phase 1과 2는 서로 독립이라 병렬 가능하다. Phase 4는 2·3의 검�
 | `test:run` › `a11ySmoke` | axe violations + incomplete = 0 | COMPONENT_CHECKLIST Accessibility |
 | `test:run` › `keyboardContract` | roving 1개, 방향키·Escape·Space 경로 | COMPONENT_CHECKLIST 키보드 내비게이션 |
 | `test:run` › 컴포넌트 단위 | loading·타이머 정책 등 로직 | 각 spec |
-| `docs:check` | D1 링크 · D2 frontmatter · D3 토큰 언급 · D4 모션 표 · D5 3자 정합 · D6 스킬 경로 | CLAUDE.md 문서 관리 원칙 |
+| `docs:check` | D1 링크 · D2 frontmatter · D3 토큰 언급 · D4 모션 표 · D5 3자 정합 · D6 스킬 경로 · D7 스펙의 Figma 파일 키 | CLAUDE.md 문서 관리 원칙 |
 
 이 표에 없는 규칙은 여전히 산문이다. 그 목록을 유지하는 것도 이 문서의 역할이다:
 

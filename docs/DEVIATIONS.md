@@ -27,6 +27,7 @@
 |------|---------|----------|------|--------------|:---------:|
 | 2026-09-05 | `Badge` | `src/components/Badge/shared.ts`가 `bg-primitive-*`/`text-primitive-*`를 직접 쓴다 (17색 × light/heavy + dot 색 = 85곳) | Badge는 **팔레트 자체가 공개 API**(`color="blue"`)다. 색이 의미(성공/경고)가 아니라 분류 라벨이라 semantic 계층에 대응물이 없다. 대신 **테마를 따라가지 않는다** — 디자이너 판단 필요 | CLAUDE.md "Do NOT use primitive tokens directly in components" | 1 |
 | 2026-09-05 | `SegmentBar` | 포커스 링 색이 `--semantic-emphasized-purple-300`. 나머지 7개 컴포넌트는 모두 `--semantic-neutral-solid-1000` | Figma 스펙에 명시(`specs/segment-bar.json:189`). 선택 컨트롤이라 선택 강조색과 포커스 색을 맞춘 것으로 보인다 — **디자이너 확인 미완** | COMPONENT_CHECKLIST "포커스 링 스타일 통일 (전 컴포넌트 동일)" | 1 |
+| 2026-09-14 | `Skeleton` | Figma 에 대응 컴포넌트가 **없다**. `specs/skeleton.json` 의 `figmaNode` 가 null 이고 시각 규칙의 원본이 스펙·쇼케이스다 | 코드가 먼저 만든 컴포넌트다 — 사용자 확인(2026-09-14): "shimmer 는 피그마에 원래 없습니다". 채울 대상이 아니라 **Figma 쪽이 비어 있는** 경우다. 다른 12개 컴포넌트는 전부 Kiio-Library 노드를 가리킨다 | 원칙 1 고정점 우선(Figma 가 고정점) | 1 |
 
 <!-- 이탈 발생 시 위 테이블에 행을 추가한다 -->
 

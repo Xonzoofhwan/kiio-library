@@ -6,7 +6,11 @@
 > 코드 패턴은 [CLAUDE.md](../CLAUDE.md) §Common Component Patterns,
 > 인터랙션 원칙은 [INTERACTION_DESIGN.md](./INTERACTION_DESIGN.md) 참고.
 >
-> **Figma 파일 키**: `z6xEkVn88mi5Ai3IHgMrBZ`
+> **Figma 파일**: **Kiio-Library** — 파일 키 `3ZDIVn83opF9OYSzWYE1iF`
+>
+> 표지에 "Design System v4"라고 적혀 있고 게시 라이브러리(변수·컴포넌트·텍스트 스타일)가 이 파일이다.
+> `z6xEkVn88mi5Ai3IHgMrBZ`("Design System v3")는 **옛 파일**이다 — 노드 번호가 겹치지만 컴포넌트가
+> 폐기된 변수 이름(`Sys/…`·`Ref/…`·`Level N`)에 묶여 있어 원본으로 쓰지 않는다.
 
 ---
 
@@ -37,7 +41,7 @@ Figma 컴포넌트
 [C] 테마 매핑 확인 ──── Figma mode → data-theme
       │
       ▼
-[D] 토큰 매핑 ────────── hex→ref→sys→Tailwind 역추적
+[D] 토큰 매핑 ────────── hex→primitive→semantic→Tailwind 역추적
       │
       ▼
 [E] 레이아웃 분석 ────── Auto-layout → flex/grid
@@ -84,7 +88,7 @@ Figma MCP 도구를 사용하여 디자인 데이터를 프로그래밍적으로
 
 **방법 1 — Figma URL에서 추출:**
 ```
-https://figma.com/design/z6xEkVn88mi5Ai3IHgMrBZ/...?node-id=6648-14947
+https://figma.com/design/3ZDIVn83opF9OYSzWYE1iF/Kiio-Library?node-id=6648-14947
                                                               ↑
                                       URL의 "-"를 ":"로 변환 → 6648:14947
 ```
@@ -113,7 +117,7 @@ MCP가 반환하는 세 가지 결과물:
 | `gap` | Tailwind gap (`gap-2`) |
 | `border-radius` | Tailwind rounded (`rounded-3`) |
 | `font-size` + `font-weight` | typography 복합 토큰 (`typography-16-semibold`) |
-| 색상 hex값 | sys 토큰으로 역추적 (→ §D 참고) |
+| 색상 hex값 | semantic 토큰으로 역추적 (→ §D 참고) |
 | `display: flex`, `flex-direction` | Tailwind flex (`flex flex-row`) |
 
 **무시 대상** — Figma 자동 생성물:
@@ -145,6 +149,33 @@ MCP가 반환하는 세 가지 결과물:
 
 Figma MCP output의 mode 이름을 프로젝트의 `data-theme` 값으로 변환한다. JSON spec과 코드에서 Figma mode 이름을 직접 사용하지 않는다.
 
+### 다크 모드는 코드가 소유한다
+
+**Figma 는 light 값과 키 집합의 원본이고, 다크 값은 `tokens.css` 의 `[data-theme="dark"]` 블록이 소유한다**
+(2026-09-13 확정). 다크 값을 Figma 에서 찾으려 하지 마라 — 대조 대상이 아니다.
+`figmaContract` 의 T8 도 다크는 TS ↔ CSS 두 사본의 일치만 본다.
+
+### semantic 스냅샷 갱신 절차
+
+`specs/tokens/semantic.figma.json` 이 Figma 와 코드 사이의 **계약서**다. Figma 의 변수가 바뀌면
+이 파일을 손으로 갱신한다 — 검사는 스냅샷과 코드를 비교할 뿐, 스냅샷이 최신인지는 모른다.
+
+```
+1. 키  — search_design_system({ entity: 'variable', query: 'Se/Neutral/Solid' })
+         includeLibraryKeys 에 Kiio-Library 키를 넣어 다른 라이브러리를 배제한다.
+         호출당 질의는 1개다. 패밀리마다 한 번씩 부른다.
+2. 값  — 검색은 값을 주지 않는다. 컴포넌트 **섹션** 노드에 get_variable_defs 를 불러
+         그 섹션이 쓰는 변수의 값을 모으고, 여러 섹션의 합집합을 취한다.
+         (어떤 컴포넌트도 쓰지 않는 토큰은 값이 나오지 않는다 → _unverifiedValues 에 남긴다)
+3. 이름 — Se/ → semantic, Pr/ → primitive. 접두어 뒤 경로는 kebab-case.
+         Se/Text/OnBright/400 → --semantic-text-on-bright-400
+4. 날짜 — _capturedAt 을 갱신한다.
+5. 검사 — npm run test:run 의 T8 이 4자(Figma·TS·CSS·Tailwind) 정합을 판정한다.
+```
+
+**주의**: `get_variable_defs` 는 페이지 노드에 부르면 "선택이 필요하다"며 실패한다. 섹션·컴포넌트
+세트·변형 노드에 부른다. `get_metadata` 는 페이지에 부를 수 있지만 결과가 커서 파일로 저장된다.
+
 ---
 
 ## D. 토큰 매핑 실전
@@ -152,24 +183,28 @@ Figma MCP output의 mode 이름을 프로젝트의 `data-theme` 값으로 변환
 > 전체 매핑 테이블은 [CLAUDE.md](../CLAUDE.md) §Token Mapping Reference 참고.
 > 이 섹션은 **역추적 방법**을 다룬다.
 
-### D-1. 색상 역추적: hex → ref → sys → Tailwind
+### D-1. 색상 역추적: hex → primitive → semantic → Tailwind
 
 MCP reference code에서 hex 색상이 나왔을 때:
 
 ```
-Step 1: tokens.css :root 블록에서 hex가 어느 ref 토큰인지 찾는다
-        #7B5CF0 → --ref-purple-500
+Step 1: tokens.css :root 블록에서 hex가 어느 primitive 토큰인지 찾는다
+        #a37af3 → --primitive-purple-500
 
-Step 2: tokens.css [data-theme] 블록에서 ref 토큰이 어느 sys 토큰에 매핑됐는지 찾는다
-        --sys-primary-500: var(--ref-purple-500)
+Step 2: tokens.css [data-theme] 블록에서 그 primitive 가 어느 semantic 에 매핑됐는지 찾는다
+        --semantic-emphasized-purple-500: var(--primitive-purple-500)
 
 Step 3: tailwind.config.js에서 Tailwind 클래스명을 확인한다
-        sys.primary.500 → bg-sys-primary-500, text-sys-primary-500
+        semantic.emphasized.purple.500 → bg-semantic-emphasized-purple-500
 
-결과: hex #7B5CF0 → bg-sys-primary-500
+결과: hex #a37af3 → bg-semantic-emphasized-purple-500
 ```
 
-**역추적이 실패하는 경우**: hex가 ref 팔레트에 없을 때 → sys 토큰으로 의미를 추정하여 가장 가까운 것 선택하고, JSON spec에 이유를 기록한다.
+**변수 이름이 이미 보이면 역추적할 필요가 없다.** `get_variable_defs` 는 `Se/Emphasized/Purple/500`
+처럼 이름을 함께 주므로 치환 규칙(`Se/` → semantic, `Pr/` → primitive)만 적용하면 된다.
+역추적은 **이름 없이 hex 만** 나왔을 때의 경로다.
+
+**역추적이 실패하는 경우**: hex가 primitive 팔레트에 없을 때 → semantic 토큰으로 의미를 추정하여 가장 가까운 것 선택하고, JSON spec에 이유를 기록한다.
 
 ### D-2. 스페이싱 변환
 
@@ -193,7 +228,7 @@ Figma: font-size 16px, font-weight 600
 
 **주의사항**:
 - `typography-` 클래스이지 `text-` prefix가 아니다
-- `text-` prefix는 색상 전용 (예: `text-sys-neutral-solid-0`)
+- `text-` prefix는 색상 전용 (예: `text-semantic-neutral-solid-0`)
 - `tailwind.config.js`의 `plugins[].addUtilities`에서 생성됨
 
 ```tsx
@@ -206,9 +241,9 @@ className="typography-16-medium"
 
 ### D-4. 모션 토큰 매핑
 
-Figma에서 transition 값이 나올 때 sys 토큰으로 변환한다.
+Figma에서 transition 값이 나올 때 semantic 토큰으로 변환한다.
 
-| Figma duration | sys 토큰 | Tailwind 클래스 |
+| Figma duration | semantic 토큰 | Tailwind 클래스 |
 |---------------|----------|----------------|
 | 0ms | instant | `duration-instant` |
 | 100ms | fast | `duration-fast` |
@@ -394,7 +429,7 @@ export type BadgeSize = (typeof BADGE_SIZES)[number]
 spec variants.size.medium.height → CVA size.medium: 'h-10 ...'
 spec variants.size.medium.paddingX → CVA size.medium: '... px-2.5 ...'
 spec variants.size.medium.typography → CVA size.medium: '... typography-16-semibold'
-spec variants.hierarchy.primary.background → CVA hierarchy.primary: 'bg-sys-neutral-solid-950 ...'
+spec variants.hierarchy.primary.background → CVA hierarchy.primary: 'bg-semantic-neutral-solid-950 ...'
 ```
 
 실제 Button CVA 예시:
@@ -404,7 +439,7 @@ const buttonVariants = cva(
   {
     variants: {
       hierarchy: {
-        primary: 'bg-sys-neutral-solid-950 text-sys-neutral-solid-0',
+        primary: 'bg-semantic-neutral-solid-950 text-semantic-neutral-solid-0',
         // ...
       },
       size: {
@@ -423,8 +458,8 @@ spec의 `states.hover`/`states.pressed` → state overlay span 패턴:
 ```tsx
 // hierarchy별 overlay Record
 const stateOverlayVariants: Record<Hierarchy, string> = {
-  primary: 'group-hover:bg-sys-state-on-dim-50 group-active:bg-sys-state-on-dim-100',
-  secondary: 'group-hover:bg-sys-state-on-bright-50 group-active:bg-sys-state-on-bright-70',
+  primary: 'group-hover:bg-semantic-state-on-dim-50 group-active:bg-semantic-state-on-dim-100',
+  secondary: 'group-hover:bg-semantic-state-on-bright-50 group-active:bg-semantic-state-on-bright-70',
 }
 
 // 컴포넌트 내부: absolute span
@@ -432,7 +467,7 @@ const stateOverlayVariants: Record<Hierarchy, string> = {
   aria-hidden
   className={cn(
     'pointer-events-none absolute inset-0 rounded-[inherit] transition-colors duration-fast ease-enter',
-    'group-focus-visible:border-2 group-focus-visible:border-sys-primary-300',
+    'group-focus-visible:border-2 group-focus-visible:border-semantic-emphasized-purple-300',
     !disabled && !loading && stateOverlayVariants[hierarchy],
   )}
 />
@@ -446,8 +481,8 @@ spec의 `states.disabled` → hierarchy별 별도 Record:
 
 ```tsx
 const disabledVariants: Record<Hierarchy, string> = {
-  primary: 'disabled:bg-sys-neutral-solid-300 disabled:text-sys-neutral-white-alpha-400',
-  ghost: 'disabled:bg-transparent disabled:text-sys-neutral-black-alpha-200',
+  primary: 'disabled:bg-semantic-neutral-solid-300 disabled:text-semantic-neutral-white-alpha-400',
+  ghost: 'disabled:bg-transparent disabled:text-semantic-neutral-black-alpha-200',
 }
 ```
 
@@ -461,14 +496,15 @@ const iconSizeMap = {
   xLarge: 'size-6', large: 'size-6', medium: 'size-5', small: 'size-5',
 } as const
 
-// Loading: 콘텐츠 invisible + 스피너 absolute center
+// Loading: 콘텐츠 opacity-0 + 스피너 absolute center (aria-hidden).
+// invisible(visibility:hidden) 을 쓰면 접근 가능한 이름이 사라진다 — COMPONENT_PATTERNS Pattern 3.
 {loading && (
-  <span className="absolute inset-0 flex items-center justify-center">
+  <span aria-hidden className="absolute inset-0 flex items-center justify-center">
     <Spinner className={spinnerSizeMap[size]} />
   </span>
 )}
 {children && (
-  <span className={cn('relative', loading && 'invisible')}>{children}</span>
+  <span className={cn('relative', loading && 'opacity-0')}>{children}</span>
 )}
 ```
 
@@ -552,4 +588,4 @@ src/components/{ComponentName}/
 - **해결**: `data-theme` 속성이 컴포넌트의 조상 요소에 있는지 확인. 유효한 `data-theme` 값을 사용하고 있는지 검증.
 
 **문제**: 양 테마에서 색상이 동일하게 나옴
-- **해결**: `sys-primary-*` 토큰이 아닌 `sys-neutral-*` 토큰을 사용했을 가능성. Neutral은 테마에 따라 변하지 않음.
+- **해결**: `sys-primary-*` 토큰이 아닌 `semantic-neutral-*` 토큰을 사용했을 가능성. Neutral은 테마에 따라 변하지 않음.

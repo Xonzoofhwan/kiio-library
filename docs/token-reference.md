@@ -547,7 +547,7 @@ CSS: `--primitive-radius-{key}` / Tailwind: `rounded-2` (8px), `rounded-3` (12px
 
 ### Primitive Typography
 
-Font: **Pretendard Variable**
+Font: **Wanted Sans** (SIL OFL). 스택은 `'Wanted Sans Variable', 'Wanted Sans', system-ui, 'Apple SD Gothic Neo', sans-serif`
 
 CSS: `--text-size-{n}`, `--text-lh-{n}`, `--text-ls-{n}`
 
