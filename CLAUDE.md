@@ -216,6 +216,8 @@ size: {
 - Tailwind: `typography-{size}-{weight}` — sets font-size, line-height, letter-spacing, and font-weight in one class
 
 > **원본은 Figma 다.** Kiio-Library 의 텍스트 스타일 68개(17 사이즈 × 4 굵기)가 원본이고, `specs/tokens/typography.figma.json` 스냅샷을 거쳐 `typography.ts`·`tokens.css` 의 `--text-*`·`tailwind.config.js` 의 typography 플러그인 셋이 따라간다 — `typographyContract` T9 가 4자 정합을 판정한다. 행간·자간 수치는 **Geist 시절에 정해진 값**이고 2026-09-15 폰트 교체 때 건드리지 않았다.
+
+> **행간·자간은 영문 기준이다**(2026-09-15 확정). 크기가 커질수록 좁아지는 것은 라틴 관례를 따른 의도다. **국문은 20 이상 디스플레이 구간에서 조정이 필요할 수 있다** — 한글은 음절이 꽉 찬 사각형이라 같은 행간에서 라틴의 절반밖에 줄 간격을 못 받는다(글자당 평균 높이 +41.8% 실측). 16 이하 본문은 두 문자가 같은 값으로 충분하다. 근거는 [STABILIZATION_PLAN.md](./docs/STABILIZATION_PLAN.md) N12, 재현은 `scripts/typography-script-compare.html`.
 - Examples: `typography-16-semibold`, `typography-14-regular`, `typography-24-bold`
 ### Motion Tokens
 `src/tokens/motion.ts` — Duration (5 steps) + Easing (4 curves), Primitive → Semantic 2-layer like colors.

@@ -11,32 +11,97 @@
     "extraction": "figma.getLocalTextStylesAsync() 로 68개 로컬 텍스트 스타일을 직접 읽었다. 견본 노드를 거치지 않으므로 '미확인'이 남지 않는다 — 17 사이즈 × 4 굵기 전수가 이 파일에 있다.",
     "units": "Figma 의 lineHeight 는 PIXELS, letterSpacing 은 PERCENT 다. 코드는 각각 px 와 em 을 쓰므로 letterSpacing 은 100 으로 나눈다(-1.2% → -0.012em). fontSize 는 px 이고 코드는 rem 이라 16 으로 나눈다(64px → 4rem).",
     "perSize": "같은 크기의 네 굵기는 행간·자간이 모두 같다(실측 확인). 그래서 코드처럼 크기당 하나로 접어 둔다 — 굵기는 font-weight 만 바꾼다.",
-    "fontFamily": "2026-09-15 에 68개 스타일 전부를 Geist → Wanted Sans 로 교체했다. 행간·자간·크기는 건드리지 않았으므로 **이 수치들은 Geist 시절에 정해진 값**이다. 폰트에 맞춰 다시 조율하면 이 파일을 다시 뽑아야 한다."
+    "fontFamily": "2026-09-15 에 68개 스타일 전부를 Geist → Wanted Sans 로 교체했다. 행간·자간·크기는 건드리지 않았으므로 **이 수치들은 Geist 시절에 정해진 값**이다. 폰트에 맞춰 다시 조율하면 이 파일을 다시 뽑아야 한다.",
+    "scriptBasis": "**영문 기준이다**(2026-09-15 사용자 확정). 라틴에서 큰 글자일수록 행간·자간을 좁히는 관례를 따른다. **국문은 20 이상 디스플레이 구간에서 조정이 필요할 수 있다** — 한글은 모든 음절이 꽉 찬 사각형이라 같은 행간에서 라틴의 절반밖에 줄 간격을 못 받는다(실측: 글자당 평균 높이 라틴 0.5849 em vs 한글 0.8295 em, +41.8%). 16 이하 본문은 두 문자가 같은 값으로 충분하다. 근거와 선택지는 docs/STABILIZATION_PLAN.md 의 N12.",
+    "naturalLineHeight": "이 폰트의 line-height: normal 은 1.1934 em 이다(hhea 기준, USE_TYPO_METRICS 꺼짐). 이보다 좁은 행간은 줄 상자가 겹치기 시작하는 구간이고, 현재 64·48·32·28·24·22·11 이 그 아래에 있다."
   },
   "fontFamily": "Wanted Sans",
   "weights": {
-    "regular": { "figmaStyle": "Regular", "cssWeight": 400 },
-    "medium": { "figmaStyle": "Medium", "cssWeight": 500 },
-    "semibold": { "figmaStyle": "SemiBold", "cssWeight": 600 },
-    "bold": { "figmaStyle": "Bold", "cssWeight": 700 }
+    "regular": {
+      "figmaStyle": "Regular",
+      "cssWeight": 400
+    },
+    "medium": {
+      "figmaStyle": "Medium",
+      "cssWeight": 500
+    },
+    "semibold": {
+      "figmaStyle": "SemiBold",
+      "cssWeight": 600
+    },
+    "bold": {
+      "figmaStyle": "Bold",
+      "cssWeight": 700
+    }
   },
   "sizes": {
-    "64": { "lineHeightPx": 72, "letterSpacingPct": -1.2 },
-    "48": { "lineHeightPx": 56, "letterSpacingPct": -1.2 },
-    "40": { "lineHeightPx": 48, "letterSpacingPct": -1.2 },
-    "32": { "lineHeightPx": 36, "letterSpacingPct": -1.2 },
-    "28": { "lineHeightPx": 32, "letterSpacingPct": -1 },
-    "24": { "lineHeightPx": 28, "letterSpacingPct": -0.8 },
-    "22": { "lineHeightPx": 24, "letterSpacingPct": -1.6 },
-    "20": { "lineHeightPx": 24, "letterSpacingPct": -2.4 },
-    "18": { "lineHeightPx": 28, "letterSpacingPct": -1.2 },
-    "17": { "lineHeightPx": 24, "letterSpacingPct": -1 },
-    "16": { "lineHeightPx": 24, "letterSpacingPct": -0.9 },
-    "15": { "lineHeightPx": 24, "letterSpacingPct": -0.4 },
-    "14": { "lineHeightPx": 20, "letterSpacingPct": 0 },
-    "13": { "lineHeightPx": 16, "letterSpacingPct": 0 },
-    "12": { "lineHeightPx": 16, "letterSpacingPct": 0 },
-    "11": { "lineHeightPx": 12, "letterSpacingPct": 0 },
-    "10": { "lineHeightPx": 12, "letterSpacingPct": 0 }
+    "64": {
+      "lineHeightPx": 72,
+      "letterSpacingPct": -1.2
+    },
+    "48": {
+      "lineHeightPx": 56,
+      "letterSpacingPct": -1.2
+    },
+    "40": {
+      "lineHeightPx": 48,
+      "letterSpacingPct": -1.2
+    },
+    "32": {
+      "lineHeightPx": 36,
+      "letterSpacingPct": -1.2
+    },
+    "28": {
+      "lineHeightPx": 32,
+      "letterSpacingPct": -1
+    },
+    "24": {
+      "lineHeightPx": 28,
+      "letterSpacingPct": -0.8
+    },
+    "22": {
+      "lineHeightPx": 24,
+      "letterSpacingPct": -1.6
+    },
+    "20": {
+      "lineHeightPx": 24,
+      "letterSpacingPct": -2.4
+    },
+    "18": {
+      "lineHeightPx": 28,
+      "letterSpacingPct": -1.2
+    },
+    "17": {
+      "lineHeightPx": 24,
+      "letterSpacingPct": -1
+    },
+    "16": {
+      "lineHeightPx": 24,
+      "letterSpacingPct": -0.9
+    },
+    "15": {
+      "lineHeightPx": 24,
+      "letterSpacingPct": -0.4
+    },
+    "14": {
+      "lineHeightPx": 20,
+      "letterSpacingPct": 0
+    },
+    "13": {
+      "lineHeightPx": 16,
+      "letterSpacingPct": 0
+    },
+    "12": {
+      "lineHeightPx": 16,
+      "letterSpacingPct": 0
+    },
+    "11": {
+      "lineHeightPx": 12,
+      "letterSpacingPct": 0
+    },
+    "10": {
+      "lineHeightPx": 12,
+      "letterSpacingPct": 0
+    }
   }
 }

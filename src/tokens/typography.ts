@@ -5,6 +5,17 @@
 // 행간은 5개(32·28·24·22·20)가 Figma 보다 2~4px 넓다 — Figma 의 폰트가 아직 Geist 라
 // 교체 뒤 다시 재기로 했다(docs/STABILIZATION_PLAN.md B4).
 // Font: Wanted Sans (SIL OFL) — 라틴 + 한글 한 패밀리
+//
+// **행간·자간은 영문 기준이다** (2026-09-15 확정). 라틴에서 큰 글자일수록 좁혀
+// 타이트하게 보이는 관례를 따른다 — 아래 sizes 의 행간 비율이 크기가 커질수록
+// 작아지는 것은 의도다.
+//
+// **국문은 20 이상 디스플레이 구간에서 조정이 필요할 수 있다.** 한글은 모든 음절이
+// 꽉 찬 사각형이라 같은 행간에서 라틴의 절반밖에 줄 간격을 못 받는다
+// (실측: 글자당 평균 높이 라틴 0.5849em vs 한글 0.8295em, +41.8%).
+// 16 이하 본문은 두 문자가 같은 값으로 충분하다. 이 폰트의 line-height:normal 은
+// 1.1934em 이고 그보다 좁은 값이 현재 7개 있다.
+// 근거·선택지: docs/STABILIZATION_PLAN.md N12 · 재현: scripts/typography-script-compare.html
 // Scale: 17 sizes × 4 weights = 68 composite tokens
 // Naming: {size}-{weight} e.g. "40-bold", "16-semibold"
 // ============================================================
