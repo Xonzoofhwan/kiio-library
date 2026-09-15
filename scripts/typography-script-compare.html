@@ -1,0 +1,35 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css">
+<style>
+ body{font-family:'Wanted Sans Variable','Wanted Sans',sans-serif;margin:0;padding:32px;background:#fdfefe;color:#101213}
+ .row{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:28px}
+ .cell{border:1px solid #e3e5e5;border-radius:8px;padding:16px;position:relative}
+ .tag{font-size:11px;line-height:12px;color:#8a8f8f;margin-bottom:10px;letter-spacing:0}
+ p{margin:0}
+ /* 줄 상자를 눈에 보이게 — 한 줄 걸러 배경을 깐다 */
+ .lines p span{background:rgba(16,16,19,.055)}
+ h2{font-size:13px;line-height:16px;color:#5b6060;margin:0 0 10px;font-weight:600;letter-spacing:0}
+</style></head><body>
+<div id="app"></div>
+<script>
+const CASES = [
+  { size:32, lh:36, ls:-1.2,  label:'32 / 36px (1.125) · 우리 값' },
+  { size:32, lh:42, ls:-1.2,  label:'32 / 42px (1.313) · 자연값 위' },
+  { size:22, lh:24, ls:-1.6,  label:'22 / 24px (1.091) · 우리 값 — 가장 좁다' },
+  { size:22, lh:30, ls:-1.6,  label:'22 / 30px (1.364) · 원티드 서비스 값' },
+  { size:16, lh:24, ls:-0.9,  label:'16 / 24px (1.500) · 우리 값 = 원티드 값' },
+];
+const KO = '일하는 사람들의 모든 가능성을 위한 디자인 시스템을 만든다 컴포넌트와 토큰을 한 곳에서 관리한다';
+const EN = 'A design system for every possibility of working people, with tokens and components in one place';
+const app = document.getElementById('app');
+for (const c of CASES) {
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `<h2>${c.label}</h2>
+   <div class="row lines">
+     <div class="cell"><div class="tag">한글</div><p style="font-size:${c.size}px;line-height:${c.lh}px;letter-spacing:${c.ls/100}em"><span>${KO}</span></p></div>
+     <div class="cell"><div class="tag">Latin</div><p style="font-size:${c.size}px;line-height:${c.lh}px;letter-spacing:${c.ls/100}em"><span>${EN}</span></p></div>
+   </div>`;
+  app.appendChild(wrap);
+}
+</script></body></html>
